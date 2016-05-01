@@ -7,25 +7,25 @@ public abstract class BusinessObject implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
-	private int iD = 0;
+	private int id = 0;
 	
-	public int getiD(){
-		return this.iD;
+	public int getId(){
+		return this.id;
 	}
 	
-	public void setiD(int iD){
-		this.iD = iD;
+	public void setId(int id){
+		this.id = id;
 	}
 	
 	public String toString() {
-	    return this.getClass().getName() + " #" + this.iD;
+	    return this.getClass().getName() + " #" + this.id;
 	  }
 
 	public boolean equals(Object o) {
 	    if (o != null && o instanceof BusinessObject) {
 	    	BusinessObject bo = (BusinessObject) o;
 	    	try {
-	    		if (bo.getiD() == this.iD)
+	    		if (bo.getId() == this.id)
 	    			return true;
 	    	}
 	    	catch (IllegalArgumentException e) {
@@ -35,7 +35,7 @@ public abstract class BusinessObject implements Serializable
 	    return false;
 	}
 	public int hashCode() {
-		return this.iD;
+		return this.id;
 	}
 
 }
