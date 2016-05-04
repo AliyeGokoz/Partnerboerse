@@ -2,57 +2,65 @@ package de.hdm.partnerboerse.shared.bo;
 
 import java.util.Date;
 
-public class Profile extends BusinessObject{
+public class Profile extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
 	private String firstName = "";
-	
+
 	private String lastName = "";
-	
+
 	private Date dateOfBirth = null;
-	
+
 	private String eMail = "";
-	
+
 	private int height = 0;
-	
+
 	private boolean smoker = false;
-	
-	private enum hairColor{
-		braun,
-		blond,
-		schwarz,
-		rot,
-		grün,
-		blau,
-		orange,
-		grau,
-		lila,
-		lilablassblau,
-		kastanienrot,
-		tabakrot,
-		regenbogen,
-		weiß,
-		wasserstoffblond,
-		himmelblau,
-		glatze
+
+	public enum HairColor {
+		BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED("rot"), GREY(
+				"grau"), OTHERS("sonstiges");
+
+		private final String name;
+
+		private HairColor(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
 	}
-	
-	private enum confession{
-		katholisch,
-		evangelisch,
-		buddhismus,
-		rastafari,
-		islam,
-		pastafari,
-		hinduistisch,
-		konfessionslos
+
+	public enum Confession {
+		PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC(
+				"buddistisch"), HINDU("hinduistisch"), MUSLIM("muslimisch"), JEWISH(
+				"jüdisch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
+
+		private final String name;
+
+		private Confession(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
 	}
-	
-	private enum gender{
-		weiblich,
-		männlich,
-		transgender
+
+	public enum Gender {
+		FEMALE("weiblich"), MALE("männlich"), OTHERS("andere");
+
+		private final String name;
+
+		private Gender(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
 	}
 
 	public String getFirstName() {
@@ -101,9 +109,11 @@ public class Profile extends BusinessObject{
 
 	public void setSmoker(boolean smoker) {
 		this.smoker = smoker;
-	}	
-	
+	}
+
 	public String toString() {
-	    return super.toString() + this.firstName + " " + this.lastName + " " + this.eMail + " " + this.dateOfBirth + " " + this.smoker + " " + this.height;
-	  }
+		return super.toString() + this.firstName + " " + this.lastName + " "
+				+ this.eMail + " " + this.dateOfBirth + " " + this.smoker + " "
+				+ this.height;
+	}
 }
