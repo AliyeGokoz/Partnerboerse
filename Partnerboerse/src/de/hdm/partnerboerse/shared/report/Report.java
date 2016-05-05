@@ -3,7 +3,7 @@ package de.hdm.partnerboerse.shared.report;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Report implements Serializable {
+public abstract class Report implements Serializable {
 
 	public static final long serialVersionUID = 1L;
 
