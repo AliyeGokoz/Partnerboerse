@@ -51,4 +51,12 @@ war/WEB-INF/classes/
 /.factorypath
 .svn/
 /.settings
+
+
 /.gwt
+
+war/
+
+bin/
+war/
+
