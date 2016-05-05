@@ -3,7 +3,7 @@
 ################################################################################
 
 *.class
-
+*.DS_Store
 # Package Files #
 *.jar
 *.war
@@ -52,9 +52,11 @@ war/WEB-INF/classes/
 .svn/
 /.settings
 
+
 /.gwt
 
 war/
 
 bin/
 war/
+
