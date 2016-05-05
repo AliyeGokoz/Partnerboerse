@@ -18,7 +18,7 @@ public class SearchProfile extends BusinessObject{
 		blond,
 		schwarz,
 		rot,
-		gr¸n,
+		gr√ºn,
 		blau,
 		orange,
 		grau,
@@ -27,7 +27,7 @@ public class SearchProfile extends BusinessObject{
 		kastanienrot,
 		tabakrot,
 		regenbogen,
-		weiﬂ,
+		wei√ü,
 		wasserstoffblond,
 		himmelblau,
 		glatze
@@ -48,7 +48,7 @@ public class SearchProfile extends BusinessObject{
 	private enum gender{
 		egal,
 		weiblich,
-		m‰nnlich,
+		m√§nnlich,
 		transgender
 	}
 
