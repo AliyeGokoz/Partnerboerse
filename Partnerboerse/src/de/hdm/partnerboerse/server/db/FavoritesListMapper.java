@@ -84,8 +84,8 @@ public class FavoritesListMapper {
 			while (rs.next()) {
 				FavoritesList favoritesList = new FavoritesList();
 				favoritesList.setId(rs.getInt("id"));
-				favoritesList.setFromProfile(rs.getProfile("fromProfile"));
-				favoritesList.setToProfile(rs.getProfile("toProfile"));
+//				favoritesList.setFromProfile(rs.getProfile("fromProfile"));
+//				favoritesList.setToProfile(rs.getProfile("toProfile"));
 
 				result.addElement(favoritesList);
 			}
@@ -107,8 +107,8 @@ public class FavoritesListMapper {
 			if (rs.next()) {
 				FavoritesList favoritesList = new FavoritesList();
 				favoritesList.setId(rs.getInt("id"));
-				favoritesList.setFromProfile(rs.getProfile("fromProfile"));
-				favoritesList.setToProfile(rs.getProfile("toProfile"));
+//				favoritesList.setFromProfile(rs.getProfile("fromProfile"));
+//				favoritesList.setToProfile(rs.getProfile("toProfile"));
 
 				return favoritesList;
 			}

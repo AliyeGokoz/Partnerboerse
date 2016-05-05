@@ -84,8 +84,8 @@ public class VisitListMapper {
 			while (rs.next()) {
 				VisitList visitList = new VisitList();
 				visitList.setId(rs.getInt("id"));
-				visitList.setFromProfile(rs.getProfile("fromProfile"));
-				visitList.setToProfile(rs.getProfile("toProfile"));
+//				visitList.setFromProfile(rs.getProfile("fromProfile"));
+//				visitList.setToProfile(rs.getProfile("toProfile"));
 
 				result.addElement(visitList);
 			}
@@ -108,8 +108,8 @@ public class VisitListMapper {
 			if (rs.next()) {
 				VisitList visitList = new VisitList();
 				visitList.setId(rs.getInt("id"));
-				visitList.setFromProfile(rs.getProfile("fromProfile"));
-				visitList.setToProfile(rs.getProfile("toProfile"));
+//				visitList.setFromProfile(rs.getProfile("fromProfile"));
+//				visitList.setToProfile(rs.getProfile("toProfile"));
 
 				return visitList;
 			}

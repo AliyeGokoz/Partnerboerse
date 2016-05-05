@@ -1,30 +1,12 @@
 package de.hdm.partnerboerse.client;
 
-import de.hdm.partnerboerse.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.cellview.client.CellTree;
-import com.google.gwt.resources.client.ImageResource;
-
 
 /**
  * TODO
@@ -44,6 +26,13 @@ public class Partnerboerse implements EntryPoint {
 		@Source("CellTree.css")
 	    CellTree.Style cellTreeStyle(); 
 	}
+	/**
+	 * The message displayed to the user when the server cannot be reached or
+	 * returns an error.
+	 */
+	private static final String SERVER_ERROR = "An error occurred while "
+			+ "attempting to contact the server. Please check your network " + "connection and try again.";
+
 
 	/**
 	 * This is the entry point method.
@@ -82,22 +71,5 @@ public class Partnerboerse implements EntryPoint {
 	    // Add it to the root panel.
 	    RootPanel.get("Navigator").add(menu);
 	  }
-		
-		/*
-		 * Buttons für die Navigation
-		 * TODO add correct Name of Button
-		 */
-		final Button searchprofile = new Button("Suchprofil");
-		final Button bookmarks = new Button("Merkzettel");
-		final Button partnerProposelnew = new Button("Partnervorschläge Neu");
-		final Button partnerProposelsearch = new Button("Partnervorschläge Suchprofil");
-		
-		/*
-	     * TODO add a nice CSS-formating
-	     */
-	    //buttonname.setStylePrimaryName("cssname");
-		
-		
-
 	}
 
