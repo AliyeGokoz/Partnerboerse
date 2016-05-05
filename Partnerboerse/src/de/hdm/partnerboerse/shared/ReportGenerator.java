@@ -6,7 +6,7 @@ import de.hdm.partnerboerse.shared.report.PartnerProposalsByNotViewedProfilesRep
 
 public interface ReportGenerator extends RemoteService {
 	
-	public void init();
+	public void init() throws IllegalArgumentException;
 
 	PartnerProposalsByNotViewedProfilesReport createPartnerProposalsByNotViewedProfilesReport();
 
