@@ -38,17 +38,18 @@ public class SearchProfileMapper {
 
 				stmt.executeUpdate("INSERT INTO searchProfiles (id, age, hairColor, gender, height, confession) "
 						+ "VALUES ("
-						+ searchProfile.getId()
-						+ ",'"
-						+ searchProfile.getAge()
-						+ "','"
-						+ searchProfile.getHairColor()
-						+ ",'"
-						+ searchProfile.getGender()
-						+ ",'"
-						+ searchProfile.getHeight()
-						+ ",'"
-						+ searchProfile.getConfession() + "')");
+						+ searchProfile.getId() );
+//						+ ",'"
+//						TODO
+//						+ searchProfile.getAge()
+//						+ "','"
+//						+ searchProfile.getHairColor()
+//						+ ",'"
+//						+ searchProfile.getGender()
+//						+ ",'"
+//						+ searchProfile.getHeight()
+//						+ ",'"
+//						+ searchProfile.getConfession() + "')");
 
 			}
 		} catch (SQLException e) {
@@ -64,13 +65,14 @@ public class SearchProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE searchProfiles " + "SET age=\""
-					+ searchProfile.getAge() + "\", " + "hairColor=\""
-					+ searchProfile.getHairColor() + "\", " + "gender=\""
-					+ searchProfile.getGender() + "\", " + "height=\""
-					+ searchProfile.getHeight() + "\", " + "confession=\""
-					+ searchProfile.getConfession() + "\" " + "WHERE id="
-					+ searchProfile.getId());
+			stmt.executeUpdate("UPDATE searchProfiles " + "SET age=\"");
+//			        TODO
+//					+ searchProfile.getAge() + "\", " + "hairColor=\""
+//					+ searchProfile.getHairColor() + "\", " + "gender=\""
+//					+ searchProfile.getGender() + "\", " + "height=\""
+//					+ searchProfile.getHeight() + "\", " + "confession=\""
+//					+ searchProfile.getConfession() + "\" " + "WHERE id="
+//					+ searchProfile.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -108,11 +110,12 @@ public class SearchProfileMapper {
 
 				SearchProfile searchProfile = new SearchProfile();
 				searchProfile.setId(rs.getInt("id"));
-				searchProfile.setAge(rs.getInt("age"));
-				searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				searchProfile.setGender(Profile.Gender.valueOf("gender"));
-				searchProfile.setHeight(rs.getInt("height"));
-				searchProfile.setConfession(Profile.Confession.valueOf("confession"));
+//				TODO
+//				searchProfile.setAge(rs.getInt("age"));
+//				searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+//				searchProfile.setGender(Profile.Gender.valueOf("gender"));
+//				searchProfile.setHeight(rs.getInt("height"));
+//				searchProfile.setConfession(Profile.Confession.valueOf("confession"));
 
 				return searchProfile;
 			}
@@ -139,11 +142,12 @@ public class SearchProfileMapper {
 			while (rs.next()) {
 				SearchProfile searchProfile = new SearchProfile();
 				searchProfile.setId(rs.getInt("id"));
-				searchProfile.setAge(rs.getInt("age"));
-				searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				searchProfile.setGender(Profile.Gender.valueOf("gender"));
-				searchProfile.setHeight(rs.getInt("height"));
-				searchProfile.setConfession(Profile.Confession.valueOf("confession"));
+				// TODO 
+//				searchProfile.setAge(rs.getInt("age"));
+//				searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+//				searchProfile.setGender(Profile.Gender.valueOf("gender"));
+//				searchProfile.setHeight(rs.getInt("height"));
+//				searchProfile.setConfession(Profile.Confession.valueOf("confession"));
 
 				result.addElement(searchProfile);
 			}

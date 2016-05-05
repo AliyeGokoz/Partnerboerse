@@ -85,6 +85,8 @@ public class InfoMapper {
 
 			Statement stmt = con.createStatement();
 
+			
+			// TODO from
 			ResultSet rs = stmt.executeQuery("SELECT id, informationValue"
 					+ "WHERE id=" + id);
 
