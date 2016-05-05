@@ -87,8 +87,8 @@ public class SimilarityMapper {
 			while (rs.next()) {
 				Similarity similarity = new Similarity();
 				similarity.setId(rs.getInt("id"));
-				similarity.setFromProfile(rs.getProfile("fromProfile"));
-				similarity.setToProfile(rs.getProfile("toProfile"));
+//				similarity.setFromProfile(rs.getProfile("fromProfile"));
+//				similarity.setToProfile(rs.getProfile("toProfile"));
 				similarity.setSimilarityValue(rs.getDouble("similarityValue"));
 
 				result.addElement(similarity);
@@ -112,8 +112,8 @@ public class SimilarityMapper {
 			if (rs.next()) {
 				Similarity similarity = new Similarity();
 				similarity.setId(rs.getInt("id"));
-				similarity.setFromProfile(rs.getProfile("fromProfile"));
-				similarity.setToProfile(rs.getProfile("toProfile"));
+//				similarity.setFromProfile(rs.getProfile("fromProfile"));
+//				similarity.setToProfile(rs.getProfile("toProfile"));
 				similarity.setSimilarityValue(rs.getDouble("similarityValue"));
 
 				return similarity;
