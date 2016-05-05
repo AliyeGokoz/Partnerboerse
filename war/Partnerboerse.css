@@ -10,9 +10,35 @@ h1 {
   text-align: center;
 }
 
-.sendButton {
-  display: block;
-  font-size: 16pt;
+
+div#Fullcontent {
+	width: 800px;
+	min-width: 300px;
+	border: 1px solid red;
+	margin: 0 auto;  
+ }
+ 
+ div#Header {
+	margin: 0 auto;      
+}
+ 
+ div#Content {
+	min-height: 400px;
+	max-height: 500px;
+	padding: 1em 1em;
+	overflow:scroll;
+}
+
+div#Navigator {
+}
+
+div#Trailer {
+	clear: both;
+	padding: 10px 0;
+	margin: 0 auto;      /* standardkonforme horizontale Zentrierung */
+	border-top: 1px double red;
+	font-size: 80%;
+	text-align: center;
 }
 
 /** Most GWT widgets already have a style name defined */
