@@ -47,26 +47,38 @@ public class Partnerboerse implements EntryPoint {
 	    };
 
 	    // Make some sub-menus that we will cascade from the top menu.
-	    MenuBar fooMenu = new MenuBar(true);
-	    fooMenu.addItem("the", cmd);
-	    fooMenu.addItem("foo", cmd);
-	    fooMenu.addItem("menu", cmd);
+	    MenuBar profilMenu = new MenuBar(true);
+	    profilMenu.addItem("the", cmd);
+	    profilMenu.addItem("foo", cmd);
+	    profilMenu.addItem("menu", cmd);
 
-	    MenuBar barMenu = new MenuBar(true);
-	    barMenu.addItem("the", cmd);
-	    barMenu.addItem("bar", cmd);
-	    barMenu.addItem("menu", cmd);
+	    MenuBar searchprofilMenu = new MenuBar(true);
+	    searchprofilMenu.addItem("the", cmd);
+	    searchprofilMenu.addItem("bar", cmd);
+	    searchprofilMenu.addItem("menu", cmd);
 
-	    MenuBar bazMenu = new MenuBar(true);
-	    bazMenu.addItem("the", cmd);
-	    bazMenu.addItem("baz", cmd);
-	    bazMenu.addItem("menu", cmd);
+	    MenuBar favoritlistMenu = new MenuBar(true);
+	    favoritlistMenu.addItem("the", cmd);
+	    favoritlistMenu.addItem("baz", cmd);
+	    favoritlistMenu.addItem("menu", cmd);
+	    
+	    MenuBar blockedcontactsMenu = new MenuBar(true);
+	    blockedcontactsMenu.addItem("the", cmd);
+	    blockedcontactsMenu.addItem("baz", cmd);
+	    blockedcontactsMenu.addItem("menu", cmd);
+	    
+	    MenuBar partnerproposelMenu = new MenuBar(true);
+	    partnerproposelMenu.addItem("the", cmd);
+	    partnerproposelMenu.addItem("baz", cmd);
+	    partnerproposelMenu.addItem("menu", cmd);
 
 	    // Make a new menu bar, adding a few cascading menus to it.
 	    MenuBar menu = new MenuBar();
-	    menu.addItem("foo", fooMenu);
-	    menu.addItem("bar", barMenu);
-	    menu.addItem("baz", bazMenu);
+	    menu.addItem("Profil", profilMenu);
+	    menu.addItem("Suchprofil", searchprofilMenu);
+	    menu.addItem("Merkzettel", favoritlistMenu);
+	    menu.addItem("Kontaktsperre", blockedcontactsMenu);
+	    menu.addItem("Personenvorschläge", partnerproposelMenu);
 
 	    // Add it to the root panel.
 	    RootPanel.get("Navigator").add(menu);
