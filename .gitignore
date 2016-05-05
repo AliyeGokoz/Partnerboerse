@@ -53,4 +53,5 @@ war/WEB-INF/classes/
 /.settings
 /.gwt
 
-/bin/
+bin/
+war/
