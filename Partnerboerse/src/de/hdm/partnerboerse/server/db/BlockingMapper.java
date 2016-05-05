@@ -83,8 +83,8 @@ public class BlockingMapper {
 			while (rs.next()) {
 				Blocking blocking = new Blocking();
 				blocking.setId(rs.getInt("id"));
-				blocking.setFromProfile(rs.getProfile("fromProfile"));
-				blocking.setToProfile(rs.getProfile("toProfile"));
+//				blocking.setFromProfile(rs.getProfile("fromProfile"));
+//				blocking.setToProfile(rs.getProfile("toProfile"));
 
 				result.addElement(blocking);
 			}
@@ -106,8 +106,8 @@ public class BlockingMapper {
 			if (rs.next()) {
 				Blocking blocking = new Blocking();
 				blocking.setId(rs.getInt("id"));
-				blocking.setFromProfile(rs.getProfile("fromProfile"));
-				blocking.setToProfile(rs.getProfile("toProfile"));
+//				blocking.setFromProfile(rs.getProfile("fromProfile"));
+//				blocking.setToProfile(rs.getProfile("toProfile"));
 
 				return blocking;
 			}
