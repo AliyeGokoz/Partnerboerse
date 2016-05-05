@@ -38,8 +38,12 @@ public class ProfileMapper {
 						"INSERT INTO profiles (id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender) "
 								+ "VALUES (" + profile.getId() + ",'" + profile.getFirstName() + "','"
 								+ profile.getLastName() + ",'" + profile.getDateOfBirth() + ",'" + profile.geteMail()
-								+ ",'" + profile.getHeight() + ",'" + profile.getConfession() + ",'"
-								+ profile.getSmoker() + ",'" + profile.getHairColor() + ",'" + profile.getGender()
+								// TODO
+								// + ",'" + profile.getHeight() + ",'" +
+								// profile.getConfession() + ",'"
+								// + profile.getSmoker() + ",'" +
+								// profile.getHairColor() + ",'" +
+								// profile.getGender()
 								+ "')");
 			}
 		} catch (SQLException e2) {
@@ -58,9 +62,12 @@ public class ProfileMapper {
 			stmt.executeUpdate("UPDATE profiles " + "SET firstName=\"" + profile.getFirstName() + "\", " + "lastName=\""
 					+ profile.getLastName() + "\", " + "dateOfBirth=\"" + profile.getDateOfBirth() + "\", " + "email=\""
 					+ profile.geteMail() + "\", " + "height=\"" + profile.getHeight() + "\", " + "confession=\""
-					+ profile.getConfession() + "\", " + "smoker=\"" + profile.getSmoker() + "\", " + "hairColor=\""
-					+ profile.getHairColor() + "\", " + "gender=\"" + profile.getGender() + "\" " + "WHERE id="
-					+ profile.getId());
+					// TODO
+					// + profile.getConfession() + "\", " + "smoker=\"" +
+					// profile.getSmoker() + "\", " + "hairColor=\""
+					// + profile.getHairColor() + "\", " + "gender=\"" +
+					// profile.getGender()
+					+ "\" " + "WHERE id=" + profile.getId());
 
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -101,10 +108,10 @@ public class ProfileMapper {
 				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 				profile.seteMail(rs.getString("email"));
 				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf("confession"));
+//				profile.setConfession(Profile.Confession.valueOf("confession"));
 				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				profile.setGender(Profile.Gender.valueOf("gender"));
+//				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+//				profile.setGender(Profile.Gender.valueOf("gender"));
 
 				result.addElement(profile);
 			}
@@ -135,10 +142,10 @@ public class ProfileMapper {
 				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 				profile.seteMail(rs.getString("email"));
 				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf("confession"));
+//				profile.setConfession(Profile.Confession.valueOf("confession"));
 				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				profile.setGender(Profile.Gender.valueOf("gender"));
+//				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+//				profile.setGender(Profile.Gender.valueOf("gender"));
 
 				return profile;
 			}
