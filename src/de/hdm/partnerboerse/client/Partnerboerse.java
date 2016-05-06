@@ -59,15 +59,25 @@ public class Partnerboerse implements EntryPoint {
 	        Window.alert("You selected a menu item!");
 	      }
 	    };
+	    
+	    Command showProfil = new Command() {
+		      public void execute() {
+		    	  ProfilePage showProfil = new ProfilePage();
+		    	  RootPanel.get("Content").clear();
+		    	  RootPanel.get("Content").add(showProfil);
+		      }
+		    };
 
 	    // Make some sub-menus that we will cascade from the top menu.
 	    MenuBar profilMenu = new MenuBar(true);
-
-	    MenuBar searchprofilMenu = new MenuBar(true);
+	    profilMenu.addItem("Profil ansehen", showProfil);
+	    profilMenu.addItem("Suchprofil ansehen", cmd);
 
 	    MenuBar favoritlistMenu = new MenuBar(true);
+	    favoritlistMenu.addItem("Merkzettel ansehen", cmd);
 	    
 	    MenuBar blockedcontactsMenu = new MenuBar(true);
+	    blockedcontactsMenu.addItem("Kontaktsperrenliste ansehen", cmd);
 	    
 	    MenuBar partnerproposelMenu = new MenuBar(true);
 	    partnerproposelMenu.addItem("Partnervorschläge Suchprofil", cmd);
@@ -76,7 +86,6 @@ public class Partnerboerse implements EntryPoint {
 	    // Make a new menu bar, adding a few cascading menus to it.
 	    MenuBar menu = new MenuBar();
 	    menu.addItem("Profil", profilMenu);
-	    menu.addItem("Suchprofil", searchprofilMenu);
 	    menu.addItem("Merkzettel", favoritlistMenu);
 	    menu.addItem("Kontaktsperre", blockedcontactsMenu);
 	    menu.addItem("Personenvorschläge", partnerproposelMenu);
