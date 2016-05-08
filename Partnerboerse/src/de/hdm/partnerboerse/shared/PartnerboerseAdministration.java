@@ -34,5 +34,25 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Similarity createSimilarity() throws IllegalArgumentException;
 	
 	public VisitList createVisitList() throws IllegalArgumentException;
+	
+	
+	public Profile getProfile() throws IllegalArgumentException;
+	
+	public Blocking getBlocking() throws IllegalArgumentException;
+	
+	public Description getDescription() throws IllegalArgumentException;
+	
+	public FavoritesList getFavoritesList() throws IllegalArgumentException;
+	
+	public Property getProperty() throws IllegalArgumentException;
+	
+	public Info getInfo() throws IllegalArgumentException;
+	
+	public Selection getSelection() throws IllegalArgumentException;
+	
+	public Similarity getSimilarity() throws IllegalArgumentException;
+	
+	public SimilarityList getVisistList() throws IllegalArgumentException;
+	
 }
 
