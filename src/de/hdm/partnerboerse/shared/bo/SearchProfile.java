@@ -12,44 +12,49 @@ public class SearchProfile extends BusinessObject{
 	
 	private int toHeight = 0;
 	
-	private enum hairColor{
-		egal,
-		braun,
-		blond,
-		schwarz,
-		rot,
-		grün,
-		blau,
-		orange,
-		grau,
-		lila,
-		lilablassblau,
-		kastanienrot,
-		tabakrot,
-		regenbogen,
-		weiß,
-		wasserstoffblond,
-		himmelblau,
-		glatze
+	public enum HairColor {
+		BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED("rot"), GREY(
+				"grau"), OTHERS("sonstiges");
+
+		private final String name;
+
+		private HairColor(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
 	}
-	
-	private enum confession{
-		egal,
-		katholisch,
-		evangelisch,
-		buddhismus,
-		rastafari,
-		islam,
-		pastafari,
-		hinduistisch,
-		konfessionslos
+
+	public enum Confession {
+		PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC(
+				"buddistisch"), HINDU("hinduistisch"), MUSLIM("muslimisch"), JEWISH(
+				"j�disch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
+
+		private final String name;
+
+		private Confession(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
 	}
-	
-	private enum gender{
-		egal,
-		weiblich,
-		männlich,
-		transgender
+
+	public enum Gender {
+		FEMALE("weiblich"), MALE("m�nnlich"), OTHERS("andere");
+
+		private final String name;
+
+		private Gender(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
 	}
 
 	public int getFromAge() {
