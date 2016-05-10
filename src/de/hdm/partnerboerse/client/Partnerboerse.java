@@ -27,19 +27,6 @@ import de.hdm.partnerboerse.shared.FieldVerifier;
  */
 public class Partnerboerse implements EntryPoint {
 
-	static interface ResourcesTree extends CellTree.Resources {
-		@Override
-		@Source("closedTree.gif")
-	    ImageResource cellTreeClosedItem();
-
-	    @Override
-		@Source("openTree.gif")
-	    ImageResource cellTreeOpenItem();
-
-	    @Override
-		@Source("CellTree.css")
-	    CellTree.Style cellTreeStyle(); 
-	}
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -63,8 +50,10 @@ public class Partnerboerse implements EntryPoint {
 	    Command showProfil = new Command() {
 		      public void execute() {
 		    	  ProfilePage showProfil = new ProfilePage();
-		    	  RootPanel.get("Content").clear();
-		    	  RootPanel.get("Content").add(showProfil);
+		    	  RootPanel.get("Buttonzone").clear();
+		  		  RootPanel.get("Contentzone").clear();
+		    	  RootPanel.get("Buttonzone").add(showProfil);
+		    	  RootPanel.get("Contentzone").add(showProfil);
 		      }
 		    };
 
