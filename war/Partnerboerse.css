@@ -52,7 +52,6 @@ div#Contentzone {
 	float: right;
 	min-height: 400px;
 	max-height: 500px;
-	overflow: scroll;
 	width:70%;
 }
 
@@ -63,9 +62,8 @@ div#Contentzone {
 }
 
 .hcontent{
-	float:right;
 	width: 50%;
-	color: yellow;
+	padding-top: 10px;
 }
 
 .buttonwidth{
