@@ -85,10 +85,9 @@ public class InfoMapper {
 
 			Statement stmt = con.createStatement();
 
-			
-			// TODO from
-			ResultSet rs = stmt.executeQuery("SELECT id, informationValue"
-					+ "WHERE id=" + id);
+			ResultSet rs = stmt
+					.executeQuery("SELECT id, informationValue FROM infos"
+							+ "WHERE id=" + id);
 
 			if (rs.next()) {
 
@@ -129,6 +128,122 @@ public class InfoMapper {
 		}
 
 		return result;
+	}
+
+	public Vector<Info> findByInformationValue(String informationValue) {
+		Connection con = DBConnection.connection();
+		Vector<Info> result = new Vector<Info>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT id, informationValue "
+					+ "FROM infos " + "WHERE informationValue LIKE '"
+					+ informationValue + "' ORDER BY informationValue");
+
+			while (rs.next()) {
+				Info info = new Info();
+				info.setId(rs.getInt("id"));
+				info.setInformationValue(rs.getString("informationValue"));
+
+				result.addElement(info);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Info> findByProfile(int profileId) {
+		Connection con = DBConnection.connection();
+		Vector<Info> result = new Vector<Info>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt
+					.executeQuery("SELECT id, informationValue FROM infos "
+							+ "WHERE profile=" + profileId + " ORDER BY id");
+
+			while (rs.next()) {
+				Info info = new Info();
+				info.setId(rs.getInt("id"));
+				info.setInformationValue(rs.getString("informationValue"));
+
+				result.addElement(info);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Info> findByProfile(Profile profile) {
+
+		return findByProfile(profile.getId());
+	}
+
+	public Vector<Info> findBySelection(int selectionId) {
+		Connection con = DBConnection.connection();
+		Vector<Info> result = new Vector<Info>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt
+					.executeQuery("SELECT id, informationValue FROM infos "
+							+ "WHERE selection=" + selectionId + " ORDER BY id");
+
+			while (rs.next()) {
+				Info info = new Info();
+				info.setId(rs.getInt("id"));
+				info.setInformationValue(rs.getString("informationValue"));
+
+				result.addElement(info);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Info> findBySelection(Selection selection) {
+
+		return findBySelection(selection.getId());
+	}
+
+	public Vector<Info> findByDescription(int descriptionId) {
+		Connection con = DBConnection.connection();
+		Vector<Info> result = new Vector<Info>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt
+					.executeQuery("SELECT id, informationValue FROM infos "
+							+ "WHERE description=" + descriptionId
+							+ " ORDER BY id");
+
+			while (rs.next()) {
+				Info info = new Info();
+				info.setId(rs.getInt("id"));
+				info.setInformationValue(rs.getString("informationValue"));
+
+				result.addElement(info);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Info> findByDescription(Description description) {
+
+		return findByDescription(description.getId());
 	}
 
 }

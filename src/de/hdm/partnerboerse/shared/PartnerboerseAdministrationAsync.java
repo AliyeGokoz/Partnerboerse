@@ -23,24 +23,31 @@ public interface PartnerboerseAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);
 
-	void createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
-			boolean smoker, HairColor hairColor, Confession confession, Gender gender, AsyncCallback<Profile> callback);
+	void createProfile(int id, String firstName, String lastName,
+			Date dateOfBirth, String email, int height, boolean smoker,
+			HairColor hairColor, Confession confession, Gender gender,
+			AsyncCallback<Profile> callback);
 
-	void createBlocking(int id, Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
+	void createBlocking(int id, Profile fromProfile, Profile toProfile,
+			AsyncCallback<Blocking> callback);
 
-	void createDescription(int id, String propertyName, Property textualDescription,
-			AsyncCallback<Description> callback);
+	void createDescription(int id, String propertyName,
+			Property textualDescription, AsyncCallback<Description> callback);
 
-	void createProperty(int id, String propertyName, String textualDescription, AsyncCallback<Property> callback);
+	void createProperty(int id, String propertyName, String textualDescription,
+			AsyncCallback<Property> callback);
 
-	void createInfo(int id, String informationValue, AsyncCallback<Info> callback);
+	void createInfo(int id, String informationValue,
+			AsyncCallback<Info> callback);
 
-	void createSelection(int id, String propertyName, Property textualDescription, AsyncCallback<Selection> callback);
+	void createSelection(int id, String propertyName,
+			Property textualDescription, AsyncCallback<Selection> callback);
 
-	void createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue,
-			AsyncCallback<Similarity> callback);
+	void createSimilarity(int id, Profile fromProfile, Profile toProfile,
+			double similarityValue, AsyncCallback<Similarity> callback);
 
-	void createVisitList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<VisitList> callback);
+	void createVisitList(int id, Profile fromProfile, Profile toProfile,
+			AsyncCallback<VisitList> callback);
 
 	void createSearchProfile(int id, int height, HairColor hairColor, Gender gender, int age, Confession confession,
 			boolean smoker, AsyncCallback<SearchProfile> callback);
