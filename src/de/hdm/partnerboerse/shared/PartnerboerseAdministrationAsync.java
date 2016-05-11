@@ -1,5 +1,7 @@
 package de.hdm.partnerboerse.shared;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.partnerboerse.shared.bo.Blocking;
@@ -38,20 +40,65 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createVisitList(AsyncCallback<VisitList> callback);
 
-	void getProfile(AsyncCallback<Profile> callback);
+	void getAllProfiles(AsyncCallback<ArrayList<Profile>> callback);
 
-	void getBlocking(AsyncCallback<Blocking> callback);
+	void getProfileByKey(int id, AsyncCallback<Profile> callback);
 
-	void getDescription(AsyncCallback<Description> callback);
+	void getAllSearchProfiles(AsyncCallback<ArrayList<SearchProfile>> callback);
 
-	void getFavoritesList(AsyncCallback<FavoritesList> callback);
+	void getSearchProfileByKey(int id, AsyncCallback<SearchProfile> callback);
 
-	void getProperty(AsyncCallback<Property> callback);
+	void getAllInfos(AsyncCallback<ArrayList<Info>> callback);
 
-	void getSelection(AsyncCallback<Selection> callback);
+	void getInfoByKey(int id, AsyncCallback<Info> callback);
 
-	void getSimilarity(AsyncCallback<Similarity> callback);
+	void getAllDescriptions(AsyncCallback<ArrayList<Description>> callback);
 
-	void getInfo(AsyncCallback<Info> callback);
+	void getDescriptionByKey(int id, AsyncCallback<Description> callback);
 
+	void getAllProperties(AsyncCallback<ArrayList<Property>> callback);
+
+	void getPropertyByKey(int id, AsyncCallback<Property> callback);
+
+	void getAllSelections(AsyncCallback<ArrayList<Selection>> callback);
+
+	void getSelectionByKey(int id, AsyncCallback<Selection> callback);
+
+	void getAllSimilarities(AsyncCallback<ArrayList<Similarity>> callback);
+
+	void getSimilarityByKey(int id, AsyncCallback<Similarity> callback);
+
+	void getAllVisitLists(AsyncCallback<ArrayList<VisitList>> callback);
+
+	void getVisitListByKey(int id, AsyncCallback<VisitList> callback);
+
+	void getAllBlockings(AsyncCallback<ArrayList<Blocking>> callback);
+
+	void getBlockingByKey(int id, AsyncCallback<Blocking> callback);
+
+	void getAllFavoritesLists(AsyncCallback<ArrayList<FavoritesList>> callback);
+
+	void getFavoritesListByKey(int id, AsyncCallback<FavoritesList> callback);
+
+	void deleteProfile(Profile p, AsyncCallback<Void> callback);
+
+	void deleteSearchProfile(SearchProfile s, AsyncCallback<Void> callback);
+
+	void deleteInfo(Info i, AsyncCallback<Void> callback);
+
+	void deleteProperty(Property p, AsyncCallback<Void> callback);
+
+	void deleteDescription(Description d, AsyncCallback<Void> callback);
+
+	void deleteSelection(Selection s, AsyncCallback<Void> callback);
+
+	void deleteBlocking(Blocking b, AsyncCallback<Void> callback);
+
+	void deleteSimilarity(Similarity s, AsyncCallback<Void> callback);
+
+	void deleteVisitList(VisitList v, AsyncCallback<Void> callback);
+
+	void deleteFavoritesList(FavoritesList f, AsyncCallback<Void> callback);
+
+	
 }
