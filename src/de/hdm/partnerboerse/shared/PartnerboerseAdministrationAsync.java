@@ -26,12 +26,10 @@ public interface PartnerboerseAdministrationAsync {
 	void createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
 			boolean smoker, HairColor hairColor, Confession confession, Gender gender, AsyncCallback<Profile> callback);
 
-	void createBlocking(AsyncCallback<Blocking> callback);
+	void createBlocking(int id, Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
 
 	void createDescription(int id, String propertyName, Property textualDescription,
 			AsyncCallback<Description> callback);
-
-	void createFavoriteList(AsyncCallback<FavoritesList> callback);
 
 	void createProperty(int id, String propertyName, String textualDescription, AsyncCallback<Property> callback);
 
@@ -44,7 +42,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createVisitList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<VisitList> callback);
 
-
 	void getAllProfiles(AsyncCallback<ArrayList<Profile>> callback);
 
 	void createSearchProfile(int id, int height, HairColor hairColor, Gender gender, int age, Confession confession,
@@ -55,9 +52,8 @@ public interface PartnerboerseAdministrationAsync {
 	void createFavoritesList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<FavoritesList> callback);
 
 	void getAllSearchProfiles(AsyncCallback<ArrayList<SearchProfile>> callback);
+
 	void saveProfile(Profile p, AsyncCallback<Void> callback);
-
-
 
 	void getSearchProfileByKey(int id, AsyncCallback<SearchProfile> callback);
 
@@ -76,6 +72,7 @@ public interface PartnerboerseAdministrationAsync {
 	void saveDescription(Description d, AsyncCallback<Void> callback);
 
 	void getDescriptionByKey(int id, AsyncCallback<Description> callback);
+
 	void saveSelection(Selection s, AsyncCallback<Void> callback);
 
 	void saveBlocking(Blocking b, AsyncCallback<Void> callback);
@@ -130,5 +127,4 @@ public interface PartnerboerseAdministrationAsync {
 
 	void deleteFavoritesList(FavoritesList f, AsyncCallback<Void> callback);
 
-	
 }
