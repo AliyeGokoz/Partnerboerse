@@ -126,4 +126,68 @@ public class SimilarityMapper {
 		return null;
 	}
 
+	public Vector<Similarity> findBySimilarityValue(Double similarityValue) {
+	    Connection con = DBConnection.connection();
+	    Vector<Similarity> result = new Vector<Similarity>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile, similarityValue "
+	          + "FROM similarities " + "WHERE similarityValue LIKE '" + similarityValue
+	          + "' ORDER BY similarityValue");
+
+	      while (rs.next()) {
+	       Similarity similarity = new Similarity();
+	      similarity.setId(rs.getInt("id"));
+//	      similarity.setFromProfile(rs.getProfile("fromProfile"));				
+//	      similarity.setToProfile(rs.getProfile("toProfile"));
+	      similarity.setSimilarityValue(rs.getDouble("similarityValue"));
+
+	       
+	        result.addElement(similarity);
+	      }
+	    }
+	    catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+
+	    return result;
+	  }
+	 
+	public Vector<Similarity> findByProfile (int profileId) {
+	    Connection con = DBConnection.connection();
+	    Vector<Similarity> result = new Vector<Similarity>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile, similarityValue FROM similarities "
+	       + "WHERE profile=" + profileId + " ORDER BY id");
+
+	  
+	      while (rs.next()) {
+	      Similarity similarity = new Similarity();
+	      similarity.setId(rs.getInt("id"));
+//	      similarity.setFromProfile(rs.getProfile("fromProfile"));				
+//	      similarity.setToProfile(rs.getProfile("toProfile"));
+//	      similarity.setSimilarityValue(rs.getDouble("similarityValue"));
+
+	   
+	        result.addElement(similarity);
+	      }
+	    }
+	    catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+
+	    return result;
+	  }
+
+	public Vector<Similarity> findByProfile(Profile profile) {
+
+	    return findByProfile(profile.getId());
+	  }
+
+	
 }
