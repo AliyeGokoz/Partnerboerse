@@ -19,6 +19,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	
 	public void init() throws IllegalArgumentException{
 		PartnerboerseAdministrationImpl a = new PartnerboerseAdministrationImpl();
+		a.init();
+		this.administration;
+		
 	}
 
 	@Override
