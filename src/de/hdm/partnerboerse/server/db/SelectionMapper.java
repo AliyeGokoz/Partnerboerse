@@ -141,4 +141,100 @@ public class SelectionMapper {
 		return result;
 	}
 
+	 
+
+	public Vector<Selection> findByPropertyName(String propertyName) {
+	    Connection con = DBConnection.connection();
+	    Vector<Selection> result = new Vector<Selection>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, textualDescription, propertyName "
+	          + "FROM selections " + "WHERE propertyName LIKE '" + propertyName
+	          + "' ORDER BY propertyName");
+
+	      while (rs.next()) {
+		Selection selection = new Selection();
+		selection.setId(rs.getInt("id"));
+		selection.setTextualDescription(rs.getString("textualDescription"));
+		selection.setPropertyName(rs.getString("propertyName"));
+	       
+	        result.addElement(selection);
+	      }
+	    }
+	    catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+
+	    return result;
+	  }
+
+	 
+
+	public Vector<Selection> findByTextualDescription(String textualDescription) {
+	    Connection con = DBConnection.connection();
+	    Vector<Selection> result = new Vector<Selection>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, textualDescription, propertyName "
+	          + "FROM selections " + "WHERE textualDescription LIKE '" + textualDescription
+	          + "' ORDER BY textualDescription");
+
+	      while (rs.next()) {
+		Selection selection = new Selection();
+		selection.setId(rs.getInt("id"));
+		selection.setTextualDescription(rs.getString("textualDescription"));
+		selection.setPropertyName(rs.getString("propertyName"));
+	       
+	        result.addElement(selection);
+	      }
+	    }
+	    catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+
+	    return result;
+	  }
+
+
+
+	public Vector<Selection> findByInfo (int infoId) {
+	    Connection con = DBConnection.connection();
+	    Vector<Selection> result = new Vector<Selection>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, textualDescription, propertyName FROM selections "
+	       + "WHERE info=" + infoId + " ORDER BY id");
+
+	  
+	      while (rs.next()) {
+		Selection selection = new Selection();
+		selection.setId(rs.getInt("id"));
+		selection.setTextualDescription(rs.getString("textualDescription"));
+		selection.setPropertyName(rs.getString("propertyName"));
+	       
+
+	   
+	        result.addElement(selection);
+	      }
+	    }
+	    catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+
+	    return result;
+	  }
+
+
+	public Vector<Selection> findByInfo(Info info) {
+
+	    return findByInfo(info.getId());
+	  }
+
+
 }

@@ -108,10 +108,10 @@ public class ProfileMapper {
 				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 				profile.seteMail(rs.getString("email"));
 				profile.setHeight(rs.getInt("height"));
-//				profile.setConfession(Profile.Confession.valueOf("confession"));
+				// profile.setConfession(Profile.Confession.valueOf("confession"));
 				profile.setSmoker(rs.getBoolean("smoker"));
-//				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-//				profile.setGender(Profile.Gender.valueOf("gender"));
+				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+				// profile.setGender(Profile.Gender.valueOf("gender"));
 
 				result.addElement(profile);
 			}
@@ -142,10 +142,10 @@ public class ProfileMapper {
 				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 				profile.seteMail(rs.getString("email"));
 				profile.setHeight(rs.getInt("height"));
-//				profile.setConfession(Profile.Confession.valueOf("confession"));
+				// profile.setConfession(Profile.Confession.valueOf("confession"));
 				profile.setSmoker(rs.getBoolean("smoker"));
-//				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-//				profile.setGender(Profile.Gender.valueOf("gender"));
+				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+				// profile.setGender(Profile.Gender.valueOf("gender"));
 
 				return profile;
 			}
@@ -156,4 +156,344 @@ public class ProfileMapper {
 
 		return null;
 	}
+
+	public Vector<Profile> findByLastName(String lastName) {
+		Connection con = DBConnection.connection();
+		Vector<Profile> result = new Vector<Profile>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender "
+							+ "FROM profiles " + "WHERE lastName LIKE '" + lastName + "' ORDER BY lastName");
+
+			while (rs.next()) {
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("id"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				// profile.setConfession(Profile.Confession.valueOf("confession"));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+				// profile.setGender(Profile.Gender.valueOf("gender"));
+
+				result.addElement(profile);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Profile> findByFirstName(String firstName) {
+		Connection con = DBConnection.connection();
+		Vector<Profile> result = new Vector<Profile>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender "
+							+ "FROM profiles " + "WHERE lastName LIKE '" + firstName + "' ORDER BY firstName");
+
+			while (rs.next()) {
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("id"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				// profile.setConfession(Profile.Confession.valueOf("confession"));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+				// profile.setGender(Profile.Gender.valueOf("gender"));
+
+				result.addElement(profile);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Profile> findByName(String lastName, String firstName) {
+		Connection con = DBConnection.connection();
+		Vector<Profile> result = new Vector<Profile>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender "
+							+ "FROM profiles " + "WHERE lastName LIKE '" + lastName + "WHERE firstName LIKE '"
+							+ firstName + "' ORDER BY lastName");
+
+			while (rs.next()) {
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("id"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				// profile.setConfession(Profile.Confession.valueOf("confession"));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+				// profile.setGender(Profile.Gender.valueOf("gender"));
+
+				result.addElement(profile);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Profile> findByFavoritesList(int favoritesListId) {
+		Connection con = DBConnection.connection();
+		Vector<Profile> result = new Vector<Profile>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles "
+							+ "WHERE favoritesList=" + favoritesListId + " ORDER BY id");
+
+			while (rs.next()) {
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("id"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				// profile.setConfession(Profile.Confession.valueOf("confession"));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+				// profile.setGender(Profile.Gender.valueOf("gender"));
+
+				result.addElement(profile);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Profile> findByFavoritesList(FavoritesList favoritesList) {
+
+		return findByFavoritesList(favoritesList.getId());
+	}
+
+	public Vector<Profile> findBySearchProfile(int searchProfileId) {
+		Connection con = DBConnection.connection();
+		Vector<Profile> result = new Vector<Profile>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles "
+							+ "WHERE searchprofile=" + searchProfileId + " ORDER BY id");
+
+			while (rs.next()) {
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("id"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+//				profile.setConfession(Profile.Confession.valueOf("confession"));
+				profile.setSmoker(rs.getBoolean("smoker"));
+//				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+//				profile.setGender(Profile.Gender.valueOf("gender"));
+
+				result.addElement(profile);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Profile> findBySearchProfile(SearchProfile searchProfile) {
+	
+	    return findBySearchProfile(searchProfile.getId());
+	  }
+
+	public Vector<Profile> findByInfo (int infoId) {
+	    Connection con = DBConnection.connection();
+	    Vector<Profile> result = new Vector<Profile>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles "
+	       + "WHERE info=" + infoId + " ORDER BY id");
+
+	  
+	      while (rs.next()) {
+	      Profile profile = new Profile();
+	      profile.setId(rs.getInt("id"));
+	        profile.setFirstName(rs.getString("firstName"));
+	        profile.setLastName(rs.getString("lastName"));
+	        profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+		profile.seteMail(rs.getString("email"));
+		profile.setHeight(rs.getInt("height"));
+//		profile.setConfession(Profile.Confession.valueOf("confession"));
+		profile.setSmoker(rs.getBoolean("smoker"));
+//		profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+//		profile.setGender(Profile.Gender.valueOf("gender"));
+
+	   
+	        result.addElement(profile);
+	      }
+	    }
+	    catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+
+	    return result;
+	  }
+
+	public Vector<Profile> findByInfo(Info info) {
+
+	    return findByInfo(info.getId());
+	  }
+	
+	public Vector<Profile> findByVisitList (int visitListId) {
+	    Connection con = DBConnection.connection();
+	    Vector<Profile> result = new Vector<Profile>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles "
+	       + "WHERE visitList=" + visitListId + " ORDER BY id");
+
+	  
+	      while (rs.next()) {
+	      Profile profile = new Profile();
+	      profile.setId(rs.getInt("id"));
+	        profile.setFirstName(rs.getString("firstName"));
+	        profile.setLastName(rs.getString("lastName"));
+	        profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+		profile.seteMail(rs.getString("email"));
+		profile.setHeight(rs.getInt("height"));
+//		profile.setConfession(Profile.Confession.valueOf("confession"));
+		profile.setSmoker(rs.getBoolean("smoker"));
+//		profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+//		profile.setGender(Profile.Gender.valueOf("gender"));
+
+	   
+	        result.addElement(profile);
+	      }
+	    }
+	    catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+
+	    return result;
+	  }
+
+	public Vector<Profile> findByVisitList(VisitList visitList) {
+
+	    return findByVisitList(visitList.getId());
+	  }
+
+	public Vector<Profile> findBySimilarity (int similarityId) {
+	    Connection con = DBConnection.connection();
+	    Vector<Profile> result = new Vector<Profile>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles "
+	       + "WHERE similarity=" + similarityId + " ORDER BY id");
+
+	  
+	      while (rs.next()) {
+	      Profile profile = new Profile();
+	      profile.setId(rs.getInt("id"));
+	        profile.setFirstName(rs.getString("firstName"));
+	        profile.setLastName(rs.getString("lastName"));
+	        profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+		profile.seteMail(rs.getString("email"));
+		profile.setHeight(rs.getInt("height"));
+//		profile.setConfession(Profile.Confession.valueOf("confession"));
+		profile.setSmoker(rs.getBoolean("smoker"));
+//		profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+//		profile.setGender(Profile.Gender.valueOf("gender"));
+
+	   
+	        result.addElement(profile);
+	      }
+	    }
+	    catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+
+	    return result;
+	  }
+	public Vector<Profile> findBySimilarity(Similarity similarity) {
+
+	    return findBySimilarity(similarity.getId());
+	  }
+	
+	public Vector<Profile> findByBlocking (int blockingId) {
+	    Connection con = DBConnection.connection();
+	    Vector<Profile> result = new Vector<Profile>();
+
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles "
+	       + "WHERE blocking=" + blockingId + " ORDER BY id");
+
+	  
+	      while (rs.next()) {
+	      Profile profile = new Profile();
+	      profile.setId(rs.getInt("id"));
+	        profile.setFirstName(rs.getString("firstName"));
+	        profile.setLastName(rs.getString("lastName"));
+	        profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+		profile.seteMail(rs.getString("email"));
+		profile.setHeight(rs.getInt("height"));
+//		profile.setConfession(Profile.Confession.valueOf("confession"));
+		profile.setSmoker(rs.getBoolean("smoker"));
+//		profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+//		profile.setGender(Profile.Gender.valueOf("gender"));
+
+	   
+	        result.addElement(profile);
+	      }
+	    }
+	    catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+
+	    return result;
+	  }
+
+
+	public Vector<Profile> findByBlocking(Blocking blocking) {
+
+	    return findByBlocking(blocking.getId());
+	  }
+
+	
+
+
 }
