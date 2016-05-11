@@ -44,25 +44,29 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * delete Methoden
 	 */
 
-	public void deleteProfile(Profile p) throws IllegalArgumentException;
+	public void delete(Profile profile) throws IllegalArgumentException;
 
-	public void deleteSearchProfile(SearchProfile s) throws IllegalArgumentException;
+	public void delete(SearchProfile searchProfile) throws IllegalArgumentException;
 
-	public void deleteInfo(Info i) throws IllegalArgumentException;
+	public void delete(Info info) throws IllegalArgumentException;
 
-	public void deleteProperty(Property p) throws IllegalArgumentException;
+	public void delete(Property property) throws IllegalArgumentException;
 
-	public void deleteDescription(Description d) throws IllegalArgumentException;
+	public void delete(Description description) throws IllegalArgumentException;
 
-	public void deleteSelection(Selection s) throws IllegalArgumentException;
+	public void delete(Selection selection) throws IllegalArgumentException;
 
-	public void deleteBlocking(Blocking b) throws IllegalArgumentException;
+	public void delete(Blocking blocking) throws IllegalArgumentException;
 
-	public void deleteSimilarity(Similarity s) throws IllegalArgumentException;
+	public void delete(Similarity similarity) throws IllegalArgumentException;
 
-	public void deleteVisitList(VisitList v) throws IllegalArgumentException;
+	public void delete(VisitList visitList) throws IllegalArgumentException;
 
-	public void deleteFavoritesList(FavoritesList f) throws IllegalArgumentException;
+	public void delete(FavoritesList favoritesList) throws IllegalArgumentException;
+	
+	/*
+	 * Profile
+	 */
 
 	public ArrayList<Profile> getAllProfiles() throws IllegalArgumentException;
 
@@ -138,25 +142,25 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	// save-Methoden
 
-	public void saveProfile(Profile p) throws IllegalArgumentException;
+	public void save(Profile profile) throws IllegalArgumentException;
 
-	public void saveSearchProfile(SearchProfile s) throws IllegalArgumentException;
+	public void save(SearchProfile searchProfile) throws IllegalArgumentException;
 
-	public void saveInfo(Info i) throws IllegalArgumentException;
+	public void save(Info info) throws IllegalArgumentException;
 
-	public void saveProperty(Property p) throws IllegalArgumentException;
+	public void save(Property property) throws IllegalArgumentException;
 
-	public void saveDescription(Description d) throws IllegalArgumentException;
+	public void save(Description description) throws IllegalArgumentException;
 
-	public void saveSelection(Selection s) throws IllegalArgumentException;
+	public void save(Selection selection) throws IllegalArgumentException;
 
-	public void saveBlocking(Blocking b) throws IllegalArgumentException;
+	public void save(Blocking blocking) throws IllegalArgumentException;
 
-	public void saveSimilarity(Similarity s) throws IllegalArgumentException;
+	public void save(Similarity similarity) throws IllegalArgumentException;
 
-	public void saveVisitList(VisitList v) throws IllegalArgumentException;
+	public void save(VisitList visitList) throws IllegalArgumentException;
 
-	public void saveFavoritesList(FavoritesList f) throws IllegalArgumentException;
+	public void save(FavoritesList favoritesList) throws IllegalArgumentException;
 
 }
 

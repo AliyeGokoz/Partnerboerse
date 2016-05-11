@@ -42,46 +42,44 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createVisitList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<VisitList> callback);
 
-	void getAllProfiles(AsyncCallback<ArrayList<Profile>> callback);
-
 	void createSearchProfile(int id, int height, HairColor hairColor, Gender gender, int age, Confession confession,
 			boolean smoker, AsyncCallback<SearchProfile> callback);
 
-	void getProfileByKey(int id, AsyncCallback<Profile> callback);
-
 	void createFavoritesList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<FavoritesList> callback);
+
+	/*
+	 * save
+	 */
+	void save(Profile profile, AsyncCallback<Void> callback);
+
+	void save(SearchProfile searchProfile, AsyncCallback<Void> callback);
+
+	void save(Info info, AsyncCallback<Void> callback);
+
+	void save(Property property, AsyncCallback<Void> callback);
+
+	void save(Description description, AsyncCallback<Void> callback);
+
+	void save(Selection selection, AsyncCallback<Void> callback);
+
+	void save(Blocking blocking, AsyncCallback<Void> callback);
+
+	void save(Similarity similarity, AsyncCallback<Void> callback);
+
+	void save(VisitList visitList, AsyncCallback<Void> callback);
+
+	void save(FavoritesList favoritesList, AsyncCallback<Void> callback);
+
+	/*
+	 * get
+	 */
+	void getAllProfiles(AsyncCallback<ArrayList<Profile>> callback);
+
+	void getProfileByKey(int id, AsyncCallback<Profile> callback);
 
 	void getAllSearchProfiles(AsyncCallback<ArrayList<SearchProfile>> callback);
 
-	void saveProfile(Profile p, AsyncCallback<Void> callback);
-
 	void getSearchProfileByKey(int id, AsyncCallback<SearchProfile> callback);
-
-	void saveSearchProfile(SearchProfile s, AsyncCallback<Void> callback);
-
-	void getAllInfos(AsyncCallback<ArrayList<Info>> callback);
-
-	void saveInfo(Info i, AsyncCallback<Void> callback);
-
-	void getInfoByKey(int id, AsyncCallback<Info> callback);
-
-	void saveProperty(Property p, AsyncCallback<Void> callback);
-
-	void getAllDescriptions(AsyncCallback<ArrayList<Description>> callback);
-
-	void saveDescription(Description d, AsyncCallback<Void> callback);
-
-	void getDescriptionByKey(int id, AsyncCallback<Description> callback);
-
-	void saveSelection(Selection s, AsyncCallback<Void> callback);
-
-	void saveBlocking(Blocking b, AsyncCallback<Void> callback);
-
-	void saveSimilarity(Similarity s, AsyncCallback<Void> callback);
-
-	void saveVisitList(VisitList v, AsyncCallback<Void> callback);
-
-	void saveFavoritesList(FavoritesList f, AsyncCallback<Void> callback);
 
 	void getAllProperties(AsyncCallback<ArrayList<Property>> callback);
 
@@ -107,24 +105,36 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getFavoritesListByKey(int id, AsyncCallback<FavoritesList> callback);
 
-	void deleteProfile(Profile p, AsyncCallback<Void> callback);
+	void getAllDescriptions(AsyncCallback<ArrayList<Description>> callback);
 
-	void deleteSearchProfile(SearchProfile s, AsyncCallback<Void> callback);
+	void getDescriptionByKey(int id, AsyncCallback<Description> callback);
 
-	void deleteInfo(Info i, AsyncCallback<Void> callback);
+	void getAllInfos(AsyncCallback<ArrayList<Info>> callback);
 
-	void deleteProperty(Property p, AsyncCallback<Void> callback);
+	void getInfoByKey(int id, AsyncCallback<Info> callback);
 
-	void deleteDescription(Description d, AsyncCallback<Void> callback);
+	/*
+	 * delete
+	 */
 
-	void deleteSelection(Selection s, AsyncCallback<Void> callback);
+	void delete(Profile profile, AsyncCallback<Void> callback);
 
-	void deleteBlocking(Blocking b, AsyncCallback<Void> callback);
+	void delete(SearchProfile searchProfile, AsyncCallback<Void> callback);
 
-	void deleteSimilarity(Similarity s, AsyncCallback<Void> callback);
+	void delete(Info info, AsyncCallback<Void> callback);
 
-	void deleteVisitList(VisitList v, AsyncCallback<Void> callback);
+	void delete(Property property, AsyncCallback<Void> callback);
 
-	void deleteFavoritesList(FavoritesList f, AsyncCallback<Void> callback);
+	void delete(Description description, AsyncCallback<Void> callback);
+
+	void delete(Selection selection, AsyncCallback<Void> callback);
+
+	void delete(Blocking blocking, AsyncCallback<Void> callback);
+
+	void delete(Similarity similarity, AsyncCallback<Void> callback);
+
+	void delete(VisitList visitList, AsyncCallback<Void> callback);
+
+	void delete(FavoritesList favoritesList, AsyncCallback<Void> callback);
 
 }
