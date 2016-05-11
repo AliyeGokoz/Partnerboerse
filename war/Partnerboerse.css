@@ -41,6 +41,38 @@ div#Trailer {
 	text-align: center;
 }
 
+div#Buttonzone {
+	float: left;
+	min-height: 400px;
+	max-height: 500px;
+	width: 30%;
+}
+
+div#Contentzone {
+	float: right;
+	min-height: 400px;
+	max-height: 500px;
+	overflow: scroll;
+	width:70%;
+}
+
+.hbuttons{
+	float:left;
+	width: 20%;
+	color: black;
+}
+
+.hcontent{
+	float:right;
+	width: 50%;
+	color: yellow;
+}
+
+.buttonwidth{
+	width: 180px;
+	margin-top: 15px;
+}
+
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;
