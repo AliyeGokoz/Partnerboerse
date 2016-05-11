@@ -83,8 +83,8 @@ public class BlockingMapper {
 			while (rs.next()) {
 				Blocking blocking = new Blocking();
 				blocking.setId(rs.getInt("id"));
-//				blocking.setFromProfile(rs.getProfile("fromProfile"));
-//				blocking.setToProfile(rs.getProfile("toProfile"));
+				// blocking.setFromProfile(rs.getProfile("fromProfile"));
+				// blocking.setToProfile(rs.getProfile("toProfile"));
 
 				result.addElement(blocking);
 			}
@@ -106,8 +106,8 @@ public class BlockingMapper {
 			if (rs.next()) {
 				Blocking blocking = new Blocking();
 				blocking.setId(rs.getInt("id"));
-//				blocking.setFromProfile(rs.getProfile("fromProfile"));
-//				blocking.setToProfile(rs.getProfile("toProfile"));
+				// blocking.setFromProfile(rs.getProfile("fromProfile"));
+				// blocking.setToProfile(rs.getProfile("toProfile"));
 
 				return blocking;
 			}
@@ -117,6 +117,36 @@ public class BlockingMapper {
 		}
 
 		return null;
+	}
+
+	public Vector<Blocking> findByProfile(int profileId) {
+		Connection con = DBConnection.connection();
+		Vector<Blocking> result = new Vector<Blocking>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile FROM blockings " + "WHERE profile="
+					+ profileId + " ORDER BY id");
+
+			while (rs.next()) {
+				Blocking blocking = new Blocking();
+				blocking.setId(rs.getInt("id"));
+				// blocking.setFromProfile(rs.getProfile("fromProfile"));
+				// blocking.setToProfile(rs.getProfile("toProfile"));
+
+				result.addElement(blocking);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Blocking> findByProfile(Profile profile) {
+
+		return findByProfile(profile.getId());
 	}
 
 }

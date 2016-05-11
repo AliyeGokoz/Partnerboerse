@@ -120,5 +120,38 @@ public class VisitListMapper {
 
 		return null;
 	}
+	
+	public Vector<VisitList> findByProfile (int profileId) {
+	    Connection con = DBConnection.connection();
+	    Vector<VisitList> result = new Vector<VisitList>();
 
+	    try {
+	      Statement stmt = con.createStatement();
+
+	      ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile FROM visitslists "
+	       + "WHERE profile=" + profileId + " ORDER BY id");
+
+	  
+	      while (rs.next()) {
+	         VisitList visitList = new VisitList();
+	         visitList.setId(rs.getInt("id"));
+//		 visitList.setFromProfile(rs.getProfile("fromProfile"));
+//		 visitList.setToProfile(rs.getProfile("toProfile"));
+
+	   
+	        result.addElement(visitList);
+	      }
+	    }
+	    catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+
+	    return result;
+	  }
+
+
+	public Vector<VisitList> findByProfile(Profile profile) {
+
+	    return findByProfile(profile.getId());
+	  }
 }

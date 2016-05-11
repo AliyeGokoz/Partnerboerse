@@ -84,8 +84,8 @@ public class FavoritesListMapper {
 			while (rs.next()) {
 				FavoritesList favoritesList = new FavoritesList();
 				favoritesList.setId(rs.getInt("id"));
-//				favoritesList.setFromProfile(rs.getProfile("fromProfile"));
-//				favoritesList.setToProfile(rs.getProfile("toProfile"));
+				// favoritesList.setFromProfile(rs.getProfile("fromProfile"));
+				// favoritesList.setToProfile(rs.getProfile("toProfile"));
 
 				result.addElement(favoritesList);
 			}
@@ -107,8 +107,8 @@ public class FavoritesListMapper {
 			if (rs.next()) {
 				FavoritesList favoritesList = new FavoritesList();
 				favoritesList.setId(rs.getInt("id"));
-//				favoritesList.setFromProfile(rs.getProfile("fromProfile"));
-//				favoritesList.setToProfile(rs.getProfile("toProfile"));
+				// favoritesList.setFromProfile(rs.getProfile("fromProfile"));
+				// favoritesList.setToProfile(rs.getProfile("toProfile"));
 
 				return favoritesList;
 			}
@@ -120,4 +120,33 @@ public class FavoritesListMapper {
 		return null;
 	}
 
+	public Vector<FavoritesList> findByProfile(int profileId) {
+		Connection con = DBConnection.connection();
+		Vector<FavoritesList> result = new Vector<FavoritesList>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile FROM favoriteslists " + "WHERE profile="
+					+ profileId + " ORDER BY id");
+
+			while (rs.next()) {
+				FavoritesList favoritesList = new FavoritesList();
+				favoritesList.setId(rs.getInt("id"));
+				// favoritesList.setFromProfile(rs.getProfile("fromProfile"));
+				// favoritesList.setToProfile(rs.getProfile("toProfile"));
+
+				result.addElement(favoritesList);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<FavoritesList> findByProfile(Profile profile) {
+
+		return findByProfile(profile.getId());
+	}
 }
