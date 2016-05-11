@@ -100,7 +100,8 @@ public class DescriptionMapper {
 
 				Description description = new Description();
 				description.setId(rs.getInt("id"));
-				description.setTextualDescription(rs.getString("textualDescription"));
+				description.setTextualDescription(rs
+						.getString("textualDescription"));
 				description.setPropertyName(rs.getString("propertyName"));
 
 				return description;
@@ -128,7 +129,8 @@ public class DescriptionMapper {
 			while (rs.next()) {
 				Description description = new Description();
 				description.setId(rs.getInt("id"));
-				description.setTextualDescription(rs.getString("textualDescription"));
+				description.setTextualDescription(rs
+						.getString("textualDescription"));
 				description.setPropertyName(rs.getString("propertyName"));
 
 				result.addElement(description);
@@ -138,6 +140,99 @@ public class DescriptionMapper {
 		}
 
 		return result;
+	}
+
+	public Vector<Description> findByPropertyName(String propertyName) {
+		Connection con = DBConnection.connection();
+		Vector<Description> result = new Vector<Description>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt
+					.executeQuery("SELECT id, textualDescription, propertyName "
+							+ "FROM descriptions "
+							+ "WHERE propertyName LIKE '"
+							+ propertyName
+							+ "' ORDER BY propertyName");
+
+			while (rs.next()) {
+				Description description = new Description();
+				description.setId(rs.getInt("id"));
+				description.setTextualDescription(rs
+						.getString("textualDescription"));
+				description.setPropertyName(rs.getString("propertyName"));
+
+				result.addElement(description);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Description> findByTextualDescription(
+			String textualDescription) {
+		Connection con = DBConnection.connection();
+		Vector<Description> result = new Vector<Description>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt
+					.executeQuery("SELECT id, textualDescription, propertyName "
+							+ "FROM descriptions "
+							+ "WHERE textualDescription LIKE '"
+							+ textualDescription
+							+ "' ORDER BY textualDescription");
+
+			while (rs.next()) {
+				Description description = new Description();
+				description.setId(rs.getInt("id"));
+				description.setTextualDescription(rs
+						.getString("textualDescription"));
+				description.setPropertyName(rs.getString("propertyName"));
+
+				result.addElement(description);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Description> findByInfo(int infoId) {
+		Connection con = DBConnection.connection();
+		Vector<Description> result = new Vector<Description>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt
+					.executeQuery("SELECT id, textualDescription, propertyName FROM descriptions "
+							+ "WHERE info=" + infoId + " ORDER BY id");
+
+			while (rs.next()) {
+				Description description = new Description();
+				description.setId(rs.getInt("id"));
+				description.setTextualDescription(rs
+						.getString("textualDescription"));
+				description.setPropertyName(rs.getString("propertyName"));
+
+				result.addElement(description);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public Vector<Description> findByInfo(Info info) {
+
+		return findByInfo(info.getId());
 	}
 
 }
