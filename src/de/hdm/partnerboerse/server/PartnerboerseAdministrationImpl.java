@@ -28,6 +28,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private VisitListMapper visitListMapper = null;
 
 	// No-Argument Constructor
+	
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 
 	}
@@ -49,15 +50,37 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public Profile createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
 			boolean smoker, HairColor hairColor, Confession confession, Gender gender) {
-		return null;
+		Profile p = new Profile();
+		p.setId(id);
+		p.setFirstName(firstName);
+		p.setLastName(lastName);
+		p.setDateOfBirth(dateOfBirth);
+		p.seteMail(email);
+		p.setHeight(height);
+		p.isSmoker();
+		/*
+		 * HairColor, Confession, Gender fehlen noch. (enum)
+		 */
+	
+		
+		return this.profileMapper.insert(p);
 	}
 
 	@Override
 	public SearchProfile createSearchProfile(int id, int height, HairColor hairColor, Gender gender, int age,
 			Confession confession, boolean smoker) {
-		return null;
+		SearchProfile sp = new SearchProfile();
+		
+		sp.setId(id);
+		
+		/*
+		 * HairColor, Confession, Gender fehlen noch. (enum)
+		 */
+		
+		return this.searchProfileMapper.insert(sp);
 	}
 
+	
 	@Override
 	public Info createInfo(int id, String informationValue) {
 		return null;
