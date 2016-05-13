@@ -2,14 +2,19 @@ package de.hdm.partnerboerse.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -56,6 +61,21 @@ public class ProfilePage extends VerticalPanel{
   	  	RootPanel.get("Buttonzone").add(hbuttons);
   	  	RootPanel.get("Contentzone").add(hcontent);
   	  	
+  	  	
+  	  deleteProfile.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+             // Instantiate the dialog box and show it.
+        	  MyDialogforDltProfiles myDialog = new MyDialogforDltProfiles();
+
+             int left = Window.getClientWidth()/ 2;
+             int top = Window.getClientHeight()/ 2;
+             myDialog.setPopupPosition(left, top);
+             myDialog.show();				
+          }
+       });
+
+  	  
   	  	
   	  addProfile.addClickHandler(new ClickHandler() {
 
@@ -162,10 +182,15 @@ public class ProfilePage extends VerticalPanel{
 					return addnewProfilPanel;
 	}
 	
-	private VerticalPanel addInfoToNewProfil(){
+	private DecoratorPanel addInfoToNewProfil(){
+		
 			final VerticalPanel addnewinfotoProfilPanel = new VerticalPanel();
+			final ScrollPanel scrollPanel = new ScrollPanel(addnewinfotoProfilPanel);
+			scrollPanel.setSize("500px", "300px");
+			DecoratorPanel decoratorPanel = new DecoratorPanel();
+			decoratorPanel.add(scrollPanel);
+
 			
-			addnewinfotoProfilPanel.addStyleName("panelscroll");
 			
 			final Label lHobby = new Label("Hobbys");
 			final Label lHobbyText = new Label("Ich mache gern:");
@@ -177,9 +202,10 @@ public class ProfilePage extends VerticalPanel{
 			final Label lFilme = new Label("Filme");
 			final Label lFilmeText = new Label("Ich schaue gerne: ");
 			final Label lfavFilm = new Label("Mein/e Lieblingsfilm/e ist/sind: ");
-			final Label lSmoker = new Label("Raucher: ");
+			
 			final ListBox lbMusik = new ListBox();
 			final ListBox lbFilme = new ListBox();
+			
 			final CheckBox cbSport1 = new CheckBox("Fußball");
 			final CheckBox cbSport2 = new CheckBox("Basketball");
 			final CheckBox cbSport3 = new CheckBox("Wandern");
@@ -195,6 +221,7 @@ public class ProfilePage extends VerticalPanel{
 			
 			final TextBox tHobby = new TextBox();
 			final TextBox tBand = new TextBox();
+			final TextBox tFilme = new TextBox();
 			
 			/**
 			 * Untenstrich für die Infoüberschriften
@@ -205,6 +232,7 @@ public class ProfilePage extends VerticalPanel{
 			lFilme.setStyleName("infohead");
 			tHobby.setStyleName("textboxsize");
 			tBand.setStyleName("textboxsize");
+			tFilme.setStyleName("textboxsize");
 			
 			/**
 			 * Hinzufügen der Info-Objekte für die Eigenschaft Musik
@@ -241,6 +269,10 @@ public class ProfilePage extends VerticalPanel{
 			sportCheckBoxen.add(cbSport6);
 			sportCheckBoxen.add(cbSport7);
 			sportCheckBoxen.add(cbSport8);
+			sportCheckBoxen.add(cbSport9);
+			sportCheckBoxen.add(cbSport10);
+			sportCheckBoxen.add(cbSport11);
+			sportCheckBoxen.add(cbSport12);
 			
 			
 			/**
@@ -261,12 +293,50 @@ public class ProfilePage extends VerticalPanel{
 			addnewinfotoProfilPanel.add(lFilmeText);
 			addnewinfotoProfilPanel.add(lbFilme);
 			addnewinfotoProfilPanel.add(lfavFilm);
+			addnewinfotoProfilPanel.add(tFilme);
 			
 			
 			
 			
-			return addnewinfotoProfilPanel;
+			return decoratorPanel;
 	}
+	
+	private static class MyDialogforDltProfiles extends DialogBox {
+
+	      public MyDialogforDltProfiles() {
+	         // Set the dialog box's caption.
+	         setText("Profil löschen");
+
+	         // Enable animation.
+	         setAnimationEnabled(true);
+
+	         // Enable glass background.
+	         setGlassEnabled(true);
+
+	         // DialogBox is a SimplePanel, so you have to set its widget 
+	         // property to whatever you want its contents to be.
+	         Button ok = new Button("OK");
+	         ok.addClickHandler(new ClickHandler() {
+	            public void onClick(ClickEvent event) {
+	            	MyDialogforDltProfiles.this.hide();
+	            }
+	         });
+
+	         Label label = new Label("Wollen sie Ihr Profil wirklich unwiederruflich löschen?");
+
+	         VerticalPanel panel = new VerticalPanel();
+	         panel.setHeight("100");
+	         panel.setWidth("300");
+	         panel.setSpacing(10);
+	         panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+	         panel.add(label);
+	         panel.add(ok);
+
+	         setWidget(panel);
+	      }
+	   }
+
+	
 
 }
 

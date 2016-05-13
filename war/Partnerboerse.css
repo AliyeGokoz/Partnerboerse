@@ -86,11 +86,6 @@ text-decoration: underline;
 	height: 50px;
 }
 
-.panelscroll{
-	max-height: 300px;
-	overflow:scroll;
-}
-
 
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
