@@ -2,17 +2,15 @@ package de.hdm.partnerboerse.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -63,126 +61,32 @@ public class ProfilePage extends VerticalPanel{
 
 			@Override
 			public void onClick(ClickEvent event) {
-				addnewProfil();
+				stockPanelProfil();
 			}
 		});
 
-		
-  	  	
-  	  	/*final Grid mainGrid = new Grid(10,4);
-		
-		final Label lTitle = new Label("Neues Profil anlegen");
-		final Label lFirstname = new Label("Vorname: ");
-		final Label lLastName = new Label("Nachname: ");
-		final Label lDateofbirth = new Label("Geburtsdatum: ");
-		final Label lEmail = new Label("Email: ");
-		final Label lHeight = new Label("Größe: ");
-		final Label lHairColor = new Label("Haarfarbe: ");
-		final Label lConfession = new Label("Relegion: ");
-		final Label lGender = new Label("Geschlecht: ");
-		final Label lSmoker = new Label("Raucher: ");
-		
-		final TextBox tFirstname = new TextBox();
-		final TextBox tLastname = new TextBox();
-		final TextBox tDateofbirth = new TextBox();
-		final TextBox tEmail = new TextBox();
-		final TextBox tHeight = new TextBox();
-		final ListBox lbHaircolor = new ListBox();
-		final ListBox lbConfession = new ListBox();
-		RadioButton Rbgenderfm = new RadioButton("genderGroup", "weiblich");
-	    RadioButton Rbgenderm = new RadioButton("genderGroup", "männlich");
-	    RadioButton Rbgendero = new RadioButton("genderGroup", "andere");
-	    RadioButton Rbsmokeyes = new RadioButton("smokeGroup", "ja");
-	    RadioButton Rbsmokeno = new RadioButton("smokeGroup", "nein");
-		
-		lbHaircolor.addItem("select");
-		lbHaircolor.addItem("braun");
-		lbHaircolor.addItem("blond");
-		lbHaircolor.addItem("schwarz");
-		lbHaircolor.addItem("rot");
-		lbHaircolor.addItem("grau");
-		lbHaircolor.addItem("others");
-		
-		lbConfession.addItem("select");
-		lbConfession.addItem("evangelisch");
-		lbConfession.addItem("katholisch");
-		lbConfession.addItem("buddistisch");
-		lbConfession.addItem("hinduistisch");
-		lbConfession.addItem("muslimisch");
-		lbConfession.addItem("jüdisch");
-		lbConfession.addItem("keine Konfession");
-		lbConfession.addItem("andere");
-		
-		lbHaircolor.setVisibleItemCount(1);
-		lbConfession.setVisibleItemCount(1);
-  	  	
-		mainGrid.setWidget(0, 0, lTitle);
-		mainGrid.setWidget(1, 0, lFirstname);
-		mainGrid.setWidget(2, 0, lLastName);
-		mainGrid.setWidget(3, 0, lDateofbirth);
-		mainGrid.setWidget(4, 0, lEmail);
-		mainGrid.setWidget(5, 0, lHeight);
-		mainGrid.setWidget(6, 0, lHairColor);
-		mainGrid.setWidget(7, 0, lConfession);
-		mainGrid.setWidget(8, 0, lGender);
-		mainGrid.setWidget(9, 0, lSmoker);
-		mainGrid.setWidget(1, 1, tFirstname);
-		mainGrid.setWidget(2, 1, tLastname);
-		mainGrid.setWidget(3, 1, tDateofbirth);
-		mainGrid.setWidget(4, 1, tEmail);
-		mainGrid.setWidget(5, 1, tHeight);
-		mainGrid.setWidget(6, 1, lbHaircolor);
-		mainGrid.setWidget(7, 1, lbConfession);
-		mainGrid.setWidget(8, 1, Rbgenderfm);
-		mainGrid.setWidget(8, 2, Rbgenderm);
-		mainGrid.setWidget(8, 3, Rbgendero);
-		mainGrid.setWidget(9, 1, Rbsmokeyes);
-		mainGrid.setWidget(9, 2, Rbsmokeno);
-		
-		hcontent.add(mainGrid);
-		
-		RootPanel.get("Contentzone").clear();
-		RootPanel.get("Contentzone").add(lTitle);
-		RootPanel.get("Contentzone").add(hcontent);	
-  
-		//add Buttons 
-		/*final Button addProfile = new Button("Profil anlegen");
-		final Button editProfile = new Button("Profil bearbeiten");
-		final Button deleteProfile = new Button("Profil löschen");*/
-		
-		/*
-		final VerticalPanel hbuttons = new VerticalPanel();
-		final HorizontalPanel hcontent = new HorizontalPanel();
-		final Button addProfile = new Button("Profil anlegen");
-		final Button editProfile = new Button("Profil bearbeiten");
-		final Button deleteProfile = new Button("Profil löschen");
-		
-		hbuttons.setStyleName("hbuttons");
-		hcontent.setStyleName("hcontent");
-		
-		addProfile.setStyleName("buttonwidth");
-		editProfile.setStyleName("buttonwidth");
-		deleteProfile.setStyleName("buttonwidth");
-		
-		hbuttons.add(addProfile);
-		hbuttons.add(editProfile);
-		hbuttons.add(deleteProfile);
-		
-		RootPanel.get("Buttonzone").clear();
-		RootPanel.get("Contentzone").clear();
-  	  	RootPanel.get("Buttonzone").add(hbuttons);
-  	  	RootPanel.get("Contentzone").add(hcontent);
-  	  	
-  	  	//TODO wenn bereits Profil erstellt dann anzeigen, wnnn nicht leere Seite mit Ausgabe: erstellen sich doch ein Profil
-  	  	
-  	  	
-  	  	*/
 	}	
 	
-	private void addnewProfil() {
+	/**
+	 * Neuen StockPanel anlegen für die Ausgabe der Panel Ansicht beim Profil anlegen und 
+	 * Informationen anlegen.
+	 */
+	private void stockPanelProfil(){
 		
-				   final VerticalPanel hbuttons = new VerticalPanel();
-				   final HorizontalPanel hcontent = new HorizontalPanel();
+	    StackPanel profilPanel = new StackPanel();
+	    profilPanel.setWidth("500px");
+	    profilPanel.add(addnewProfil(), "Profil anlegen");
+	    profilPanel.add(addInfoToNewProfil(), "Informationen anlegen");
+	
+	   
+	    RootPanel.get("Contentzone").clear();
+	    RootPanel.get("Contentzone").add(profilPanel);
+		
+	}
+	
+	private HorizontalPanel addnewProfil() {
+		
+				   final HorizontalPanel addnewProfilPanel = new HorizontalPanel();
 				   final Grid mainGrid = new Grid(10,4);
 					
 					final Label lTitle = new Label("Neues Profil anlegen");
@@ -192,7 +96,7 @@ public class ProfilePage extends VerticalPanel{
 					final Label lEmail = new Label("Email: ");
 					final Label lHeight = new Label("Größe: ");
 					final Label lHairColor = new Label("Haarfarbe: ");
-					final Label lConfession = new Label("Relegion: ");
+					final Label lConfession = new Label("Religion: ");
 					final Label lGender = new Label("Geschlecht: ");
 					final Label lSmoker = new Label("Raucher: ");
 					
@@ -253,11 +157,116 @@ public class ProfilePage extends VerticalPanel{
 					mainGrid.setWidget(9, 1, Rbsmokeyes);
 					mainGrid.setWidget(9, 2, Rbsmokeno);
 					
-					hcontent.add(mainGrid);
+					addnewProfilPanel.add(mainGrid);
 					
-					RootPanel.get("Contentzone").clear();
-					RootPanel.get("Contentzone").add(lTitle);
-					RootPanel.get("Contentzone").add(hcontent);
+					return addnewProfilPanel;
 	}
 	
+	private VerticalPanel addInfoToNewProfil(){
+			final VerticalPanel addnewinfotoProfilPanel = new VerticalPanel();
+			
+			addnewinfotoProfilPanel.addStyleName("panelscroll");
+			
+			final Label lHobby = new Label("Hobbys");
+			final Label lHobbyText = new Label("Ich mache gern:");
+			final Label lMusik = new Label("Musik");
+			final Label lMusikText = new Label("Ich höre gern:");
+			final Label lfavBand = new Label("Mein/e Lieblingsband/Lieblingskünstler/in sind/ist: ");
+			final Label lSport = new Label("Sport");
+			final Label lSportText = new Label("Ich betreibe gerne folgende Sportart/en: ");
+			final Label lFilme = new Label("Filme");
+			final Label lFilmeText = new Label("Ich schaue gerne: ");
+			final Label lfavFilm = new Label("Mein/e Lieblingsfilm/e ist/sind: ");
+			final Label lSmoker = new Label("Raucher: ");
+			final ListBox lbMusik = new ListBox();
+			final ListBox lbFilme = new ListBox();
+			final CheckBox cbSport1 = new CheckBox("Fußball");
+			final CheckBox cbSport2 = new CheckBox("Basketball");
+			final CheckBox cbSport3 = new CheckBox("Wandern");
+			final CheckBox cbSport4 = new CheckBox("Volleyball");
+			final CheckBox cbSport5 = new CheckBox("Volkstanz");
+			final CheckBox cbSport6 = new CheckBox("Tennis");
+			final CheckBox cbSport7 = new CheckBox("Tauchen");
+			final CheckBox cbSport8 = new CheckBox("Teakwondo");
+			final CheckBox cbSport9 = new CheckBox("Seilspringen");
+			final CheckBox cbSport10 = new CheckBox("Schwimmen");
+			final CheckBox cbSport11 = new CheckBox("Rugby");
+			final CheckBox cbSport12 = new CheckBox("Other");
+			
+			final TextBox tHobby = new TextBox();
+			final TextBox tBand = new TextBox();
+			
+			/**
+			 * Untenstrich für die Infoüberschriften
+			 */
+			lHobby.setStyleName("infohead");
+			lMusik.setStyleName("infohead");
+			lSport.setStyleName("infohead");
+			lFilme.setStyleName("infohead");
+			tHobby.setStyleName("textboxsize");
+			tBand.setStyleName("textboxsize");
+			
+			/**
+			 * Hinzufügen der Info-Objekte für die Eigenschaft Musik
+			 */
+			lbMusik.addItem("select");
+			lbMusik.addItem("Rock");
+			lbMusik.addItem("Pop");
+			lbMusik.addItem("Electro");
+			lbMusik.addItem("House");
+			lbMusik.addItem("Volksmusik");
+			lbMusik.addItem("others");
+			
+			/**
+			 * Hinzufügen der Info-Objekte für die Eigenschaft Musik
+			 */
+			lbFilme.addItem("select");
+			lbFilme.addItem("Rock");
+			lbFilme.addItem("Pop");
+			lbFilme.addItem("Electro");
+			lbFilme.addItem("House");
+			lbFilme.addItem("Volksmusik");
+			lbFilme.addItem("others");
+			
+			/**
+			 * new Panel für die Sportarten Checkboxen
+			 */
+			final HorizontalPanel sportCheckBoxen = new HorizontalPanel();
+			
+			sportCheckBoxen.add(cbSport1);
+			sportCheckBoxen.add(cbSport2);
+			sportCheckBoxen.add(cbSport3);
+			sportCheckBoxen.add(cbSport4);
+			sportCheckBoxen.add(cbSport5);
+			sportCheckBoxen.add(cbSport6);
+			sportCheckBoxen.add(cbSport7);
+			sportCheckBoxen.add(cbSport8);
+			
+			
+			/**
+			 * Hinzufügen der Widgets an den Panel
+			 */
+			addnewinfotoProfilPanel.add(lHobby);
+			addnewinfotoProfilPanel.add(lHobbyText);
+			addnewinfotoProfilPanel.add(tHobby);
+			addnewinfotoProfilPanel.add(lMusik);
+			addnewinfotoProfilPanel.add(lMusikText);
+			addnewinfotoProfilPanel.add(lbMusik);
+			addnewinfotoProfilPanel.add(lfavBand);
+			addnewinfotoProfilPanel.add(tBand);
+			addnewinfotoProfilPanel.add(lSport);
+			addnewinfotoProfilPanel.add(lSportText);
+			addnewinfotoProfilPanel.add(sportCheckBoxen);
+			addnewinfotoProfilPanel.add(lFilme);
+			addnewinfotoProfilPanel.add(lFilmeText);
+			addnewinfotoProfilPanel.add(lbFilme);
+			addnewinfotoProfilPanel.add(lfavFilm);
+			
+			
+			
+			
+			return addnewinfotoProfilPanel;
+	}
+
 }
+
