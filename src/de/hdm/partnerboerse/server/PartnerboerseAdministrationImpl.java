@@ -61,7 +61,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		/*
 		 * HairColor, Confession, Gender fehlen noch. (enum)
 		 */
-	
+		p.setId(1);
 		
 		return this.profileMapper.insert(p);
 	}
@@ -74,6 +74,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		sp.setId(id);
 		
 		/*
+		 * FromAge, toAge etc. ist noch abzuklären.
 		 * HairColor, Confession, Gender fehlen noch. (enum)
 		 */
 		
@@ -83,7 +84,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 	@Override
 	public Info createInfo(int id, String informationValue) {
-		return null;
+		Info i = new Info();
+		
+		i.setId(id);
+		i.setInformationValue(informationValue);
+		
+		return this.infoMapper.insert(i);
 	}
 
 	@Override
