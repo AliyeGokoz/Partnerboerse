@@ -1,5 +1,9 @@
 package de.hdm.partnerboerse.shared.bo;
 
+import de.hdm.partnerboerse.shared.bo.Profile.Confession;
+import de.hdm.partnerboerse.shared.bo.Profile.Gender;
+import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
+
 public class SearchProfile extends BusinessObject{
 
 	private static final long serialVersionUID = 1L;
@@ -12,50 +16,13 @@ public class SearchProfile extends BusinessObject{
 	
 	private int toHeight = 0;
 	
-	public enum HairColor {
-		BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED("rot"), GREY(
-				"grau"), OTHERS("sonstiges");
+	private HairColor hairColor = null;
+	
+	private Confession confession = null;
+	
+	private Gender gender = null;
 
-		private final String name;
 
-		private HairColor(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
-
-	public enum Confession {
-		PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC(
-				"buddistisch"), HINDU("hinduistisch"), MUSLIM("muslimisch"), JEWISH(
-				"j�disch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
-
-		private final String name;
-
-		private Confession(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
-
-	public enum Gender {
-		FEMALE("weiblich"), MALE("m�nnlich"), OTHERS("andere");
-
-		private final String name;
-
-		private Gender(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
 
 	public int getFromAge() {
 		return fromAge;
@@ -87,5 +54,29 @@ public class SearchProfile extends BusinessObject{
 
 	public void setToHeight(int toHeight) {
 		this.toHeight = toHeight;
+	}
+
+	public HairColor getHairColor() {
+		return hairColor;
+	}
+
+	public void setHairColor(HairColor hairColor) {
+		this.hairColor = hairColor;
+	}
+
+	public Confession getConfession() {
+		return confession;
+	}
+
+	public void setConfession(Confession confession) {
+		this.confession = confession;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
 }
