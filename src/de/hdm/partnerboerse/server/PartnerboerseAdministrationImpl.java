@@ -21,6 +21,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private DescriptionMapper descriptionMapper = null;
 	private FavoritesListMapper favoritesListMapper = null;
 	private InfoMapper infoMapper = null;
+	// private PropertyMapper propertyMapper = null;
 	private ProfileMapper profileMapper = null;
 	private SearchProfileMapper searchProfileMapper = null;
 	private SelectionMapper selectionMapper = null;
@@ -28,7 +29,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private VisitListMapper visitListMapper = null;
 
 	// No-Argument Constructor
-	
+
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 
 	}
@@ -46,6 +47,27 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/*
+	 * Methode zur Berechnung des Ähnlichkeitswerts
+	 */
+
+	private Similarity calculateSimilarity(Profile one, Profile two) {
+		int attributeCount = 3;
+		int matches = 0;
+
+		if (one.isSmoker() == two.isSmoker()) {
+			matches++;
+		}
+
+		double similarityValue = matches / attributeCount;
+
+		Similarity similarity = new Similarity();
+		similarity.setFromProfile(one);
+		similarity.setToProfile(two);
+		similarity.setSimilarityValue(similarityValue);
+		return similarity;
+	}
+
 	// Create-Methoden
 	@Override
 	public Profile createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
@@ -58,78 +80,115 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		p.seteMail(email);
 		p.setHeight(height);
 		p.isSmoker();
-		/*
-		 * HairColor, Confession, Gender fehlen noch. (enum)
-		 */
-		p.setId(1);
-		
+		p.setHairColor(hairColor);
+		p.setConfession(confession);
+		p.setGender(gender);
+
 		return this.profileMapper.insert(p);
 	}
 
 	@Override
-	public SearchProfile createSearchProfile(int id, int height, HairColor hairColor, Gender gender, int age,
-			Confession confession, boolean smoker) {
+	public SearchProfile createSearchProfile(int id, int fromAge, int toAge, int fromHeight, int toHeight,
+			HairColor hairColor, Gender gender, Confession confession, boolean smoker) {
 		SearchProfile sp = new SearchProfile();
-		
+		// TODO Auto-generated method stub
+
 		sp.setId(id);
-		
-		/*
-		 * FromAge, toAge etc. ist noch abzuklären.
-		 * HairColor, Confession, Gender fehlen noch. (enum)
-		 */
-		
+		sp.setFromAge(fromAge);
+		sp.setToAge(toAge);
+		sp.setFromHeight(fromHeight);
+		sp.setToHeight(toHeight);
+		sp.setHairColor(hairColor);
+		sp.setConfession(confession);
+		sp.setGender(gender);
+
 		return this.searchProfileMapper.insert(sp);
 	}
 
-	
 	@Override
 	public Info createInfo(int id, String informationValue) {
 		Info i = new Info();
-		
+
 		i.setId(id);
 		i.setInformationValue(informationValue);
-		
+
 		return this.infoMapper.insert(i);
 	}
 
+	/*
+	 * @Override public Property createProperty(int id, String
+	 *           propertyName,String textualDescription) { Property p = new
+	 *           Property();
+	 * 
+	 * 
+	 *           return this.propertyMapper.insert(p); }
+	 */
+
 	@Override
-	public Property createProperty(int id, String propertyName, String textualDescription) {
-		return null;
+	public Selection createSelection(int id, String propertyName, String textualDescription) {
+		Selection s = new Selection();
+
+		s.setId(id);
+		s.setPropertyName(propertyName);
+		s.setTextualDescription(textualDescription);
+
+		return this.selectionMapper.insert(s);
 	}
 
 	@Override
-	public Selection createSelection(int id, String propertyName, Property textualDescription) {
-		return null;
-	}
+	public Description createDescription(int id, String propertyName, String textualDescription) {
+		Description d = new Description();
 
-	@Override
-	public Description createDescription(int id, String propertyName, Property textualDescription) {
+		d.setId(id);
+		d.setPropertyName(propertyName);
+		d.setTextualDescription(textualDescription);
 
-		return null;
+		return this.descriptionMapper.insert(d);
 	}
 
 	@Override
 	public FavoritesList createFavoritesList(int id, Profile fromProfile, Profile toProfile) {
+		FavoritesList fl = new FavoritesList();
+		
+		fl.setId(id);
+		fl.setFromProfile(fromProfile);
+		fl.setToProfile(toProfile);
 
-		return null;
+		return this.favoritesListMapper.insert(fl);
 	}
 
 	@Override
 	public VisitList createVisitList(int id, Profile fromProfile, Profile toProfile) {
+		VisitList vl = new VisitList();
+		
+		vl.setId(id);
+		vl.setFromProfile(fromProfile);
+		vl.setToProfile(toProfile);
 
-		return null;
+		return this.visitListMapper.insert(vl);
 	}
 
 	@Override
 	public Similarity createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue) {
+		Similarity si = new Similarity();
+		
+		si.setId(id);
+		si.setFromProfile(fromProfile);
+		si.setToProfile(toProfile);
+		si.setSimilarityValue(similarityValue);
 
-		return null;
+		return this.similarityMapper.insert(si);
 	}
 
 	@Override
 	public Blocking createBlocking(int id, Profile fromProfile, Profile toProfile) {
+		Blocking b = new Blocking();
+		
+		b.setId(id);
+		b.setFromProfile(fromProfile);
+		b.setToProfile(toProfile);
 
-		return null;
+		return this.blockingMapper.insert(b);
 	}
 
 	// Delete-Methoden
@@ -247,6 +306,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public ArrayList<Similarity> getAllSimilarities() throws IllegalArgumentException {
 		return null;
+
 	}
 
 	@Override
@@ -284,7 +344,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return null;
 	}
 
-	//Save-Methoden
+	// Save-Methoden
 	@Override
 	public void save(Profile profile) throws IllegalArgumentException {
 
