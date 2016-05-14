@@ -1,7 +1,7 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
-
+import java.util.ArrayList;
 import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
@@ -235,6 +235,17 @@ public class SelectionMapper {
 
 	    return findByInfo(info.getId());
 	  }
+
+	//Generierte Methoden aus Impl-Klasse
+	public ArrayList<Selection> getAllSelections() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Selection getSelectionByKey(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }

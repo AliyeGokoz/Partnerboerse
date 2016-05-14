@@ -1,6 +1,7 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
@@ -188,6 +189,17 @@ public class SimilarityMapper {
 
 	    return findByProfile(profile.getId());
 	  }
+
+	//Generierte Methoden aus Impl-Klasse
+	public ArrayList<Similarity> getAllSimilarites() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Similarity getSimilarityByKey(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 }

@@ -50,27 +50,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
-	/*
-	 * Methode zur Berechnung des Ähnlichkeitswerts
-	 */
-
-	private Similarity calculateSimilarity(Profile one, Profile two) {
-		int attributeCount = 3;
-		int matches = 0;
-
-		if (one.isSmoker() == two.isSmoker()) {
-			matches++;
-		}
-
-		double similarityValue = matches / attributeCount;
-
-		Similarity similarity = new Similarity();
-		similarity.setFromProfile(one);
-		similarity.setToProfile(two);
-		similarity.setSimilarityValue(similarityValue);
-		return similarity;
-	}
-
 	// Create-Methoden
 	@Override
 	public Profile createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
@@ -259,101 +238,121 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	// Get-Methoden
 	@Override
 	public ArrayList<Profile> getAllProfiles() throws IllegalArgumentException {
-		return null;
+		return this.profileMapper.getAllProfiles();
 	}
 
 	@Override
 	public Profile getProfileByKey(int id) throws IllegalArgumentException {
-		return null;
+		return this.profileMapper.getProfileByKey(id);
 	}
 
 	@Override
 	public ArrayList<SearchProfile> getAllSearchProfiles() throws IllegalArgumentException {
-		return null;
+		return this.searchProfileMapper.getAllSearchProfiles();
 	}
 
 	@Override
 	public SearchProfile getSearchProfileByKey(int id) throws IllegalArgumentException {
-		return null;
+		return this.searchProfileMapper.getSearchProfileByKey(id);
 	}
 
 	@Override
 	public ArrayList<Info> getAllInfos() throws IllegalArgumentException {
-		return null;
+		return this.infoMapper.getAllInfos();
 	}
 
 	@Override
 	public Info getInfoByKey(int id) throws IllegalArgumentException {
-		return null;
+		return this.infoMapper.getInfoByKey(id);
 	}
 
 	@Override
 	public ArrayList<Description> getAllDescriptions() throws IllegalArgumentException {
-		return null;
+		return this.descriptionMapper.getAllDescriptions();
 	}
 
 	@Override
 	public Description getDescriptionByKey(int id) throws IllegalArgumentException {
-		return null;
+		return this.descriptionMapper.getDescriptionByKey(id);
 	}
 
 	/*
 	 * @Override public ArrayList<Property> getAllProperties() throws
-	 * IllegalArgumentException { return null; }
+	 * IllegalArgumentException { return this.propertyMapper.getAllProperties();
+	 * }
 	 * 
 	 * @Override public Property getPropertyByKey(int id) throws
-	 * IllegalArgumentException { return null; }
+	 * IllegalArgumentException { return
+	 * this.propertyMapper.getPropertyByKey(id); }
 	 */
 
 	@Override
 	public ArrayList<Selection> getAllSelections() throws IllegalArgumentException {
-		return null;
+		return this.selectionMapper.getAllSelections();
 	}
 
 	@Override
 	public Selection getSelectionByKey(int id) throws IllegalArgumentException {
-		return null;
+		return this.selectionMapper.getSelectionByKey(id);
 	}
 
 	@Override
 	public ArrayList<Similarity> getAllSimilarities() throws IllegalArgumentException {
-		return null;
+		return this.similarityMapper.getAllSimilarites();
 
 	}
 
 	@Override
 	public Similarity getSimilarityByKey(int id) throws IllegalArgumentException {
-		return null;
+		return this.similarityMapper.getSimilarityByKey(id);
+	}
+
+	// Methode zur Berechnung der Ähnlichkeit (Beispiel smoker)
+	public Similarity calculateSimilarity(Profile one, Profile two) {
+		int attributeCount = 3;
+		int matches = 0;
+
+		if (one.isSmoker() == two.isSmoker()) {
+			matches++;
+		}
+
+		double similarityValue = matches / attributeCount;
+
+		Similarity similarity = new Similarity();
+		similarity.setFromProfile(one);
+		similarity.setToProfile(two);
+		similarity.setSimilarityValue(similarityValue);
+		return similarity;
 	}
 
 	@Override
 	public ArrayList<VisitList> getAllVisitLists() throws IllegalArgumentException {
-		return null;
+		return this.visitListMapper.getAllVisitLists();
 	}
 
 	@Override
 	public VisitList getVisitListByKey(int id) throws IllegalArgumentException {
-		return null;
+		return this.visitListMapper.getVisitListByKey(id);
 	}
 
 	@Override
 	public ArrayList<Blocking> getAllBlockings() throws IllegalArgumentException {
-		return null;
+		return this.blockingMapper.getAllBlockings();
 	}
 
 	@Override
 	public Blocking getBlockingByKey(int id) throws IllegalArgumentException {
-		return null;
+		return this.blockingMapper.getBlockingByKey(id);
 	}
 
 	@Override
 	public ArrayList<FavoritesList> getAllFavoritesLists() throws IllegalArgumentException {
-		return null;
+		return this.favoritesListMapper.getAllFavoritesLists();
 	}
 
 	@Override
 	public FavoritesList getFavoritesListByKey(int id) throws IllegalArgumentException {
-		return null;
+		return this.favoritesListMapper.getFavoritesListByKey(id);
 	}
 
 	// Save-Methoden
