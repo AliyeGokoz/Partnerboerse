@@ -16,7 +16,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	// Referenz auf die jeweiligen Mapper-Klassen
 
-	private static final long serialVersionUID = 1L;
 	private BlockingMapper blockingMapper = null;
 	private DescriptionMapper descriptionMapper = null;
 	private FavoritesListMapper favoritesListMapper = null;
