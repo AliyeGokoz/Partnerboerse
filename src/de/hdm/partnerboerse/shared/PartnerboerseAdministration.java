@@ -26,7 +26,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Info createInfo(int id, String informationValue);
 
-	public Property createProperty(int id, String propertyName, String textualDescription);
+	//public Property createProperty(int id, String propertyName, String textualDescription);
 
 	public Selection createSelection(int id, String propertyName, String textualDescription);
 
@@ -50,7 +50,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void delete(Info info) throws IllegalArgumentException;
 
-	public void delete(Property property) throws IllegalArgumentException;
+	//public void delete(Property property) throws IllegalArgumentException;
 
 	public void delete(Description description) throws IllegalArgumentException;
 
@@ -100,9 +100,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Property
 	 */
 
-	public ArrayList<Property> getAllProperties() throws IllegalArgumentException;
+	//public ArrayList<Property> getAllProperties() throws IllegalArgumentException;
 
-	public Property getPropertyByKey(int id) throws IllegalArgumentException;
+	//public Property getPropertyByKey(int id) throws IllegalArgumentException;
 
 	/*
 	 * Selection
@@ -148,7 +148,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void save(Info info) throws IllegalArgumentException;
 
-	public void save(Property property) throws IllegalArgumentException;
+	//public void save(Property property) throws IllegalArgumentException;
 
 	public void save(Description description) throws IllegalArgumentException;
 
