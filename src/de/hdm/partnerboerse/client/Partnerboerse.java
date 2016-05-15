@@ -103,14 +103,6 @@ public class Partnerboerse implements EntryPoint {
 			public void onSuccess(Profile value) {
 				Profile profile = new Profile();
 				profile.setFirstName("Max");
-				profile.setLastName("Mustermann");
-				profile.setDateOfBirth(new Date());
-				profile.seteMail("musterman@test.de");
-				profile.setHeight(160);
-				profile.setSmoker(true);
-				profile.setHairColor(null);
-				profile.setConfession(null);
-				profile.setGender(null);
 				lblhello.setText("Willkommen " + profile.getFirstName());
 			}
 			
