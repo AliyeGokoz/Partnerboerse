@@ -177,8 +177,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	public void delete(Profile profile) throws IllegalArgumentException {
 		
 		ArrayList<FavoritesList> favoritesLists = this.getFavoritesListsOf(profile);
-	    ArrayList<SearchProfile> searchProfiles = this.getSearchprofilesOf(profile);
-	    ArrayList<Info> infos = this.getInfosOf(profile);
+	    ArrayList<SearchProfile> searchProfiles = this.getSearchProfileOf(profile);
+	    ArrayList<Info> infos = this.getInfoOf(profile);
 	    ArrayList<Blocking> blockings= this.getBlockingsOf(profile);
 	    ArrayList<VisitList> visitLists= this.getVisitListsOf(profile);
 	    ArrayList<Similarity> similarities= this.getSimilaritiesOf(profile);
@@ -466,5 +466,41 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 		return infoMapper.findBySelection(selection);
 	}
+	
+	@Override
+	public ArrayList<Profile> getProfilesByName(String lastName, String firstName)
+	      throws IllegalArgumentException {
+
+	    return this.profileMapper.findByName(lastName, firstName);
+	  }
+	 @Override
+	 public ArrayList<Profile> getProfilesOf(SearchProfile searchProfile)
+	       throws IllegalArgumentException {
+	     return this.profileMapper.findBySearchProfile(searchProfile);
+	   }
+
+	  @Override
+	 public ArrayList<Blocking> getBlockingsOf(Profile profile)
+	       throws IllegalArgumentException {
+	     return this.blockingMapper.findByProfile(profile);
+	   }
+
+	  @Override
+	 public ArrayList<FavoritesList> getFavoritesListsOf(Profile profile)
+	       throws IllegalArgumentException {
+	     return this.favoritesListMapper.findByProfile(profile);
+	   }
+
+	  @Override
+	 public ArrayList<VisitList> getVisitListsOf(Profile profile)
+	       throws IllegalArgumentException {
+	     return this.visitListMapper.findByProfile(profile);
+	   }
+
+	  @Override
+	 public ArrayList<Similarity> getSimilaritiesOf(Profile profile)
+	       throws IllegalArgumentException {
+	     return this.similarityMapper.findByProfile(profile);
+	   }
 
 }

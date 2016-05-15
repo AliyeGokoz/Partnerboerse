@@ -155,4 +155,16 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	ArrayList<Info> getInfoOf(Selection selection);
 
+	ArrayList<Profile> getProfilesByName(String lastName, String firstName) throws IllegalArgumentException;
+
+	ArrayList<Profile> getProfilesOf(SearchProfile searchProfile) throws IllegalArgumentException;
+
+	ArrayList<Blocking> getBlockingsOf(Profile profile) throws IllegalArgumentException;
+
+	ArrayList<FavoritesList> getFavoritesListsOf(Profile profile) throws IllegalArgumentException;
+
+	ArrayList<VisitList> getVisitListsOf(Profile profile) throws IllegalArgumentException;
+
+	ArrayList<Similarity> getSimilaritiesOf(Profile profile) throws IllegalArgumentException;
+
 }
