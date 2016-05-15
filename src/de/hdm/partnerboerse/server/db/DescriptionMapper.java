@@ -2,7 +2,7 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Vector;
+
 
 import de.hdm.partnerboerse.shared.bo.*;
 
@@ -114,10 +114,10 @@ public class DescriptionMapper {
 		return null;
 	}
 
-	public Vector<Description> findAll() {
+	public ArrayList<Description> findAll() {
 		Connection con = DBConnection.connection();
 
-		Vector<Description> result = new Vector<Description>();
+		ArrayList<Description> result = new ArrayList<Description>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -133,7 +133,7 @@ public class DescriptionMapper {
 						.getString("textualDescription"));
 				description.setPropertyName(rs.getString("propertyName"));
 
-				result.addElement(description);
+				result.add(description);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -142,9 +142,9 @@ public class DescriptionMapper {
 		return result;
 	}
 
-	public Vector<Description> findByPropertyName(String propertyName) {
+	public ArrayList<Description> findByPropertyName(String propertyName) {
 		Connection con = DBConnection.connection();
-		Vector<Description> result = new Vector<Description>();
+		ArrayList<Description> result = new ArrayList<Description>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -163,7 +163,7 @@ public class DescriptionMapper {
 						.getString("textualDescription"));
 				description.setPropertyName(rs.getString("propertyName"));
 
-				result.addElement(description);
+				result.add(description);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -172,10 +172,10 @@ public class DescriptionMapper {
 		return result;
 	}
 
-	public Vector<Description> findByTextualDescription(
+	public ArrayList<Description> findByTextualDescription(
 			String textualDescription) {
 		Connection con = DBConnection.connection();
-		Vector<Description> result = new Vector<Description>();
+		ArrayList<Description> result = new ArrayList<Description>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -194,7 +194,7 @@ public class DescriptionMapper {
 						.getString("textualDescription"));
 				description.setPropertyName(rs.getString("propertyName"));
 
-				result.addElement(description);
+				result.add(description);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -203,9 +203,9 @@ public class DescriptionMapper {
 		return result;
 	}
 
-	public Vector<Description> findByInfo(int infoId) {
+	public ArrayList<Description> findByInfo(int infoId) {
 		Connection con = DBConnection.connection();
-		Vector<Description> result = new Vector<Description>();
+		ArrayList<Description> result = new ArrayList<Description>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -221,7 +221,7 @@ public class DescriptionMapper {
 						.getString("textualDescription"));
 				description.setPropertyName(rs.getString("propertyName"));
 
-				result.addElement(description);
+				result.add(description);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -230,20 +230,10 @@ public class DescriptionMapper {
 		return result;
 	}
 
-	public Vector<Description> findByInfo(Info info) {
+	public ArrayList<Description> findByInfo(Info info) {
 
 		return findByInfo(info.getId());
 	}
 
-	//Generierte Methoden aus Impl-Klasse
-	public ArrayList<Description> getAllDescriptions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Description getDescriptionByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

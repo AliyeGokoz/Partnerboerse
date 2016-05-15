@@ -2,7 +2,6 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
 
@@ -114,10 +113,10 @@ public class SelectionMapper {
 		return null;
 	}
 
-	public Vector<Selection> findAll() {
+	public ArrayList<Selection> findAll() {
 		Connection con = DBConnection.connection();
 
-		Vector<Selection> result = new Vector<Selection>();
+		ArrayList<Selection> result = new ArrayList<Selection>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -132,7 +131,7 @@ public class SelectionMapper {
 				selection.setTextualDescription(rs.getString("textualDescription"));
 				selection.setPropertyName(rs.getString("propertyName"));
 
-				result.addElement(selection);
+				result.add(selection);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -143,9 +142,9 @@ public class SelectionMapper {
 
 	 
 
-	public Vector<Selection> findByPropertyName(String propertyName) {
+	public ArrayList<Selection> findByPropertyName(String propertyName) {
 	    Connection con = DBConnection.connection();
-	    Vector<Selection> result = new Vector<Selection>();
+	    ArrayList<Selection> result = new ArrayList<Selection>();
 
 	    try {
 	      Statement stmt = con.createStatement();
@@ -160,7 +159,7 @@ public class SelectionMapper {
 		selection.setTextualDescription(rs.getString("textualDescription"));
 		selection.setPropertyName(rs.getString("propertyName"));
 	       
-	        result.addElement(selection);
+	        result.add(selection);
 	      }
 	    }
 	    catch (SQLException e) {
@@ -172,9 +171,9 @@ public class SelectionMapper {
 
 	 
 
-	public Vector<Selection> findByTextualDescription(String textualDescription) {
+	public ArrayList<Selection> findByTextualDescription(String textualDescription) {
 	    Connection con = DBConnection.connection();
-	    Vector<Selection> result = new Vector<Selection>();
+	    ArrayList<Selection> result = new ArrayList<Selection>();
 
 	    try {
 	      Statement stmt = con.createStatement();
@@ -189,7 +188,7 @@ public class SelectionMapper {
 		selection.setTextualDescription(rs.getString("textualDescription"));
 		selection.setPropertyName(rs.getString("propertyName"));
 	       
-	        result.addElement(selection);
+	        result.add(selection);
 	      }
 	    }
 	    catch (SQLException e) {
@@ -201,9 +200,9 @@ public class SelectionMapper {
 
 
 
-	public Vector<Selection> findByInfo (int infoId) {
+	public ArrayList<Selection> findByInfo (int infoId) {
 	    Connection con = DBConnection.connection();
-	    Vector<Selection> result = new Vector<Selection>();
+	    ArrayList<Selection> result = new ArrayList<Selection>();
 
 	    try {
 	      Statement stmt = con.createStatement();
@@ -220,7 +219,7 @@ public class SelectionMapper {
 	       
 
 	   
-	        result.addElement(selection);
+	        result.add(selection);
 	      }
 	    }
 	    catch (SQLException e2) {
@@ -231,21 +230,11 @@ public class SelectionMapper {
 	  }
 
 
-	public Vector<Selection> findByInfo(Info info) {
+	public ArrayList<Selection> findByInfo(Info info) {
 
 	    return findByInfo(info.getId());
 	  }
 
-	//Generierte Methoden aus Impl-Klasse
-	public ArrayList<Selection> getAllSelections() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Selection getSelectionByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 }
