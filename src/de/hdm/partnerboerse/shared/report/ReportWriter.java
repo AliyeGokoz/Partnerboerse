@@ -2,7 +2,7 @@ package de.hdm.partnerboerse.shared.report;
 
 public class ReportWriter {
 
-	public void process(PartnerProposalsByNotViewedProfilesReport r) {
+	public void process(PartnerProposalsProfilesReport r) {
 		// TODO Auto-generated method stub
 		
 	}

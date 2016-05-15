@@ -5,16 +5,18 @@ import com.google.gwt.user.client.rpc.RemoteService;
 
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
-import de.hdm.partnerboerse.shared.report.PartnerProposalsByNotViewedProfilesReport;
+import de.hdm.partnerboerse.shared.report.PartnerProposalsProfilesReport;
 import de.hdm.partnerboerse.shared.report.PartnerProposalsBySearchProfileReport;
 
 public interface ReportGenerator extends RemoteService {
 	
 	public void init() throws IllegalArgumentException;
 
-	PartnerProposalsByNotViewedProfilesReport createPartnerProposalsByNotViewedProfilesReport(Profile p);
+	PartnerProposalsProfilesReport createPartnerProposalsByNotViewedProfilesReport(Profile p);
 
-	PartnerProposalsBySearchProfileReport createPartnerProposalsBySearchProfilesReport(SearchProfile s);
+	PartnerProposalsProfilesReport createPartnerProposalsBySearchProfilesReport(Profile p, SearchProfile s);
+
+	PartnerProposalsProfilesReport createPartnerProposalsReport(Profile p, SearchProfile s);
 
 }
 

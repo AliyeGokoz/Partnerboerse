@@ -23,6 +23,8 @@ public class Profile extends BusinessObject {
 	private Confession confession = null;
 	
 	private Gender gender = null;
+	
+	private Similarity similarity = null;
 
 	public enum HairColor {
 		BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED("rot"), GREY(
@@ -145,6 +147,14 @@ public class Profile extends BusinessObject {
 		return super.toString() + this.firstName + " " + this.lastName + " "
 				+ this.eMail + " " + this.dateOfBirth + " " + this.smoker + " "
 				+ this.height;
+	}
+	
+	public Similarity getSimilarity() {
+		return similarity;
+	}
+
+	public void setSimilarity(Similarity similarity) {
+		this.similarity = similarity;
 	}
 
 

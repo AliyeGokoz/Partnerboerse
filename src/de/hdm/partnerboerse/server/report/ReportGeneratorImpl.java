@@ -11,7 +11,7 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.report.Column;
 import de.hdm.partnerboerse.shared.report.CompositeParagraph;
-import de.hdm.partnerboerse.shared.report.PartnerProposalsByNotViewedProfilesReport;
+import de.hdm.partnerboerse.shared.report.PartnerProposalsProfilesReport;
 import de.hdm.partnerboerse.shared.report.PartnerProposalsBySearchProfileReport;
 import de.hdm.partnerboerse.shared.report.Report;
 import de.hdm.partnerboerse.shared.report.Row;
@@ -43,13 +43,56 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public PartnerProposalsByNotViewedProfilesReport createPartnerProposalsByNotViewedProfilesReport(Profile p) {
+	public PartnerProposalsProfilesReport createPartnerProposalsByNotViewedProfilesReport(Profile p) {
 
 		if (this.getPartnerboerseVerwaltung() == null) {
 			return null;
 		}
 
-		PartnerProposalsByNotViewedProfilesReport result = new PartnerProposalsByNotViewedProfilesReport();
+		/*
+		 * TODO Methode erstellen die alle ähnlichen Profile ausgibt
+		 */
+		// ArrayList<Profile> profiles = this.administration.getMostSimilarProfiles(p);
+		ArrayList<Profile> profiles = this.administration.getAllProfiles();
+
+		return createReport(p, profiles);
+
+	}
+
+	@Override
+	public PartnerProposalsProfilesReport createPartnerProposalsBySearchProfilesReport(Profile p, SearchProfile s) {
+
+		if (this.getPartnerboerseVerwaltung() == null) {
+			return null;
+		}
+
+		/*
+		 * TODO Methode erstellen die alle ähnlichen Profile ausgibt
+		 */
+		// ArrayList<Profile> profiles = this.administration.getMostSimilarProfiles(p);
+		ArrayList<Profile> profiles = this.administration.getAllProfiles();
+
+		return createReport(p, profiles);
+	}
+	
+	@Override
+	public PartnerProposalsProfilesReport createPartnerProposalsReport(Profile p, SearchProfile s) {
+
+		if (this.getPartnerboerseVerwaltung() == null) {
+			return null;
+		}
+
+		/*
+		 * TODO Methode erstellen die alle ähnlichen Profile ausgibt
+		 */
+		// ArrayList<Profile> profiles = this.administration.getMostSimilarProfiles(p);
+		ArrayList<Profile> profiles = this.administration.getAllProfiles();
+
+		return createReport(p, profiles);
+	}
+
+	private PartnerProposalsProfilesReport createReport(Profile p, ArrayList<Profile> profiles) {
+		PartnerProposalsProfilesReport result = new PartnerProposalsProfilesReport();
 
 		this.addImprint(result);
 
@@ -70,77 +113,17 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		headline.addColumn(new Column("Ähnlichkeitswert"));
 		result.addRow(headline);
 
-		/*
-		 * TODO Methode erstellen die alle ähnlichen Profile ausgibt
-		 */
-		ArrayList<Profile> profiles = this.administration.getAllProfiles();
-
 		for (Profile t : profiles) {
 			Row profileRow = new Row();
 
 			profileRow.addColumn(new Column(t.getLastName()));
 			profileRow.addColumn(new Column(t.getLastName()));
 			profileRow.addColumn(new Column(t.geteMail()));
-			/*
-			 * TODO similiarity wert errechnen
-			 */
-			// profileRow.addColumn(new
-			// Column(this.administration.getSimilarityByKey(t.getId())));
+			profileRow.addColumn(new Column((int) (t.getSimilarity().getSimilarityValue() * 100) + "%"));
 
 			result.addRow(profileRow);
 		}
 
-		return result;
-
-	}
-
-	@Override
-	public PartnerProposalsBySearchProfileReport createPartnerProposalsBySearchProfilesReport(SearchProfile s) {
-
-		if (this.getPartnerboerseVerwaltung() == null) {
-			return null;
-		}
-
-		PartnerProposalsBySearchProfileReport result = new PartnerProposalsBySearchProfileReport();
-
-		result.setTitle("Partnervorschläge anhand des Suchprofils");
-		this.addImprint(result);
-		
-		result.setCreated(new Date());
-		
-		CompositeParagraph header = new CompositeParagraph();
-		header.addParagraph(new SimpleParagraph());
-		header.addParagraph(new SimpleParagraph());
-		result.setHeaderData(header);
-
-		Row headline = new Row();
-
-		headline.addColumn(new Column("Nachname"));
-		headline.addColumn(new Column("Vorname"));
-		headline.addColumn(new Column("E-Mail"));
-		headline.addColumn(new Column("Ähnlichkeitswert"));
-		result.addRow(headline);
-
-		/*
-		 * TODO Methode erstellen die alle ähnlichen Profile ausgibt
-		 */
-		ArrayList<Profile> profiles = this.administration.getAllProfiles();
-
-		for (Profile t : profiles) {
-			Row profileRow = new Row();
-
-			profileRow.addColumn(new Column(t.getLastName()));
-			profileRow.addColumn(new Column(t.getLastName()));
-			profileRow.addColumn(new Column(t.geteMail()));
-			/*
-			 * TODO similiarity wert errechnen
-			 */
-			// profileRow.addColumn(new
-			// Column(this.administration.getSimilarityByKey(t.getId())));
-
-			result.addRow(profileRow);
-		}
-		
 		return result;
 	}
 
