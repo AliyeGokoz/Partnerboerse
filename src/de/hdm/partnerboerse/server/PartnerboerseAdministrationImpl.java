@@ -428,16 +428,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	// Get-Methoden
+	@Override
 	public ArrayList<SearchProfile> getSearchProfileOf(Profile profile) {
 
 		return searchProfileMapper.findByProfile(profile);
 	}
 
+	@Override
 	public ArrayList<Info> getInfoOf(Profile profile) {
-		
+
 		return infoMapper.findByProfile(profile);
 	}
 
+	@Override
 	public ArrayList<Info> getInfoOf(Selection selection) {
 
 		return infoMapper.findBySelection(selection);

@@ -139,4 +139,11 @@ public interface PartnerboerseAdministrationAsync {
 
 	void delete(FavoritesList favoritesList, AsyncCallback<Void> callback);
 
+	void getSearchProfileOf(Profile profile,
+			AsyncCallback<ArrayList<SearchProfile>> callback);
+
+	void getInfoOf(Profile profile, AsyncCallback<ArrayList<Info>> callback);
+
+	void getInfoOf(Selection selection, AsyncCallback<ArrayList<Info>> callback);
+
 }

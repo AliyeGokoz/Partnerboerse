@@ -162,4 +162,10 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void save(FavoritesList favoritesList) throws IllegalArgumentException;
 
+	ArrayList<SearchProfile> getSearchProfileOf(Profile profile);
+
+	ArrayList<Info> getInfoOf(Profile profile);
+
+	ArrayList<Info> getInfoOf(Selection selection);
+
 }
