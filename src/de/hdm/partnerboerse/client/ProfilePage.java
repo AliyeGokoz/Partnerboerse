@@ -19,11 +19,15 @@ import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.partnerboerse.shared.LoginServiceAsync;
+import de.hdm.partnerboerse.shared.bo.Profile;
+
 public class ProfilePage extends VerticalPanel{
 
+	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
+	
 	@Override
 	public void onLoad(){
-		
 		
 		//TODO Button anlegen nur dann anzeigen wenn kein Profil angelegt ist
 		/* 
@@ -222,6 +226,7 @@ public class ProfilePage extends VerticalPanel{
 			final TextBox tHobby = new TextBox();
 			final TextBox tBand = new TextBox();
 			final TextBox tFilme = new TextBox();
+			
 			
 			/**
 			 * Untenstrich für die Infoüberschriften

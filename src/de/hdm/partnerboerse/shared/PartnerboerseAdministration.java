@@ -12,6 +12,7 @@ import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 
+@RemoteServiceRelativePath("administration")
 public interface PartnerboerseAdministration extends RemoteService {
 
 	public void init() throws IllegalArgumentException;

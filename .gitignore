@@ -3,9 +3,9 @@
 ################################################################################
 
 *.class
-*.DS_Store
-# Package Files #
 
+# Package Files #
+*.jar
 *.war
 *.ear
 
@@ -51,10 +51,4 @@ war/WEB-INF/classes/
 /.factorypath
 .svn/
 /.settings
-
-
 /.gwt
-
-bin/
-war/partnerboerse
-
