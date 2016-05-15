@@ -12,6 +12,7 @@ import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 
+@RemoteServiceRelativePath("administration")
 public interface PartnerboerseAdministration extends RemoteService {
 
 	public void init() throws IllegalArgumentException;
@@ -25,8 +26,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 			HairColor hairColor, Gender gender, Confession confession, boolean smoker);
 
 	public Info createInfo(int id, String informationValue);
-
-	//public Property createProperty(int id, String propertyName, String textualDescription);
 
 	public Selection createSelection(int id, String propertyName, String textualDescription);
 
@@ -49,8 +48,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void delete(SearchProfile searchProfile) throws IllegalArgumentException;
 
 	public void delete(Info info) throws IllegalArgumentException;
-
-	//public void delete(Property property) throws IllegalArgumentException;
 
 	public void delete(Description description) throws IllegalArgumentException;
 
@@ -97,14 +94,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Description getDescriptionByKey(int id) throws IllegalArgumentException;
 
 	/*
-	 * Property
-	 */
-
-	//public ArrayList<Property> getAllProperties() throws IllegalArgumentException;
-
-	//public Property getPropertyByKey(int id) throws IllegalArgumentException;
-
-	/*
 	 * Selection
 	 */
 	public ArrayList<Selection> getAllSelections() throws IllegalArgumentException;
@@ -147,8 +136,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void save(SearchProfile searchProfile) throws IllegalArgumentException;
 
 	public void save(Info info) throws IllegalArgumentException;
-
-	//public void save(Property property) throws IllegalArgumentException;
 
 	public void save(Description description) throws IllegalArgumentException;
 

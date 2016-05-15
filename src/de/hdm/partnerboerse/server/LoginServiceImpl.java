@@ -7,6 +7,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.partnerboerse.shared.LoginInfo;
 import de.hdm.partnerboerse.shared.LoginService;
+import de.hdm.partnerboerse.shared.bo.Profile;
 
 public class LoginServiceImpl extends RemoteServiceServlet implements
 		LoginService {
@@ -29,5 +30,9 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 			loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
 		}
 		return loginInfo;
+	}
+	
+	public Profile getCurrentProfile(){
+		return new Profile();//TODO
 	}
 }
