@@ -18,36 +18,27 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	// Create Methoden:
 
-	public Profile createProfile(int id, String firstName, String lastName,
-			Date dateOfBirth, String email, int height, boolean smoker,
-			HairColor hairColor, Confession confession, Gender gender);
+	public Profile createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
+			boolean smoker, HairColor hairColor, Confession confession, Gender gender);
 
-	public SearchProfile createSearchProfile(int id, int height,
-			HairColor hairColor, Gender gender, int age, Confession confession,
-			boolean smoker);
+	public SearchProfile createSearchProfile(int id, int fromAge, int toAge, int fromHeight, int toHeight,
+			HairColor hairColor, Gender gender, Confession confession, boolean smoker);
 
 	public Info createInfo(int id, String informationValue);
 
-	public Property createProperty(int id, String propertyName,
-			String textualDescription);
+	//public Property createProperty(int id, String propertyName, String textualDescription);
 
-	public Selection createSelection(int id, String propertyName,
-			Property textualDescription);
+	public Selection createSelection(int id, String propertyName, String textualDescription);
 
-	public Description createDescription(int id, String propertyName,
-			Property textualDescription);
+	public Description createDescription(int id, String propertyName, String textualDescription);
 
-	public FavoritesList createFavoritesList(int id, Profile fromProfile,
-			Profile toProfile);
+	public FavoritesList createFavoritesList(int id, Profile fromProfile, Profile toProfile);
 
-	public VisitList createVisitList(int id, Profile fromProfile,
-			Profile toProfile);
+	public VisitList createVisitList(int id, Profile fromProfile, Profile toProfile);
 
-	public Similarity createSimilarity(int id, Profile fromProfile,
-			Profile toProfile, double similarityValue);
+	public Similarity createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue);
 
-	public Blocking createBlocking(int id, Profile fromProfile,
-			Profile toProfile);
+	public Blocking createBlocking(int id, Profile fromProfile, Profile toProfile);
 
 	/*
 	 * delete Methoden
@@ -59,7 +50,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void delete(Info info) throws IllegalArgumentException;
 
-	public void delete(Property property) throws IllegalArgumentException;
+	//public void delete(Property property) throws IllegalArgumentException;
 
 	public void delete(Description description) throws IllegalArgumentException;
 
@@ -72,7 +63,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void delete(VisitList visitList) throws IllegalArgumentException;
 
 	public void delete(FavoritesList favoritesList) throws IllegalArgumentException;
-	
+
 	/*
 	 * Profile
 	 */
@@ -85,11 +76,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * SearchProfile
 	 */
 
-	public ArrayList<SearchProfile> getAllSearchProfiles()
-			throws IllegalArgumentException;
+	public ArrayList<SearchProfile> getAllSearchProfiles() throws IllegalArgumentException;
 
-	public SearchProfile getSearchProfileByKey(int id)
-			throws IllegalArgumentException;
+	public SearchProfile getSearchProfileByKey(int id) throws IllegalArgumentException;
 
 	/*
 	 * Infos
@@ -103,43 +92,36 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Description
 	 */
 
-	public ArrayList<Description> getAllDescriptions()
-			throws IllegalArgumentException;
+	public ArrayList<Description> getAllDescriptions() throws IllegalArgumentException;
 
-	public Description getDescriptionByKey(int id)
-			throws IllegalArgumentException;
+	public Description getDescriptionByKey(int id) throws IllegalArgumentException;
 
 	/*
 	 * Property
 	 */
 
-	public ArrayList<Property> getAllProperties()
-			throws IllegalArgumentException;
+	//public ArrayList<Property> getAllProperties() throws IllegalArgumentException;
 
-	public Property getPropertyByKey(int id) throws IllegalArgumentException;
+	//public Property getPropertyByKey(int id) throws IllegalArgumentException;
 
 	/*
 	 * Selection
 	 */
-	public ArrayList<Selection> getAllSelections()
-			throws IllegalArgumentException;
+	public ArrayList<Selection> getAllSelections() throws IllegalArgumentException;
 
 	public Selection getSelectionByKey(int id) throws IllegalArgumentException;
 
 	/*
 	 * Similarity
 	 */
-	public ArrayList<Similarity> getAllSimilarities()
-			throws IllegalArgumentException;
+	public ArrayList<Similarity> getAllSimilarities() throws IllegalArgumentException;
 
-	public Similarity getSimilarityByKey(int id)
-			throws IllegalArgumentException;
+	public Similarity getSimilarityByKey(int id) throws IllegalArgumentException;
 
 	/*
 	 * VisitList
 	 */
-	public ArrayList<VisitList> getAllVisitLists()
-			throws IllegalArgumentException;
+	public ArrayList<VisitList> getAllVisitLists() throws IllegalArgumentException;
 
 	public VisitList getVisitListByKey(int id) throws IllegalArgumentException;
 
@@ -147,19 +129,16 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Blocking
 	 */
 
-	public ArrayList<Blocking> getAllBlockings()
-			throws IllegalArgumentException;
+	public ArrayList<Blocking> getAllBlockings() throws IllegalArgumentException;
 
 	public Blocking getBlockingByKey(int id) throws IllegalArgumentException;
 
 	/*
 	 * FavoritesList
 	 */
-	public ArrayList<FavoritesList> getAllFavoritesLists()
-			throws IllegalArgumentException;
+	public ArrayList<FavoritesList> getAllFavoritesLists() throws IllegalArgumentException;
 
-	public FavoritesList getFavoritesListByKey(int id)
-			throws IllegalArgumentException;
+	public FavoritesList getFavoritesListByKey(int id) throws IllegalArgumentException;
 
 	// save-Methoden
 
@@ -169,7 +148,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void save(Info info) throws IllegalArgumentException;
 
-	public void save(Property property) throws IllegalArgumentException;
+	//public void save(Property property) throws IllegalArgumentException;
 
 	public void save(Description description) throws IllegalArgumentException;
 
@@ -180,8 +159,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void save(Similarity similarity) throws IllegalArgumentException;
 
 	public void save(VisitList visitList) throws IllegalArgumentException;
-	
+
 	public void save(FavoritesList favoritesList) throws IllegalArgumentException;
 
 }
-

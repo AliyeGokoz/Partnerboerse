@@ -39,6 +39,8 @@ public class Partnerboerse implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		
+		final VerticalPanel content = new VerticalPanel();
 
 		// Make a command that we will execute from all leaves.
 	    Command cmd = new Command() {
@@ -79,7 +81,16 @@ public class Partnerboerse implements EntryPoint {
 	    menu.addItem("Kontaktsperre", blockedcontactsMenu);
 	    menu.addItem("Personenvorschläge", partnerproposelMenu);
 
+	    //TODO automatisch Usernamen ausgeben
+	    //Say Hello to User
+	    final Label lblhello = new Label("Willkommen " + "User");
+	    
+	    
 	    // Add it to the root panel.
+	    
+	    content.add(lblhello);
+	    
+	    RootPanel.get("Contentzone").add(lblhello);
 	    RootPanel.get("Navigator").add(menu);
 	  }
 	}

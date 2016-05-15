@@ -9,7 +9,7 @@ public class Similarity extends BusinessObject{
 	private Profile toProfile = null;
 	
 	private double similarityValue = 0;
-
+	
 	public Profile getFromProfile() {
 		return fromProfile;
 	}

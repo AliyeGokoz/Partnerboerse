@@ -17,6 +17,12 @@ public class Profile extends BusinessObject {
 	private int height = 0;
 
 	private boolean smoker = false;
+	
+	private HairColor hairColor = null;
+	
+	private Confession confession = null;
+	
+	private Gender gender = null;
 
 	public enum HairColor {
 		BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED("rot"), GREY(
@@ -36,7 +42,7 @@ public class Profile extends BusinessObject {
 	public enum Confession {
 		PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC(
 				"buddistisch"), HINDU("hinduistisch"), MUSLIM("muslimisch"), JEWISH(
-				"jüdisch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
+				"jï¿½disch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
 
 		private final String name;
 
@@ -50,7 +56,7 @@ public class Profile extends BusinessObject {
 	}
 
 	public enum Gender {
-		FEMALE("weiblich"), MALE("männlich"), OTHERS("andere");
+		FEMALE("weiblich"), MALE("mï¿½nnlich"), OTHERS("andere");
 
 		private final String name;
 
@@ -111,9 +117,35 @@ public class Profile extends BusinessObject {
 		this.smoker = smoker;
 	}
 
+	public HairColor getHairColor() {
+		return hairColor;
+	}
+
+	public void setHairColor(HairColor hairColor) {
+		this.hairColor = hairColor;
+	}
+
+	public Confession getConfession() {
+		return confession;
+	}
+
+	public void setConfession(Confession confession) {
+		this.confession = confession;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+
 	public String toString() {
 		return super.toString() + this.firstName + " " + this.lastName + " "
 				+ this.eMail + " " + this.dateOfBirth + " " + this.smoker + " "
 				+ this.height;
 	}
+
+
 }
