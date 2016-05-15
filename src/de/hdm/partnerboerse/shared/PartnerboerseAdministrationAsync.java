@@ -13,7 +13,6 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
-//import de.hdm.partnerboerse.shared.bo.Property;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.bo.Selection;
 import de.hdm.partnerboerse.shared.bo.Similarity;
@@ -32,11 +31,6 @@ public interface PartnerboerseAdministrationAsync {
 	void createBlocking(int id, Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
 
 	void createDescription(int id, String propertyName, String textualDescription, AsyncCallback<Description> callback);
-
-	/*
-	 * void createProperty(int id, String propertyName, String
-	 * textualDescription, AsyncCallback<Property> callback);
-	 */
 
 	void createInfo(int id, String informationValue, AsyncCallback<Info> callback);
 
@@ -57,8 +51,6 @@ public interface PartnerboerseAdministrationAsync {
 	void save(SearchProfile searchProfile, AsyncCallback<Void> callback);
 
 	void save(Info info, AsyncCallback<Void> callback);
-
-	// void save(Property property, AsyncCallback<Void> callback);
 
 	void save(Description description, AsyncCallback<Void> callback);
 
@@ -82,10 +74,6 @@ public interface PartnerboerseAdministrationAsync {
 	void getAllSearchProfiles(AsyncCallback<ArrayList<SearchProfile>> callback);
 
 	void getSearchProfileByKey(int id, AsyncCallback<SearchProfile> callback);
-
-	// void getAllProperties(AsyncCallback<ArrayList<Property>> callback);
-
-	// void getPropertyByKey(int id, AsyncCallback<Property> callback);
 
 	void getAllSelections(AsyncCallback<ArrayList<Selection>> callback);
 
@@ -124,8 +112,6 @@ public interface PartnerboerseAdministrationAsync {
 	void delete(SearchProfile searchProfile, AsyncCallback<Void> callback);
 
 	void delete(Info info, AsyncCallback<Void> callback);
-
-	// void delete(Property property, AsyncCallback<Void> callback);
 
 	void delete(Description description, AsyncCallback<Void> callback);
 

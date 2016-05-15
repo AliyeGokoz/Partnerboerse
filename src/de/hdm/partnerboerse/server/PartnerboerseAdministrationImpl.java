@@ -3,7 +3,6 @@ package de.hdm.partnerboerse.server;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.partnerboerse.server.db.*;
@@ -25,7 +24,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private DescriptionMapper descriptionMapper = null;
 	private FavoritesListMapper favoritesListMapper = null;
 	private InfoMapper infoMapper = null;
-	// private PropertyMapper propertyMapper = null;
 	private ProfileMapper profileMapper = null;
 	private SearchProfileMapper searchProfileMapper = null;
 	private SelectionMapper selectionMapper = null;
@@ -97,14 +95,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.infoMapper.insert(i);
 	}
-
-	/*
-	 * @Override public Property createProperty(int id, String
-	 * propertyName,String textualDescription) { Property p = new Property();
-	 * 
-	 * 
-	 * return this.propertyMapper.insert(p); }
-	 */
 
 	@Override
 	public Selection createSelection(int id, String propertyName, String textualDescription) {
@@ -192,13 +182,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.infoMapper.delete(info);
 	}
 
-	/*
-	 * @Override public void delete(Property property) throws
-	 * IllegalArgumentException {
-	 * 
-	 * }
-	 */
-
 	@Override
 	public void delete(Description description) throws IllegalArgumentException {
 		// ...
@@ -277,16 +260,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.descriptionMapper.findByKey(id);
 	}
 
-	/*
-	 * @Override public ArrayList<Property> getAllProperties() throws
-	 * IllegalArgumentException { return this.propertyMapper.getAllProperties();
-	 * }
-	 * 
-	 * @Override public Property getPropertyByKey(int id) throws
-	 * IllegalArgumentException { return
-	 * this.propertyMapper.getPropertyByKey(id); }
-	 */
-
 	@Override
 	public ArrayList<Selection> getAllSelections() throws IllegalArgumentException {
 		return this.selectionMapper.findAll();
@@ -338,7 +311,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Blocking> getAllBlockings() throws IllegalArgumentException {
-		return this.blockingMapper.findAll(); 
+		return this.blockingMapper.findAll();
 	}
 
 	@Override
@@ -349,7 +322,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public ArrayList<FavoritesList> getAllFavoritesLists() throws IllegalArgumentException {
 		return this.favoritesListMapper.findAll();
-		}
+	}
 
 	@Override
 	public FavoritesList getFavoritesListByKey(int id) throws IllegalArgumentException {
@@ -371,13 +344,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public void save(Info info) throws IllegalArgumentException {
 		infoMapper.update(info);
 	}
-
-	/*
-	 * @Override
-	 *
-	 * public void save(Property property) throws IllegalArgumentException {
-	 * propertyMapper.update(property); }
-	 */
 
 	@Override
 	public void save(Description description) throws IllegalArgumentException {
