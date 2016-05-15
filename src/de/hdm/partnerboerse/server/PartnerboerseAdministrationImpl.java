@@ -238,12 +238,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	// Get-Methoden
 	@Override
 	public ArrayList<Profile> getAllProfiles() throws IllegalArgumentException {
-		return this.profileMapper.getAllProfiles();
+		return this.profileMapper.findAll();
 	}
 
 	@Override
 	public Profile getProfileByKey(int id) throws IllegalArgumentException {
-		return this.profileMapper.getProfileByKey(id);
+		return this.profileMapper.findByKey(id);
 	}
 
 	@Override
@@ -298,13 +298,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Similarity> getAllSimilarities() throws IllegalArgumentException {
-		return this.similarityMapper.getAllSimilarites();
+		return this.similarityMapper.findAll();
 
 	}
 
 	@Override
 	public Similarity getSimilarityByKey(int id) throws IllegalArgumentException {
-		return this.similarityMapper.getSimilarityByKey(id);
+		return this.similarityMapper.findByKey(id);
 	}
 
 	// Methode zur Berechnung der Ähnlichkeit (Beispiel smoker)
@@ -327,32 +327,32 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<VisitList> getAllVisitLists() throws IllegalArgumentException {
-		return this.visitListMapper.getAllVisitLists();
+		return this.visitListMapper.findAll();
 	}
 
 	@Override
 	public VisitList getVisitListByKey(int id) throws IllegalArgumentException {
-		return this.visitListMapper.getVisitListByKey(id);
+		return this.visitListMapper.findByKey(id);
 	}
 
 	@Override
 	public ArrayList<Blocking> getAllBlockings() throws IllegalArgumentException {
-		return this.blockingMapper.getAllBlockings();
+		return this.blockingMapper.findAll(); 
 	}
 
 	@Override
 	public Blocking getBlockingByKey(int id) throws IllegalArgumentException {
-		return this.blockingMapper.getBlockingByKey(id);
+		return this.blockingMapper.findByKey(id);
 	}
 
 	@Override
 	public ArrayList<FavoritesList> getAllFavoritesLists() throws IllegalArgumentException {
-		return this.favoritesListMapper.getAllFavoritesLists();
-	}
+		return this.favoritesListMapper.findAll();
+		}
 
 	@Override
 	public FavoritesList getFavoritesListByKey(int id) throws IllegalArgumentException {
-		return this.favoritesListMapper.getFavoritesListByKey(id);
+		return this.favoritesListMapper.findByKey(id);
 	}
 
 	// Save-Methoden

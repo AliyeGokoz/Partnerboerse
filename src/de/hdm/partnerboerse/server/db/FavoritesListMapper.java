@@ -2,7 +2,6 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
 
@@ -71,10 +70,10 @@ public class FavoritesListMapper {
 		}
 	}
 
-	public Vector<FavoritesList> findAll() {
+	public ArrayList<FavoritesList> findAll() {
 		Connection con = DBConnection.connection();
 
-		Vector<FavoritesList> result = new Vector<FavoritesList>();
+		ArrayList<FavoritesList> result = new ArrayList<FavoritesList>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -88,7 +87,7 @@ public class FavoritesListMapper {
 				// favoritesList.setFromProfile(rs.getProfile("fromProfile"));
 				// favoritesList.setToProfile(rs.getProfile("toProfile"));
 
-				result.addElement(favoritesList);
+				result.add(favoritesList);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -121,9 +120,9 @@ public class FavoritesListMapper {
 		return null;
 	}
 
-	public Vector<FavoritesList> findByProfile(int profileId) {
+	public ArrayList<FavoritesList> findByProfile(int profileId) {
 		Connection con = DBConnection.connection();
-		Vector<FavoritesList> result = new Vector<FavoritesList>();
+		ArrayList<FavoritesList> result = new ArrayList<FavoritesList>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -137,7 +136,7 @@ public class FavoritesListMapper {
 				// favoritesList.setFromProfile(rs.getProfile("fromProfile"));
 				// favoritesList.setToProfile(rs.getProfile("toProfile"));
 
-				result.addElement(favoritesList);
+				result.add(favoritesList);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -146,19 +145,10 @@ public class FavoritesListMapper {
 		return result;
 	}
 
-	public Vector<FavoritesList> findByProfile(Profile profile) {
+	public ArrayList<FavoritesList> findByProfile(Profile profile) {
 
 		return findByProfile(profile.getId());
 	}
 
-	//Generierte Methoden aus Impl-Klasse
-	public ArrayList<FavoritesList> getAllFavoritesLists() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public FavoritesList getFavoritesListByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }

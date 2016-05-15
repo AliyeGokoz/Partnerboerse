@@ -2,7 +2,6 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
 
@@ -89,10 +88,10 @@ public class ProfileMapper {
 		}
 	}
 
-	public Vector<Profile> findAll() {
+	public ArrayList<Profile> findAll() {
 		Connection con = DBConnection.connection();
 
-		Vector<Profile> result = new Vector<Profile>();
+		ArrayList<Profile> result = new ArrayList<Profile>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -114,7 +113,7 @@ public class ProfileMapper {
 				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
 				// profile.setGender(Profile.Gender.valueOf("gender"));
 
-				result.addElement(profile);
+				result.add(profile);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -158,9 +157,9 @@ public class ProfileMapper {
 		return null;
 	}
 
-	public Vector<Profile> findByLastName(String lastName) {
+	public ArrayList<Profile> findByLastName(String lastName) {
 		Connection con = DBConnection.connection();
-		Vector<Profile> result = new Vector<Profile>();
+		ArrayList<Profile> result = new ArrayList<Profile>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -182,7 +181,7 @@ public class ProfileMapper {
 				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
 				// profile.setGender(Profile.Gender.valueOf("gender"));
 
-				result.addElement(profile);
+				result.add(profile);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -191,9 +190,9 @@ public class ProfileMapper {
 		return result;
 	}
 
-	public Vector<Profile> findByFirstName(String firstName) {
+	public ArrayList<Profile> findByFirstName(String firstName) {
 		Connection con = DBConnection.connection();
-		Vector<Profile> result = new Vector<Profile>();
+		ArrayList<Profile> result = new ArrayList<Profile>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -215,7 +214,7 @@ public class ProfileMapper {
 				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
 				// profile.setGender(Profile.Gender.valueOf("gender"));
 
-				result.addElement(profile);
+				result.add(profile);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -224,9 +223,9 @@ public class ProfileMapper {
 		return result;
 	}
 
-	public Vector<Profile> findByName(String lastName, String firstName) {
+	public ArrayList<Profile> findByName(String lastName, String firstName) {
 		Connection con = DBConnection.connection();
-		Vector<Profile> result = new Vector<Profile>();
+		ArrayList<Profile> result = new ArrayList<Profile>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -249,7 +248,7 @@ public class ProfileMapper {
 				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
 				// profile.setGender(Profile.Gender.valueOf("gender"));
 
-				result.addElement(profile);
+				result.add(profile);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -258,9 +257,9 @@ public class ProfileMapper {
 		return result;
 	}
 
-	public Vector<Profile> findByFavoritesList(int favoritesListId) {
+	public ArrayList<Profile> findByFavoritesList(int favoritesListId) {
 		Connection con = DBConnection.connection();
-		Vector<Profile> result = new Vector<Profile>();
+		ArrayList<Profile> result = new ArrayList<Profile>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -282,7 +281,7 @@ public class ProfileMapper {
 				// profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
 				// profile.setGender(Profile.Gender.valueOf("gender"));
 
-				result.addElement(profile);
+				result.add(profile);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -291,14 +290,14 @@ public class ProfileMapper {
 		return result;
 	}
 
-	public Vector<Profile> findByFavoritesList(FavoritesList favoritesList) {
+	public ArrayList<Profile> findByFavoritesList(FavoritesList favoritesList) {
 
 		return findByFavoritesList(favoritesList.getId());
 	}
 
-	public Vector<Profile> findBySearchProfile(int searchProfileId) {
+	public ArrayList<Profile> findBySearchProfile(int searchProfileId) {
 		Connection con = DBConnection.connection();
-		Vector<Profile> result = new Vector<Profile>();
+		ArrayList<Profile> result = new ArrayList<Profile>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -320,7 +319,7 @@ public class ProfileMapper {
 //				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
 //				profile.setGender(Profile.Gender.valueOf("gender"));
 
-				result.addElement(profile);
+				result.add(profile);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -329,14 +328,14 @@ public class ProfileMapper {
 		return result;
 	}
 
-	public Vector<Profile> findBySearchProfile(SearchProfile searchProfile) {
+	public ArrayList<Profile> findBySearchProfile(SearchProfile searchProfile) {
 	
 	    return findBySearchProfile(searchProfile.getId());
 	  }
 
-	public Vector<Profile> findByInfo (int infoId) {
+	public ArrayList<Profile> findByInfo (int infoId) {
 	    Connection con = DBConnection.connection();
-	    Vector<Profile> result = new Vector<Profile>();
+	    ArrayList<Profile> result = new ArrayList<Profile>();
 
 	    try {
 	      Statement stmt = con.createStatement();
@@ -359,7 +358,7 @@ public class ProfileMapper {
 //		profile.setGender(Profile.Gender.valueOf("gender"));
 
 	   
-	        result.addElement(profile);
+	        result.add(profile);
 	      }
 	    }
 	    catch (SQLException e2) {
@@ -369,14 +368,14 @@ public class ProfileMapper {
 	    return result;
 	  }
 
-	public Vector<Profile> findByInfo(Info info) {
+	public ArrayList<Profile> findByInfo(Info info) {
 
 	    return findByInfo(info.getId());
 	  }
 	
-	public Vector<Profile> findByVisitList (int visitListId) {
+	public ArrayList<Profile> findByVisitList (int visitListId) {
 	    Connection con = DBConnection.connection();
-	    Vector<Profile> result = new Vector<Profile>();
+	    ArrayList<Profile> result = new ArrayList<Profile>();
 
 	    try {
 	      Statement stmt = con.createStatement();
@@ -399,7 +398,7 @@ public class ProfileMapper {
 //		profile.setGender(Profile.Gender.valueOf("gender"));
 
 	   
-	        result.addElement(profile);
+	        result.add(profile);
 	      }
 	    }
 	    catch (SQLException e2) {
@@ -409,14 +408,14 @@ public class ProfileMapper {
 	    return result;
 	  }
 
-	public Vector<Profile> findByVisitList(VisitList visitList) {
+	public ArrayList<Profile> findByVisitList(VisitList visitList) {
 
 	    return findByVisitList(visitList.getId());
 	  }
 
-	public Vector<Profile> findBySimilarity (int similarityId) {
+	public ArrayList<Profile> findBySimilarity (int similarityId) {
 	    Connection con = DBConnection.connection();
-	    Vector<Profile> result = new Vector<Profile>();
+	    ArrayList<Profile> result = new ArrayList<Profile>();
 
 	    try {
 	      Statement stmt = con.createStatement();
@@ -439,7 +438,7 @@ public class ProfileMapper {
 //		profile.setGender(Profile.Gender.valueOf("gender"));
 
 	   
-	        result.addElement(profile);
+	        result.add(profile);
 	      }
 	    }
 	    catch (SQLException e2) {
@@ -448,14 +447,14 @@ public class ProfileMapper {
 
 	    return result;
 	  }
-	public Vector<Profile> findBySimilarity(Similarity similarity) {
+	public ArrayList<Profile> findBySimilarity(Similarity similarity) {
 
 	    return findBySimilarity(similarity.getId());
 	  }
 	
-	public Vector<Profile> findByBlocking (int blockingId) {
+	public ArrayList<Profile> findByBlocking (int blockingId) {
 	    Connection con = DBConnection.connection();
-	    Vector<Profile> result = new Vector<Profile>();
+	    ArrayList<Profile> result = new ArrayList<Profile>();
 
 	    try {
 	      Statement stmt = con.createStatement();
@@ -478,7 +477,7 @@ public class ProfileMapper {
 //		profile.setGender(Profile.Gender.valueOf("gender"));
 
 	   
-	        result.addElement(profile);
+	        result.add(profile);
 	      }
 	    }
 	    catch (SQLException e2) {
@@ -489,21 +488,11 @@ public class ProfileMapper {
 	  }
 
 
-	public Vector<Profile> findByBlocking(Blocking blocking) {
+	public ArrayList<Profile> findByBlocking(Blocking blocking) {
 
 	    return findByBlocking(blocking.getId());
 	  }
 
-	// Generierte Methoden von Impl-Klasse
-	public ArrayList<Profile> getAllProfiles() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Profile getProfileByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	
 	

@@ -2,7 +2,6 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
 
@@ -71,10 +70,10 @@ public class VisitListMapper {
 		}
 	}
 
-	public Vector<VisitList> findAll() {
+	public ArrayList<VisitList> findAll() {
 		Connection con = DBConnection.connection();
 
-		Vector<VisitList> result = new Vector<VisitList>();
+		ArrayList<VisitList> result = new ArrayList<VisitList>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -88,7 +87,7 @@ public class VisitListMapper {
 //				visitList.setFromProfile(rs.getProfile("fromProfile"));
 //				visitList.setToProfile(rs.getProfile("toProfile"));
 
-				result.addElement(visitList);
+				result.add(visitList);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -122,9 +121,9 @@ public class VisitListMapper {
 		return null;
 	}
 	
-	public Vector<VisitList> findByProfile (int profileId) {
+	public ArrayList<VisitList> findByProfile (int profileId) {
 	    Connection con = DBConnection.connection();
-	    Vector<VisitList> result = new Vector<VisitList>();
+	    ArrayList<VisitList> result = new ArrayList<VisitList>();
 
 	    try {
 	      Statement stmt = con.createStatement();
@@ -140,7 +139,7 @@ public class VisitListMapper {
 //		 visitList.setToProfile(rs.getProfile("toProfile"));
 
 	   
-	        result.addElement(visitList);
+	        result.add(visitList);
 	      }
 	    }
 	    catch (SQLException e2) {
@@ -151,19 +150,9 @@ public class VisitListMapper {
 	  }
 
 
-	public Vector<VisitList> findByProfile(Profile profile) {
+	public ArrayList<VisitList> findByProfile(Profile profile) {
 
 	    return findByProfile(profile.getId());
 	  }
 
-	//Generierte Methoden aus Impl-Klasse
-	public ArrayList<VisitList> getAllVisitLists() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public VisitList getVisitListByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
