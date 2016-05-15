@@ -127,34 +127,6 @@ public class SimilarityMapper {
 		return null;
 	}
 
-	public ArrayList<Similarity> findBySimilarityValue(Double similarityValue) {
-	    Connection con = DBConnection.connection();
-	    ArrayList<Similarity> result = new ArrayList<Similarity>();
-
-	    try {
-	      Statement stmt = con.createStatement();
-
-	      ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile, similarityValue "
-	          + "FROM similarities " + "WHERE similarityValue LIKE '" + similarityValue
-	          + "' ORDER BY similarityValue");
-
-	      while (rs.next()) {
-	       Similarity similarity = new Similarity();
-	      similarity.setId(rs.getInt("id"));
-//	      similarity.setFromProfile(rs.getProfile("fromProfile"));				
-//	      similarity.setToProfile(rs.getProfile("toProfile"));
-	      similarity.setSimilarityValue(rs.getDouble("similarityValue"));
-
-	       
-	        result.add(similarity);
-	      }
-	    }
-	    catch (SQLException e) {
-	      e.printStackTrace();
-	    }
-
-	    return result;
-	  }
 	 
 	public ArrayList<Similarity> findByProfile (int profileId) {
 	    Connection con = DBConnection.connection();
@@ -172,7 +144,7 @@ public class SimilarityMapper {
 	      similarity.setId(rs.getInt("id"));
 //	      similarity.setFromProfile(rs.getProfile("fromProfile"));				
 //	      similarity.setToProfile(rs.getProfile("toProfile"));
-//	      similarity.setSimilarityValue(rs.getDouble("similarityValue"));
+	      similarity.setSimilarityValue(rs.getDouble("similarityValue"));
 
 	   
 	        result.add(similarity);
@@ -187,8 +159,10 @@ public class SimilarityMapper {
 
 	public ArrayList<Similarity> findByProfile(Profile profile) {
 
+	  
 	    return findByProfile(profile.getId());
 	  }
+
 
 
 	

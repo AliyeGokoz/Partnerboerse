@@ -176,7 +176,48 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	// Delete-Methoden
 	@Override
 	public void delete(Profile profile) throws IllegalArgumentException {
-		// ...
+		
+		ArrayList<FavoritesList> favoritesLists = this.getFavoritesListsOf(profile);
+	    ArrayList<SearchProfile> searchProfiles = this.getSearchprofilesOf(profile);
+	    ArrayList<Info> infos = this.getInfosOf(profile);
+	    ArrayList<Blocking> blockings= this.getBlockingsOf(profile);
+	    ArrayList<VisitList> visitLists= this.getVisitListsOf(profile);
+	    ArrayList<Similarity> similarities= this.getSimilaritiesOf(profile);
+
+
+	    if (favoritesLists!= null) {
+	      for (FavoritesList favoritesList : favoritesLists) {
+	        this.delete(favoritesList);
+	      }
+	    }
+
+	    if (searchProfiles != null) {
+	      for (SearchProfile searchProfile : searchProfiles) {
+	        this.delete(searchProfile);
+	      }
+	    }
+	   if (infos != null) {
+	      for (Info info : infos) {
+	        this.delete(info);
+	      }
+	    }
+
+	 if (blockings != null) {
+	      for (Blocking blocking : blockings) {
+	        this.delete(blocking);
+	      }
+	    }
+	 if (visitLists != null) {
+	      for (VisitList visitList : visitLists) {
+	        this.delete(visitList);
+	      }
+	    }
+	 if (similarities != null) {
+	      for (Similarity similarity: similarities) {
+	        this.delete(similarity);
+	      }
+	    }
+
 		this.profileMapper.delete(profile);
 	}
 
