@@ -2,7 +2,6 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
 
@@ -105,10 +104,10 @@ public class InfoMapper {
 		return null;
 	}
 
-	public Vector<Info> findAll() {
+	public ArrayList<Info> findAll() {
 		Connection con = DBConnection.connection();
 
-		Vector<Info> result = new Vector<Info>();
+		ArrayList<Info> result = new ArrayList<Info>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -121,7 +120,7 @@ public class InfoMapper {
 				info.setId(rs.getInt("id"));
 				info.setInformationValue(rs.getString("informationValue"));
 
-				result.addElement(info);
+				result.add(info);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -130,9 +129,9 @@ public class InfoMapper {
 		return result;
 	}
 
-	public Vector<Info> findByInformationValue(String informationValue) {
+	public ArrayList<Info> findByInformationValue(String informationValue) {
 		Connection con = DBConnection.connection();
-		Vector<Info> result = new Vector<Info>();
+		ArrayList<Info> result = new ArrayList<Info>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -146,7 +145,7 @@ public class InfoMapper {
 				info.setId(rs.getInt("id"));
 				info.setInformationValue(rs.getString("informationValue"));
 
-				result.addElement(info);
+				result.add(info);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -155,9 +154,9 @@ public class InfoMapper {
 		return result;
 	}
 
-	public Vector<Info> findByProfile(int profileId) {
+	public ArrayList<Info> findByProfile(int profileId) {
 		Connection con = DBConnection.connection();
-		Vector<Info> result = new Vector<Info>();
+		ArrayList<Info> result = new ArrayList<Info>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -171,7 +170,7 @@ public class InfoMapper {
 				info.setId(rs.getInt("id"));
 				info.setInformationValue(rs.getString("informationValue"));
 
-				result.addElement(info);
+				result.add(info);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -180,14 +179,14 @@ public class InfoMapper {
 		return result;
 	}
 
-	public Vector<Info> findByProfile(Profile profile) {
+	public ArrayList<Info> findByProfile(Profile profile) {
 
 		return findByProfile(profile.getId());
 	}
 
-	public Vector<Info> findBySelection(int selectionId) {
+	public ArrayList<Info> findBySelection(int selectionId) {
 		Connection con = DBConnection.connection();
-		Vector<Info> result = new Vector<Info>();
+		ArrayList<Info> result = new ArrayList<Info>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -201,7 +200,7 @@ public class InfoMapper {
 				info.setId(rs.getInt("id"));
 				info.setInformationValue(rs.getString("informationValue"));
 
-				result.addElement(info);
+				result.add(info);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -210,14 +209,14 @@ public class InfoMapper {
 		return result;
 	}
 
-	public Vector<Info> findBySelection(Selection selection) {
+	public ArrayList<Info> findBySelection(Selection selection) {
 
 		return findBySelection(selection.getId());
 	}
 
-	public Vector<Info> findByDescription(int descriptionId) {
+	public ArrayList<Info> findByDescription(int descriptionId) {
 		Connection con = DBConnection.connection();
-		Vector<Info> result = new Vector<Info>();
+		ArrayList<Info> result = new ArrayList<Info>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -232,7 +231,7 @@ public class InfoMapper {
 				info.setId(rs.getInt("id"));
 				info.setInformationValue(rs.getString("informationValue"));
 
-				result.addElement(info);
+				result.add(info);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -241,20 +240,11 @@ public class InfoMapper {
 		return result;
 	}
 
-	public Vector<Info> findByDescription(Description description) {
+	public ArrayList<Info> findByDescription(Description description) {
 
 		return findByDescription(description.getId());
 	}
 
-	//Generierte Methoden aus Impl-Klasse
-	public ArrayList<Info> getAllInfos() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public Info getInfoByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

@@ -2,7 +2,7 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Vector;
+
 
 import de.hdm.partnerboerse.shared.bo.*;
 
@@ -74,10 +74,10 @@ public class SimilarityMapper {
 		}
 	}
 
-	public Vector<Similarity> findAll() {
+	public ArrayList<Similarity> findAll() {
 		Connection con = DBConnection.connection();
 
-		Vector<Similarity> result = new Vector<Similarity>();
+		ArrayList<Similarity> result = new ArrayList<Similarity>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -92,7 +92,7 @@ public class SimilarityMapper {
 //				similarity.setToProfile(rs.getProfile("toProfile"));
 				similarity.setSimilarityValue(rs.getDouble("similarityValue"));
 
-				result.addElement(similarity);
+				result.add(similarity);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -127,9 +127,9 @@ public class SimilarityMapper {
 		return null;
 	}
 
-	public Vector<Similarity> findBySimilarityValue(Double similarityValue) {
+	public ArrayList<Similarity> findBySimilarityValue(Double similarityValue) {
 	    Connection con = DBConnection.connection();
-	    Vector<Similarity> result = new Vector<Similarity>();
+	    ArrayList<Similarity> result = new ArrayList<Similarity>();
 
 	    try {
 	      Statement stmt = con.createStatement();
@@ -146,7 +146,7 @@ public class SimilarityMapper {
 	      similarity.setSimilarityValue(rs.getDouble("similarityValue"));
 
 	       
-	        result.addElement(similarity);
+	        result.add(similarity);
 	      }
 	    }
 	    catch (SQLException e) {
@@ -156,9 +156,9 @@ public class SimilarityMapper {
 	    return result;
 	  }
 	 
-	public Vector<Similarity> findByProfile (int profileId) {
+	public ArrayList<Similarity> findByProfile (int profileId) {
 	    Connection con = DBConnection.connection();
-	    Vector<Similarity> result = new Vector<Similarity>();
+	    ArrayList<Similarity> result = new ArrayList<Similarity>();
 
 	    try {
 	      Statement stmt = con.createStatement();
@@ -175,7 +175,7 @@ public class SimilarityMapper {
 //	      similarity.setSimilarityValue(rs.getDouble("similarityValue"));
 
 	   
-	        result.addElement(similarity);
+	        result.add(similarity);
 	      }
 	    }
 	    catch (SQLException e2) {
@@ -185,21 +185,11 @@ public class SimilarityMapper {
 	    return result;
 	  }
 
-	public Vector<Similarity> findByProfile(Profile profile) {
+	public ArrayList<Similarity> findByProfile(Profile profile) {
 
 	    return findByProfile(profile.getId());
 	  }
 
-	//Generierte Methoden aus Impl-Klasse
-	public ArrayList<Similarity> getAllSimilarites() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Similarity getSimilarityByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	
 }

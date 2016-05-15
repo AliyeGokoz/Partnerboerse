@@ -2,7 +2,6 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
 
@@ -70,10 +69,10 @@ public class BlockingMapper {
 		}
 	}
 
-	public Vector<Blocking> findAll() {
+	public ArrayList<Blocking> findAll() {
 		Connection con = DBConnection.connection();
 
-		Vector<Blocking> result = new Vector<Blocking>();
+		ArrayList<Blocking> result = new ArrayList<Blocking>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -87,7 +86,7 @@ public class BlockingMapper {
 				// blocking.setFromProfile(rs.getProfile("fromProfile"));
 				// blocking.setToProfile(rs.getProfile("toProfile"));
 
-				result.addElement(blocking);
+				result.add(blocking);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -120,9 +119,9 @@ public class BlockingMapper {
 		return null;
 	}
 
-	public Vector<Blocking> findByProfile(int profileId) {
+	public ArrayList<Blocking> findByProfile(int profileId) {
 		Connection con = DBConnection.connection();
-		Vector<Blocking> result = new Vector<Blocking>();
+		ArrayList<Blocking> result = new ArrayList<Blocking>();
 
 		try {
 			Statement stmt = con.createStatement();
@@ -136,7 +135,7 @@ public class BlockingMapper {
 				// blocking.setFromProfile(rs.getProfile("fromProfile"));
 				// blocking.setToProfile(rs.getProfile("toProfile"));
 
-				result.addElement(blocking);
+				result.add(blocking);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -145,20 +144,10 @@ public class BlockingMapper {
 		return result;
 	}
 
-	public Vector<Blocking> findByProfile(Profile profile) {
+	public ArrayList<Blocking> findByProfile(Profile profile) {
 
 		return findByProfile(profile.getId());
 	}
 
-	//Generierte Methoden aus Impl-Klasse
-	public ArrayList<Blocking> getAllBlockings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Blocking getBlockingByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

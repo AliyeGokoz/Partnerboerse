@@ -3,6 +3,7 @@ package de.hdm.partnerboerse.server;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.partnerboerse.server.db.*;
@@ -238,42 +239,42 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	// Get-Methoden
 	@Override
 	public ArrayList<Profile> getAllProfiles() throws IllegalArgumentException {
-		return this.profileMapper.getAllProfiles();
+		return this.profileMapper.findAll();
 	}
 
 	@Override
 	public Profile getProfileByKey(int id) throws IllegalArgumentException {
-		return this.profileMapper.getProfileByKey(id);
+		return this.profileMapper.findByKey(id);
 	}
 
 	@Override
 	public ArrayList<SearchProfile> getAllSearchProfiles() throws IllegalArgumentException {
-		return this.searchProfileMapper.getAllSearchProfiles();
+		return this.searchProfileMapper.findAll();
 	}
 
 	@Override
 	public SearchProfile getSearchProfileByKey(int id) throws IllegalArgumentException {
-		return this.searchProfileMapper.getSearchProfileByKey(id);
+		return this.searchProfileMapper.findByKey(id);
 	}
 
 	@Override
 	public ArrayList<Info> getAllInfos() throws IllegalArgumentException {
-		return this.infoMapper.getAllInfos();
+		return this.infoMapper.findAll();
 	}
 
 	@Override
 	public Info getInfoByKey(int id) throws IllegalArgumentException {
-		return this.infoMapper.getInfoByKey(id);
+		return this.infoMapper.findByKey(id);
 	}
 
 	@Override
 	public ArrayList<Description> getAllDescriptions() throws IllegalArgumentException {
-		return this.descriptionMapper.getAllDescriptions();
+		return this.descriptionMapper.findAll();
 	}
 
 	@Override
 	public Description getDescriptionByKey(int id) throws IllegalArgumentException {
-		return this.descriptionMapper.getDescriptionByKey(id);
+		return this.descriptionMapper.findByKey(id);
 	}
 
 	/*
@@ -288,23 +289,23 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Selection> getAllSelections() throws IllegalArgumentException {
-		return this.selectionMapper.getAllSelections();
+		return this.selectionMapper.findAll();
 	}
 
 	@Override
 	public Selection getSelectionByKey(int id) throws IllegalArgumentException {
-		return this.selectionMapper.getSelectionByKey(id);
+		return this.selectionMapper.findByKey(id);
 	}
 
 	@Override
 	public ArrayList<Similarity> getAllSimilarities() throws IllegalArgumentException {
-		return this.similarityMapper.getAllSimilarites();
+		return this.similarityMapper.findAll();
 
 	}
 
 	@Override
 	public Similarity getSimilarityByKey(int id) throws IllegalArgumentException {
-		return this.similarityMapper.getSimilarityByKey(id);
+		return this.similarityMapper.findByKey(id);
 	}
 
 	// Methode zur Berechnung der Ähnlichkeit (Beispiel smoker)
@@ -327,32 +328,32 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<VisitList> getAllVisitLists() throws IllegalArgumentException {
-		return this.visitListMapper.getAllVisitLists();
+		return this.visitListMapper.findAll();
 	}
 
 	@Override
 	public VisitList getVisitListByKey(int id) throws IllegalArgumentException {
-		return this.visitListMapper.getVisitListByKey(id);
+		return this.visitListMapper.findByKey(id);
 	}
 
 	@Override
 	public ArrayList<Blocking> getAllBlockings() throws IllegalArgumentException {
-		return this.blockingMapper.getAllBlockings();
+		return this.blockingMapper.findAll(); 
 	}
 
 	@Override
 	public Blocking getBlockingByKey(int id) throws IllegalArgumentException {
-		return this.blockingMapper.getBlockingByKey(id);
+		return this.blockingMapper.findByKey(id);
 	}
 
 	@Override
 	public ArrayList<FavoritesList> getAllFavoritesLists() throws IllegalArgumentException {
-		return this.favoritesListMapper.getAllFavoritesLists();
-	}
+		return this.favoritesListMapper.findAll();
+		}
 
 	@Override
 	public FavoritesList getFavoritesListByKey(int id) throws IllegalArgumentException {
-		return this.favoritesListMapper.getFavoritesListByKey(id);
+		return this.favoritesListMapper.findByKey(id);
 	}
 
 	// Save-Methoden
