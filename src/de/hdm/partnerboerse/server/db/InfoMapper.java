@@ -1,7 +1,7 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
-
+import java.util.ArrayList;
 import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
@@ -244,6 +244,17 @@ public class InfoMapper {
 	public Vector<Info> findByDescription(Description description) {
 
 		return findByDescription(description.getId());
+	}
+
+	//Generierte Methoden aus Impl-Klasse
+	public ArrayList<Info> getAllInfos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Info getInfoByKey(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

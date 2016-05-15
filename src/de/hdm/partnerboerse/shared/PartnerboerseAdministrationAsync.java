@@ -13,7 +13,7 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
-import de.hdm.partnerboerse.shared.bo.Property;
+//import de.hdm.partnerboerse.shared.bo.Property;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.bo.Selection;
 import de.hdm.partnerboerse.shared.bo.Similarity;
@@ -23,32 +23,29 @@ public interface PartnerboerseAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);
 
-	void createProfile(int id, String firstName, String lastName,
-			Date dateOfBirth, String email, int height, boolean smoker,
-			HairColor hairColor, Confession confession, Gender gender,
-			AsyncCallback<Profile> callback);
-	
+	void createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
+			boolean smoker, HairColor hairColor, Confession confession, Gender gender, AsyncCallback<Profile> callback);
+
 	void createSearchProfile(int id, int fromAge, int toAge, int fromHeight, int toHeight, HairColor hairColor,
 			Gender gender, Confession confession, boolean smoker, AsyncCallback<SearchProfile> callback);
 
-	void createBlocking(int id, Profile fromProfile, Profile toProfile,
-			AsyncCallback<Blocking> callback);
+	void createBlocking(int id, Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
 
 	void createDescription(int id, String propertyName, String textualDescription, AsyncCallback<Description> callback);
 
-	void createProperty(int id, String propertyName, String textualDescription,
-			AsyncCallback<Property> callback);
+	/*
+	 * void createProperty(int id, String propertyName, String
+	 * textualDescription, AsyncCallback<Property> callback);
+	 */
 
-	void createInfo(int id, String informationValue,
-			AsyncCallback<Info> callback);
+	void createInfo(int id, String informationValue, AsyncCallback<Info> callback);
 
 	void createSelection(int id, String propertyName, String textualDescription, AsyncCallback<Selection> callback);
 
-	void createSimilarity(int id, Profile fromProfile, Profile toProfile,
-			double similarityValue, AsyncCallback<Similarity> callback);
+	void createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue,
+			AsyncCallback<Similarity> callback);
 
-	void createVisitList(int id, Profile fromProfile, Profile toProfile,
-			AsyncCallback<VisitList> callback);
+	void createVisitList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<VisitList> callback);
 
 	void createFavoritesList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<FavoritesList> callback);
 
@@ -61,7 +58,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void save(Info info, AsyncCallback<Void> callback);
 
-	void save(Property property, AsyncCallback<Void> callback);
+	// void save(Property property, AsyncCallback<Void> callback);
 
 	void save(Description description, AsyncCallback<Void> callback);
 
@@ -86,9 +83,9 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getSearchProfileByKey(int id, AsyncCallback<SearchProfile> callback);
 
-	void getAllProperties(AsyncCallback<ArrayList<Property>> callback);
+	// void getAllProperties(AsyncCallback<ArrayList<Property>> callback);
 
-	void getPropertyByKey(int id, AsyncCallback<Property> callback);
+	// void getPropertyByKey(int id, AsyncCallback<Property> callback);
 
 	void getAllSelections(AsyncCallback<ArrayList<Selection>> callback);
 
@@ -128,7 +125,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void delete(Info info, AsyncCallback<Void> callback);
 
-	void delete(Property property, AsyncCallback<Void> callback);
+	// void delete(Property property, AsyncCallback<Void> callback);
 
 	void delete(Description description, AsyncCallback<Void> callback);
 
@@ -142,6 +139,4 @@ public interface PartnerboerseAdministrationAsync {
 
 	void delete(FavoritesList favoritesList, AsyncCallback<Void> callback);
 
-	
-	
 }

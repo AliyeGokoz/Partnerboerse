@@ -1,6 +1,7 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
@@ -148,5 +149,16 @@ public class FavoritesListMapper {
 	public Vector<FavoritesList> findByProfile(Profile profile) {
 
 		return findByProfile(profile.getId());
+	}
+
+	//Generierte Methoden aus Impl-Klasse
+	public ArrayList<FavoritesList> getAllFavoritesLists() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public FavoritesList getFavoritesListByKey(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

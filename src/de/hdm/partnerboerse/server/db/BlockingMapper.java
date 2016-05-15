@@ -1,6 +1,7 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
@@ -147,6 +148,17 @@ public class BlockingMapper {
 	public Vector<Blocking> findByProfile(Profile profile) {
 
 		return findByProfile(profile.getId());
+	}
+
+	//Generierte Methoden aus Impl-Klasse
+	public ArrayList<Blocking> getAllBlockings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Blocking getBlockingByKey(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,6 +1,7 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
@@ -154,4 +155,15 @@ public class VisitListMapper {
 
 	    return findByProfile(profile.getId());
 	  }
+
+	//Generierte Methoden aus Impl-Klasse
+	public ArrayList<VisitList> getAllVisitLists() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public VisitList getVisitListByKey(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

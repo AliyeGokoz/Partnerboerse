@@ -30,15 +30,7 @@ div#Fullcontent {
 }
 
 div#Navigator {
-}
-
-div#Trailer {
-	clear: both;
-	padding: 10px 0;
-	margin: 0 auto;      /* standardkonforme horizontale Zentrierung */
-	border-top: 1px double red;
-	font-size: 80%;
-	text-align: center;
+	overflow:scroll;
 }
 
 div#Buttonzone {
@@ -51,8 +43,20 @@ div#Buttonzone {
 div#Contentzone {
 	float: right;
 	min-height: 400px;
-	max-height: 500px;
+	max-height: 400px;
 	width:70%;
+	
+}
+
+div#Footer {
+	clear: both;
+	padding: 10px 0;
+	margin: 0 auto;      /* standardkonforme horizontale Zentrierung */
+	border-top: 1px dashed silver;
+	font-size: 80%;
+	text-align: center;
+	
+	background: #FFCCCC;
 }
 
 .hbuttons{
@@ -63,7 +67,7 @@ div#Contentzone {
 
 .hcontent{
 	width: 50%;
-	padding-top: 10px;
+	float: right;
 }
 
 .buttonwidth{
@@ -71,9 +75,25 @@ div#Contentzone {
 	margin-top: 15px;
 }
 
+.infohead{
+text-decoration: underline;
+}
+
+.textboxsize{
+	width: 450px;
+	margin-right: auto;
+	margin-left: auto;
+	height: 50px;
+}
+
+
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;
+}
+
+.gwt-StackPanel {
+  margin: 10px 10px 10px 10px;
 }
 
 .dialogVPanel {
