@@ -129,31 +129,6 @@ public class InfoMapper {
 		return result;
 	}
 
-	public ArrayList<Info> findByInformationValue(String informationValue) {
-		Connection con = DBConnection.connection();
-		ArrayList<Info> result = new ArrayList<Info>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT id, informationValue "
-					+ "FROM infos " + "WHERE informationValue LIKE '"
-					+ informationValue + "' ORDER BY informationValue");
-
-			while (rs.next()) {
-				Info info = new Info();
-				info.setId(rs.getInt("id"));
-				info.setInformationValue(rs.getString("informationValue"));
-
-				result.add(info);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return result;
-	}
-
 	public ArrayList<Info> findByProfile(int profileId) {
 		Connection con = DBConnection.connection();
 		ArrayList<Info> result = new ArrayList<Info>();
@@ -241,10 +216,6 @@ public class InfoMapper {
 	}
 
 	public ArrayList<Info> findByDescription(Description description) {
-
 		return findByDescription(description.getId());
 	}
-
-
-
 }
