@@ -2,7 +2,6 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.*;
 
@@ -28,7 +27,7 @@ public class SearchProfileMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-					+ "FROM searchProfiles ");
+					+ "FROM searchprofiles ");
 
 			if (rs.next()) {
 
@@ -36,11 +35,13 @@ public class SearchProfileMapper {
 
 				stmt = con.createStatement();
 
-				stmt.executeUpdate("INSERT INTO searchProfiles (id, age, hairColor, gender, height, confession) "
+				stmt.executeUpdate("INSERT INTO searchprofiles (id, fromAge, toAge, hairColor, gender, height, confession) "
 						+ "VALUES (" + searchProfile.getId());
 				// + ",'"
 				// TODO
-				// + searchProfile.getAge()
+				// + searchProfile.getFromAge()
+				// + "','"
+				// + searchProfile.getToAge()
 				// + "','"
 				// + searchProfile.getHairColor()
 				// + ",'"
@@ -64,9 +65,10 @@ public class SearchProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE searchProfiles " + "SET age=\"");
+			stmt.executeUpdate("UPDATE searchprofiles " + "SET FromAge=\"");
 			// TODO
-			// + searchProfile.getAge() + "\", " + "hairColor=\""
+			// + searchProfile.getFromAge() + "\", " + "ToAge=\"" 
+			// + searchProfile.getToAge + "\", " + "hairColor=\""
 			// + searchProfile.getHairColor() + "\", " + "gender=\""
 			// + searchProfile.getGender() + "\", " + "height=\""
 			// + searchProfile.getHeight() + "\", " + "confession=\""
@@ -86,7 +88,7 @@ public class SearchProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM searchProfiles " + "WHERE id="
+			stmt.executeUpdate("DELETE FROM searchprofiles " + "WHERE id="
 					+ searchProfile.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,7 +104,7 @@ public class SearchProfileMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, age, hairColor, gender, height, confession FROM searchProfiles "
+					.executeQuery("SELECT id, fromAge, toAge, hairColor, gender, height, confession FROM searchprofiles "
 							+ "WHERE id=" + id);
 
 			if (rs.next()) {
@@ -110,7 +112,8 @@ public class SearchProfileMapper {
 				SearchProfile searchProfile = new SearchProfile();
 				searchProfile.setId(rs.getInt("id"));
 				// TODO
-				// searchProfile.setAge(rs.getInt("age"));
+				// searchProfile.setFromAge(rs.getInt("fromAge"));
+				// searchProfile.setToAge(rs.getInt("toAge"));
 				// searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
 				// searchProfile.setGender(Profile.Gender.valueOf("gender"));
 				// searchProfile.setHeight(rs.getInt("height"));
@@ -126,29 +129,30 @@ public class SearchProfileMapper {
 		return null;
 	}
 
-	public Vector<SearchProfile> findAll() {
+	public ArrayList<SearchProfile> findAll() {
 		Connection con = DBConnection.connection();
 
-		Vector<SearchProfile> result = new Vector<SearchProfile>();
+		ArrayList<SearchProfile> result = new ArrayList<SearchProfile>();
 
 		try {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, age, hairColor, gender, height, confession "
-							+ "FROM searchProfiles ");
+					.executeQuery("SELECT id, fromAge, toAge, hairColor, gender, height, confession "
+							+ "FROM searchprofiles ");
 
 			while (rs.next()) {
 				SearchProfile searchProfile = new SearchProfile();
 				searchProfile.setId(rs.getInt("id"));
 				// TODO
-				// searchProfile.setAge(rs.getInt("age"));
+				// searchProfile.setFromAge(rs.getInt("fromAge"));
+				// searchProfile.setToAge(rs.getInt("toAge"));
 				// searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
 				// searchProfile.setGender(Profile.Gender.valueOf("gender"));
 				// searchProfile.setHeight(rs.getInt("height"));
 				// searchProfile.setConfession(Profile.Confession.valueOf("confession"));
 
-				result.addElement(searchProfile);
+				result.add(searchProfile);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -157,28 +161,29 @@ public class SearchProfileMapper {
 		return result;
 	}
 
-	public Vector<SearchProfile> findByProfile(int profileId) {
+	public ArrayList<SearchProfile> findByProfile(int profileId) {
 		Connection con = DBConnection.connection();
-		Vector<SearchProfile> result = new Vector<SearchProfile>();
+		ArrayList<SearchProfile> result = new ArrayList<SearchProfile>();
 
 		try {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, age, hairColor, gender, height, confession FROM searchprofiles "
+					.executeQuery("SELECT id, fromAge, toAge, hairColor, gender, height, confession FROM searchprofiles "
 							+ "WHERE profile=" + profileId + " ORDER BY id");
 
 			while (rs.next()) {
 				SearchProfile searchProfile = new SearchProfile();
 				searchProfile.setId(rs.getInt("id"));
-				// searchProfile.setage(rs.getInt("age"));
+				// searchProfile.setFromAge(rs.getInt("fromAge"));
+				// searchProfile.setToAge(rs.getInt("toAge"));
 				// searchProfile.setHeight(rs.getInt("height"));
 				// searchProfile.setConfession(Profile.Confession.valueOf("confession"));
 				// searchProfile.setSmoker(rs.getBoolean("smoker"));
 				// searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
 				// searchProfile.setGender(Profile.Gender.valueOf("gender"));
 
-				result.addElement(searchProfile);
+				result.add(searchProfile);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -187,20 +192,11 @@ public class SearchProfileMapper {
 		return result;
 	}
 
-	public Vector<SearchProfile> findByProfile(Profile profile) {
+	public ArrayList<SearchProfile> findByProfile(Profile profile) {
 
 		return findByProfile(profile.getId());
 	}
-	
-	//Generierte Methoden von Impl-Klasse
-	public ArrayList<SearchProfile> getAllSearchProfiles() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public SearchProfile getSearchProfileByKey(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }
