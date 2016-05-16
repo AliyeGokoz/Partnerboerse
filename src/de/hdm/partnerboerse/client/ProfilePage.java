@@ -251,14 +251,22 @@ public class ProfilePage extends VerticalPanel{
 			lbMusik.addItem("others");
 			
 			/**
-			 * Hinzufügen der Info-Objekte für die Eigenschaft Musik
+			 * Hinzufügen der Info-Objekte für die Eigenschaft Filme
 			 */
 			lbFilme.addItem("select");
-			lbFilme.addItem("Rock");
-			lbFilme.addItem("Pop");
-			lbFilme.addItem("Electro");
-			lbFilme.addItem("House");
-			lbFilme.addItem("Volksmusik");
+			lbFilme.addItem("Horror");
+			lbFilme.addItem("Drama");
+			lbFilme.addItem("Komödie");
+			lbFilme.addItem("Action");
+			lbFilme.addItem("Mystery");
+			lbFilme.addItem("Fantasy");
+			lbFilme.addItem("Romantik");
+			lbFilme.addItem("Erotik");
+			lbFilme.addItem("Science Fiction");
+			lbFilme.addItem("Thriller");
+			lbFilme.addItem("Western");
+			lbFilme.addItem("Sport");
+			lbFilme.addItem("Zeichentrick");
 			lbFilme.addItem("others");
 			
 			/**

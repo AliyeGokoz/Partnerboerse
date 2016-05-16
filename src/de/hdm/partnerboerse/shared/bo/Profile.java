@@ -23,10 +23,22 @@ public class Profile extends BusinessObject {
 	private Confession confession = null;
 
 	private Gender gender = null;
+	
+	private Similarity similarity = null;
+
+	private String hobby = null;
+
+	private Sport sport = null;
+
+	private Music music = null;
+
+	private Film film = null;
 
 	public enum HairColor {
+
 		DEFAULT("nicht gesetzt"), BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED(
 				"rot"), GREY("grau"), OTHERS("sonstiges");
+
 
 		private final String name;
 
@@ -40,9 +52,11 @@ public class Profile extends BusinessObject {
 	}
 
 	public enum Confession {
+
 		DEFAULT("nicht gesetzt"), PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC(
 				"buddistisch"), HINDU("hinduistisch"), MUSLIM("muslimisch"), JEWISH(
 				"j�disch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
+
 
 		private final String name;
 
@@ -61,6 +75,52 @@ public class Profile extends BusinessObject {
 		private final String name;
 
 		private Gender(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+	}
+
+	public enum Sport {
+		SOCCER("Fußball"), BASKETBALL("Basketball"), HIKING("Wandern"), VOLLEYBALL("Volleyball"), FOLK_DANCE(
+				"Volkstanz"), TENNIS("Tennis"), DIKING("Tauchen"), TAEKWONDO("Taekwondo"), ROPE_SKIPPING(
+						"Seilspringen"), SWIMMING("Schwimmen"), RUGBY("Rugby"), OTHERS("andere");
+
+		private final String name;
+
+		private Sport(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+	}
+
+	public enum Music {
+		ROCK("Rock"), POP("Pop"), ELECTRO("Electro"), HOUSE("House"), FOLK_MUSIC("Volksmusik"), OTHERS("andere");
+
+		private final String name;
+
+		private Music(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+	}
+
+	public enum Film {
+		HORROR("Horror"), DRAMA("Drama"), COMEDY("Komödie"), ACTION("Action"), MYSTERY("Mystery"), FANTASY(
+				"Fantasy"), ROMANCE("Romantik"), EROTIC("Erotik"), SCIENCE_FICTION("Science Fiction"), THRILLER(
+						"Thriller"), WESTERN("Western"), SPORTS("Sport"), CARTOON("Zeichentrick"), OTHERS("andere");
+
+		private final String name;
+
+		private Film(String name) {
 			this.name = name;
 		}
 
@@ -141,10 +201,52 @@ public class Profile extends BusinessObject {
 		this.gender = gender;
 	}
 
-	public String toString() {
-		return super.toString() + this.firstName + " " + this.lastName + " "
-				+ this.eMail + " " + this.dateOfBirth + " " + this.smoker + " "
-				+ this.height;
+	public String getHobby() {
+		return hobby;
 	}
+	
+	public Similarity getSimilarity() {
+		return similarity;
+	}
+
+
+	public void setSimilarity(Similarity similarity) {
+		this.similarity = similarity;
+	}
+
+	public void setHobby(String hobby) {
+		this.hobby = hobby;
+	}
+
+	public Sport getSport() {
+		return sport;
+	}
+
+	public void setSport(Sport sport) {
+		this.sport = sport;
+	}
+
+	public Music getMusic() {
+		return music;
+	}
+
+	public void setMusic(Music music) {
+		this.music = music;
+	}
+
+	public Film getFilm() {
+		return film;
+	}
+
+	public void setFilm(Film film) {
+		this.film = film;
+	}
+
+	public String toString() {
+		return super.toString() + this.firstName + " " + this.lastName + " " + this.eMail + " " + this.dateOfBirth + " "
+				+ this.smoker + " " + this.height + " " + this.hairColor + " " + this.confession + " " + this.gender
+				+ " " + this.hobby + " " + this.sport + " " + this.music + " " + this.film;
+	}
+
 
 }
