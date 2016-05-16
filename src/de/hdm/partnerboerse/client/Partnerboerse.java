@@ -70,6 +70,26 @@ public class Partnerboerse implements EntryPoint {
 				RootPanel.get("Contentzone").add(showProfil);
 			}
 		};
+		
+		Command allUsers = new Command() {
+			public void execute() {
+				UserOverview allUsers = new UserOverview();
+				RootPanel.get("Buttonzone").clear();
+				RootPanel.get("Contentzone").clear();
+				RootPanel.get("Buttonzone").add(allUsers);
+				RootPanel.get("Contentzone").add(allUsers);
+			}
+		};
+		
+		Command seeFavoritList = new Command() {
+			public void execute() {
+				FavoritListOverview seeFavoritList = new FavoritListOverview();
+				RootPanel.get("Buttonzone").clear();
+				RootPanel.get("Contentzone").clear();
+				RootPanel.get("Buttonzone").add(seeFavoritList);
+				RootPanel.get("Contentzone").add(seeFavoritList);
+			}
+		};
 
 		// Make some sub-menus that we will cascade from the top menu.
 		MenuBar profilMenu = new MenuBar(true);
@@ -77,10 +97,13 @@ public class Partnerboerse implements EntryPoint {
 		profilMenu.addItem("Suchprofil ansehen", cmd);
 
 		MenuBar favoritlistMenu = new MenuBar(true);
-		favoritlistMenu.addItem("Merkzettel ansehen", cmd);
+		favoritlistMenu.addItem("Merkzettel ansehen", seeFavoritList);
 
 		MenuBar blockedcontactsMenu = new MenuBar(true);
 		blockedcontactsMenu.addItem("Kontaktsperrenliste ansehen", cmd);
+		
+		MenuBar allProfilesMenu = new MenuBar(true);
+		allProfilesMenu.addItem("Alle Profile Ansehen", allUsers);
 
 		MenuBar partnerproposelMenu = new MenuBar(true);
 		partnerproposelMenu.addItem("Partnervorschläge Suchprofil", cmd);
@@ -91,6 +114,7 @@ public class Partnerboerse implements EntryPoint {
 		menu.addItem("Profil", profilMenu);
 		menu.addItem("Merkzettel", favoritlistMenu);
 		menu.addItem("Kontaktsperre", blockedcontactsMenu);
+		menu.addItem("Alle Profile", allProfilesMenu);
 		menu.addItem("Personenvorschläge", partnerproposelMenu);
 
 		// TODO automatisch Usernamen ausgeben

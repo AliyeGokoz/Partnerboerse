@@ -24,6 +24,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
+import de.hdm.partnerboerse.shared.bo.Profile.Confession;
+import de.hdm.partnerboerse.shared.bo.Profile.Film;
+import de.hdm.partnerboerse.shared.bo.Profile.Gender;
+import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
+import de.hdm.partnerboerse.shared.bo.Profile.Music;
 
 public class ProfilePage extends VerticalPanel {
 
@@ -280,29 +285,27 @@ public class ProfilePage extends VerticalPanel {
 		final TextBox tHeight = new TextBox();
 		final ListBox lbHaircolor = new ListBox();
 		final ListBox lbConfession = new ListBox();
-		RadioButton Rbgenderfm = new RadioButton("genderGroup", "weiblich");
-		RadioButton Rbgenderm = new RadioButton("genderGroup", "männlich");
-		RadioButton Rbgendero = new RadioButton("genderGroup", "andere");
+		
+		
+		Gender[] genderValues = Profile.Gender.values();
+		int i = 1;
+		for (Gender gender : genderValues) {
+			RadioButton radioButton = new RadioButton("genderGroup", gender.getName());
+			mainGrid.setWidget(8, i++, radioButton);
+		}
+		
 		RadioButton Rbsmokeyes = new RadioButton("smokeGroup", "ja");
 		RadioButton Rbsmokeno = new RadioButton("smokeGroup", "nein");
+		
+		HairColor[] hairColorValue = Profile.HairColor.values();
+		for (HairColor hairColor : hairColorValue) {
+			lbHaircolor.addItem(hairColor.getName(), hairColor.toString());
+		}
 
-		lbHaircolor.addItem("select");
-		lbHaircolor.addItem("braun");
-		lbHaircolor.addItem("blond");
-		lbHaircolor.addItem("schwarz");
-		lbHaircolor.addItem("rot");
-		lbHaircolor.addItem("grau");
-		lbHaircolor.addItem("others");
-
-		lbConfession.addItem("select");
-		lbConfession.addItem("evangelisch");
-		lbConfession.addItem("katholisch");
-		lbConfession.addItem("buddistisch");
-		lbConfession.addItem("hinduistisch");
-		lbConfession.addItem("muslimisch");
-		lbConfession.addItem("jüdisch");
-		lbConfession.addItem("keine Konfession");
-		lbConfession.addItem("andere");
+		Confession[] confessionValue = Profile.Confession.values();
+		for (Confession confession : confessionValue) {
+			lbConfession.addItem(confession.getName(), confession.toString());
+		}
 
 		lbHaircolor.setVisibleItemCount(1);
 		lbConfession.setVisibleItemCount(1);
@@ -324,9 +327,7 @@ public class ProfilePage extends VerticalPanel {
 		mainGrid.setWidget(5, 1, tHeight);
 		mainGrid.setWidget(6, 1, lbHaircolor);
 		mainGrid.setWidget(7, 1, lbConfession);
-		mainGrid.setWidget(8, 1, Rbgenderfm);
-		mainGrid.setWidget(8, 2, Rbgenderm);
-		mainGrid.setWidget(8, 3, Rbgendero);
+	
 		mainGrid.setWidget(9, 1, Rbsmokeyes);
 		mainGrid.setWidget(9, 2, Rbsmokeno);
 
@@ -346,6 +347,15 @@ public class ProfilePage extends VerticalPanel {
 		final ListBox lbMusik = new ListBox();
 		final ListBox lbFilme = new ListBox();
 
+		/*Gender[] genderValues = Profile.Gender.values();
+		int i = 1;
+		for (Gender gender : genderValues) {
+			RadioButton radioButton = new RadioButton("genderGroup", gender.getName());
+			mainGrid.setWidget(8, i++, radioButton);
+		}*/
+		
+		
+		
 		final CheckBox cbSport1 = new CheckBox("Fußball");
 		final CheckBox cbSport2 = new CheckBox("Basketball");
 		final CheckBox cbSport3 = new CheckBox("Wandern");
@@ -379,24 +389,18 @@ public class ProfilePage extends VerticalPanel {
 		/**
 		 * Hinzufügen der Info-Objekte für die Eigenschaft Musik
 		 */
-		lbMusik.addItem("select");
-		lbMusik.addItem("Rock");
-		lbMusik.addItem("Pop");
-		lbMusik.addItem("Electro");
-		lbMusik.addItem("House");
-		lbMusik.addItem("Volksmusik");
-		lbMusik.addItem("others");
+		Music[] musicValues = Profile.Music.values();
+		for (Music music : musicValues) {
+			lbMusik.addItem(music.getName(), music.toString());
+		}
 
 		/**
-		 * Hinzufügen der Info-Objekte für die Eigenschaft Musik
+		 * Hinzufügen der Info-Objekte für die Eigenschaft Filme
 		 */
-		lbFilme.addItem("select");
-		lbFilme.addItem("Rock");
-		lbFilme.addItem("Pop");
-		lbFilme.addItem("Electro");
-		lbFilme.addItem("House");
-		lbFilme.addItem("Volksmusik");
-		lbFilme.addItem("others");
+		Film[] filmValues = Profile.Film.values();
+		for (Film film : filmValues) {
+			lbFilme.addItem(film.getName(), film.toString());
+		}
 
 		/**
 		 * new Panel für die Sportarten Checkboxen
