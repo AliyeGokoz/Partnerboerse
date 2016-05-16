@@ -6,7 +6,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.report.PartnerProposalsProfilesReport;
-import de.hdm.partnerboerse.shared.report.PartnerProposalsBySearchProfileReport;
 
 public interface ReportGeneratorAsync {
 
@@ -21,5 +20,7 @@ public interface ReportGeneratorAsync {
 
 	void createPartnerProposalsReport(Profile p, SearchProfile s,
 			AsyncCallback<PartnerProposalsProfilesReport> callback);
+
+	void renderPartnerProposalsByNotViewedProfilesReport(AsyncCallback<String> callback);
 
 }

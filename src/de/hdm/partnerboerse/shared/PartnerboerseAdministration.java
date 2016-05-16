@@ -31,7 +31,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Description createDescription(int id, String propertyName, String textualDescription);
 
-	public FavoritesList createFavoritesList(int id, Profile fromProfile, Profile toProfile);
+	public FavoritesList createFavoritesList(Profile fromProfile, Profile toProfile);
 
 	public VisitList createVisitList(int id, Profile fromProfile, Profile toProfile);
 

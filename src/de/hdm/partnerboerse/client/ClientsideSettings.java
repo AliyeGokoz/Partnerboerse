@@ -38,7 +38,7 @@ public class ClientsideSettings extends CommonSettings {
 		return partnerboerseVerwaltung;
 	}
 
-	private static ReportGeneratorAsync getReportGenerator() {
+	public static ReportGeneratorAsync getReportGenerator() {
 		if (reportGenerator == null) {
 			reportGenerator = GWT.create(ReportGenerator.class);
 			final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>() {

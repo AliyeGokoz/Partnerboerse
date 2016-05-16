@@ -41,7 +41,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createVisitList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<VisitList> callback);
 
-	void createFavoritesList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<FavoritesList> callback);
+	void createFavoritesList(Profile fromProfile, Profile toProfile, AsyncCallback<FavoritesList> callback);
 
 	/*
 	 * save

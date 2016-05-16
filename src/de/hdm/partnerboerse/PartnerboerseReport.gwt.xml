@@ -3,6 +3,7 @@
 <module rename-to='partnerboersereport'>
 	<inherits name="com.google.gwt.user.User" />
 	<entry-point class='de.hdm.partnerboerse.client.PartnerboerseReport'/>
+	<inherits name='com.google.gwt.user.theme.clean.Clean' />
 	<source path="client"/>
   	<source path='shared'/>
 </module>

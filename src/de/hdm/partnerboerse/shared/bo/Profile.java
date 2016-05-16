@@ -35,7 +35,10 @@ public class Profile extends BusinessObject {
 	private Film film = null;
 
 	public enum HairColor {
-		BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED("rot"), GREY("grau"), OTHERS("sonstiges");
+
+		DEFAULT("nicht gesetzt"), BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED(
+				"rot"), GREY("grau"), OTHERS("sonstiges");
+
 
 		private final String name;
 
@@ -49,8 +52,11 @@ public class Profile extends BusinessObject {
 	}
 
 	public enum Confession {
-		PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC("buddistisch"), HINDU("hinduistisch"), MUSLIM(
-				"muslimisch"), JEWISH("j�disch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
+
+		DEFAULT("nicht gesetzt"), PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC(
+				"buddistisch"), HINDU("hinduistisch"), MUSLIM("muslimisch"), JEWISH(
+				"j�disch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
+
 
 		private final String name;
 
@@ -203,6 +209,7 @@ public class Profile extends BusinessObject {
 		return similarity;
 	}
 
+
 	public void setSimilarity(Similarity similarity) {
 		this.similarity = similarity;
 	}
@@ -240,5 +247,6 @@ public class Profile extends BusinessObject {
 				+ this.smoker + " " + this.height + " " + this.hairColor + " " + this.confession + " " + this.gender
 				+ " " + this.hobby + " " + this.sport + " " + this.music + " " + this.film;
 	}
+
 
 }

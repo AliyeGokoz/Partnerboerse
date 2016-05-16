@@ -115,11 +115,12 @@ public class SearchProfileMapper {
 
 				 searchProfile.setFromAge(rs.getInt("fromAge"));
 				 searchProfile.setToAge(rs.getInt("toAge"));
-				 searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				 searchProfile.setGender(Profile.Gender.valueOf("gender"));
+			     searchProfile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+				 searchProfile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
 				 searchProfile.setFromHeight(rs.getInt("fromHeight"));
 				 searchProfile.setToHeight(rs.getInt("ToHeight"));
-				 searchProfile.setConfession(Profile.Confession.valueOf("confession"));
+                 searchProfile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
+				 
 
 				return searchProfile;
 			}
@@ -149,11 +150,11 @@ public class SearchProfileMapper {
 
 				 searchProfile.setFromAge(rs.getInt("fromAge"));
 				 searchProfile.setToAge(rs.getInt("toAge"));
-				 searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				 searchProfile.setGender(Profile.Gender.valueOf("gender"));
+				 searchProfile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+				 searchProfile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
 				 searchProfile.setFromHeight(rs.getInt("fromHeight"));
 				 searchProfile.setToHeight(rs.getInt("ToHeight"));
-				 searchProfile.setConfession(Profile.Confession.valueOf("confession"));
+                 searchProfile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
 
 				result.add(searchProfile);
 			}
@@ -180,11 +181,11 @@ public class SearchProfileMapper {
 				searchProfile.setId(rs.getInt("id"));
 				 searchProfile.setFromAge(rs.getInt("fromAge"));
 				 searchProfile.setToAge(rs.getInt("toAge"));
+				 searchProfile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+				 searchProfile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
 				 searchProfile.setFromHeight(rs.getInt("fromHeight"));
-				 searchProfile.setToHeight(rs.getInt("toHeight"));
-				 searchProfile.setConfession(Profile.Confession.valueOf("confession"));
-				 searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				 searchProfile.setGender(Profile.Gender.valueOf("gender"));
+				 searchProfile.setToHeight(rs.getInt("ToHeight"));
+                 searchProfile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
 
 				result.add(searchProfile);
 			}
