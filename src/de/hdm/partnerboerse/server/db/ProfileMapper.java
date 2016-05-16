@@ -1,6 +1,7 @@
  package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.*;
@@ -34,14 +35,18 @@ public class ProfileMapper {
 
 				stmt = con.createStatement();
 
-				stmt.executeUpdate(
-						"INSERT INTO profiles (id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender) "
-								+ "VALUES (" + profile.getId() + ",'" + profile.getFirstName() + "','"
-								+ profile.getLastName() + ",'" + profile.getDateOfBirth() + ",'" + profile.geteMail()
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				
+				String sql = "INSERT INTO profiles (id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender) "
+						+ "VALUES (" + profile.getId() + ",'" + profile.getFirstName() + "','"
+						+ profile.getLastName() + "','" + simpleDateFormat.format(profile.getDateOfBirth()) + "','" + profile.geteMail()
 
-								+ ",'" + profile.getHeight() + ",'" + profile.getConfession() + ",'"
-								+ profile.isSmoker() + ",'" + profile.getHairColor() + ",'" + profile.getGender()
-								+ "')");
+						+ "'," + profile.getHeight() + ",'" + profile.getConfession() + "','"
+						+ (profile.isSmoker() ? 1 : 0) + "','" + profile.getHairColor() + "','" + profile.getGender()
+						+ "')";
+				System.out.println(sql);
+				stmt.executeUpdate(sql
+						);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -56,11 +61,13 @@ public class ProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			
 			stmt.executeUpdate("UPDATE profiles " + "SET firstName=\"" + profile.getFirstName() + "\", " + "lastName=\""
-					+ profile.getLastName() + "\", " + "dateOfBirth=\"" + profile.getDateOfBirth() + "\", " + "email=\""
+					+ profile.getLastName() + "\", " + "dateOfBirth=\"" + simpleDateFormat.format(profile.getDateOfBirth()) + "\", " + "email=\""
 					+ profile.geteMail() + "\", " + "height=\"" + profile.getHeight() + "\", " + "confession=\""
 
-					+ profile.getConfession() + "\", " + "smoker=\"" + profile.isSmoker() + "\", " + "hairColor=\""
+					+ profile.getConfession() + "\", " + "smoker=\"" + (profile.isSmoker()? 1 : 0) + "\", " + "hairColor=\""
 					+ profile.getHairColor() + "\", " + "gender=\"" + profile.getGender() + "\" " + "WHERE id="
 					+ profile.getId());
 

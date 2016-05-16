@@ -25,6 +25,6 @@ public class Property extends BusinessObject{
 	}
 	
 	public String toString() {
-	    return super.toString() + this.propertyName + " " + this.textualDescription;
+	    return super.toString() + " " + this.propertyName + " " + this.textualDescription;
 	  }
 }
