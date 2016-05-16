@@ -30,6 +30,8 @@ import de.hdm.partnerboerse.shared.FieldVerifier;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.ReportGenerator;
+import de.hdm.partnerboerse.shared.ReportGeneratorAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
 /**

@@ -5,6 +5,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.hdm.partnerboerse.server.db.ProfileMapper;
 import de.hdm.partnerboerse.shared.LoginInfo;
 import de.hdm.partnerboerse.shared.LoginService;
 import de.hdm.partnerboerse.shared.bo.Profile;
@@ -33,6 +34,6 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	public Profile getCurrentProfile(){
-		return new Profile();//TODO
+		return ProfileMapper.profileMapper().findByKey(1);//TODO
 	}
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import de.hdm.partnerboerse.server.LoginServiceImpl;
 import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.ReportGenerator;
@@ -11,6 +13,7 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.report.Column;
 import de.hdm.partnerboerse.shared.report.CompositeParagraph;
+import de.hdm.partnerboerse.shared.report.HTMLReportWriter;
 import de.hdm.partnerboerse.shared.report.PartnerProposalsProfilesReport;
 import de.hdm.partnerboerse.shared.report.PartnerProposalsBySearchProfileReport;
 import de.hdm.partnerboerse.shared.report.Report;
@@ -39,7 +42,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	protected void addImprint(Report r) {
-
+		r.setImprint(new SimpleParagraph("Imprint"));
 	}
 
 	@Override
@@ -117,14 +120,28 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			Row profileRow = new Row();
 
 			profileRow.addColumn(new Column(t.getLastName()));
-			profileRow.addColumn(new Column(t.getLastName()));
+			profileRow.addColumn(new Column(t.getFirstName()));
 			profileRow.addColumn(new Column(t.geteMail()));
-			profileRow.addColumn(new Column((int) (t.getSimilarity().getSimilarityValue() * 100) + "%"));
+//			profileRow.addColumn(new Column((int) (t.getSimilarity().getSimilarityValue() * 100) + "%"));
 
 			result.addRow(profileRow);
 		}
 
 		return result;
+	}
+	@Override
+	public String renderPartnerProposalsByNotViewedProfilesReport(){
+		System.out.println("Hallo");
+		
+		LoginServiceImpl service = new LoginServiceImpl();
+		Profile currentProfile = service.getCurrentProfile();
+		HTMLReportWriter htmlReportWriter = new HTMLReportWriter();
+		PartnerProposalsProfilesReport createPartnerProposalsByNotViewedProfilesReport = createPartnerProposalsByNotViewedProfilesReport(currentProfile);
+		htmlReportWriter.process(createPartnerProposalsByNotViewedProfilesReport);
+		String reportText = htmlReportWriter.getReportText();
+		return reportText;
+		
+		
 	}
 
 }

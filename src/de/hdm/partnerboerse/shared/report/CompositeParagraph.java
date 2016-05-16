@@ -6,7 +6,7 @@ public class CompositeParagraph extends Paragraph {
 
 	private static final long serialVersionUID = 1L;
 
-	private Vector<SimpleParagraph> subParagraphs;
+	private final Vector<SimpleParagraph> subParagraphs = new Vector<>();
 
 	public void addParagraph(SimpleParagraph p) {
 		this.subParagraphs.addElement(p);
