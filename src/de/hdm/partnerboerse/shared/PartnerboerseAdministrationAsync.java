@@ -13,7 +13,6 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
-//import de.hdm.partnerboerse.shared.bo.Property;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.bo.Selection;
 import de.hdm.partnerboerse.shared.bo.Similarity;
@@ -32,11 +31,6 @@ public interface PartnerboerseAdministrationAsync {
 	void createBlocking(int id, Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
 
 	void createDescription(int id, String propertyName, String textualDescription, AsyncCallback<Description> callback);
-
-	/*
-	 * void createProperty(int id, String propertyName, String
-	 * textualDescription, AsyncCallback<Property> callback);
-	 */
 
 	void createInfo(int id, String informationValue, AsyncCallback<Info> callback);
 
@@ -57,8 +51,6 @@ public interface PartnerboerseAdministrationAsync {
 	void save(SearchProfile searchProfile, AsyncCallback<Void> callback);
 
 	void save(Info info, AsyncCallback<Void> callback);
-
-	// void save(Property property, AsyncCallback<Void> callback);
 
 	void save(Description description, AsyncCallback<Void> callback);
 
@@ -82,10 +74,6 @@ public interface PartnerboerseAdministrationAsync {
 	void getAllSearchProfiles(AsyncCallback<ArrayList<SearchProfile>> callback);
 
 	void getSearchProfileByKey(int id, AsyncCallback<SearchProfile> callback);
-
-	// void getAllProperties(AsyncCallback<ArrayList<Property>> callback);
-
-	// void getPropertyByKey(int id, AsyncCallback<Property> callback);
 
 	void getAllSelections(AsyncCallback<ArrayList<Selection>> callback);
 
@@ -125,8 +113,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void delete(Info info, AsyncCallback<Void> callback);
 
-	// void delete(Property property, AsyncCallback<Void> callback);
-
 	void delete(Description description, AsyncCallback<Void> callback);
 
 	void delete(Selection selection, AsyncCallback<Void> callback);
@@ -138,5 +124,24 @@ public interface PartnerboerseAdministrationAsync {
 	void delete(VisitList visitList, AsyncCallback<Void> callback);
 
 	void delete(FavoritesList favoritesList, AsyncCallback<Void> callback);
+
+	void getSearchProfileOf(Profile profile,
+			AsyncCallback<ArrayList<SearchProfile>> callback);
+
+	void getInfoOf(Profile profile, AsyncCallback<ArrayList<Info>> callback);
+
+	void getInfoOf(Selection selection, AsyncCallback<ArrayList<Info>> callback);
+
+	void getProfilesByName(String lastName, String firstName, AsyncCallback<ArrayList<Profile>> callback);
+
+	void getProfilesOf(SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback);
+
+	void getBlockingsOf(Profile profile, AsyncCallback<ArrayList<Blocking>> callback);
+
+	void getFavoritesListsOf(Profile profile, AsyncCallback<ArrayList<FavoritesList>> callback);
+
+	void getVisitListsOf(Profile profile, AsyncCallback<ArrayList<VisitList>> callback);
+
+	void getSimilaritiesOf(Profile profile, AsyncCallback<ArrayList<Similarity>> callback);
 
 }

@@ -27,8 +27,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Info createInfo(int id, String informationValue);
 
-	//public Property createProperty(int id, String propertyName, String textualDescription);
-
 	public Selection createSelection(int id, String propertyName, String textualDescription);
 
 	public Description createDescription(int id, String propertyName, String textualDescription);
@@ -50,8 +48,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void delete(SearchProfile searchProfile) throws IllegalArgumentException;
 
 	public void delete(Info info) throws IllegalArgumentException;
-
-	//public void delete(Property property) throws IllegalArgumentException;
 
 	public void delete(Description description) throws IllegalArgumentException;
 
@@ -98,14 +94,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Description getDescriptionByKey(int id) throws IllegalArgumentException;
 
 	/*
-	 * Property
-	 */
-
-	//public ArrayList<Property> getAllProperties() throws IllegalArgumentException;
-
-	//public Property getPropertyByKey(int id) throws IllegalArgumentException;
-
-	/*
 	 * Selection
 	 */
 	public ArrayList<Selection> getAllSelections() throws IllegalArgumentException;
@@ -149,8 +137,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void save(Info info) throws IllegalArgumentException;
 
-	//public void save(Property property) throws IllegalArgumentException;
-
 	public void save(Description description) throws IllegalArgumentException;
 
 	public void save(Selection selection) throws IllegalArgumentException;
@@ -162,5 +148,23 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void save(VisitList visitList) throws IllegalArgumentException;
 
 	public void save(FavoritesList favoritesList) throws IllegalArgumentException;
+
+	ArrayList<SearchProfile> getSearchProfileOf(Profile profile);
+
+	ArrayList<Info> getInfoOf(Profile profile);
+
+	ArrayList<Info> getInfoOf(Selection selection);
+
+	ArrayList<Profile> getProfilesByName(String lastName, String firstName) throws IllegalArgumentException;
+
+	ArrayList<Profile> getProfilesOf(SearchProfile searchProfile) throws IllegalArgumentException;
+
+	ArrayList<Blocking> getBlockingsOf(Profile profile) throws IllegalArgumentException;
+
+	ArrayList<FavoritesList> getFavoritesListsOf(Profile profile) throws IllegalArgumentException;
+
+	ArrayList<VisitList> getVisitListsOf(Profile profile) throws IllegalArgumentException;
+
+	ArrayList<Similarity> getSimilaritiesOf(Profile profile) throws IllegalArgumentException;
 
 }

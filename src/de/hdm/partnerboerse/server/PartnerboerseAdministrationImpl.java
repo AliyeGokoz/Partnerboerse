@@ -3,7 +3,6 @@ package de.hdm.partnerboerse.server;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.partnerboerse.server.db.*;
@@ -13,7 +12,8 @@ import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 
-public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implements PartnerboerseAdministration {
+public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
+		implements PartnerboerseAdministration {
 
 	// Referenz auf die jeweiligen Mapper-Klassen
 
@@ -25,7 +25,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private DescriptionMapper descriptionMapper = null;
 	private FavoritesListMapper favoritesListMapper = null;
 	private InfoMapper infoMapper = null;
-	// private PropertyMapper propertyMapper = null;
 	private ProfileMapper profileMapper = null;
 	private SearchProfileMapper searchProfileMapper = null;
 	private SelectionMapper selectionMapper = null;
@@ -53,8 +52,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	// Create-Methoden
 	@Override
-	public Profile createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
-			boolean smoker, HairColor hairColor, Confession confession, Gender gender) {
+	public Profile createProfile(int id, String firstName, String lastName,
+			Date dateOfBirth, String email, int height, boolean smoker,
+			HairColor hairColor, Confession confession, Gender gender) {
 		Profile p = new Profile();
 		p.setId(id);
 		p.setFirstName(firstName);
@@ -71,8 +71,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public SearchProfile createSearchProfile(int id, int fromAge, int toAge, int fromHeight, int toHeight,
-			HairColor hairColor, Gender gender, Confession confession, boolean smoker) {
+	public SearchProfile createSearchProfile(int id, int fromAge, int toAge,
+			int fromHeight, int toHeight, HairColor hairColor, Gender gender,
+			Confession confession, boolean smoker) {
 		SearchProfile sp = new SearchProfile();
 		// TODO Auto-generated method stub
 
@@ -98,16 +99,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.infoMapper.insert(i);
 	}
 
-	/*
-	 * @Override public Property createProperty(int id, String
-	 * propertyName,String textualDescription) { Property p = new Property();
-	 * 
-	 * 
-	 * return this.propertyMapper.insert(p); }
-	 */
-
 	@Override
-	public Selection createSelection(int id, String propertyName, String textualDescription) {
+	public Selection createSelection(int id, String propertyName,
+			String textualDescription) {
 		Selection s = new Selection();
 
 		s.setId(id);
@@ -118,7 +112,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public Description createDescription(int id, String propertyName, String textualDescription) {
+	public Description createDescription(int id, String propertyName,
+			String textualDescription) {
 		Description d = new Description();
 
 		d.setId(id);
@@ -129,7 +124,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public FavoritesList createFavoritesList(int id, Profile fromProfile, Profile toProfile) {
+	public FavoritesList createFavoritesList(int id, Profile fromProfile,
+			Profile toProfile) {
 		FavoritesList fl = new FavoritesList();
 
 		fl.setId(id);
@@ -140,7 +136,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public VisitList createVisitList(int id, Profile fromProfile, Profile toProfile) {
+	public VisitList createVisitList(int id, Profile fromProfile,
+			Profile toProfile) {
 		VisitList vl = new VisitList();
 
 		vl.setId(id);
@@ -151,7 +148,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public Similarity createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue) {
+	public Similarity createSimilarity(int id, Profile fromProfile,
+			Profile toProfile, double similarityValue) {
 		Similarity si = new Similarity();
 
 		si.setId(id);
@@ -163,7 +161,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public Blocking createBlocking(int id, Profile fromProfile, Profile toProfile) {
+	public Blocking createBlocking(int id, Profile fromProfile,
+			Profile toProfile) {
 		Blocking b = new Blocking();
 
 		b.setId(id);
@@ -176,63 +175,107 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	// Delete-Methoden
 	@Override
 	public void delete(Profile profile) throws IllegalArgumentException {
-		// ...
+		
+		ArrayList<FavoritesList> favoritesLists = this.getFavoritesListsOf(profile);
+	    ArrayList<SearchProfile> searchProfiles = this.getSearchProfileOf(profile);
+	    ArrayList<Info> infos = this.getInfoOf(profile);
+	    ArrayList<Blocking> blockings= this.getBlockingsOf(profile);
+	    ArrayList<VisitList> visitLists= this.getVisitListsOf(profile);
+	    ArrayList<Similarity> similarities= this.getSimilaritiesOf(profile);
+
+
+	    if (favoritesLists!= null) {
+	      for (FavoritesList favoritesList : favoritesLists) {
+	        this.delete(favoritesList);
+	      }
+	    }
+
+	    if (searchProfiles != null) {
+	      for (SearchProfile searchProfile : searchProfiles) {
+	        this.delete(searchProfile);
+	      }
+	    }
+	   if (infos != null) {
+	      for (Info info : infos) {
+	        this.delete(info);
+	      }
+	    }
+
+	 if (blockings != null) {
+	      for (Blocking blocking : blockings) {
+	        this.delete(blocking);
+	      }
+	    }
+	 if (visitLists != null) {
+	      for (VisitList visitList : visitLists) {
+	        this.delete(visitList);
+	      }
+	    }
+	 if (similarities != null) {
+	      for (Similarity similarity: similarities) {
+	        this.delete(similarity);
+	      }
+	    }
+
 		this.profileMapper.delete(profile);
 	}
 
 	@Override
-	public void delete(SearchProfile searchProfile) throws IllegalArgumentException {
-		// ...
+	public void delete(SearchProfile searchProfile)
+			throws IllegalArgumentException {
+
 		this.searchProfileMapper.delete(searchProfile);
 	}
 
 	@Override
 	public void delete(Info info) throws IllegalArgumentException {
-		// ...
+
 		this.infoMapper.delete(info);
 	}
 
-	/*
-	 * @Override public void delete(Property property) throws
-	 * IllegalArgumentException {
-	 * 
-	 * }
-	 */
-
 	@Override
 	public void delete(Description description) throws IllegalArgumentException {
-		// ...
+		ArrayList<Info> infos = infoMapper.findByDescription(description);
+		for (Info info : infos) {
+			this.infoMapper.delete(info);
+		}
+
 		this.descriptionMapper.delete(description);
 
 	}
 
 	@Override
 	public void delete(Selection selection) throws IllegalArgumentException {
-		// ...
+		ArrayList<Info> infos = infoMapper.findBySelection(selection);
+		for (Info info : infos) {
+			this.infoMapper.delete(info);
+		}
+
 		this.selectionMapper.delete(selection);
 	}
 
 	@Override
 	public void delete(Blocking blocking) throws IllegalArgumentException {
-		// ...
+
 		this.blockingMapper.delete(blocking);
 	}
 
 	@Override
 	public void delete(Similarity similarity) throws IllegalArgumentException {
-		// ...
+
 		this.similarityMapper.delete(similarity);
 	}
 
 	@Override
 	public void delete(VisitList visitList) throws IllegalArgumentException {
-		// ...
+
 		this.visitListMapper.delete(visitList);
 	}
 
 	@Override
-	public void delete(FavoritesList favoritesList) throws IllegalArgumentException {
-		// ...
+	public void delete(FavoritesList favoritesList)
+			throws IllegalArgumentException {
+
 		this.favoritesListMapper.delete(favoritesList);
 	}
 
@@ -248,12 +291,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<SearchProfile> getAllSearchProfiles() throws IllegalArgumentException {
+	public ArrayList<SearchProfile> getAllSearchProfiles()
+			throws IllegalArgumentException {
 		return this.searchProfileMapper.findAll();
 	}
 
 	@Override
-	public SearchProfile getSearchProfileByKey(int id) throws IllegalArgumentException {
+	public SearchProfile getSearchProfileByKey(int id)
+			throws IllegalArgumentException {
 		return this.searchProfileMapper.findByKey(id);
 	}
 
@@ -268,27 +313,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Description> getAllDescriptions() throws IllegalArgumentException {
+	public ArrayList<Description> getAllDescriptions()
+			throws IllegalArgumentException {
 		return this.descriptionMapper.findAll();
 	}
 
 	@Override
-	public Description getDescriptionByKey(int id) throws IllegalArgumentException {
+	public Description getDescriptionByKey(int id)
+			throws IllegalArgumentException {
 		return this.descriptionMapper.findByKey(id);
 	}
 
-	/*
-	 * @Override public ArrayList<Property> getAllProperties() throws
-	 * IllegalArgumentException { return this.propertyMapper.getAllProperties();
-	 * }
-	 * 
-	 * @Override public Property getPropertyByKey(int id) throws
-	 * IllegalArgumentException { return
-	 * this.propertyMapper.getPropertyByKey(id); }
-	 */
-
 	@Override
-	public ArrayList<Selection> getAllSelections() throws IllegalArgumentException {
+	public ArrayList<Selection> getAllSelections()
+			throws IllegalArgumentException {
 		return this.selectionMapper.findAll();
 	}
 
@@ -298,13 +336,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Similarity> getAllSimilarities() throws IllegalArgumentException {
+	public ArrayList<Similarity> getAllSimilarities()
+			throws IllegalArgumentException {
 		return this.similarityMapper.findAll();
 
 	}
 
 	@Override
-	public Similarity getSimilarityByKey(int id) throws IllegalArgumentException {
+	public Similarity getSimilarityByKey(int id)
+			throws IllegalArgumentException {
 		return this.similarityMapper.findByKey(id);
 	}
 
@@ -327,7 +367,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<VisitList> getAllVisitLists() throws IllegalArgumentException {
+	public ArrayList<VisitList> getAllVisitLists()
+			throws IllegalArgumentException {
 		return this.visitListMapper.findAll();
 	}
 
@@ -338,7 +379,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Blocking> getAllBlockings() throws IllegalArgumentException {
-		return this.blockingMapper.findAll(); 
+		return this.blockingMapper.findAll();
 	}
 
 	@Override
@@ -347,12 +388,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<FavoritesList> getAllFavoritesLists() throws IllegalArgumentException {
+	public ArrayList<FavoritesList> getAllFavoritesLists()
+			throws IllegalArgumentException {
 		return this.favoritesListMapper.findAll();
-		}
+	}
 
 	@Override
-	public FavoritesList getFavoritesListByKey(int id) throws IllegalArgumentException {
+	public FavoritesList getFavoritesListByKey(int id)
+			throws IllegalArgumentException {
 		return this.favoritesListMapper.findByKey(id);
 	}
 
@@ -363,7 +406,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void save(SearchProfile searchProfile) throws IllegalArgumentException {
+	public void save(SearchProfile searchProfile)
+			throws IllegalArgumentException {
 		searchProfileMapper.update(searchProfile);
 	}
 
@@ -371,13 +415,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public void save(Info info) throws IllegalArgumentException {
 		infoMapper.update(info);
 	}
-
-	/*
-	 * @Override
-	 *
-	 * public void save(Property property) throws IllegalArgumentException {
-	 * propertyMapper.update(property); }
-	 */
 
 	@Override
 	public void save(Description description) throws IllegalArgumentException {
@@ -406,8 +443,64 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void save(FavoritesList favoritesList) throws IllegalArgumentException {
+	public void save(FavoritesList favoritesList)
+			throws IllegalArgumentException {
 		favoritesListMapper.update(favoritesList);
 	}
+
+	// Get-Methoden
+	@Override
+	public ArrayList<SearchProfile> getSearchProfileOf(Profile profile) {
+
+		return searchProfileMapper.findByProfile(profile);
+	}
+
+	@Override
+	public ArrayList<Info> getInfoOf(Profile profile) {
+
+		return infoMapper.findByProfile(profile);
+	}
+
+	@Override
+	public ArrayList<Info> getInfoOf(Selection selection) {
+
+		return infoMapper.findBySelection(selection);
+	}
+	
+	@Override
+	public ArrayList<Profile> getProfilesByName(String lastName, String firstName)
+	      throws IllegalArgumentException {
+
+	    return this.profileMapper.findByName(lastName, firstName);
+	  }
+	 @Override
+	 public ArrayList<Profile> getProfilesOf(SearchProfile searchProfile)
+	       throws IllegalArgumentException {
+	     return this.profileMapper.findBySearchProfile(searchProfile);
+	   }
+
+	  @Override
+	 public ArrayList<Blocking> getBlockingsOf(Profile profile)
+	       throws IllegalArgumentException {
+	     return this.blockingMapper.findByProfile(profile);
+	   }
+
+	  @Override
+	 public ArrayList<FavoritesList> getFavoritesListsOf(Profile profile)
+	       throws IllegalArgumentException {
+	     return this.favoritesListMapper.findByProfile(profile);
+	   }
+
+	  @Override
+	 public ArrayList<VisitList> getVisitListsOf(Profile profile)
+	       throws IllegalArgumentException {
+	     return this.visitListMapper.findByProfile(profile);
+	   }
+
+	  @Override
+	 public ArrayList<Similarity> getSimilaritiesOf(Profile profile)
+	       throws IllegalArgumentException {
+	     return this.similarityMapper.findByProfile(profile);
+	   }
 
 }
