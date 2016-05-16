@@ -103,10 +103,10 @@ public class ProfileMapper {
 				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 				profile.seteMail(rs.getString("email"));
 				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf("confession"));
+				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
 				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				profile.setGender(Profile.Gender.valueOf("gender"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
 
 				result.add(profile);
 			}
@@ -137,10 +137,11 @@ public class ProfileMapper {
 				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 				profile.seteMail(rs.getString("email"));
 				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf("confession"));
+				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
 				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				profile.setGender(Profile.Gender.valueOf("gender"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+				
 
 				return profile;
 			}
@@ -173,10 +174,10 @@ public class ProfileMapper {
 				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 				profile.seteMail(rs.getString("email"));
 				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf("confession"));
+				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
 				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				profile.setGender(Profile.Gender.valueOf("gender"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
 
 				result.add(profile);
 			}
@@ -206,10 +207,10 @@ public class ProfileMapper {
 				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 				profile.seteMail(rs.getString("email"));
 				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf("confession"));
+				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
 				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				profile.setGender(Profile.Gender.valueOf("gender"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
 
 				result.add(profile);
 			}
@@ -224,5 +225,7 @@ public class ProfileMapper {
 
 		return findBySearchProfile(searchProfile.getId());
 	}
+	
 
 }
+	

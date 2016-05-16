@@ -21,7 +21,7 @@ public class PlainTextReportWriter extends ReportWriter {
 	}
 
 	@Override
-	public void process(PartnerProposalsByNotViewedProfilesReport r) {
+	public void process(PartnerProposalsProfilesReport r) {
 		this.resetReportText();
 		StringBuffer result = new StringBuffer();
 		result.append(r.getTitle() + "\n\n");

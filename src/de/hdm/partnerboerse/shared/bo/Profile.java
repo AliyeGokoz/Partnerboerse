@@ -2,7 +2,7 @@ package de.hdm.partnerboerse.shared.bo;
 
 import java.util.Date;
 
-public class Profile<Hobby> extends BusinessObject {
+public class Profile extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,8 +23,10 @@ public class Profile<Hobby> extends BusinessObject {
 	private Confession confession = null;
 
 	private Gender gender = null;
+	
+	private Similarity similarity = null;
 
-	private Hobby hobby = null;
+	private String hobby = null;
 
 	private Sport sport = null;
 
@@ -33,7 +35,10 @@ public class Profile<Hobby> extends BusinessObject {
 	private Film film = null;
 
 	public enum HairColor {
-		BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED("rot"), GREY("grau"), OTHERS("sonstiges");
+
+		DEFAULT("nicht gesetzt"), BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED(
+				"rot"), GREY("grau"), OTHERS("sonstiges");
+
 
 		private final String name;
 
@@ -47,8 +52,11 @@ public class Profile<Hobby> extends BusinessObject {
 	}
 
 	public enum Confession {
-		PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC("buddistisch"), HINDU("hinduistisch"), MUSLIM(
-				"muslimisch"), JEWISH("j�disch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
+
+		DEFAULT("nicht gesetzt"), PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC(
+				"buddistisch"), HINDU("hinduistisch"), MUSLIM("muslimisch"), JEWISH(
+				"j�disch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
+
 
 		private final String name;
 
@@ -193,11 +201,20 @@ public class Profile<Hobby> extends BusinessObject {
 		this.gender = gender;
 	}
 
-	public Hobby getHobby() {
+	public String getHobby() {
 		return hobby;
 	}
+	
+	public Similarity getSimilarity() {
+		return similarity;
+	}
 
-	public void setHobby(Hobby hobby) {
+
+	public void setSimilarity(Similarity similarity) {
+		this.similarity = similarity;
+	}
+
+	public void setHobby(String hobby) {
 		this.hobby = hobby;
 	}
 
@@ -230,5 +247,6 @@ public class Profile<Hobby> extends BusinessObject {
 				+ this.smoker + " " + this.height + " " + this.hairColor + " " + this.confession + " " + this.gender
 				+ " " + this.hobby + " " + this.sport + " " + this.music + " " + this.film;
 	}
+
 
 }

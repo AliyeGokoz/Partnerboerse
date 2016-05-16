@@ -124,11 +124,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public FavoritesList createFavoritesList(int id, Profile fromProfile,
+	public FavoritesList createFavoritesList(Profile fromProfile,
 			Profile toProfile) {
 		FavoritesList fl = new FavoritesList();
 
-		fl.setId(id);
+		
 		fl.setFromProfile(fromProfile);
 		fl.setToProfile(toProfile);
 

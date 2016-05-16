@@ -52,7 +52,7 @@ public class HTMLReportWriter extends ReportWriter {
 	}
 
 	@Override
-	public void process(PartnerProposalsByNotViewedProfilesReport r) {
+	public void process(PartnerProposalsProfilesReport r) {
 		this.resetReportText();
 
 		StringBuffer result = new StringBuffer();
@@ -89,7 +89,7 @@ public class HTMLReportWriter extends ReportWriter {
 	}
 
 	public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException, IOException {
-		PartnerProposalsByNotViewedProfilesReport notViewedReport = new PartnerProposalsByNotViewedProfilesReport();
+		PartnerProposalsProfilesReport notViewedReport = new PartnerProposalsProfilesReport();
 		Row row = new Row();
 		Column column = new Column();
 		column.setValue("Test");
