@@ -1,4 +1,4 @@
- package de.hdm.partnerboerse.server.db;
+package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -160,7 +160,6 @@ public class ProfileMapper {
 		return null;
 	}
 
-
 	public ArrayList<Profile> findByName(String lastName, String firstName) {
 		Connection con = DBConnection.connection();
 		ArrayList<Profile> result = new ArrayList<Profile>();
@@ -168,10 +167,18 @@ public class ProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
+			String where;
+			if (lastName != null && firstName != null) {
+				where = "WHERE lastName LIKE '" + lastName + "AND firstName LIKE '" + firstName + "'";
+			} else if (lastName != null) {
+				where = "WHERE lastName LIKE '" + lastName;
+			} else {
+				where = "WHERE firstName LIKE '" + firstName + "'";
+			}
+
 			ResultSet rs = stmt.executeQuery(
 					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender "
-							+ "FROM profiles " + "WHERE lastName LIKE '" + lastName + "WHERE firstName LIKE '"
-							+ firstName + "' ORDER BY lastName");
+							+ "FROM profiles " + where + " ORDER BY lastName");
 
 			while (rs.next()) {
 				Profile profile = new Profile();
@@ -203,8 +210,8 @@ public class ProfileMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles "
-							+ "WHERE searchprofile=" + searchProfileId + " ORDER BY id");
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles WHERE searchprofile="
+							+ searchProfileId + " ORDER BY id");
 
 			while (rs.next()) {
 				Profile profile = new Profile();
@@ -233,6 +240,43 @@ public class ProfileMapper {
 		return findBySearchProfile(searchProfile.getId());
 	}
 	
+
+	public ArrayList<Profile> findMostSimilarProfiles(Profile fromProfile) {
+		Connection con = DBConnection.connection();
+		ArrayList<Profile> result = new ArrayList<Profile>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles similarProfiles INNER JOIN similarities ON similarities.toProfile = similarProfiles.id WHERE similarities.fromProfile = "+fromProfile.getId()+" AND  similarities.similarityValue > 0.5 ORDER BY similarities.similarityValue DESC"
+				);
+
+			while (rs.next()) {
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("id"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+
+				result.add(profile);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public ArrayList<Profile> findNotViewedProfiles() {
+		return null;
+	}
 
 }
 	
