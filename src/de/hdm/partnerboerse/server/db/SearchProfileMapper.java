@@ -35,21 +35,23 @@ public class SearchProfileMapper {
 
 				stmt = con.createStatement();
 
-				stmt.executeUpdate("INSERT INTO searchprofiles (id, fromAge, toAge, hairColor, gender, height, confession) "
-						+ "VALUES (" + searchProfile.getId());
-				// + ",'"
-				// TODO
-				// + searchProfile.getFromAge()
-				// + "','"
-				// + searchProfile.getToAge()
-				// + "','"
-				// + searchProfile.getHairColor()
-				// + ",'"
-				// + searchProfile.getGender()
-				// + ",'"
-				// + searchProfile.getHeight()
-				// + ",'"
-				// + searchProfile.getConfession() + "')");
+				stmt.executeUpdate("INSERT INTO searchprofiles (id, fromAge, toAge, hairColor, gender, fromHeight, toHeight, confession) "
+						+ "VALUES ("
+						+ searchProfile.getId()
+						+ ",'"
+						+ searchProfile.getFromAge()
+						+ "','"
+						+ searchProfile.getToAge()
+						+ "','"
+						+ searchProfile.getHairColor()
+						+ ",'"
+						+ searchProfile.getGender()
+						+ ",'"
+						+ searchProfile.getFromHeight()
+						+ ",'"
+						+ searchProfile.getToHeight()
+						+ ",'"
+						+ searchProfile.getConfession() + "')");
 
 			}
 		} catch (SQLException e) {
@@ -65,15 +67,14 @@ public class SearchProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE searchprofiles " + "SET FromAge=\"");
-			// TODO
-			// + searchProfile.getFromAge() + "\", " + "ToAge=\"" 
-			// + searchProfile.getToAge + "\", " + "hairColor=\""
-			// + searchProfile.getHairColor() + "\", " + "gender=\""
-			// + searchProfile.getGender() + "\", " + "height=\""
-			// + searchProfile.getHeight() + "\", " + "confession=\""
-			// + searchProfile.getConfession() + "\" " + "WHERE id="
-			// + searchProfile.getId());
+			stmt.executeUpdate("UPDATE searchprofiles " + "SET fromAge=\"" + searchProfile.getFromAge() + "\", " + "toAge=\""
+			 + searchProfile.getToAge() + "\", " + "hairColor=\""
+			 + searchProfile.getHairColor() + "\", " + "gender=\""
+			 + searchProfile.getGender() + "\", " + "fromHeight=\""
+			 + searchProfile.getFromHeight() + "\", " + "toHeight=\""
+			 + searchProfile.getToHeight() + "\", " + "confession=\""
+			 + searchProfile.getConfession() + "\" " + "WHERE id="
+			 + searchProfile.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -104,20 +105,21 @@ public class SearchProfileMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, fromAge, toAge, hairColor, gender, height, confession FROM searchprofiles "
+					.executeQuery("SELECT id, fromAge, toAge, hairColor, gender, fromHeight, toHeight, confession FROM searchprofiles "
 							+ "WHERE id=" + id);
 
 			if (rs.next()) {
 
 				SearchProfile searchProfile = new SearchProfile();
 				searchProfile.setId(rs.getInt("id"));
-				// TODO
-				// searchProfile.setFromAge(rs.getInt("fromAge"));
-				// searchProfile.setToAge(rs.getInt("toAge"));
-				// searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				// searchProfile.setGender(Profile.Gender.valueOf("gender"));
-				// searchProfile.setHeight(rs.getInt("height"));
-				// searchProfile.setConfession(Profile.Confession.valueOf("confession"));
+
+				 searchProfile.setFromAge(rs.getInt("fromAge"));
+				 searchProfile.setToAge(rs.getInt("toAge"));
+				 searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+				 searchProfile.setGender(Profile.Gender.valueOf("gender"));
+				 searchProfile.setFromHeight(rs.getInt("fromHeight"));
+				 searchProfile.setToHeight(rs.getInt("ToHeight"));
+				 searchProfile.setConfession(Profile.Confession.valueOf("confession"));
 
 				return searchProfile;
 			}
@@ -138,19 +140,20 @@ public class SearchProfileMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, fromAge, toAge, hairColor, gender, height, confession "
+					.executeQuery("SELECT id, fromAge, toAge, hairColor, gender, fromHeight, toHeight, confession "
 							+ "FROM searchprofiles ");
 
 			while (rs.next()) {
 				SearchProfile searchProfile = new SearchProfile();
 				searchProfile.setId(rs.getInt("id"));
-				// TODO
-				// searchProfile.setFromAge(rs.getInt("fromAge"));
-				// searchProfile.setToAge(rs.getInt("toAge"));
-				// searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				// searchProfile.setGender(Profile.Gender.valueOf("gender"));
-				// searchProfile.setHeight(rs.getInt("height"));
-				// searchProfile.setConfession(Profile.Confession.valueOf("confession"));
+
+				 searchProfile.setFromAge(rs.getInt("fromAge"));
+				 searchProfile.setToAge(rs.getInt("toAge"));
+				 searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+				 searchProfile.setGender(Profile.Gender.valueOf("gender"));
+				 searchProfile.setFromHeight(rs.getInt("fromHeight"));
+				 searchProfile.setToHeight(rs.getInt("ToHeight"));
+				 searchProfile.setConfession(Profile.Confession.valueOf("confession"));
 
 				result.add(searchProfile);
 			}
@@ -169,19 +172,19 @@ public class SearchProfileMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, fromAge, toAge, hairColor, gender, height, confession FROM searchprofiles "
+					.executeQuery("SELECT id, fromAge, toAge, hairColor, gender, fromHeight, toHeight, confession FROM searchprofiles "
 							+ "WHERE profile=" + profileId + " ORDER BY id");
 
 			while (rs.next()) {
 				SearchProfile searchProfile = new SearchProfile();
 				searchProfile.setId(rs.getInt("id"));
-				// searchProfile.setFromAge(rs.getInt("fromAge"));
-				// searchProfile.setToAge(rs.getInt("toAge"));
-				// searchProfile.setHeight(rs.getInt("height"));
-				// searchProfile.setConfession(Profile.Confession.valueOf("confession"));
-				// searchProfile.setSmoker(rs.getBoolean("smoker"));
-				// searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
-				// searchProfile.setGender(Profile.Gender.valueOf("gender"));
+				 searchProfile.setFromAge(rs.getInt("fromAge"));
+				 searchProfile.setToAge(rs.getInt("toAge"));
+				 searchProfile.setFromHeight(rs.getInt("fromHeight"));
+				 searchProfile.setToHeight(rs.getInt("toHeight"));
+				 searchProfile.setConfession(Profile.Confession.valueOf("confession"));
+				 searchProfile.setHairColor(Profile.HairColor.valueOf("hairColor"));
+				 searchProfile.setGender(Profile.Gender.valueOf("gender"));
 
 				result.add(searchProfile);
 			}
@@ -196,7 +199,5 @@ public class SearchProfileMapper {
 
 		return findByProfile(profile.getId());
 	}
-
-
 
 }
