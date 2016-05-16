@@ -84,15 +84,48 @@ public class InfoMapper {
 
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt
-					.executeQuery("SELECT id, informationValue FROM infos"
-							+ "WHERE id=" + id);
+			String sql = "SELECT infos.id AS id, informationValue, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescription AS dtd, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId"
+					+ " WHERE infos.id=" + id;
+
+			System.out.println(sql);
+
+			ResultSet rs = stmt.executeQuery(sql);
 
 			if (rs.next()) {
 
 				Info info = new Info();
 				info.setId(rs.getInt("id"));
 				info.setInformationValue(rs.getString("informationValue"));
+
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("pid"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				profile.setConfession(Profile.Confession.valueOf(rs
+						.getString("confession")));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs
+						.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+
+				info.setProfile(profile);
+
+				Description description = new Description();
+				description.setId(rs.getInt("did"));
+				description.setTextualDescription(rs.getString("dtd"));
+				description.setPropertyName(rs.getString("dpn"));
+
+				info.setDescription(description);
+
+				Selection selection = new Selection();
+				selection.setId(rs.getInt("sid"));
+				selection.setTextualDescription(rs.getString("std"));
+				selection.setPropertyName(rs.getString("spn"));
+
+				info.setSelection(selection);
 
 				return info;
 			}
@@ -105,50 +138,125 @@ public class InfoMapper {
 	}
 
 	public ArrayList<Info> findAll() {
+
+		ArrayList<Info> result = new ArrayList<>();
+
 		Connection con = DBConnection.connection();
 
-		ArrayList<Info> result = new ArrayList<Info>();
-
 		try {
+
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, informationValue "
-					+ "FROM infos ");
+			String sql = "SELECT infos.id AS id, informationValue, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescription AS dtd, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId";
+
+			System.out.println(sql);
+
+			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
+
 				Info info = new Info();
 				info.setId(rs.getInt("id"));
 				info.setInformationValue(rs.getString("informationValue"));
+
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("pid"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				profile.setConfession(Profile.Confession.valueOf(rs
+						.getString("confession")));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs
+						.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+
+				info.setProfile(profile);
+
+				Description description = new Description();
+				description.setId(rs.getInt("did"));
+				description.setTextualDescription(rs.getString("dtd"));
+				description.setPropertyName(rs.getString("dpn"));
+
+				info.setDescription(description);
+
+				Selection selection = new Selection();
+				selection.setId(rs.getInt("sid"));
+				selection.setTextualDescription(rs.getString("std"));
+				selection.setPropertyName(rs.getString("spn"));
+
+				info.setSelection(selection);
 
 				result.add(info);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
 
 		return result;
 	}
 
 	public ArrayList<Info> findByProfile(int profileId) {
+
+		ArrayList<Info> result = new ArrayList<>();
+
 		Connection con = DBConnection.connection();
-		ArrayList<Info> result = new ArrayList<Info>();
 
 		try {
+
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt
-					.executeQuery("SELECT id, informationValue FROM infos "
-							+ "WHERE profile=" + profileId + " ORDER BY id");
+			String sql = "SELECT infos.id AS id, informationValue, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescription AS dtd, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId"
+					+ "WHERE profile=" + profileId + " ORDER BY id";
+
+			System.out.println(sql);
+
+			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
+
 				Info info = new Info();
 				info.setId(rs.getInt("id"));
 				info.setInformationValue(rs.getString("informationValue"));
 
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("pid"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				profile.setConfession(Profile.Confession.valueOf(rs
+						.getString("confession")));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs
+						.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+
+				info.setProfile(profile);
+
+				Description description = new Description();
+				description.setId(rs.getInt("did"));
+				description.setTextualDescription(rs.getString("dtd"));
+				description.setPropertyName(rs.getString("dpn"));
+
+				info.setDescription(description);
+
+				Selection selection = new Selection();
+				selection.setId(rs.getInt("sid"));
+				selection.setTextualDescription(rs.getString("std"));
+				selection.setPropertyName(rs.getString("spn"));
+
+				info.setSelection(selection);
+
 				result.add(info);
 			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
 		}
 
 		return result;
@@ -160,25 +268,63 @@ public class InfoMapper {
 	}
 
 	public ArrayList<Info> findBySelection(int selectionId) {
+
+		ArrayList<Info> result = new ArrayList<>();
+
 		Connection con = DBConnection.connection();
-		ArrayList<Info> result = new ArrayList<Info>();
 
 		try {
+
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt
-					.executeQuery("SELECT id, informationValue FROM infos "
-							+ "WHERE selection=" + selectionId + " ORDER BY id");
+			String sql = "SELECT infos.id AS id, informationValue, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescription AS dtd, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId"
+					+ "WHERE selection=" + selectionId + " ORDER BY id";
+
+			System.out.println(sql);
+
+			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
+
 				Info info = new Info();
 				info.setId(rs.getInt("id"));
 				info.setInformationValue(rs.getString("informationValue"));
 
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("pid"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				profile.setConfession(Profile.Confession.valueOf(rs
+						.getString("confession")));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs
+						.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+
+				info.setProfile(profile);
+
+				Description description = new Description();
+				description.setId(rs.getInt("did"));
+				description.setTextualDescription(rs.getString("dtd"));
+				description.setPropertyName(rs.getString("dpn"));
+
+				info.setDescription(description);
+
+				Selection selection = new Selection();
+				selection.setId(rs.getInt("sid"));
+				selection.setTextualDescription(rs.getString("std"));
+				selection.setPropertyName(rs.getString("spn"));
+
+				info.setSelection(selection);
+
 				result.add(info);
 			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
 		}
 
 		return result;
@@ -190,29 +336,68 @@ public class InfoMapper {
 	}
 
 	public ArrayList<Info> findByDescription(int descriptionId) {
+
+		ArrayList<Info> result = new ArrayList<>();
+		
 		Connection con = DBConnection.connection();
-		ArrayList<Info> result = new ArrayList<Info>();
 
 		try {
+
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt
-					.executeQuery("SELECT id, informationValue FROM infos "
-							+ "WHERE description=" + descriptionId
-							+ " ORDER BY id");
+			String sql = "SELECT infos.id AS id, informationValue, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescription AS dtd, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId"
+					+ "WHERE description=" + descriptionId
+					+ " ORDER BY id";
+
+			System.out.println(sql);
+
+			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
+
 				Info info = new Info();
 				info.setId(rs.getInt("id"));
 				info.setInformationValue(rs.getString("informationValue"));
 
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("pid"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				profile.setConfession(Profile.Confession.valueOf(rs
+						.getString("confession")));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs
+						.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+
+				info.setProfile(profile);
+
+				Description description = new Description();
+				description.setId(rs.getInt("did"));
+				description.setTextualDescription(rs.getString("dtd"));
+				description.setPropertyName(rs.getString("dpn"));
+
+				info.setDescription(description);
+
+				Selection selection = new Selection();
+				selection.setId(rs.getInt("sid"));
+				selection.setTextualDescription(rs.getString("std"));
+				selection.setPropertyName(rs.getString("spn"));
+
+				info.setSelection(selection);
+
 				result.add(info);
 			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
 		}
 
 		return result;
+		
 	}
 
 	public ArrayList<Info> findByDescription(Description description) {
