@@ -1,37 +1,16 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.shared.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.ClientBundle.Source;
-import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
-import de.hdm.partnerboerse.shared.FieldVerifier;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
-import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
-import de.hdm.partnerboerse.shared.ReportGenerator;
-import de.hdm.partnerboerse.shared.ReportGeneratorAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
 /**
@@ -68,7 +47,6 @@ public class Partnerboerse implements EntryPoint {
 				ProfilePage showProfil = new ProfilePage();
 				RootPanel.get("Buttonzone").clear();
 				RootPanel.get("Contentzone").clear();
-				RootPanel.get("Buttonzone").add(showProfil);
 				RootPanel.get("Contentzone").add(showProfil);
 			}
 		};
@@ -78,7 +56,6 @@ public class Partnerboerse implements EntryPoint {
 				UserOverview allUsers = new UserOverview();
 				RootPanel.get("Buttonzone").clear();
 				RootPanel.get("Contentzone").clear();
-				RootPanel.get("Buttonzone").add(allUsers);
 				RootPanel.get("Contentzone").add(allUsers);
 			}
 		};
@@ -88,7 +65,6 @@ public class Partnerboerse implements EntryPoint {
 				FavoritListOverview seeFavoritList = new FavoritListOverview();
 				RootPanel.get("Buttonzone").clear();
 				RootPanel.get("Contentzone").clear();
-				RootPanel.get("Buttonzone").add(seeFavoritList);
 				RootPanel.get("Contentzone").add(seeFavoritList);
 			}
 		};

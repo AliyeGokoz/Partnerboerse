@@ -15,12 +15,16 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.partnerboerse.server.LoginServiceImpl;
+import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.FavoritesList;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
 public class UserOverview extends VerticalPanel{
 	
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	
 	@Override
 	public void onLoad() {
@@ -28,7 +32,7 @@ public class UserOverview extends VerticalPanel{
 	final FlexTable profileFlexTable  = new FlexTable();
 	final ScrollPanel scrollPanel = new ScrollPanel(seeAllUsers);
 	scrollPanel.setSize("500px", "480px");
-	DecoratorPanel decoratorPanel = new DecoratorPanel();
+	final DecoratorPanel decoratorPanel = new DecoratorPanel();
 	decoratorPanel.add(scrollPanel);
 	
 	
@@ -58,18 +62,44 @@ public class UserOverview extends VerticalPanel{
 		@Override
 		public void onSuccess(ArrayList<Profile> allprofilesresult) {
 			int i = 1;
-			for (Profile p : allprofilesresult){
+			for (final Profile p : allprofilesresult){
 				profileFlexTable.setText(i, 0, p.getFirstName());
 				profileFlexTable.setText(i, 1, p.getLastName());
-				Button addtoFav = new Button("+");
+				final Button addtoFav = new Button("+");
 				profileFlexTable.setWidget(i, 2, addtoFav);
-				Button blockProfil = new Button("+");
+				final Button blockProfil = new Button("+");
 				profileFlexTable.setWidget(i++, 3, blockProfil);
 				
 				addtoFav.addClickHandler(new ClickHandler() {
 
 					@Override
 					public void onClick(ClickEvent event) {
+						
+						 loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+							
+							@Override
+							public void onSuccess(Profile currentProfile) {
+								partnerboerseVerwaltung.createFavoritesList(currentProfile, p, new AsyncCallback<FavoritesList>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										// TODO Auto-generated method stub
+										
+									}
+
+									@Override
+									public void onSuccess(FavoritesList result) {
+										Window.alert("You selected a menu item!");
+									}
+								});
+							}
+							
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+						});
 						
 					}
 				});
@@ -79,12 +109,5 @@ public class UserOverview extends VerticalPanel{
 		
 	});
 	
-	}
-	private HorizontalPanel addToFavoritesList(){
-		final HorizontalPanel favPanel = new HorizontalPanel();
-		
-		
-		
-		return favPanel;
 	}
 }
