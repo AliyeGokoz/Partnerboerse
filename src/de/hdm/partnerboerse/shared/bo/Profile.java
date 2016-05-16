@@ -17,16 +17,16 @@ public class Profile extends BusinessObject {
 	private int height = 0;
 
 	private boolean smoker = false;
-	
+
 	private HairColor hairColor = null;
-	
+
 	private Confession confession = null;
-	
+
 	private Gender gender = null;
 
 	public enum HairColor {
-		BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED("rot"), GREY(
-				"grau"), OTHERS("sonstiges");
+		DEFAULT("nicht gesetzt"), BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED(
+				"rot"), GREY("grau"), OTHERS("sonstiges");
 
 		private final String name;
 
@@ -40,7 +40,7 @@ public class Profile extends BusinessObject {
 	}
 
 	public enum Confession {
-		PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC(
+		DEFAULT("nicht gesetzt"), PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC(
 				"buddistisch"), HINDU("hinduistisch"), MUSLIM("muslimisch"), JEWISH(
 				"j�disch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
 
@@ -146,6 +146,5 @@ public class Profile extends BusinessObject {
 				+ this.eMail + " " + this.dateOfBirth + " " + this.smoker + " "
 				+ this.height;
 	}
-
 
 }
