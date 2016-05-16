@@ -2,7 +2,7 @@ package de.hdm.partnerboerse.shared.bo;
 
 import java.util.Date;
 
-public class Profile<Hobby> extends BusinessObject {
+public class Profile extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,8 +23,10 @@ public class Profile<Hobby> extends BusinessObject {
 	private Confession confession = null;
 
 	private Gender gender = null;
+	
+	private Similarity similarity = null;
 
-	private Hobby hobby = null;
+	private String hobby = null;
 
 	private Sport sport = null;
 
@@ -193,11 +195,19 @@ public class Profile<Hobby> extends BusinessObject {
 		this.gender = gender;
 	}
 
-	public Hobby getHobby() {
+	public String getHobby() {
 		return hobby;
 	}
+	
+	public Similarity getSimilarity() {
+		return similarity;
+	}
 
-	public void setHobby(Hobby hobby) {
+	public void setSimilarity(Similarity similarity) {
+		this.similarity = similarity;
+	}
+
+	public void setHobby(String hobby) {
 		this.hobby = hobby;
 	}
 
