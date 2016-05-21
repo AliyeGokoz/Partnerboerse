@@ -1,8 +1,11 @@
 package de.hdm.partnerboerse.shared.bo;
 
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
+import de.hdm.partnerboerse.shared.bo.Profile.Film;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
+import de.hdm.partnerboerse.shared.bo.Profile.Music;
+import de.hdm.partnerboerse.shared.bo.Profile.Sport;
 
 public class SearchProfile extends BusinessObject{
 
@@ -21,6 +24,14 @@ public class SearchProfile extends BusinessObject{
 	private Confession confession = null;
 	
 	private Gender gender = null;
+	
+	private String hobby = null;
+
+	private Sport sport = null;
+
+	private Music music = null;
+
+	private Film film = null;
 
 
 
@@ -78,5 +89,37 @@ public class SearchProfile extends BusinessObject{
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public String getHobby() {
+		return hobby;
+	}
+
+	public void setHobby(String hobby) {
+		this.hobby = hobby;
+	}
+
+	public Sport getSport() {
+		return sport;
+	}
+
+	public void setSport(Sport sport) {
+		this.sport = sport;
+	}
+
+	public Music getMusic() {
+		return music;
+	}
+
+	public void setMusic(Music music) {
+		this.music = music;
+	}
+
+	public Film getFilm() {
+		return film;
+	}
+
+	public void setFilm(Film film) {
+		this.film = film;
 	}
 }

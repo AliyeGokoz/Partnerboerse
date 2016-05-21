@@ -26,7 +26,7 @@ public class FavoritesListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM favoriteslists ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM favorites ");
 
 			if (rs.next()) {
 				favoritesList.setId(rs.getInt("maxid") + 1);
@@ -34,7 +34,7 @@ public class FavoritesListMapper {
 				stmt = con.createStatement();
 
 				stmt.executeUpdate(
-						"INSERT INTO favoriteslists (id, fromProfile, toProfile) " + "VALUES (" + favoritesList.getId()
+						"INSERT INTO favorites (id, fromProfile, toProfile) " + "VALUES (" + favoritesList.getId()
 								+ ",'" + favoritesList.getFromProfile() + "','" + favoritesList.getToProfile() + "')");
 			}
 		} catch (SQLException e2) {
@@ -49,7 +49,7 @@ public class FavoritesListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE favoriteslists " + "SET fromProfile=\"" + favoritesList.getFromProfile() + "\", "
+			stmt.executeUpdate("UPDATE favorites " + "SET fromProfile=\"" + favoritesList.getFromProfile() + "\", "
 					+ "toProfile=\"" + favoritesList.getToProfile() + "\" " + "WHERE id=" + favoritesList.getId());
 
 		} catch (SQLException e2) {
@@ -64,7 +64,7 @@ public class FavoritesListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM favoriteslists " + "WHERE id=" + favoritesList.getId());
+			stmt.executeUpdate("DELETE FROM favorites " + "WHERE id=" + favoritesList.getId());
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
@@ -79,7 +79,7 @@ public class FavoritesListMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, fromProfile, toProfile" + "FROM favoriteslists " + "ORDER BY fromProfile");
+					"SELECT id, fromProfile, toProfile" + "FROM favorites " + "ORDER BY fromProfile");
 
 			while (rs.next()) {
 				FavoritesList favoritesList = new FavoritesList();
@@ -101,7 +101,7 @@ public class FavoritesListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile FROM favoriteslists " + "WHERE id=" + id
+			ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile FROM favorites " + "WHERE id=" + id
 					+ " ORDER BY fromProfile");
 
 			if (rs.next()) {
@@ -127,7 +127,7 @@ public class FavoritesListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile FROM favoriteslists " + "WHERE profile="
+			ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile FROM favorites " + "WHERE profile="
 					+ profileId + " ORDER BY id");
 
 			while (rs.next()) {
