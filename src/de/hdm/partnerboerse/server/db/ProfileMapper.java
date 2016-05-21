@@ -1,6 +1,7 @@
- package de.hdm.partnerboerse.server.db;
+package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.*;
@@ -34,14 +35,18 @@ public class ProfileMapper {
 
 				stmt = con.createStatement();
 
-				stmt.executeUpdate(
-						"INSERT INTO profiles (id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender) "
-								+ "VALUES (" + profile.getId() + ",'" + profile.getFirstName() + "','"
-								+ profile.getLastName() + ",'" + profile.getDateOfBirth() + ",'" + profile.geteMail()
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				
+				String sql = "INSERT INTO profiles (id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender) "
+						+ "VALUES (" + profile.getId() + ",'" + profile.getFirstName() + "','"
+						+ profile.getLastName() + "','" + simpleDateFormat.format(profile.getDateOfBirth()) + "','" + profile.geteMail()
 
-								+ ",'" + profile.getHeight() + ",'" + profile.getConfession() + ",'"
-								+ profile.isSmoker() + ",'" + profile.getHairColor() + ",'" + profile.getGender()
-								+ "')");
+						+ "'," + profile.getHeight() + ",'" + profile.getConfession() + "','"
+						+ (profile.isSmoker() ? 1 : 0) + "','" + profile.getHairColor() + "','" + profile.getGender()
+						+ "')";
+				System.out.println(sql);
+				stmt.executeUpdate(sql
+						);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -56,11 +61,13 @@ public class ProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			
 			stmt.executeUpdate("UPDATE profiles " + "SET firstName=\"" + profile.getFirstName() + "\", " + "lastName=\""
-					+ profile.getLastName() + "\", " + "dateOfBirth=\"" + profile.getDateOfBirth() + "\", " + "email=\""
+					+ profile.getLastName() + "\", " + "dateOfBirth=\"" + simpleDateFormat.format(profile.getDateOfBirth()) + "\", " + "email=\""
 					+ profile.geteMail() + "\", " + "height=\"" + profile.getHeight() + "\", " + "confession=\""
 
-					+ profile.getConfession() + "\", " + "smoker=\"" + profile.isSmoker() + "\", " + "hairColor=\""
+					+ profile.getConfession() + "\", " + "smoker=\"" + (profile.isSmoker()? 1 : 0) + "\", " + "hairColor=\""
 					+ profile.getHairColor() + "\", " + "gender=\"" + profile.getGender() + "\" " + "WHERE id="
 					+ profile.getId());
 
@@ -153,7 +160,6 @@ public class ProfileMapper {
 		return null;
 	}
 
-
 	public ArrayList<Profile> findByName(String lastName, String firstName) {
 		Connection con = DBConnection.connection();
 		ArrayList<Profile> result = new ArrayList<Profile>();
@@ -161,10 +167,18 @@ public class ProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
+			String where;
+			if (lastName != null && firstName != null) {
+				where = "WHERE lastName LIKE '" + lastName + "AND firstName LIKE '" + firstName + "'";
+			} else if (lastName != null) {
+				where = "WHERE lastName LIKE '" + lastName;
+			} else {
+				where = "WHERE firstName LIKE '" + firstName + "'";
+			}
+
 			ResultSet rs = stmt.executeQuery(
 					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender "
-							+ "FROM profiles " + "WHERE lastName LIKE '" + lastName + "WHERE firstName LIKE '"
-							+ firstName + "' ORDER BY lastName");
+							+ "FROM profiles " + where + " ORDER BY lastName");
 
 			while (rs.next()) {
 				Profile profile = new Profile();
@@ -196,8 +210,8 @@ public class ProfileMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles "
-							+ "WHERE searchprofile=" + searchProfileId + " ORDER BY id");
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles WHERE searchprofile="
+							+ searchProfileId + " ORDER BY id");
 
 			while (rs.next()) {
 				Profile profile = new Profile();
@@ -226,6 +240,43 @@ public class ProfileMapper {
 		return findBySearchProfile(searchProfile.getId());
 	}
 	
+
+	public ArrayList<Profile> findMostSimilarProfiles(Profile fromProfile) {
+		Connection con = DBConnection.connection();
+		ArrayList<Profile> result = new ArrayList<Profile>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles similarProfiles INNER JOIN similarities ON similarities.toProfile = similarProfiles.id WHERE similarities.fromProfile = "+fromProfile.getId()+" AND  similarities.similarityValue > 0.5 ORDER BY similarities.similarityValue DESC"
+				);
+
+			while (rs.next()) {
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("id"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+
+				result.add(profile);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	public ArrayList<Profile> findNotViewedProfiles() {
+		return null;
+	}
 
 }
 	
