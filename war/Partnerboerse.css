@@ -21,11 +21,12 @@ div#Fullcontent {
 	margin: 0 auto;      
 }
  
- div#Content {
-	min-height: 400px;
+div#Content {
+	min-height: 450px;
 	max-height: 500px;
-	padding: 1em 1em;
+	width:100%;
 	overflow:scroll;
+	
 }
 
 div#Navigator {
@@ -67,7 +68,7 @@ div#Footer {
 
 .hcontent{
 	width: 50%;
-	float: right;
+	float: left;
 }
 
 .buttonwidth{

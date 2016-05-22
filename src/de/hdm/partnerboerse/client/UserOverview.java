@@ -47,9 +47,8 @@ public class UserOverview extends VerticalPanel{
 
 	seeAllUsers.add(profileFlexTable);
 	
-	RootPanel.get("Buttonzone").clear();
-	RootPanel.get("Contentzone").clear();
-	RootPanel.get("Contentzone").add(decoratorPanel);
+	RootPanel.get("Content").clear();
+	RootPanel.get("Content").add(decoratorPanel);
 	
 	partnerboerseVerwaltung.getAllProfiles(new AsyncCallback<ArrayList<Profile>>(){
 

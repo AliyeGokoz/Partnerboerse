@@ -37,9 +37,8 @@ public class FavoritListOverview extends VerticalPanel {
 
 		seeFavoritUsers.add(favoritesFlexTable);
 
-		RootPanel.get("Buttonzone").clear();
-		RootPanel.get("Contentzone").clear();
-		RootPanel.get("Contentzone").add(decoratorPanel);
+		RootPanel.get("Content").clear();
+		RootPanel.get("Content").add(decoratorPanel);
 
 		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
 

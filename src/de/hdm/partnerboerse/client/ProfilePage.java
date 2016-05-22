@@ -69,30 +69,33 @@ public class ProfilePage extends VerticalPanel {
 		 */
 
 		// buttonausgabe für den Testzweck
-		final VerticalPanel hbuttons = new VerticalPanel();
+		final VerticalPanel buttonsPanel = new VerticalPanel();
+		final VerticalPanel contentPanel = new VerticalPanel();
 		final Button editProfile = new Button("Profil bearbeiten");
 		final Button deleteProfile = new Button("Profil löschen");
 		final Button addProfile = new Button("Profil anlegen");
 		final StackPanel showPanel = new StackPanel();
 
-		hbuttons.setStyleName("hbuttons");
+		buttonsPanel.setStyleName("hbuttons");
+		contentPanel.setStyleName("hcontent");
 
 		addProfile.setStyleName("buttonwidth");
 		editProfile.setStyleName("buttonwidth");
 		deleteProfile.setStyleName("buttonwidth");
 
-		hbuttons.add(addProfile);
-		hbuttons.add(editProfile);
-		hbuttons.add(deleteProfile);
+		buttonsPanel.add(addProfile);
+		buttonsPanel.add(editProfile);
+		buttonsPanel.add(deleteProfile);
 
 		showPanel.setWidth("500px");
 		showPanel.add(showProfil(), "Mein Profil");
 		showPanel.add(showInfos(), "Meine Informationen");
+		
+		contentPanel.add(showPanel);
 
-		RootPanel.get("Buttonzone").clear();
-		RootPanel.get("Contentzone").clear();
-		RootPanel.get("Buttonzone").add(hbuttons);
-		RootPanel.get("Contentzone").add(showPanel);
+		RootPanel.get("Content").clear();
+		RootPanel.get("Content").add(buttonsPanel);
+		RootPanel.get("Content").add(contentPanel);
 
 		deleteProfile.addClickHandler(new ClickHandler() {
 			@Override
@@ -240,9 +243,10 @@ public class ProfilePage extends VerticalPanel {
 		profilPanel.add(addInfoToNewProfil(), "Informationen anlegen");
 		saveUserPanel.add(saveUser);
 
-		RootPanel.get("Contentzone").clear();
-		RootPanel.get("Contentzone").add(profilPanel);
-		RootPanel.get("Contentzone").add(saveUserPanel);
+		
+		RootPanel.get("Content").clear();
+		RootPanel.get("Content").add(profilPanel);
+		RootPanel.get("Content").add(saveUserPanel);
 
 	}
 	
@@ -256,9 +260,9 @@ public class ProfilePage extends VerticalPanel {
 		profilPanel.add(editInfoProfil(), "Informationen bearbeiten");
 		saveUserPanel.add(saveUser);
 
-		RootPanel.get("Contentzone").clear();
-		RootPanel.get("Contentzone").add(profilPanel);
-		RootPanel.get("Contentzone").add(saveUserPanel);
+		RootPanel.get("Content").clear();
+		RootPanel.get("Content").add(profilPanel);
+		RootPanel.get("Content").add(saveUserPanel);
 
 	}
 
@@ -267,7 +271,6 @@ public class ProfilePage extends VerticalPanel {
 		final HorizontalPanel addnewProfilPanel = new HorizontalPanel();
 		final Grid mainGrid = new Grid(10, 4);
 
-		final Label lTitle = new Label("Neues Profil anlegen");
 		final Label lFirstname = new Label("Vorname: ");
 		final Label lLastName = new Label("Nachname: ");
 		final Label lDateofbirth = new Label("Geburtsdatum: ");
@@ -310,7 +313,6 @@ public class ProfilePage extends VerticalPanel {
 		lbHaircolor.setVisibleItemCount(1);
 		lbConfession.setVisibleItemCount(1);
 
-		mainGrid.setWidget(0, 0, lTitle);
 		mainGrid.setWidget(1, 0, lFirstname);
 		mainGrid.setWidget(2, 0, lLastName);
 		mainGrid.setWidget(3, 0, lDateofbirth);
@@ -354,6 +356,7 @@ public class ProfilePage extends VerticalPanel {
 			mainGrid.setWidget(8, i++, radioButton);
 		}*/
 		
+		//TODO anpassen dynamische ausgabe Checkbox
 		
 		
 		final CheckBox cbSport1 = new CheckBox("Fußball");
@@ -372,8 +375,6 @@ public class ProfilePage extends VerticalPanel {
 		final TextBox tHobby = new TextBox();
 		final TextBox tBand = new TextBox();
 		final TextBox tFilme = new TextBox();
-		// TODO value zuweißen
-		// tFilme.setValue("Bla");
 
 		/**
 		 * Untenstrich für die Infoüberschriften
@@ -405,7 +406,7 @@ public class ProfilePage extends VerticalPanel {
 		/**
 		 * new Panel für die Sportarten Checkboxen
 		 */
-		final HorizontalPanel sportCheckBoxen = new HorizontalPanel();
+		final VerticalPanel sportCheckBoxen = new VerticalPanel();
 
 		sportCheckBoxen.add(cbSport1);
 		sportCheckBoxen.add(cbSport2);

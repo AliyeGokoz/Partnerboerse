@@ -45,34 +45,39 @@ public class Partnerboerse implements EntryPoint {
 		Command showProfil = new Command() {
 			public void execute() {
 				ProfilePage showProfil = new ProfilePage();
-				RootPanel.get("Buttonzone").clear();
-				RootPanel.get("Contentzone").clear();
-				RootPanel.get("Contentzone").add(showProfil);
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(showProfil);
 			}
 		};
 		
 		Command allUsers = new Command() {
 			public void execute() {
 				UserOverview allUsers = new UserOverview();
-				RootPanel.get("Buttonzone").clear();
-				RootPanel.get("Contentzone").clear();
-				RootPanel.get("Contentzone").add(allUsers);
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(allUsers);
 			}
 		};
 		
 		Command seeFavoritList = new Command() {
 			public void execute() {
 				FavoritListOverview seeFavoritList = new FavoritListOverview();
-				RootPanel.get("Buttonzone").clear();
-				RootPanel.get("Contentzone").clear();
-				RootPanel.get("Contentzone").add(seeFavoritList);
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(seeFavoritList);
+			}
+		};
+		
+		Command seeSearchProfilePage = new Command() {
+			public void execute() {
+				SearchProfilePage showSearchProfile = new SearchProfilePage();
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(showSearchProfile);
 			}
 		};
 
 		// Make some sub-menus that we will cascade from the top menu.
 		MenuBar profilMenu = new MenuBar(true);
 		profilMenu.addItem("Profil ansehen", showProfil);
-		profilMenu.addItem("Suchprofil ansehen", cmd);
+		profilMenu.addItem("Suchprofil ansehen", seeSearchProfilePage);
 
 		MenuBar favoritlistMenu = new MenuBar(true);
 		favoritlistMenu.addItem("Merkzettel ansehen", seeFavoritList);
@@ -118,7 +123,7 @@ public class Partnerboerse implements EntryPoint {
 
 				content.add(lblhello);
 
-		RootPanel.get("Contentzone").add(lblhello);
+		//RootPanel.get("Content").add(lblhello);
 		RootPanel.get("Navigator").add(menu);
 	}
 }
