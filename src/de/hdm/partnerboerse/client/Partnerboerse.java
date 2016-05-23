@@ -1,5 +1,7 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.Date;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
@@ -110,6 +112,14 @@ public class Partnerboerse implements EntryPoint {
 			public void onSuccess(Profile value) {
 				Profile profile = new Profile();
 				profile.setFirstName("Max");
+				profile.setLastName("Mustermann");
+				profile.setDateOfBirth(new Date());
+				profile.seteMail("mustermann@hdhhd.de");
+				profile.setHeight(170);
+				profile.setHairColor(null);
+				profile.setGender(null);
+				profile.setConfession(null);
+				profile.setSmoker(true);
 				lblhello.setText("Willkommen " + profile.getFirstName());
 			}
 			
@@ -123,7 +133,7 @@ public class Partnerboerse implements EntryPoint {
 
 				content.add(lblhello);
 
-		//RootPanel.get("Content").add(lblhello);
+		RootPanel.get("Content").add(lblhello);
 		RootPanel.get("Navigator").add(menu);
 	}
 }

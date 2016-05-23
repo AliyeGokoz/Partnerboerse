@@ -10,7 +10,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -21,6 +24,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.datepicker.client.DatePicker;
 
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
@@ -135,7 +139,6 @@ public class ProfilePage extends VerticalPanel {
 				profile.setLastName("Mustermann");
 				profile.setDateOfBirth(new Date());
 				profile.seteMail("mustermann@hdhhd.de");
-				;
 				profile.setHeight(170);
 				profile.setHairColor(null);
 				profile.setGender(null);
@@ -235,18 +238,124 @@ public class ProfilePage extends VerticalPanel {
 	 */
 	private void stockPanelProfil() {
 
-		final HorizontalPanel saveUserPanel = new HorizontalPanel();
-		final StackPanel profilPanel = new StackPanel();
-		Button saveUser = new Button("Speichern");
-		profilPanel.setWidth("500px");
-		profilPanel.add(addnewProfil(), "Profil anlegen");
-		profilPanel.add(addInfoToNewProfil(), "Informationen anlegen");
-		saveUserPanel.add(saveUser);
+		/**
+		 * Panel für Button und Content Ausgabe
+		 */
+		final HorizontalPanel contentPanel = new HorizontalPanel();
+		final VerticalPanel addProfilePanel = new VerticalPanel();
+		final VerticalPanel addProfilePanel2 = new VerticalPanel();
+		final HorizontalPanel buttonPanel = new HorizontalPanel();
+		final FlexTable addnewProfileTable = new FlexTable();
+		final FlexTable addnewProfileTable2 = new FlexTable();
+		addProfilePanel2.setStyleName("hcontent2");
+		addProfilePanel.setStyleName("hcontent");
+		
+		contentPanel.add(addProfilePanel);
+		contentPanel.add(addProfilePanel2);
+		
+		/**
+		 * Button anlegen zum zurück gehen
+		 */
+		final Button backButton = new Button("<img src='images/back.png'/>");
+		final Button addinfo = new Button("<img src='images/back.png'/><div>Neue Info anlegen</div>");
+		final Button saveUser = new Button("Speichern");
+		
 
+		/**
+		 * FlexTable Formatieren
+		 */
+		addnewProfileTable.setCellSpacing(10);
+		addnewProfileTable2.setCellSpacing(10);
+		
+		/**
+		 * Textbox Widgets anlegen für die Eingaben des Users
+		 */
+		final TextBox tFirstname = new TextBox();
+		final TextBox tLastname = new TextBox();
+		final TextBox tEmail = new TextBox();
+		final TextBox tHeight = new TextBox();
+		
+		/**
+		 * Listbox Widgets anlegen für Haarfarbe und Religion
+		 */
+		final ListBox lbHaircolor = new ListBox();
+		final ListBox lbConfession = new ListBox();
+		
+		HairColor[] hairColorValue = Profile.HairColor.values();
+		for (HairColor hairColor : hairColorValue) {
+			lbHaircolor.addItem(hairColor.getName(), hairColor.toString());
+		}
+		
+		Confession[] confessionValue = Profile.Confession.values();
+		for (Confession confession : confessionValue) {
+			lbConfession.addItem(confession.getName(), confession.toString());
+		}
+		
+		Gender[] genderValues = Profile.Gender.values();
+		int i = 2;
+		for (Gender gender : genderValues) {
+			RadioButton radioButton = new RadioButton("genderGroup", gender.getName());
+			addnewProfileTable.setWidget(i++, 1, radioButton);
+		}
+		
+		RadioButton Rbsmokeyes = new RadioButton("smokeGroup", "ja");
+		RadioButton Rbsmokeno = new RadioButton("smokeGroup", "nein");
+		
+		//TODO DatePicker überarbeiten
+		final DatePicker datePicker = new DatePicker();
+		
+		/**
+		 * FlexTable mit Inhalt füllen = Userprofil Formular
+		 */
+		//addnewProfileTable.setHTML(0, 0, "<h2>Profil anlegen</h2>");
+		addnewProfileTable.setHTML(0, 0, "<div>Vorname</div>");
+		addnewProfileTable.setWidget(0, 1, tFirstname);
+	    addnewProfileTable.setHTML(1, 0, "<div>Geburtsdatum</div>");
+	    addnewProfileTable.setWidget(1, 1, datePicker);
+	    addnewProfileTable.setHTML(2, 0, "<div>Geschlecht</div>");
+	    
+	    
+	    addnewProfileTable2.setHTML(0, 0, "<div>Nachname</div>");
+	    addnewProfileTable2.setWidget(0, 1, tLastname);
+	    addnewProfileTable2.setHTML(1, 0, "<div>Email</div>");
+	    addnewProfileTable2.setWidget(1, 1, tEmail);
+	    addnewProfileTable2.setHTML(2, 0, "<div>Größe</div>");
+	    addnewProfileTable2.setWidget(2, 1, tHeight);
+	    addnewProfileTable2.setHTML(3, 0, "<div>Haarfarbe</div>");
+	    addnewProfileTable2.setWidget(3, 1, lbHaircolor);
+	    addnewProfileTable2.setHTML(4, 0, "<div>Religion</div>");
+	    addnewProfileTable2.setWidget(4, 1, lbConfession);
+	    addnewProfileTable2.setHTML(5, 0, "<div>Raucher</div>");
+	    addnewProfileTable2.setWidget(5, 1, Rbsmokeyes);
+	    addnewProfileTable2.setWidget(6, 1, Rbsmokeno);
+	    /**
+	     * Zelle formatieren bei Gender
+	     */
+	    //cellFormatter.setColSpan(0, 0, 2);
+	    //cellFormatter.setHorizontalAlignment(
+	        //0, 0, HasHorizontalAlignment.ALIGN_CENTER);
+		
+	    buttonPanel.add(backButton);
+	    
+	    addProfilePanel.add(addnewProfileTable);
+	    addProfilePanel.add(addinfo);
+	    addProfilePanel.add(saveUser);
+	    addProfilePanel2.add(addnewProfileTable2);
 		
 		RootPanel.get("Content").clear();
-		RootPanel.get("Content").add(profilPanel);
-		RootPanel.get("Content").add(saveUserPanel);
+		RootPanel.get("Content").add(buttonPanel);
+		RootPanel.get("Content").add(contentPanel);
+		
+		/**
+		 * ClickHandler für den BackButton damit man zu der Ansicht wieder kommt
+		 */
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				onLoad();
+			}
+		});
 
 	}
 	
@@ -264,78 +373,6 @@ public class ProfilePage extends VerticalPanel {
 		RootPanel.get("Content").add(profilPanel);
 		RootPanel.get("Content").add(saveUserPanel);
 
-	}
-
-	private HorizontalPanel addnewProfil() {
-
-		final HorizontalPanel addnewProfilPanel = new HorizontalPanel();
-		final Grid mainGrid = new Grid(10, 4);
-
-		final Label lFirstname = new Label("Vorname: ");
-		final Label lLastName = new Label("Nachname: ");
-		final Label lDateofbirth = new Label("Geburtsdatum: ");
-		final Label lEmail = new Label("Email: ");
-		final Label lHeight = new Label("Größe: ");
-		final Label lHairColor = new Label("Haarfarbe: ");
-		final Label lConfession = new Label("Religion: ");
-		final Label lGender = new Label("Geschlecht: ");
-		final Label lSmoker = new Label("Raucher: ");
-
-		final TextBox tFirstname = new TextBox();
-		final TextBox tLastname = new TextBox();
-		final TextBox tDateofbirth = new TextBox();
-		final TextBox tEmail = new TextBox();
-		final TextBox tHeight = new TextBox();
-		final ListBox lbHaircolor = new ListBox();
-		final ListBox lbConfession = new ListBox();
-		
-		
-		Gender[] genderValues = Profile.Gender.values();
-		int i = 1;
-		for (Gender gender : genderValues) {
-			RadioButton radioButton = new RadioButton("genderGroup", gender.getName());
-			mainGrid.setWidget(8, i++, radioButton);
-		}
-		
-		RadioButton Rbsmokeyes = new RadioButton("smokeGroup", "ja");
-		RadioButton Rbsmokeno = new RadioButton("smokeGroup", "nein");
-		
-		HairColor[] hairColorValue = Profile.HairColor.values();
-		for (HairColor hairColor : hairColorValue) {
-			lbHaircolor.addItem(hairColor.getName(), hairColor.toString());
-		}
-
-		Confession[] confessionValue = Profile.Confession.values();
-		for (Confession confession : confessionValue) {
-			lbConfession.addItem(confession.getName(), confession.toString());
-		}
-
-		lbHaircolor.setVisibleItemCount(1);
-		lbConfession.setVisibleItemCount(1);
-
-		mainGrid.setWidget(1, 0, lFirstname);
-		mainGrid.setWidget(2, 0, lLastName);
-		mainGrid.setWidget(3, 0, lDateofbirth);
-		mainGrid.setWidget(4, 0, lEmail);
-		mainGrid.setWidget(5, 0, lHeight);
-		mainGrid.setWidget(6, 0, lHairColor);
-		mainGrid.setWidget(7, 0, lConfession);
-		mainGrid.setWidget(8, 0, lGender);
-		mainGrid.setWidget(9, 0, lSmoker);
-		mainGrid.setWidget(1, 1, tFirstname);
-		mainGrid.setWidget(2, 1, tLastname);
-		mainGrid.setWidget(3, 1, tDateofbirth);
-		mainGrid.setWidget(4, 1, tEmail);
-		mainGrid.setWidget(5, 1, tHeight);
-		mainGrid.setWidget(6, 1, lbHaircolor);
-		mainGrid.setWidget(7, 1, lbConfession);
-	
-		mainGrid.setWidget(9, 1, Rbsmokeyes);
-		mainGrid.setWidget(9, 2, Rbsmokeno);
-
-		addnewProfilPanel.add(mainGrid);
-
-		return addnewProfilPanel;
 	}
 
 	private DecoratorPanel addInfoToNewProfil() {

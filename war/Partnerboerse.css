@@ -71,6 +71,11 @@ div#Footer {
 	float: left;
 }
 
+.hcontent2{
+	width: 50%;
+	float: right;
+}
+
 .buttonwidth{
 	width: 180px;
 	margin-top: 15px;
