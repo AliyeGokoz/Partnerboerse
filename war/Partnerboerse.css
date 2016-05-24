@@ -92,6 +92,12 @@ text-decoration: underline;
 	height: 50px;
 }
 
+.profiletabPanel{
+	width:800px;
+	max-height:400px;
+	overflow:scroll;
+}
+
 
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {

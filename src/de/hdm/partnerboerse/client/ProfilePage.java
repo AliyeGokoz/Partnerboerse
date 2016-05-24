@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.StackPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DatePicker;
@@ -114,13 +115,6 @@ public class ProfilePage extends VerticalPanel {
 			}
 		});
 
-		addProfile.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				stockPanelProfil();
-			}
-		});
 		
 		editProfile.addClickHandler(new ClickHandler() {
 
@@ -231,20 +225,17 @@ public class ProfilePage extends VerticalPanel {
 
 		return decoratorPanel;
 	}
-
-	/**
-	 * Neuen StockPanel anlegen für die Ausgabe der Panel Ansicht beim Profil
-	 * anlegen und Informationen anlegen.
-	 */
-	private void stockPanelProfil() {
-
+	
+	public HorizontalPanel addnewUserProfil(){
+		
+		final HorizontalPanel addnewUserProfilPanel = new HorizontalPanel();
+		
 		/**
 		 * Panel für Button und Content Ausgabe
 		 */
 		final HorizontalPanel contentPanel = new HorizontalPanel();
 		final VerticalPanel addProfilePanel = new VerticalPanel();
 		final VerticalPanel addProfilePanel2 = new VerticalPanel();
-		final HorizontalPanel buttonPanel = new HorizontalPanel();
 		final FlexTable addnewProfileTable = new FlexTable();
 		final FlexTable addnewProfileTable2 = new FlexTable();
 		addProfilePanel2.setStyleName("hcontent2");
@@ -256,13 +247,12 @@ public class ProfilePage extends VerticalPanel {
 		/**
 		 * Button anlegen zum zurück gehen
 		 */
-		final Button backButton = new Button("<img src='images/back.png'/>");
 		final Button addinfo = new Button("<img src='images/back.png'/><div>Neue Info anlegen</div>");
 		final Button saveUser = new Button("Speichern");
 		
 
 		/**
-		 * FlexTable Formatieren
+		 * FlexTable formatieren
 		 */
 		addnewProfileTable.setCellSpacing(10);
 		addnewProfileTable2.setCellSpacing(10);
@@ -334,29 +324,15 @@ public class ProfilePage extends VerticalPanel {
 	    //cellFormatter.setColSpan(0, 0, 2);
 	    //cellFormatter.setHorizontalAlignment(
 	        //0, 0, HasHorizontalAlignment.ALIGN_CENTER);
-		
-	    buttonPanel.add(backButton);
+	
 	    
 	    addProfilePanel.add(addnewProfileTable);
 	    addProfilePanel.add(addinfo);
-	    addProfilePanel.add(saveUser);
+	    //addProfilePanel.add(saveUser);
 	    addProfilePanel2.add(addnewProfileTable2);
 		
-		RootPanel.get("Content").clear();
-		RootPanel.get("Content").add(buttonPanel);
-		RootPanel.get("Content").add(contentPanel);
 		
-		/**
-		 * ClickHandler für den BackButton damit man zu der Ansicht wieder kommt
-		 */
-		backButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				onLoad();
-			}
-		});
-
+		return addnewUserProfilPanel;
 	}
 	
 	private void editPanelProfil() {
@@ -373,112 +349,6 @@ public class ProfilePage extends VerticalPanel {
 		RootPanel.get("Content").add(profilPanel);
 		RootPanel.get("Content").add(saveUserPanel);
 
-	}
-
-	private DecoratorPanel addInfoToNewProfil() {
-
-		final VerticalPanel addnewinfotoProfilPanel = new VerticalPanel();
-		final ScrollPanel scrollPanel = new ScrollPanel(addnewinfotoProfilPanel);
-		scrollPanel.setSize("500px", "300px");
-		DecoratorPanel decoratorPanel = new DecoratorPanel();
-		decoratorPanel.add(scrollPanel);
-
-		final ListBox lbMusik = new ListBox();
-		final ListBox lbFilme = new ListBox();
-
-		/*Gender[] genderValues = Profile.Gender.values();
-		int i = 1;
-		for (Gender gender : genderValues) {
-			RadioButton radioButton = new RadioButton("genderGroup", gender.getName());
-			mainGrid.setWidget(8, i++, radioButton);
-		}*/
-		
-		//TODO anpassen dynamische ausgabe Checkbox
-		
-		
-		final CheckBox cbSport1 = new CheckBox("Fußball");
-		final CheckBox cbSport2 = new CheckBox("Basketball");
-		final CheckBox cbSport3 = new CheckBox("Wandern");
-		final CheckBox cbSport4 = new CheckBox("Volleyball");
-		final CheckBox cbSport5 = new CheckBox("Volkstanz");
-		final CheckBox cbSport6 = new CheckBox("Tennis");
-		final CheckBox cbSport7 = new CheckBox("Tauchen");
-		final CheckBox cbSport8 = new CheckBox("Teakwondo");
-		final CheckBox cbSport9 = new CheckBox("Seilspringen");
-		final CheckBox cbSport10 = new CheckBox("Schwimmen");
-		final CheckBox cbSport11 = new CheckBox("Rugby");
-		final CheckBox cbSport12 = new CheckBox("Other");
-
-		final TextBox tHobby = new TextBox();
-		final TextBox tBand = new TextBox();
-		final TextBox tFilme = new TextBox();
-
-		/**
-		 * Untenstrich für die Infoüberschriften
-		 */
-		lHobby.setStyleName("infohead");
-		lMusik.setStyleName("infohead");
-		lSport.setStyleName("infohead");
-		lFilme.setStyleName("infohead");
-		tHobby.setStyleName("textboxsize");
-		tBand.setStyleName("textboxsize");
-		tFilme.setStyleName("textboxsize");
-
-		/**
-		 * Hinzufügen der Info-Objekte für die Eigenschaft Musik
-		 */
-		Music[] musicValues = Profile.Music.values();
-		for (Music music : musicValues) {
-			lbMusik.addItem(music.getName(), music.toString());
-		}
-
-		/**
-		 * Hinzufügen der Info-Objekte für die Eigenschaft Filme
-		 */
-		Film[] filmValues = Profile.Film.values();
-		for (Film film : filmValues) {
-			lbFilme.addItem(film.getName(), film.toString());
-		}
-
-		/**
-		 * new Panel für die Sportarten Checkboxen
-		 */
-		final VerticalPanel sportCheckBoxen = new VerticalPanel();
-
-		sportCheckBoxen.add(cbSport1);
-		sportCheckBoxen.add(cbSport2);
-		sportCheckBoxen.add(cbSport3);
-		sportCheckBoxen.add(cbSport4);
-		sportCheckBoxen.add(cbSport5);
-		sportCheckBoxen.add(cbSport6);
-		sportCheckBoxen.add(cbSport7);
-		sportCheckBoxen.add(cbSport8);
-		sportCheckBoxen.add(cbSport9);
-		sportCheckBoxen.add(cbSport10);
-		sportCheckBoxen.add(cbSport11);
-		sportCheckBoxen.add(cbSport12);
-
-		/**
-		 * Hinzufügen der Widgets an den Panel
-		 */
-		addnewinfotoProfilPanel.add(lHobby);
-		addnewinfotoProfilPanel.add(lHobbyText);
-		addnewinfotoProfilPanel.add(tHobby);
-		addnewinfotoProfilPanel.add(lMusik);
-		addnewinfotoProfilPanel.add(lMusikText);
-		addnewinfotoProfilPanel.add(lbMusik);
-		addnewinfotoProfilPanel.add(lfavBand);
-		addnewinfotoProfilPanel.add(tBand);
-		addnewinfotoProfilPanel.add(lSport);
-		addnewinfotoProfilPanel.add(lSportText);
-		addnewinfotoProfilPanel.add(sportCheckBoxen);
-		addnewinfotoProfilPanel.add(lFilme);
-		addnewinfotoProfilPanel.add(lFilmeText);
-		addnewinfotoProfilPanel.add(lbFilme);
-		addnewinfotoProfilPanel.add(lfavFilm);
-		addnewinfotoProfilPanel.add(tFilme);
-
-		return decoratorPanel;
 	}
 
 	private HorizontalPanel editnewProfil() {
