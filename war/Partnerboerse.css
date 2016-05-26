@@ -62,12 +62,12 @@ div#Footer {
 
 .hbuttons{
 	float:left;
-	width: 20%;
+	/*width: 20%;*/
 	color: black;
 }
 
 .hcontent{
-	width: 50%;
+	/*width: 50%;*/
 	float: left;
 }
 

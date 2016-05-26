@@ -27,8 +27,6 @@ public class NewProfilePage extends VerticalPanel{
 		 * TabPanel anlegen für die verschiedenen Bereiche wie Allg infos und Über Mich
 		 */
 		final TabPanel addProfilTapPanel = new TabPanel();
-		final HorizontalPanel buttonPanel = new HorizontalPanel();
-		//final Button backButton = new Button("<img src='images/back.png'/>");
 		
 		/**
 		 * Title für die Tabs
@@ -47,41 +45,38 @@ public class NewProfilePage extends VerticalPanel{
 
 	      //set width if tabpanel
 		addProfilTapPanel.setStyleName("profiletabPanel");
-		//buttonPanel.add(backButton);
 		
 		RootPanel.get("Content").clear();
-		//RootPanel.get("Content").add(backButton);
 		RootPanel.get("Content").add(addProfilTapPanel);
-		
-		
-		/**
-		 * ClickHandler für den BackButton damit man zu der Ansicht wieder kommt
-		 */
-//		backButton.addClickHandler(new ClickHandler() {
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				onLoad();
-//			}
-//		});
+
 	}
 
 	private HorizontalPanel addInfoToNewProfil() {
-		final HorizontalPanel test = new HorizontalPanel();
+		final HorizontalPanel addInfoToProfilPanel = new HorizontalPanel();
 		
-		return test;
+		/**
+		 * ListBox für die Eigenschaften erstellen
+		 */
+		final ListBox propertyListbox = new ListBox();
+		
+		
+		
+		return addInfoToProfilPanel;
 	}
 
 	private HorizontalPanel addNewProfil() {
 		final HorizontalPanel addnewProfilPanel = new HorizontalPanel();
 		
+		final Button saveButton = new Button("Speichern");
 		/**
 		 * Tabelle für das Formular
 		 */
 		final FlexTable addnewProfileTable = new FlexTable();
 		final FlexTable addnewProfileTable2 = new FlexTable();
-		addnewProfileTable2.setStyleName("hcontent2");
-		addnewProfileTable.setStyleName("hcontent");
+		addnewProfileTable.setWidth("200");
+		addnewProfileTable2.setWidth("200");
+		//addnewProfileTable2.setStyleName("hcontent2");
+		//addnewProfileTable.setStyleName("hcontent");
 		
 		addnewProfilPanel.add(addnewProfileTable);
 		addnewProfilPanel.add(addnewProfileTable2);
@@ -160,7 +155,9 @@ public class NewProfilePage extends VerticalPanel{
 	    //cellFormatter.setColSpan(0, 0, 2);
 	    //cellFormatter.setHorizontalAlignment(
 	        //0, 0, HasHorizontalAlignment.ALIGN_CENTER);
-		
+	    
+	    
+	    addnewProfilPanel.add(saveButton);
 		return addnewProfilPanel;
 	}
 }
