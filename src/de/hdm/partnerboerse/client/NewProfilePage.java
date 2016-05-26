@@ -1,9 +1,13 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -14,12 +18,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
+import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Description;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 
 public class NewProfilePage extends VerticalPanel{
+	
+	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+
 
 	@Override
 	public void onLoad() {
@@ -57,6 +66,32 @@ public class NewProfilePage extends VerticalPanel{
 		/**
 		 * ListBox für die Eigenschaften erstellen
 		 */
+
+	    // Add a drop box with the list types
+	    final ListBox dropBox = new ListBox(false);
+
+	    partnerboerseVerwaltung.getAllDescriptions(new AsyncCallback<ArrayList<Description>>() {
+			
+			@Override
+			public void onSuccess(ArrayList<Description> resultDescriptions) {
+				
+			 for(final Description d : resultDescriptions){
+				      dropBox.addItem(d.getPropertyName().toString());
+				    }
+			 dropBox.ensureDebugId("cwListBox-dropBox");
+			    VerticalPanel dropBoxPanel = new VerticalPanel();
+			    dropBoxPanel.setSpacing(4);
+			    dropBoxPanel.add(new HTML("<h2> Eigenschaften </h2>"));
+			    dropBoxPanel.add(dropBox);
+			    addInfoToProfilPanel.add(dropBoxPanel);
+			}
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
 		final ListBox propertyListbox = new ListBox();
 		
 		
