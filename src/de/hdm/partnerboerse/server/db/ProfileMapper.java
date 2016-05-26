@@ -4,6 +4,8 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.hdm.partnerboerse.shared.bo.*;
 
 public class ProfileMapper {
@@ -190,7 +192,6 @@ public class ProfileMapper {
 
 	public Profile findByEmail(String email) {
 		Connection con = DBConnection.connection();
-		
 
 		try {
 			Statement stmt = con.createStatement();
@@ -270,16 +271,61 @@ public class ProfileMapper {
 		return result;
 	}
 
-	public ArrayList<Profile> findBySearchProfile(int searchProfileId) {
+	public ArrayList<Profile> findBySearchProfile(SearchProfile searchProfile) {
+
 		Connection con = DBConnection.connection();
 		ArrayList<Profile> result = new ArrayList<Profile>();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt
-					.executeQuery("SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles WHERE searchprofile="
-							+ searchProfileId + " ORDER BY id");
+			String sql = "SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles WHERE profiles.id > 0";
+
+			if (searchProfile.getFromHeight() != 0) {
+				sql += "AND profiles.height > " + searchProfile.getFromHeight()
+						+ " ";
+			}
+
+			if (searchProfile.getToHeight() != 0) {
+				sql += "AND profiles.height < " + searchProfile.getToHeight()
+						+ " ";
+			}
+
+			if (searchProfile.getHairColor() != null) {
+				sql += "AND profiles.hairColor = '"
+						+ searchProfile.getHairColor() + "' ";
+			}
+
+			if (searchProfile.getConfession() != null) {
+				sql += "AND profiles.confession = '"
+						+ searchProfile.getConfession() + "' ";
+			}
+
+			if (searchProfile.getGender() != null) {
+				sql += "AND profiles.gender = '" + searchProfile.getGender()
+						+ "' ";
+			}
+
+			if (searchProfile.getFromAge() != 0) {
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+						"yyyy-MM-dd");
+				Date dateOfBirth = new Date(System.currentTimeMillis()
+						- searchProfile.getFromAge() * 365 * 24 * 60 * 60
+						* 1000);
+				sql += "AND profiles.dateOfBirth < '"
+						+ simpleDateFormat.format(dateOfBirth) + "' ";
+			}
+
+			if (searchProfile.getToAge() != 0) {
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+						"yyyy-MM-dd");
+				Date dateOfBirth = new Date(System.currentTimeMillis()
+						- searchProfile.getToAge() * 365 * 24 * 60 * 60 * 1000);
+				sql += "AND profiles.dateOfBirth > '"
+						+ simpleDateFormat.format(dateOfBirth) + "' ";
+			}
+
+			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
 				Profile profile = new Profile();
@@ -303,11 +349,6 @@ public class ProfileMapper {
 		}
 
 		return result;
-	}
-
-	public ArrayList<Profile> findBySearchProfile(SearchProfile searchProfile) {
-
-		return findBySearchProfile(searchProfile.getId());
 	}
 
 	public ArrayList<Profile> findMostSimilarProfiles(Profile fromProfile) {
@@ -346,8 +387,39 @@ public class ProfileMapper {
 		return result;
 	}
 
-	public ArrayList<Profile> findNotViewedProfiles() {
-		return null;
+	public ArrayList<Profile> findNotViewedProfiles(Profile vistingProfile) {
+		Connection con = DBConnection.connection();
+		ArrayList<Profile> result = new ArrayList<Profile>();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt
+					.executeQuery("SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles LEFT JOIN visits ON visits.toProfile = profiles.id WHERE visits.id IS NULL OR NOT visits.fromProfile = "
+							+ vistingProfile.getId() + " GROUP BY profiles.id");
+
+			while (rs.next()) {
+				Profile profile = new Profile();
+				profile.setId(rs.getInt("id"));
+				profile.setFirstName(rs.getString("firstName"));
+				profile.setLastName(rs.getString("lastName"));
+				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+				profile.seteMail(rs.getString("email"));
+				profile.setHeight(rs.getInt("height"));
+				profile.setConfession(Profile.Confession.valueOf(rs
+						.getString("confession")));
+				profile.setSmoker(rs.getBoolean("smoker"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs
+						.getString("hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+
+				result.add(profile);
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
 	}
 
 }
