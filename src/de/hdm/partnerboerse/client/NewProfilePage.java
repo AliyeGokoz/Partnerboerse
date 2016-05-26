@@ -68,7 +68,7 @@ public class NewProfilePage extends VerticalPanel{
 		 */
 
 	    // Add a drop box with the list types
-	    final ListBox dropBox = new ListBox(false);
+	    final ListBox propertyListbox = new ListBox(false);
 
 	    partnerboerseVerwaltung.getAllDescriptions(new AsyncCallback<ArrayList<Description>>() {
 			
@@ -76,14 +76,14 @@ public class NewProfilePage extends VerticalPanel{
 			public void onSuccess(ArrayList<Description> resultDescriptions) {
 				
 			 for(final Description d : resultDescriptions){
-				      dropBox.addItem(d.getPropertyName().toString());
+				 propertyListbox.addItem(d.getPropertyName().toString());
 				    }
-			 dropBox.ensureDebugId("cwListBox-dropBox");
-			    VerticalPanel dropBoxPanel = new VerticalPanel();
-			    dropBoxPanel.setSpacing(4);
-			    dropBoxPanel.add(new HTML("<h2> Eigenschaften </h2>"));
-			    dropBoxPanel.add(dropBox);
-			    addInfoToProfilPanel.add(dropBoxPanel);
+			 propertyListbox.ensureDebugId("cwListBox-dropBox");
+			    VerticalPanel propertydropBoxPanel = new VerticalPanel();
+			    propertydropBoxPanel.setSpacing(4);
+			    propertydropBoxPanel.add(new HTML("<h2> Eigenschaften </h2>"));
+			    propertydropBoxPanel.add(propertyListbox);
+			    addInfoToProfilPanel.add(propertydropBoxPanel);
 			}
 			@Override
 			public void onFailure(Throwable caught) {
@@ -91,10 +91,7 @@ public class NewProfilePage extends VerticalPanel{
 				
 			}
 		});
-
-		final ListBox propertyListbox = new ListBox();
-		
-		
+				
 		
 		return addInfoToProfilPanel;
 	}
