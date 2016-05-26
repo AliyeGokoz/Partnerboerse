@@ -145,6 +145,10 @@ public class Profile extends BusinessObject {
 		this.lastName = lastName;
 	}
 
+	public int getAge(){
+		return (int) ((System.currentTimeMillis() - getDateOfBirth().getTime()) / 1000 / 60 / 60 / 24 / 365);
+	}
+	
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}

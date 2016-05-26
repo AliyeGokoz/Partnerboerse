@@ -27,7 +27,7 @@ public class SimilarityMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM similarities ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM similarities");
 
 			if (rs.next()) {
 				similarity.setId(rs.getInt("maxid") + 1);
@@ -35,8 +35,8 @@ public class SimilarityMapper {
 				stmt = con.createStatement();
 
 				stmt.executeUpdate("INSERT INTO similarities (id, fromProfile, toProfile, similarityValue) "
-						+ "VALUES (" + similarity.getId() + ",'" + similarity.getFromProfile() + "','"
-						+ similarity.getToProfile() + "','" + similarity.getSimilarityValue() + "')");
+						+ "VALUES (" + similarity.getId() + "," + similarity.getFromProfile().getId() + ","
+						+ similarity.getToProfile().getId() + "," + similarity.getSimilarityValue() + ")");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
