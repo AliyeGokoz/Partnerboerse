@@ -128,7 +128,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			Profile toProfile) {
 		FavoritesList fl = new FavoritesList();
 
-		
 		fl.setFromProfile(fromProfile);
 		fl.setToProfile(toProfile);
 
@@ -175,47 +174,48 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	// Delete-Methoden
 	@Override
 	public void delete(Profile profile) throws IllegalArgumentException {
-		
-		ArrayList<FavoritesList> favoritesLists = this.getFavoritesListsOf(profile);
-	    ArrayList<SearchProfile> searchProfiles = this.getSearchProfileOf(profile);
-	    ArrayList<Info> infos = this.getInfoOf(profile);
-	    ArrayList<Blocking> blockings= this.getBlockingsOf(profile);
-	    ArrayList<VisitList> visitLists= this.getVisitListsOf(profile);
-	    ArrayList<Similarity> similarities= this.getSimilaritiesOf(profile);
 
+		ArrayList<FavoritesList> favoritesLists = this
+				.getFavoritesListsOf(profile);
+		ArrayList<SearchProfile> searchProfiles = this
+				.getSearchProfileOf(profile);
+		ArrayList<Info> infos = this.getInfoOf(profile);
+		ArrayList<Blocking> blockings = this.getBlockingsOf(profile);
+		ArrayList<VisitList> visitLists = this.getVisitListsOf(profile);
+		ArrayList<Similarity> similarities = this.getSimilaritiesOf(profile);
 
-	    if (favoritesLists!= null) {
-	      for (FavoritesList favoritesList : favoritesLists) {
-	        this.delete(favoritesList);
-	      }
-	    }
+		if (favoritesLists != null) {
+			for (FavoritesList favoritesList : favoritesLists) {
+				this.delete(favoritesList);
+			}
+		}
 
-	    if (searchProfiles != null) {
-	      for (SearchProfile searchProfile : searchProfiles) {
-	        this.delete(searchProfile);
-	      }
-	    }
-	   if (infos != null) {
-	      for (Info info : infos) {
-	        this.delete(info);
-	      }
-	    }
+		if (searchProfiles != null) {
+			for (SearchProfile searchProfile : searchProfiles) {
+				this.delete(searchProfile);
+			}
+		}
+		if (infos != null) {
+			for (Info info : infos) {
+				this.delete(info);
+			}
+		}
 
-	 if (blockings != null) {
-	      for (Blocking blocking : blockings) {
-	        this.delete(blocking);
-	      }
-	    }
-	 if (visitLists != null) {
-	      for (VisitList visitList : visitLists) {
-	        this.delete(visitList);
-	      }
-	    }
-	 if (similarities != null) {
-	      for (Similarity similarity: similarities) {
-	        this.delete(similarity);
-	      }
-	    }
+		if (blockings != null) {
+			for (Blocking blocking : blockings) {
+				this.delete(blocking);
+			}
+		}
+		if (visitLists != null) {
+			for (VisitList visitList : visitLists) {
+				this.delete(visitList);
+			}
+		}
+		if (similarities != null) {
+			for (Similarity similarity : similarities) {
+				this.delete(similarity);
+			}
+		}
 
 		this.profileMapper.delete(profile);
 	}
@@ -348,16 +348,101 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		return this.similarityMapper.findByKey(id);
 	}
 
-	// Methode zur Berechnung der Ähnlichkeit (Beispiel smoker)
+	public void calculateAllSimilarities() {
+		ArrayList<Profile> allProfiles = getAllProfiles();
+		for (Profile one : allProfiles) {
+			for (Profile two : allProfiles) {
+				if (!one.equals(two)) {
+					Similarity similarity = calculateSimilarity(one, two);
+					save(similarity);
+				}
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		PartnerboerseAdministrationImpl partnerboerseAdministrationImpl = new PartnerboerseAdministrationImpl();
+		partnerboerseAdministrationImpl.init();
+		partnerboerseAdministrationImpl.calculateAllSimilarities();
+	}
+
 	public Similarity calculateSimilarity(Profile one, Profile two) {
-		int attributeCount = 3;
+		int attributeCount = 10;
 		int matches = 0;
 
 		if (one.isSmoker() == two.isSmoker()) {
 			matches++;
 		}
 
-		double similarityValue = matches / attributeCount;
+		if (one.getConfession() == two.getConfession()) {
+			matches++;
+		}
+
+		if (two.getAge() > one.getAge() - 3 && two.getAge() < one.getAge() + 3) {
+			matches++;
+		}
+
+		if (one.getFilm() == two.getFilm()) {
+			matches++;
+		}
+
+		if (one.getMusic() == two.getMusic()) {
+			matches++;
+		}
+
+		if (one.getHobby() == two.getHobby()) {
+			matches++;
+		}
+
+		if (one.getSport() == two.getSport()) {
+			matches++;
+		}
+
+		if (one.getHairColor() == two.getHairColor()) {
+			matches++;
+		}
+
+		if (two.getHeight() > one.getHeight() - 10
+				&& two.getHeight() < one.getHeight() + 10) {
+			matches++;
+		}
+
+		if ((one.getGender() == Gender.MALE && two.getGender() == Gender.FEMALE)
+				|| (one.getGender() == Gender.FEMALE && two.getGender() == Gender.MALE)
+				|| (one.getGender() == Gender.OTHERS && two.getGender() == Gender.OTHERS)) {
+			matches++;
+		}
+
+		ArrayList<Info> infosOfOne = getInfoOf(one);
+		ArrayList<Info> infosOfTwo = getInfoOf(two);
+		for (Info infoOfOne : infosOfOne) {
+			for (Info infoOfTwo : infosOfTwo) {
+				if (infoOfOne.getDescription() != null
+						&& infoOfTwo.getDescription() != null) {
+					if (infoOfOne.getDescription().getId() == infoOfTwo
+							.getDescription().getId()) {
+						attributeCount++;
+						if (infoOfOne.getInformationValue().equals(
+								infoOfTwo.getInformationValue())) {
+							matches++;
+						}
+					}
+				}
+				if (infoOfOne.getSelection() != null
+						&& infoOfTwo.getSelection() != null) {
+					if (infoOfOne.getSelection().getId() == infoOfTwo
+							.getSelection().getId()) {
+						attributeCount++;
+						if (infoOfOne.getInformationValue().equals(
+								infoOfTwo.getInformationValue())) {
+							matches++;
+						}
+					}
+				}
+			}
+		}
+
+		double similarityValue = matches / (double) attributeCount;
 
 		Similarity similarity = new Similarity();
 		similarity.setFromProfile(one);
@@ -378,7 +463,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public ArrayList<Blocking> getAllBlockings() throws IllegalArgumentException {
+	public ArrayList<Blocking> getAllBlockings()
+			throws IllegalArgumentException {
 		return this.blockingMapper.findAll();
 	}
 
@@ -402,50 +488,86 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	// Save-Methoden
 	@Override
 	public void save(Profile profile) throws IllegalArgumentException {
-		profileMapper.update(profile);
+		if (profile.getId() != 0) {
+			profileMapper.update(profile);
+		} else {
+			profileMapper.insert(profile);
+		}
 	}
 
 	@Override
 	public void save(SearchProfile searchProfile)
 			throws IllegalArgumentException {
-		searchProfileMapper.update(searchProfile);
+		if (searchProfile.getId() != 0) {
+			searchProfileMapper.update(searchProfile);
+		} else {
+			searchProfileMapper.insert(searchProfile);
+		}
 	}
 
 	@Override
 	public void save(Info info) throws IllegalArgumentException {
-		infoMapper.update(info);
+		if (info.getId() != 0) {
+			infoMapper.update(info);
+		} else {
+			infoMapper.insert(info);
+		}
 	}
 
 	@Override
 	public void save(Description description) throws IllegalArgumentException {
-		descriptionMapper.update(description);
+		if (description.getId() != 0) {
+			descriptionMapper.update(description);
+		} else {
+			descriptionMapper.insert(description);
+		}
 
 	}
 
 	@Override
 	public void save(Selection selection) throws IllegalArgumentException {
-		selectionMapper.update(selection);
+		if (selection.getId() != 0) {
+			selectionMapper.update(selection);
+		} else {
+			selectionMapper.insert(selection);
+		}
 	}
 
 	@Override
 	public void save(Blocking blocking) throws IllegalArgumentException {
-		blockingMapper.update(blocking);
+		if (blocking.getId() != 0) {
+			blockingMapper.update(blocking);
+		} else {
+			blockingMapper.insert(blocking);
+		}
 	}
 
 	@Override
 	public void save(Similarity similarity) throws IllegalArgumentException {
-		similarityMapper.update(similarity);
+		if (similarity.getId() != 0) {
+			similarityMapper.update(similarity);
+		} else {
+			similarityMapper.insert(similarity);
+		}
 	}
 
 	@Override
 	public void save(VisitList visitList) throws IllegalArgumentException {
-		visitListMapper.update(visitList);
+		if (visitList.getId() != 0) {
+			visitListMapper.update(visitList);
+		} else {
+			visitListMapper.insert(visitList);
+		}
 	}
 
 	@Override
 	public void save(FavoritesList favoritesList)
 			throws IllegalArgumentException {
-		favoritesListMapper.update(favoritesList);
+		if (favoritesList.getId() != 0) {
+			favoritesListMapper.update(favoritesList);
+		} else {
+			favoritesListMapper.insert(favoritesList);
+		}
 	}
 
 	// Get-Methoden
@@ -466,41 +588,42 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 		return infoMapper.findBySelection(selection);
 	}
-	
+
 	@Override
-	public ArrayList<Profile> getProfilesByName(String lastName, String firstName)
-	      throws IllegalArgumentException {
+	public ArrayList<Profile> getProfilesByName(String lastName,
+			String firstName) throws IllegalArgumentException {
 
-	    return this.profileMapper.findByName(lastName, firstName);
-	  }
-	 @Override
-	 public ArrayList<Profile> getProfilesOf(SearchProfile searchProfile)
-	       throws IllegalArgumentException {
-	     return this.profileMapper.findBySearchProfile(searchProfile);
-	   }
+		return this.profileMapper.findByName(lastName, firstName);
+	}
 
-	  @Override
-	 public ArrayList<Blocking> getBlockingsOf(Profile profile)
-	       throws IllegalArgumentException {
-	     return this.blockingMapper.findByProfile(profile);
-	   }
+	@Override
+	public ArrayList<Profile> getProfilesOf(SearchProfile searchProfile)
+			throws IllegalArgumentException {
+		return this.profileMapper.findBySearchProfile(searchProfile);
+	}
 
-	  @Override
-	 public ArrayList<FavoritesList> getFavoritesListsOf(Profile profile)
-	       throws IllegalArgumentException {
-	     return this.favoritesListMapper.findByProfile(profile);
-	   }
+	@Override
+	public ArrayList<Blocking> getBlockingsOf(Profile profile)
+			throws IllegalArgumentException {
+		return this.blockingMapper.findByProfile(profile);
+	}
 
-	  @Override
-	 public ArrayList<VisitList> getVisitListsOf(Profile profile)
-	       throws IllegalArgumentException {
-	     return this.visitListMapper.findByProfile(profile);
-	   }
+	@Override
+	public ArrayList<FavoritesList> getFavoritesListsOf(Profile profile)
+			throws IllegalArgumentException {
+		return this.favoritesListMapper.findByProfile(profile);
+	}
 
-	  @Override
-	 public ArrayList<Similarity> getSimilaritiesOf(Profile profile)
-	       throws IllegalArgumentException {
-	     return this.similarityMapper.findByProfile(profile);
-	   }
+	@Override
+	public ArrayList<VisitList> getVisitListsOf(Profile profile)
+			throws IllegalArgumentException {
+		return this.visitListMapper.findByProfile(profile);
+	}
+
+	@Override
+	public ArrayList<Similarity> getSimilaritiesOf(Profile profile)
+			throws IllegalArgumentException {
+		return this.similarityMapper.findByProfile(profile);
+	}
 
 }
