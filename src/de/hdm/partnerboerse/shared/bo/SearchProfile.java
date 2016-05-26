@@ -122,4 +122,5 @@ public class SearchProfile extends BusinessObject{
 	public void setFilm(Film film) {
 		this.film = film;
 	}
+	
 }
