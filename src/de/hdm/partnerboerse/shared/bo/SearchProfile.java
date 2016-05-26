@@ -32,6 +32,8 @@ public class SearchProfile extends BusinessObject{
 	private Music music = null;
 
 	private Film film = null;
+	
+	private Profile profile;
 
 
 
@@ -121,5 +123,13 @@ public class SearchProfile extends BusinessObject{
 
 	public void setFilm(Film film) {
 		this.film = film;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 }
