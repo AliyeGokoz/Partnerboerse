@@ -31,8 +31,7 @@ public class SimilarityMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt
-					.executeQuery("SELECT MAX(id) AS maxid FROM similarities");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM similarities");
 
 			if (rs.next()) {
 				similarity.setId(rs.getInt("maxid") + 1);
@@ -40,14 +39,8 @@ public class SimilarityMapper {
 				stmt = con.createStatement();
 
 				stmt.executeUpdate("INSERT INTO similarities (id, fromProfile, toProfile, similarityValue) "
-						+ "VALUES ("
-						+ similarity.getId()
-						+ ","
-						+ similarity.getFromProfile().getId()
-						+ ","
-						+ similarity.getToProfile().getId()
-						+ ","
-						+ similarity.getSimilarityValue() + ")");
+						+ "VALUES (" + similarity.getId() + "," + similarity.getFromProfile().getId() + ","
+						+ similarity.getToProfile().getId() + "," + similarity.getSimilarityValue() + ")");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -62,11 +55,9 @@ public class SimilarityMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE similarities " + "SET fromProfile=\""
-					+ similarity.getFromProfile() + "\", " + "toProfile=\""
-					+ similarity.getToProfile() + "\", " + "similarityValue=\""
-					+ similarity.getSimilarityValue() + "\" " + "WHERE id="
-					+ similarity.getId());
+			stmt.executeUpdate("UPDATE similarities " + "SET fromProfile=\"" + similarity.getFromProfile() + "\", "
+					+ "toProfile=\"" + similarity.getToProfile() + "\", " + "similarityValue=\""
+					+ similarity.getSimilarityValue() + "\" " + "WHERE id=" + similarity.getId());
 
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -81,8 +72,7 @@ public class SimilarityMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM similarities " + "WHERE id="
-					+ similarity.getId());
+			stmt.executeUpdate("DELETE FROM similarities " + "WHERE id=" + similarity.getId());
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
@@ -97,7 +87,6 @@ public class SimilarityMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(BASE_SELECT);
-
 
 			while (rs.next()) {
 
@@ -117,9 +106,7 @@ public class SimilarityMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-
 			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE id=" + id + " ORDER BY fromProfile");
-
 
 			if (rs.next()) {
 
@@ -140,7 +127,6 @@ public class SimilarityMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-
 			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE profile=" + profileId + " ORDER BY id");
 
 			while (rs.next()) {
@@ -159,25 +145,18 @@ public class SimilarityMapper {
 		return findByProfile(profile.getId());
 	}
 
-	
-	public Similarity findByFromAndTo(Profile from, Profile to){
+	public Similarity findByFromAndTo(Profile from, Profile to) {
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt
-					.executeQuery("SELECT id, fromProfile, toProfile, similarityValue FROM similarities "
-							+ "WHERE fromProfile=" + from.getId() + " AND toProfile="+to.getId()+" LIMIT 1");
+			ResultSet rs = stmt.executeQuery(
+					BASE_SELECT + "WHERE fromProfile=" + from.getId() + " AND toProfile=" + to.getId() + " LIMIT 1");
 
 			while (rs.next()) {
-				Similarity similarity = new Similarity();
-				similarity.setId(rs.getInt("id"));
-				// similarity.setFromProfile(rs.getProfile("fromProfile"));
-				// similarity.setToProfile(rs.getProfile("toProfile"));
-				similarity.setSimilarityValue(rs.getDouble("similarityValue"));
 
-				return similarity;
+				return map(rs);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
