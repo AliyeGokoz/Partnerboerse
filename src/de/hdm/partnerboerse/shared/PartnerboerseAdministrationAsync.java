@@ -38,6 +38,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue,
 			AsyncCallback<Similarity> callback);
+	void calculateSimilarity(Profile one, Profile two, AsyncCallback<Similarity> callback);
 
 	void createVisitList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<VisitList> callback);
 
@@ -143,5 +144,6 @@ public interface PartnerboerseAdministrationAsync {
 	void getVisitListsOf(Profile profile, AsyncCallback<ArrayList<VisitList>> callback);
 
 	void getSimilaritiesOf(Profile profile, AsyncCallback<ArrayList<Similarity>> callback);
+	
 
 }

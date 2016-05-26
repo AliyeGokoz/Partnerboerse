@@ -11,11 +11,11 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.ReportGenerator;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
+import de.hdm.partnerboerse.shared.bo.Similarity;
 import de.hdm.partnerboerse.shared.report.Column;
 import de.hdm.partnerboerse.shared.report.CompositeParagraph;
 import de.hdm.partnerboerse.shared.report.HTMLReportWriter;
 import de.hdm.partnerboerse.shared.report.PartnerProposalsProfilesReport;
-import de.hdm.partnerboerse.shared.report.PartnerProposalsBySearchProfileReport;
 import de.hdm.partnerboerse.shared.report.Report;
 import de.hdm.partnerboerse.shared.report.Row;
 import de.hdm.partnerboerse.shared.report.SimpleParagraph;
@@ -24,6 +24,7 @@ import de.hdm.partnerboerse.shared.report.SimpleParagraph;
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
 	private PartnerboerseAdministration administration = null;
+	
 
 	public ReportGeneratorImpl() throws IllegalArgumentException {
 
@@ -129,15 +130,20 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 //			rowInfo.addParagraph(new SimpleParagraph(t.getFilm().getName()));
 			rowInfo.addParagraph(new SimpleParagraph(t.getHairColor().getName()));
 //			rowInfo.addParagraph(new SimpleParagraph(t.getMusic().getName()));
+			
+			LoginServiceImpl service = new LoginServiceImpl();
+			Profile currentProfile = service.getCurrentProfile();
 
 			
 			profileRow.addColumn(new Column(rowInfo.toString()));
-			
+			Similarity sim = this.administration.calculateSimilarity(currentProfile, t);
+			profileRow.addColumn(new Column(Double.toString(sim.getSimilarityValue()*100)+"%"));
+//			profileRow.addColumn(new Column((int) (t.getSimilarity().getSimilarityValue() * 100) + "%"));
+
 
 //			profileRow.addColumn(new Column(t.getLastName()));
 //			profileRow.addColumn(new Column(t.getFirstName()));
 //			profileRow.addColumn(new Column(t.geteMail()));
-//			profileRow.addColumn(new Column((int) (t.getSimilarity().getSimilarityValue() * 100) + "%"));
 
 			result.addRow(profileRow);
 		}
@@ -150,6 +156,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		
 		LoginServiceImpl service = new LoginServiceImpl();
 		Profile currentProfile = service.getCurrentProfile();
+
 		HTMLReportWriter htmlReportWriter = new HTMLReportWriter();
 		PartnerProposalsProfilesReport createPartnerProposalsByNotViewedProfilesReport = createPartnerProposalsByNotViewedProfilesReport(currentProfile);
 		htmlReportWriter.process(createPartnerProposalsByNotViewedProfilesReport);

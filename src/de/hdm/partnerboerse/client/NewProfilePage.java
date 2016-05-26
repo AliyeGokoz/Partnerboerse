@@ -77,6 +77,7 @@ public class NewProfilePage extends VerticalPanel{
 				
 			 for(final Description d : resultDescriptions){
 				      dropBox.addItem(d.getPropertyName().toString());
+				     
 				    }
 			 dropBox.ensureDebugId("cwListBox-dropBox");
 			    VerticalPanel dropBoxPanel = new VerticalPanel();
