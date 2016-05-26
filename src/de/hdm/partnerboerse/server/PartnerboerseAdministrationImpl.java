@@ -444,11 +444,23 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 		double similarityValue = matches / (double) attributeCount;
 
-		Similarity similarity = new Similarity();
+		Similarity similarityFromDB = similarityMapper.findByFromAndTo(one, two);
+		
+		Similarity similarity = similarityFromDB == null ? new Similarity() : similarityFromDB;
 		similarity.setFromProfile(one);
 		similarity.setToProfile(two);
 		similarity.setSimilarityValue(similarityValue);
 		return similarity;
+	}
+	
+	public void updateSimilarityForProfile(Profile profile){
+		ArrayList<Profile> allProfiles = getAllProfiles();
+		for (Profile otherProfile : allProfiles) {
+			Similarity similarityFrom = calculateSimilarity(profile, otherProfile);
+			Similarity similarityTo = calculateSimilarity(otherProfile, profile);
+			save(similarityFrom);
+			save(similarityTo);
+		}
 	}
 
 	@Override
@@ -493,6 +505,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		} else {
 			profileMapper.insert(profile);
 		}
+		
+		updateSimilarityForProfile(profile);
 	}
 
 	@Override
@@ -512,6 +526,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		} else {
 			infoMapper.insert(info);
 		}
+		
+		Profile profile = info.getProfile();
+		updateSimilarityForProfile(profile);
 	}
 
 	@Override

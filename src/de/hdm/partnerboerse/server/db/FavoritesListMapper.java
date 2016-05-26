@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import de.hdm.partnerboerse.shared.bo.*;
 
 public class FavoritesListMapper {
+	
+	private static final String BASE_SELECT = "SELECT favorites.id AS fid,"
+			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender FROM favorites LEFT JOIN profiles AS fromProfile ON fromProfile.id = favorites.fromProfile,"
+			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM favorites LEFT JOIN profiles AS fromProfile ON toProfile.id = favorites.fromProfile"
+			+ " LEFT JOIN profiles AS toProfile ON toProfile.id = favorites.toProfile";
 
 	private static FavoritesListMapper favoritesListMapper = null;
 
@@ -78,16 +83,10 @@ public class FavoritesListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(
-					"SELECT id, fromProfile, toProfile" + "FROM favorites " + "ORDER BY fromProfile");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT);
 
 			while (rs.next()) {
-				FavoritesList favoritesList = new FavoritesList();
-				favoritesList.setId(rs.getInt("id"));
-				// favoritesList.setFromProfile(rs.getProfile("fromProfile"));
-				// favoritesList.setToProfile(rs.getProfile("toProfile"));
-
-				result.add(favoritesList);
+				result.add(map(rs));
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -101,16 +100,10 @@ public class FavoritesListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile FROM favorites " + "WHERE id=" + id
-					+ " ORDER BY fromProfile");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE id=" + id + " ORDER BY fromProfile");
 
 			if (rs.next()) {
-				FavoritesList favoritesList = new FavoritesList();
-				favoritesList.setId(rs.getInt("id"));
-				// favoritesList.setFromProfile(rs.getProfile("fromProfile"));
-				// favoritesList.setToProfile(rs.getProfile("toProfile"));
-
-				return favoritesList;
+				return map(rs);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -127,16 +120,9 @@ public class FavoritesListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile FROM favorites " + "WHERE profile="
-					+ profileId + " ORDER BY id");
-
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE profile=" + profileId + " ORDER BY id");
 			while (rs.next()) {
-				FavoritesList favoritesList = new FavoritesList();
-				favoritesList.setId(rs.getInt("id"));
-				// favoritesList.setFromProfile(rs.getProfile("fromProfile"));
-				// favoritesList.setToProfile(rs.getProfile("toProfile"));
-
-				result.add(favoritesList);
+				result.add(map(rs));
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -149,6 +135,40 @@ public class FavoritesListMapper {
 
 		return findByProfile(profile.getId());
 	}
+	
+	private FavoritesList map(ResultSet rs) throws SQLException {
+		FavoritesList favoritesList = new FavoritesList();
+		favoritesList.setId(rs.getInt("id"));
 
+		Profile profileFrom = new Profile();
+		profileFrom.setId(rs.getInt("tpId"));
+		profileFrom.setFirstName(rs.getString("tpFirstName"));
+		profileFrom.setLastName(rs.getString("tpLastName"));
+		profileFrom.setDateOfBirth(rs.getDate("tpDateOfBirth"));
+		profileFrom.seteMail(rs.getString("tpEmail"));
+		profileFrom.setHeight(rs.getInt("tpHeight"));
+		profileFrom.setConfession(Profile.Confession.valueOf(rs.getString("tpConfession")));
+		profileFrom.setSmoker(rs.getBoolean("tpSmoker"));
+		profileFrom.setHairColor(Profile.HairColor.valueOf(rs.getString("tpHairColor")));
+		profileFrom.setGender(Profile.Gender.valueOf(rs.getString("tpGender")));
+
+		Profile profileTo = new Profile();
+		profileTo.setId(rs.getInt("tpId"));
+		profileTo.setFirstName(rs.getString("tpFirstName"));
+		profileTo.setLastName(rs.getString("tpLastName"));
+		profileTo.setDateOfBirth(rs.getDate("tpDateOfBirth"));
+		profileTo.seteMail(rs.getString("tpEmail"));
+		profileTo.setHeight(rs.getInt("tpHeight"));
+		profileTo.setConfession(Profile.Confession.valueOf(rs.getString("tpConfession")));
+		profileTo.setSmoker(rs.getBoolean("tpSmoker"));
+		profileTo.setHairColor(Profile.HairColor.valueOf(rs.getString("tpHairColor")));
+		profileTo.setGender(Profile.Gender.valueOf(rs.getString("tpGender")));
+
+		favoritesList.setFromProfile(profileFrom);
+		favoritesList.setToProfile(profileTo);
+
+		return favoritesList;
+
+	}
 	
 }
