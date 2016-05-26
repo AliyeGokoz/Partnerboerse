@@ -7,6 +7,11 @@ import de.hdm.partnerboerse.shared.bo.*;
 
 public class BlockingMapper {
 
+	private static final String BASE_SELECT = "SELECT blockings.id AS bid,"
+			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender FROM blockings LEFT JOIN profiles AS fromProfile ON fromProfile.id = blockings.fromProfile,"
+			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM blockings LEFT JOIN profiles AS fromProfile ON toProfile.id = blockings.fromProfile"
+			+ " LEFT JOIN profiles AS toProfile ON toProfile.id = blockings.toProfile";
+
 	private static BlockingMapper blockingMapper = null;
 
 	protected BlockingMapper() {
@@ -78,15 +83,10 @@ public class BlockingMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, fromProfile, toProfile" + "FROM blockings " + "ORDER BY fromProfile");
+					.executeQuery(BASE_SELECT);
 
 			while (rs.next()) {
-				Blocking blocking = new Blocking();
-				blocking.setId(rs.getInt("id"));
-				// blocking.setFromProfile(rs.getProfile("fromProfile"));
-				// blocking.setToProfile(rs.getProfile("toProfile"));
-
-				result.add(blocking);
+				result.add(map(rs));
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -100,16 +100,10 @@ public class BlockingMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(
-					"SELECT id, fromProfile, toProfile FROM blockings " + "WHERE id=" + id + " ORDER BY fromProfile");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE id=" + id + " ORDER BY fromProfile");
 
 			if (rs.next()) {
-				Blocking blocking = new Blocking();
-				blocking.setId(rs.getInt("id"));
-				// blocking.setFromProfile(rs.getProfile("fromProfile"));
-				// blocking.setToProfile(rs.getProfile("toProfile"));
-
-				return blocking;
+				return map(rs);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -126,16 +120,10 @@ public class BlockingMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, fromProfile, toProfile FROM blockings " + "WHERE profile="
-					+ profileId + " ORDER BY id");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE profile=" + profileId + " ORDER BY id");
 
 			while (rs.next()) {
-				Blocking blocking = new Blocking();
-				blocking.setId(rs.getInt("id"));
-				// blocking.setFromProfile(rs.getProfile("fromProfile"));
-				// blocking.setToProfile(rs.getProfile("toProfile"));
-
-				result.add(blocking);
+				result.add(map(rs));
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -149,5 +137,37 @@ public class BlockingMapper {
 		return findByProfile(profile.getId());
 	}
 
+	private Blocking map(ResultSet rs) throws SQLException {
+		Blocking blocking = new Blocking();
+		blocking.setId(rs.getInt("id"));
 
+		Profile profileFrom = new Profile();
+		profileFrom.setId(rs.getInt("tpId"));
+		profileFrom.setFirstName(rs.getString("tpFirstName"));
+		profileFrom.setLastName(rs.getString("tpLastName"));
+		profileFrom.setDateOfBirth(rs.getDate("tpDateOfBirth"));
+		profileFrom.seteMail(rs.getString("tpEmail"));
+		profileFrom.setHeight(rs.getInt("tpHeight"));
+		profileFrom.setConfession(Profile.Confession.valueOf(rs.getString("tpConfession")));
+		profileFrom.setSmoker(rs.getBoolean("tpSmoker"));
+		profileFrom.setHairColor(Profile.HairColor.valueOf(rs.getString("tpHairColor")));
+		profileFrom.setGender(Profile.Gender.valueOf(rs.getString("tpGender")));
+
+		Profile profileTo = new Profile();
+		profileTo.setId(rs.getInt("tpId"));
+		profileTo.setFirstName(rs.getString("tpFirstName"));
+		profileTo.setLastName(rs.getString("tpLastName"));
+		profileTo.setDateOfBirth(rs.getDate("tpDateOfBirth"));
+		profileTo.seteMail(rs.getString("tpEmail"));
+		profileTo.setHeight(rs.getInt("tpHeight"));
+		profileTo.setConfession(Profile.Confession.valueOf(rs.getString("tpConfession")));
+		profileTo.setSmoker(rs.getBoolean("tpSmoker"));
+		profileTo.setHairColor(Profile.HairColor.valueOf(rs.getString("tpHairColor")));
+		profileTo.setGender(Profile.Gender.valueOf(rs.getString("tpGender")));
+
+		blocking.setFromProfile(profileFrom);
+		blocking.setToProfile(profileTo);
+
+		return blocking;
+	}
 }

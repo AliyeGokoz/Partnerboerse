@@ -120,21 +120,14 @@ public class VisitListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(
-					"SELECT id, fromProfile, toProfile FROM visits " + "WHERE profile=" + profileId + " ORDER BY id");
-
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE profile=" + profileId + " ORDER BY id");
+			
 			while (rs.next()) {
-				VisitList visitList = new VisitList();
-				visitList.setId(rs.getInt("id"));
-				// visitList.setFromProfile(rs.getProfile("fromProfile"));
-				// visitList.setToProfile(rs.getProfile("toProfile"));
-
-				result.add(visitList);
+				result.add(map(rs));
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
-
 		return result;
 	}
 
