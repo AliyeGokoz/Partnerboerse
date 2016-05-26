@@ -107,21 +107,36 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		header.addParagraph(new SimpleParagraph(p.getLastName() + "," + p.getFirstName()));
 		header.addParagraph(new SimpleParagraph(p.geteMail()));
 		result.setHeaderData(header);
+		
 
 		Row headline = new Row();
-
-		headline.addColumn(new Column("Nachname"));
-		headline.addColumn(new Column("Vorname"));
-		headline.addColumn(new Column("E-Mail"));
+		headline.addColumn(new Column("Profil"));
+//		headline.addColumn(new Column("Nachname"));
+//		headline.addColumn(new Column("Vorname"));
+//		headline.addColumn(new Column("E-Mail"));
 		headline.addColumn(new Column("Ähnlichkeitswert"));
 		result.addRow(headline);
 
 		for (Profile t : profiles) {
 			Row profileRow = new Row();
+			
+			CompositeParagraph rowInfo = new CompositeParagraph();
+			rowInfo.addParagraph(new SimpleParagraph(t.getLastName() + "," + t.getFirstName()));
+			rowInfo.addParagraph(new SimpleParagraph(t.geteMail()));
+			rowInfo.addParagraph(new SimpleParagraph(t.getConfession().getName()));
+			//rowInfo.addParagraph(new SimpleParagraph(t.getDateOfBirth().toString()));
+			//rowInfo.addParagraph(new SimpleParagraph(t.getHobby().getName()));
+//			rowInfo.addParagraph(new SimpleParagraph(t.getFilm().getName()));
+			rowInfo.addParagraph(new SimpleParagraph(t.getHairColor().getName()));
+//			rowInfo.addParagraph(new SimpleParagraph(t.getMusic().getName()));
 
-			profileRow.addColumn(new Column(t.getLastName()));
-			profileRow.addColumn(new Column(t.getFirstName()));
-			profileRow.addColumn(new Column(t.geteMail()));
+			
+			profileRow.addColumn(new Column(rowInfo.toString()));
+			
+
+//			profileRow.addColumn(new Column(t.getLastName()));
+//			profileRow.addColumn(new Column(t.getFirstName()));
+//			profileRow.addColumn(new Column(t.geteMail()));
 //			profileRow.addColumn(new Column((int) (t.getSimilarity().getSimilarityValue() * 100) + "%"));
 
 			result.addRow(profileRow);
