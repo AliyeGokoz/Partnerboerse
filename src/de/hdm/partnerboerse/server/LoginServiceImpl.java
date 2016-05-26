@@ -34,6 +34,11 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	public Profile getCurrentProfile(){
-		return ProfileMapper.profileMapper().findByKey(1);//TODO
+		LoginInfo login = login("");
+		if(login.isLoggedIn()){
+			return ProfileMapper.profileMapper().findByEmail(login.getEmailAddress());
+		} else {
+			return null;
+		}
 	}
 }
