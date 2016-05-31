@@ -94,6 +94,7 @@ public class NewProfilePage extends VerticalPanel {
 		final ListBox propertyListbox = new ListBox(false);
 		final ListBox propertyListbox1 = new ListBox(false);
 
+
 		// saveButton.addClickHandler(new ClickHandler() {
 		//
 		// @Override
