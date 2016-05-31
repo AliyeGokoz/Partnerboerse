@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DatePicker;
 
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
+import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Film;
@@ -43,31 +44,45 @@ public class ProfilePage extends VerticalPanel {
 	@Override
 	public void onLoad() {
 		
-		/**
-		 * TabPanel anlegen für die verschiedenen Bereiche wie Allg infos und Über Mich
-		 */
-		final TabPanel showProfilTapPanel = new TabPanel();
-		
-		/**
-		 * Title für die Tabs
-		 */
-		final String tab1Title = "Profil";
-		final String tab2Title = "Über Mich";
-		
-		/**
-		 * Content für die Tabs Zuweißen
-		 */
-		showProfilTapPanel.add(showProfil(), tab1Title);
-		showProfilTapPanel.add(showInfoProfil(), tab2Title);
-		
-		//select first tab
-		showProfilTapPanel.selectTab(0);
+		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
 
-		//set width if tabpanel
-		showProfilTapPanel.setStyleName("profiletabPanel");
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
 				
-		RootPanel.get("Content").clear();
-		RootPanel.get("Content").add(showProfilTapPanel);
+			}
+
+			@Override
+			public void onSuccess(Profile profile) {
+				/**
+				 * TabPanel anlegen für die verschiedenen Bereiche wie Allg infos und Über Mich
+				 */
+				final TabPanel showProfilTapPanel = new TabPanel();
+				
+				/**
+				 * Title für die Tabs
+				 */
+				final String tab1Title = "Profil";
+				final String tab2Title = "Über Mich";
+				
+				/**
+				 * Content für die Tabs Zuweißen
+				 */
+				showProfilTapPanel.add(showProfil(profile), tab1Title);
+				showProfilTapPanel.add(showInfoProfil(), tab2Title);
+				
+				//select first tab
+				showProfilTapPanel.selectTab(0);
+
+				//set width if tabpanel
+				showProfilTapPanel.setStyleName("profiletabPanel");
+						
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(showProfilTapPanel);
+				
+			}
+		});
+		
 		
 //		// buttonausgabe für den Testzweck
 //		final VerticalPanel buttonsPanel = new VerticalPanel();
@@ -118,24 +133,24 @@ public class ProfilePage extends VerticalPanel {
 //			public void onClick(ClickEvent event) {
 //				editPanelProfil();
 //			}
-//		});
-
-		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
-
-			@Override
-			public void onSuccess(Profile value) {
-				Profile profile = new Profile();
-				profile.setFirstName("Max");
-				profile.setLastName("Mustermann");
-				profile.setDateOfBirth(new Date());
-				profile.seteMail("mustermann@hdhhd.de");
-				profile.setHeight(170);
-				profile.setHairColor(null);
-				profile.setGender(null);
-				profile.setConfession(null);
-				profile.setSmoker(true);
-
-				// TODO get-set für die Eigenschaften
+////		});
+//
+//		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+//
+//			@Override
+//			public void onSuccess(Profile value) {
+//				Profile profile = new Profile();
+//				profile.setFirstName("Max");
+//				profile.setLastName("Mustermann");
+//				profile.setDateOfBirth(new Date());
+//				profile.seteMail("mustermann@hdhhd.de");
+//				profile.setHeight(170);
+//				profile.setHairColor(null);
+//				profile.setGender(null);
+//				profile.setConfession(null);
+//				profile.setSmoker(true);
+//
+//				// TODO get-set für die Eigenschaften
 				/*
 				 * profile.g; profile.setSmoker(true); profile.setSmoker(true);
 				 * profile.setSmoker(true); profile.setSmoker(true);
@@ -150,23 +165,23 @@ public class ProfilePage extends VerticalPanel {
 //				showlConfession.setText("Religion: " + profile.getConfession());
 //				showlGender.setText("Geschlecht: " + profile.getGender());
 //				showlSmoker.setText("Raucher: " + profile.isSmoker());
-				/*
-				 * lHobbyText.setText("Ich mache gern:"); lMusikText.setText(
-				 * "Ich höre gern:"); lfavBand.setText(
-				 * "Mein/e Lieblingsband/Lieblingskünstler/in sind/ist: ");
-				 * lSportText.setText(
-				 * "Ich betreibe gerne folgende Sportart/en: ");
-				 * lFilmeText.setText("Ich schaue gerne: "); lfavFilm.setText(
-				 * "Mein/e Lieblingsfilm/e ist/sind: ");
-				 */
-
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-			}
-		});
+//				/*
+//				 * lHobbyText.setText("Ich mache gern:"); lMusikText.setText(
+//				 * "Ich höre gern:"); lfavBand.setText(
+//				 * "Mein/e Lieblingsband/Lieblingskünstler/in sind/ist: ");
+//				 * lSportText.setText(
+//				 * "Ich betreibe gerne folgende Sportart/en: ");
+//				 * lFilmeText.setText("Ich schaue gerne: "); lfavFilm.setText(
+//				 * "Mein/e Lieblingsfilm/e ist/sind: ");
+//				 */
+//
+//			}
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//
+//			}
+//		});
 
 	}
 
@@ -175,8 +190,97 @@ public class ProfilePage extends VerticalPanel {
 		return showInfoProfilePanel;
 	}
 
-	private HorizontalPanel showProfil() {
+	private HorizontalPanel showProfil(final Profile profile) {
+		
+		//TODO inhalt anzeigen wenn Profil gefüllt, wenn kein Profil gefüllt ist dann Anzeige: Hey 
+		// hey leg dir doch ein Profil an
+		
+		/**
+		 * Panel für die Ausgabe
+		 */
 		final HorizontalPanel showProfilePanel = new HorizontalPanel();
+		
+		/**
+		 * Anlegen von VerticalPanel für die Buttons
+		 */
+		final VerticalPanel buttonsPanel = new VerticalPanel();
+		
+		/**
+		 * Panel für den Inhalt anlegen
+		 */
+		final VerticalPanel profilPanel = new VerticalPanel();
+		
+		/**
+		 * Buttons werden engelegt für das editieren und löschen
+		 */
+		final Button deleteProfileButton = new Button("<img src='images/garbage.png'/>");
+		final Button addnewProfileButton = new Button("<img src='images/edit.png'/>");
+		
+		/**
+		 * Tabelle für das Formular
+		 */
+		final FlexTable addnewProfileTable = new FlexTable();
+		final FlexTable addnewProfileTable2 = new FlexTable();
+		addnewProfileTable.setWidth("200");
+		addnewProfileTable2.setWidth("200");
+
+		/**
+		 * FlexTable formatieren
+		 */
+		addnewProfileTable.setCellSpacing(10);
+		addnewProfileTable2.setCellSpacing(10);
+		
+		/**
+		 * Panel für den Inhalt dem VerticalPanel zuweißen
+		 */
+		profilPanel.add(addnewProfileTable);
+		profilPanel.add(addnewProfileTable2);
+		
+		/**
+		 * Butten dem dazugehörenden Panel zufügen
+		 */
+		buttonsPanel.add(deleteProfileButton);
+		buttonsPanel.add(addnewProfileButton);
+		
+		/**
+		 * Profil ausgabe
+		 */
+		
+		/**
+		 * Label für die Ausgaben
+		 */
+		final Label fNLabel = new Label();
+		fNLabel.setText(profile.getFirstName());
+		
+		/**
+		 * FlexTable mit Inhalt füllen = Userprofil Formular
+		 */
+		// addnewProfileTable.setHTML(0, 0, "<h2>Profil anlegen</h2>");
+		addnewProfileTable.setHTML(0, 0, "<div>Vorname</div>");
+		addnewProfileTable.setWidget(0, 1, fNLabel);
+		addnewProfileTable.setHTML(1, 0, "<div>Geburtsdatum</div>");
+		//addnewProfileTable.setWidget(1, 1, datePicker);
+		addnewProfileTable.setHTML(2, 0, "<div>Geschlecht</div>");
+
+		addnewProfileTable2.setHTML(0, 0, "<div>Nachname</div>");
+		//addnewProfileTable2.setWidget(0, 1, tLastname);
+		addnewProfileTable2.setHTML(1, 0, "<div>Email</div>");
+		//addnewProfileTable2.setWidget(1, 1, tEmail);
+		addnewProfileTable2.setHTML(2, 0, "<div>Größe</div>");
+		//addnewProfileTable2.setWidget(2, 1, tHeight);
+		addnewProfileTable2.setHTML(3, 0, "<div>Haarfarbe</div>");
+		//addnewProfileTable2.setWidget(3, 1, lbHaircolor);
+		addnewProfileTable2.setHTML(4, 0, "<div>Religion</div>");
+		//addnewProfileTable2.setWidget(4, 1, lbConfession);
+		addnewProfileTable2.setHTML(5, 0, "<div>Raucher</div>");
+		//addnewProfileTable2.setWidget(5, 1, Rbsmokeyes);
+		//addnewProfileTable2.setWidget(6, 1, Rbsmokeno);
+		
+
+		
+		showProfilePanel.add(profilPanel);
+		showProfilePanel.add(buttonsPanel);
+		
 		return showProfilePanel;
 	}
 

@@ -75,7 +75,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getSearchProfileByKey(int id, AsyncCallback<SearchProfile> callback);
 
-	void getAllSelections(AsyncCallback<ArrayList<Selection>> callback);
+	void getAllSelections(AsyncCallback<ArrayList<Selection>> asyncCallback);
 
 	void getSelectionByKey(int id, AsyncCallback<Selection> callback);
 

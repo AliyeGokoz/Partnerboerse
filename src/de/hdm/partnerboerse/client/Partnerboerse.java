@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.partnerboerse.shared.LoginInfo;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
@@ -34,7 +35,28 @@ public class Partnerboerse implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		
+		loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
+			
+			@Override
+			public void onSuccess(LoginInfo result) {
+				if(result.isLoggedIn()){
+					onModuleLoadLoggedIn();
+				} else {
+					Window.Location.replace(result.getLoginUrl());
+				}
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
+		});	
 
+		
+	}
+	
+	private void onModuleLoadLoggedIn(){
 		final VerticalPanel content = new VerticalPanel();
 
 		// Make a command that we will execute from all leaves.
@@ -83,6 +105,33 @@ public class Partnerboerse implements EntryPoint {
 				RootPanel.get("Content").add(showSearchProfile);
 			}
 		};
+		
+		Command seePartnerProposel = new Command() {
+			public void execute() {
+				Window.Location.replace("PartnerboerseReport.html");
+			}
+		};
+		
+		Command logoutUser = new Command() {
+			public void execute() {
+				loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
+					
+					@Override
+					public void onSuccess(LoginInfo result) {
+						if(result.isLoggedIn()){
+							onModuleLoadLoggedIn();
+						} else {
+							Window.Location.replace(result.getLoginUrl());
+						}
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						
+					}
+				});	
+			}
+		};
 
 		// Make some sub-menus that we will cascade from the top menu.
 		MenuBar profilMenu = new MenuBar(true);
@@ -103,8 +152,10 @@ public class Partnerboerse implements EntryPoint {
 		allProfilesMenu.addItem("Alle Profile Ansehen", allUsers);
 
 		MenuBar partnerproposelMenu = new MenuBar(true);
-		partnerproposelMenu.addItem("Partnervorschläge Suchprofil", cmd);
-		partnerproposelMenu.addItem("Partnervorschläge Neu", cmd);
+		partnerproposelMenu.addItem("Finde neue Menschen", seePartnerProposel);
+		
+		MenuBar logoutButton = new MenuBar(true);
+		logoutButton.addItem("Loggen Sie sich aus", logoutUser);
 
 		// Make a new menu bar, adding a few cascading menus to it.
 		MenuBar menu = new MenuBar();
@@ -114,6 +165,7 @@ public class Partnerboerse implements EntryPoint {
 		menu.addItem("Kontaktsperre", blockedcontactsMenu);
 		menu.addItem("Alle Profile", allProfilesMenu);
 		menu.addItem("Personenvorschläge", partnerproposelMenu);
+		menu.addItem("Logout", logoutButton);
 
 		// TODO automatisch Usernamen ausgeben
 		// Say Hello to User
@@ -123,17 +175,7 @@ public class Partnerboerse implements EntryPoint {
 			
 			@Override
 			public void onSuccess(Profile value) {
-				Profile profile = new Profile();
-				profile.setFirstName("Max");
-				profile.setLastName("Mustermann");
-				profile.setDateOfBirth(new Date());
-				profile.seteMail("mustermann@hdhhd.de");
-				profile.setHeight(170);
-				profile.setHairColor(null);
-				profile.setGender(null);
-				profile.setConfession(null);
-				profile.setSmoker(true);
-				lblhello.setText("Willkommen " + profile.getFirstName());
+				lblhello.setText("Willkommen " + value.getFirstName());
 			}
 			
 			@Override
