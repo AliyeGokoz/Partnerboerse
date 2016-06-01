@@ -139,7 +139,7 @@ public class InfoMapper {
 
 	public ArrayList<Info> findAll() {
 
-		ArrayList<Info> result = new ArrayList<>();
+		ArrayList<Info> result = new ArrayList<Info>();
 
 		Connection con = DBConnection.connection();
 
@@ -201,7 +201,7 @@ public class InfoMapper {
 
 	public ArrayList<Info> findByProfile(int profileId) {
 
-		ArrayList<Info> result = new ArrayList<>();
+		ArrayList<Info> result = new ArrayList<Info>();
 
 		Connection con = DBConnection.connection();
 
@@ -269,7 +269,7 @@ public class InfoMapper {
 
 	public ArrayList<Info> findBySelection(int selectionId) {
 
-		ArrayList<Info> result = new ArrayList<>();
+		ArrayList<Info> result = new ArrayList<Info>();
 
 		Connection con = DBConnection.connection();
 
@@ -337,7 +337,7 @@ public class InfoMapper {
 
 	public ArrayList<Info> findByDescription(int descriptionId) {
 
-		ArrayList<Info> result = new ArrayList<>();
+		ArrayList<Info> result = new ArrayList<Info>();
 		
 		Connection con = DBConnection.connection();
 

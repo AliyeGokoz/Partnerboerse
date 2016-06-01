@@ -685,4 +685,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	}
 
+	@Override
+	public ArrayList<Option> getOptionsOf(Selection selection) {
+		
+		return this.optionMapper.findBySelection(selection);
+	
+	}
+
 }

@@ -159,6 +159,8 @@ public interface PartnerboerseAdministrationAsync {
 
 	void save(Option option, AsyncCallback<Void> callback);
 
+	void getOptionsOf(Selection selection, AsyncCallback<ArrayList<Option>> callback);
+
 
 
 	

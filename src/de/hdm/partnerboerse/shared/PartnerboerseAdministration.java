@@ -180,4 +180,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	ArrayList<Profile> getNotViewedProfiles(Profile vistingProfile);
 	
 	ArrayList<Profile> getBySearchProfile(SearchProfile searchProfile);
+	
+	ArrayList<Option> getOptionsOf(Selection selection) throws IllegalArgumentException;;
+	
 }
