@@ -144,6 +144,12 @@ public interface PartnerboerseAdministrationAsync {
 	void getVisitListsOf(Profile profile, AsyncCallback<ArrayList<VisitList>> callback);
 
 	void getSimilaritiesOf(Profile profile, AsyncCallback<ArrayList<Similarity>> callback);
+
+	void getNotViewedProfiles(Profile vistingProfile,
+			AsyncCallback<ArrayList<Profile>> callback);
+
+	void getBySearchProfile(SearchProfile searchProfile,
+			AsyncCallback<ArrayList<Profile>> callback);
 	
 
 }

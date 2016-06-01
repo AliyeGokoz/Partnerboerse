@@ -169,4 +169,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	Similarity calculateSimilarity(Profile one, Profile two);
 
+	ArrayList<Profile> getNotViewedProfiles(Profile vistingProfile);
+	
+	ArrayList<Profile> getBySearchProfile(SearchProfile searchProfile);
 }

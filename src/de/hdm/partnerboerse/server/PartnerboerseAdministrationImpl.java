@@ -643,4 +643,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		return this.similarityMapper.findByProfile(profile);
 	}
 
+	@Override
+	public ArrayList<Profile> getNotViewedProfiles(Profile vistingProfile) {
+		return this.profileMapper.findNotViewedProfiles(vistingProfile);
+	}
+
+	@Override
+	public ArrayList<Profile> getBySearchProfile(SearchProfile searchProfile) {
+		return this.profileMapper.findBySearchProfile(searchProfile);
+	}
+
 }
