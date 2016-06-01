@@ -210,7 +210,7 @@ public class InfoMapper {
 			Statement stmt = con.createStatement();
 
 			String sql = "SELECT infos.id AS id, informationValue, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescription AS dtd, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId"
-					+ "WHERE profile=" + profileId + " ORDER BY id";
+					+ " WHERE profileId=" + profileId + " ORDER BY id";
 
 			System.out.println(sql);
 
@@ -278,7 +278,7 @@ public class InfoMapper {
 			Statement stmt = con.createStatement();
 
 			String sql = "SELECT infos.id AS id, informationValue, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescription AS dtd, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId"
-					+ "WHERE selection=" + selectionId + " ORDER BY id";
+					+ " WHERE selectionId=" + selectionId + " ORDER BY id";
 
 			System.out.println(sql);
 

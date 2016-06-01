@@ -18,9 +18,9 @@ public class Profile extends BusinessObject {
 
 	private boolean smoker = false;
 
-	private HairColor hairColor = null;
+	private HairColor hairColor = HairColor.DEFAULT;
 
-	private Confession confession = null;
+	private Confession confession = Confession.DEFAULT;
 
 	private Gender gender = null;
 	
@@ -145,6 +145,10 @@ public class Profile extends BusinessObject {
 		this.lastName = lastName;
 	}
 
+	public int getAge(){
+		return (int) ((System.currentTimeMillis() - getDateOfBirth().getTime()) / 1000 / 60 / 60 / 24 / 365);
+	}
+	
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}

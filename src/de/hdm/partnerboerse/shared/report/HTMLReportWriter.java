@@ -38,6 +38,7 @@ public class HTMLReportWriter extends ReportWriter {
 
 	public String paragraph2HTML(SimpleParagraph p) {
 		return "<p>" + p.toString() + "</p>";
+
 	}
 
 	public String getHeader() {

@@ -1,37 +1,19 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.shared.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.ClientBundle.Source;
-import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
-import de.hdm.partnerboerse.shared.FieldVerifier;
+import de.hdm.partnerboerse.shared.LoginInfo;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
-import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
-import de.hdm.partnerboerse.shared.ReportGenerator;
-import de.hdm.partnerboerse.shared.ReportGeneratorAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
 /**
@@ -53,7 +35,28 @@ public class Partnerboerse implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		
+		loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
+			
+			@Override
+			public void onSuccess(LoginInfo result) {
+				if(result.isLoggedIn()){
+					onModuleLoadLoggedIn();
+				} else {
+					Window.Location.replace(result.getLoginUrl());
+				}
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
+		});	
 
+		
+	}
+	
+	private void onModuleLoadLoggedIn(){
 		final VerticalPanel content = new VerticalPanel();
 
 		// Make a command that we will execute from all leaves.
@@ -63,37 +66,106 @@ public class Partnerboerse implements EntryPoint {
 			}
 		};
 
+		Command addnewProfile = new Command() {
+			public void execute() {
+				NewProfilePage addnewProfil = new NewProfilePage();
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(addnewProfil);
+			}
+		};
+		
 		Command showProfil = new Command() {
 			public void execute() {
 				ProfilePage showProfil = new ProfilePage();
-				RootPanel.get("Buttonzone").clear();
-				RootPanel.get("Contentzone").clear();
-				RootPanel.get("Buttonzone").add(showProfil);
-				RootPanel.get("Contentzone").add(showProfil);
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(showProfil);
+			}
+		};
+		
+		Command allUsers = new Command() {
+			public void execute() {
+				UserOverview allUsers = new UserOverview();
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(allUsers);
+			}
+		};
+		
+		Command seeFavoritList = new Command() {
+			public void execute() {
+				FavoritListOverview seeFavoritList = new FavoritListOverview();
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(seeFavoritList);
+			}
+		};
+		
+		Command seeSearchProfilePage = new Command() {
+			public void execute() {
+				SearchProfilePage showSearchProfile = new SearchProfilePage();
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(showSearchProfile);
+			}
+		};
+		
+		Command seePartnerProposel = new Command() {
+			public void execute() {
+				Window.Location.replace("PartnerboerseReport.html");
+			}
+		};
+		
+		Command logoutUser = new Command() {
+			public void execute() {
+				loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
+					
+					@Override
+					public void onSuccess(LoginInfo result) {
+						if(result.isLoggedIn()){
+							onModuleLoadLoggedIn();
+						} else {
+							Window.Location.replace(result.getLoginUrl());
+						}
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						
+					}
+				});	
 			}
 		};
 
 		// Make some sub-menus that we will cascade from the top menu.
 		MenuBar profilMenu = new MenuBar(true);
+		profilMenu.addItem("Profil anlegen", addnewProfile);
 		profilMenu.addItem("Profil ansehen", showProfil);
-		profilMenu.addItem("Suchprofil ansehen", cmd);
+		
+		MenuBar searchprofilMenu = new MenuBar(true);
+		searchprofilMenu.addItem("Suchprofil anlegen", cmd);
+		searchprofilMenu.addItem("Suchprofil ansehen", seeSearchProfilePage);
 
 		MenuBar favoritlistMenu = new MenuBar(true);
-		favoritlistMenu.addItem("Merkzettel ansehen", cmd);
+		favoritlistMenu.addItem("Merkzettel ansehen", seeFavoritList);
 
 		MenuBar blockedcontactsMenu = new MenuBar(true);
 		blockedcontactsMenu.addItem("Kontaktsperrenliste ansehen", cmd);
+		
+		MenuBar allProfilesMenu = new MenuBar(true);
+		allProfilesMenu.addItem("Alle Profile Ansehen", allUsers);
 
 		MenuBar partnerproposelMenu = new MenuBar(true);
-		partnerproposelMenu.addItem("Partnervorschläge Suchprofil", cmd);
-		partnerproposelMenu.addItem("Partnervorschläge Neu", cmd);
+		partnerproposelMenu.addItem("Finde neue Menschen", seePartnerProposel);
+		
+		MenuBar logoutButton = new MenuBar(true);
+		logoutButton.addItem("Loggen Sie sich aus", logoutUser);
 
 		// Make a new menu bar, adding a few cascading menus to it.
 		MenuBar menu = new MenuBar();
 		menu.addItem("Profil", profilMenu);
+		menu.addItem("Suchprofil", searchprofilMenu);
 		menu.addItem("Merkzettel", favoritlistMenu);
 		menu.addItem("Kontaktsperre", blockedcontactsMenu);
+		menu.addItem("Alle Profile", allProfilesMenu);
 		menu.addItem("Personenvorschläge", partnerproposelMenu);
+		menu.addItem("Logout", logoutButton);
 
 		// TODO automatisch Usernamen ausgeben
 		// Say Hello to User
@@ -103,17 +175,7 @@ public class Partnerboerse implements EntryPoint {
 			
 			@Override
 			public void onSuccess(Profile value) {
-				Profile profile = new Profile();
-				profile.setFirstName("Max");
-				profile.setLastName("Mustermann");
-				profile.setDateOfBirth(new Date());
-				profile.seteMail("musterman@test.de");
-				profile.setHeight(160);
-				profile.setSmoker(true);
-				profile.setHairColor(null);
-				profile.setConfession(null);
-				profile.setGender(null);
-				lblhello.setText("Willkommen " + profile.getFirstName());
+				lblhello.setText("Willkommen " + value.getFirstName());
 			}
 			
 			@Override
@@ -126,7 +188,7 @@ public class Partnerboerse implements EntryPoint {
 
 				content.add(lblhello);
 
-		RootPanel.get("Contentzone").add(lblhello);
+		RootPanel.get("Content").add(lblhello);
 		RootPanel.get("Navigator").add(menu);
 	}
 }
