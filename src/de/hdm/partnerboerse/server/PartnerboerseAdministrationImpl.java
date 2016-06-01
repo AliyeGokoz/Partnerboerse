@@ -30,6 +30,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	private SelectionMapper selectionMapper = null;
 	private SimilarityMapper similarityMapper = null;
 	private VisitListMapper visitListMapper = null;
+	private OptionMapper optionMapper = null;
 
 	// No-Argument Constructor
 
@@ -47,6 +48,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		this.selectionMapper = SelectionMapper.selectionMapper();
 		this.similarityMapper = SimilarityMapper.similarityMapper();
 		this.visitListMapper = VisitListMapper.visitListMapper();
+		this.optionMapper = OptionMapper.optionMapper();
 
 	}
 
@@ -641,6 +643,35 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	public ArrayList<Similarity> getSimilaritiesOf(Profile profile)
 			throws IllegalArgumentException {
 		return this.similarityMapper.findByProfile(profile);
+	}
+
+	@Override
+	public Option createOption(int id, String option) {
+		
+			Option o = new Option();
+
+			o.setId(id);
+			o.setOption(option);
+
+			return this.optionMapper.insert(o);
+		}
+
+	@Override
+	public void delete(Option option) throws IllegalArgumentException {
+		
+			this.optionMapper.delete(option);
+		
+	}
+
+	@Override
+	public void save(Option option) throws IllegalArgumentException {
+		
+		if (option.getId() != 0) {
+			optionMapper.update(option);
+		} else {
+			optionMapper.insert(option);
+		}
+		
 	}
 
 }
