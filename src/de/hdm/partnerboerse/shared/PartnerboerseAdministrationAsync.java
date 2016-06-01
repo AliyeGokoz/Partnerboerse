@@ -9,6 +9,7 @@ import de.hdm.partnerboerse.shared.bo.Blocking;
 import de.hdm.partnerboerse.shared.bo.Description;
 import de.hdm.partnerboerse.shared.bo.FavoritesList;
 import de.hdm.partnerboerse.shared.bo.Info;
+import de.hdm.partnerboerse.shared.bo.Option;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
@@ -145,11 +146,21 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getSimilaritiesOf(Profile profile, AsyncCallback<ArrayList<Similarity>> callback);
 
+
 	void getNotViewedProfiles(Profile vistingProfile,
 			AsyncCallback<ArrayList<Profile>> callback);
 
 	void getBySearchProfile(SearchProfile searchProfile,
 			AsyncCallback<ArrayList<Profile>> callback);
+
+	void createOption(int id, String option, AsyncCallback<Option> callback);
+
+	void delete(Option option, AsyncCallback<Void> callback);
+
+	void save(Option option, AsyncCallback<Void> callback);
+
+
+
 	
 
 }
