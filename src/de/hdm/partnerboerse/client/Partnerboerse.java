@@ -3,11 +3,13 @@ package de.hdm.partnerboerse.client;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -134,13 +136,22 @@ public class Partnerboerse implements EntryPoint {
 		};
 
 		// Make some sub-menus that we will cascade from the top menu.
-		MenuBar profilMenu = new MenuBar(true);
-		profilMenu.addItem("Profil anlegen", addnewProfile);
-		profilMenu.addItem("Profil ansehen", showProfil);
 		
-		MenuBar searchprofilMenu = new MenuBar(true);
-		searchprofilMenu.addItem("Suchprofil anlegen", cmd);
-		searchprofilMenu.addItem("Suchprofil ansehen", seeSearchProfilePage);
+
+		
+		
+		MenuBar profilMenu = new MenuBar();
+		final String userAddimage = "<img src='images/user_add_edit.png'/>";
+		final String showUserimage ="<img src='images/user.png'/>";
+
+
+		profilMenu.addItem(new MenuItem(userAddimage,true,addnewProfile));
+		profilMenu.addItem(new MenuItem(showUserimage,true,showProfil));
+		
+		MenuBar searchprofilMenu = new MenuBar();
+		final String showSearchprofiles ="<img src='images/searchprofiles.png'/>";
+		//searchprofilMenu.addItem("Suchprofil anlegen", cmd);
+		searchprofilMenu.addItem(new MenuItem(showSearchprofiles,true, seeSearchProfilePage));
 
 		MenuBar favoritlistMenu = new MenuBar(true);
 		favoritlistMenu.addItem("Merkzettel ansehen", seeFavoritList);
@@ -188,6 +199,7 @@ public class Partnerboerse implements EntryPoint {
 
 				content.add(lblhello);
 
+				
 		RootPanel.get("Content").add(lblhello);
 		RootPanel.get("Navigator").add(menu);
 	}

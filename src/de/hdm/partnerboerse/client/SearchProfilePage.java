@@ -24,6 +24,18 @@ import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 
 public class SearchProfilePage extends VerticalPanel {
+	
+	
+	/**
+	 * VerticalPanel für die Widgets anlegen
+	 */
+	final HorizontalPanel searchprofilesPanel = new HorizontalPanel();
+	final VerticalPanel buttonsearchProfilePanel = new VerticalPanel();
+	final VerticalPanel searchProfilesPanel = new VerticalPanel();
+	final VerticalPanel buttonSPpanel = new VerticalPanel();
+	final VerticalPanel addinfosPanel = new VerticalPanel();
+	final VerticalPanel showallSPPanel = new VerticalPanel();
+	final VerticalPanel showoneSPPanel = new VerticalPanel();
 
 	final Label showlHeight = new Label("Größe: ");
 	final Label showlHairColor = new Label("Haarfarbe: ");
@@ -33,31 +45,40 @@ public class SearchProfilePage extends VerticalPanel {
 	
 	public void onLoad(){
 		
-		/**
-		 * VerticalPanel für die Widgets anlegen
-		 */
-		final VerticalPanel searchProfilePanel = new VerticalPanel();
-		final VerticalPanel addnewsearchProfilePanel = new VerticalPanel();
-		searchProfilePanel.setSpacing(5);
-		addnewsearchProfilePanel.setStyleName("hbutton");
+		searchprofilesPanel.add(buttonsearchProfilePanel);
+		searchprofilesPanel.add(searchProfilesPanel);
+		
+		buttonsearchProfilePanel.add(buttonSPpanel);
+		buttonsearchProfilePanel.add(addinfosPanel);
+		
+		searchProfilesPanel.add(showallSPPanel);
+		searchProfilesPanel.add(showoneSPPanel);
+		
+		
 		
 		/**
 		 * Button anlegen zum Anlegen von Suchprofilen
 		 */
-		final Button addnewSPButton = new Button("Neues Suchprofil anlegen");
+		final Button addnewSPButton = new Button("<img src='images/add_searchprofiles.png'/>");
 	
+		addnewSPButton.setStyleName("buttonmargin");
 		
 		/**
 		 * Button dem VerticalPanel zuweisen
 		 */
 		//searchProfilPanel.add(new HTML("<h2>Hallo</h2>"));
-		addnewsearchProfilePanel.add(addnewSPButton);
+		buttonsearchProfilePanel.add(addnewSPButton);
+		
+		/**
+		 * Ausgabe für die Headline der Suchprofile
+		 */
+		showallSPPanel.add(new HTML("<h3> Deine Suchprofile </h3>"));
 		
 		/**
 		 * Panels dem RootPanel zuweisen
 		 */
 		RootPanel.get("Content").clear();
-		RootPanel.get("Content").add(addnewsearchProfilePanel);
+		RootPanel.get("Content").add(searchprofilesPanel);
 		
 		/**
 		 * ClickHandler für den Button "Neues Suchprofil anlegen" anlegen, 
@@ -69,6 +90,8 @@ public class SearchProfilePage extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				addinfosPanel.clear();
+				showoneSPPanel.clear();
 				addNewSearchProfile();
 			}
 		});
@@ -76,45 +99,10 @@ public class SearchProfilePage extends VerticalPanel {
 	}
 	
 	private void addNewSearchProfile(){
-	
-		/**
-		 * VerticalPanel anlegen 
-		 */
-		final VerticalPanel addSearchProfilPanel = new VerticalPanel();
-		final VerticalPanel buttonPanel = new VerticalPanel();
-		buttonPanel.setStyleName("hbuttons");
-		addSearchProfilPanel.setStyleName("hcontent");
 		
-		/**
-		 * Button anlegen zum zurück gehen
-		 */
-		final Button backButton = new Button("<img src='images/back.png'/>");
+		showoneSPPanel.add(new HTML("<h3> Neues Suchprofil anlegen </h3>"));
+		addinfosPanel.add(new HTML("<h3> Informationen </h3>"));
 		
-		/**
-		 * Button an buttonPanel heften
-		 */
-		buttonPanel.add(backButton);
-		
-		/**
-		 * Widget an Panel anheften
-		 */
-		addSearchProfilPanel.add(new HTML("<h2>Neues Suchprofil anlegen</h2>"));
-		
-		
-		/**
-		 * Panels an RootPanel heften
-		 */
-		RootPanel.get("Content").clear();
-		RootPanel.get("Content").add(buttonPanel);
-		RootPanel.get("Content").add(addSearchProfilPanel);
-		
-		backButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				onLoad();
-			}
-		});
 	}
 
 }
