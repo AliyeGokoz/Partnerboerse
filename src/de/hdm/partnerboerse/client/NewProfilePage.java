@@ -282,6 +282,29 @@ public class NewProfilePage extends VerticalPanel {
 			}
 		});
 		
+		partnerboerseVerwaltung.getAllDescriptions(new AsyncCallback<ArrayList<Description>>() {
+			
+						@Override
+						public void onSuccess(ArrayList<Description> resultDescriptions) {
+			
+							for (final Description d : resultDescriptions) {
+								propertyListbox.addItem(d.getPropertyName().toString());
+							}
+							propertyListbox.ensureDebugId("cwListBox-dropBox");
+							VerticalPanel propertydropBoxPanel = new VerticalPanel();
+							propertydropBoxPanel.setSpacing(4);
+							propertydropBoxPanel.add(new HTML("<h2> Eigenschaften </h2>"));
+							propertydropBoxPanel.add(propertyListbox);
+							addInfoToProfilPanel.add(propertydropBoxPanel);
+						}
+			
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+			
+						}
+					});
+		
 		infoPanel.add(infoFlexTabel);
 		
 		

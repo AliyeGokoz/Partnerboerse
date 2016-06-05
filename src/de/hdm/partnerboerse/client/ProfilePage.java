@@ -257,22 +257,19 @@ public class ProfilePage extends VerticalPanel {
 		lNLabel.setText(profile.getLastName());
 		final Label ELabel = new Label();
 		ELabel.setText(profile.geteMail());
-		//TODO Geburtsdatum ausgabe anpassen
-		//final Label bDLabel = new Label();
-		//bDLabel.setText(profile.getDateOfBirth());
+		final Label bDLabel = new Label();
+		bDLabel.setText(profile.getDateOfBirth().toString());
 		final Label heightLabel = new Label();
 		heightLabel.setText(Integer.toString(profile.getHeight()));
-		//TODO ausgabe Gender anpassen
 		final Label lgender = new Label();
-		lgender.setTitle(profile.getGender().getName());
-		//TODO ausgabe anpassen
+		lgender.setText(profile.getGender().getName());
 		final Label lhaircolor = new Label();
 		lhaircolor.setText(profile.getHairColor().getName().toString());
 		final Label lconf = new Label();
 		lconf.setText(profile.getConfession().getName().toString());
 		// TODO smoker ausgabe
-		//final Label lsmoke = new Label();
-//		final smoke = profile.isSmoker();
+		final Label lsmoke = new Label();
+		lsmoke.setText(profile.isSmoker() ? "Ja" : "Nein");
 		
 		
 		/**
@@ -282,9 +279,9 @@ public class ProfilePage extends VerticalPanel {
 		addnewProfileTable.setHTML(0, 0, "<div>Vorname</div>");
 		addnewProfileTable.setWidget(0, 1, fNLabel);
 		addnewProfileTable.setHTML(1, 0, "<div>Geburtsdatum</div>");
-		//addnewProfileTable.setWidget(1, 1, datePicker);
+		addnewProfileTable.setWidget(1, 1, bDLabel);
 		addnewProfileTable.setHTML(2, 0, "<div>Geschlecht</div>");
-		addnewProfileTable2.setWidget(2, 1, lgender);
+		addnewProfileTable.setWidget(2, 1, lgender);
 
 		addnewProfileTable2.setHTML(0, 0, "<div>Nachname</div>");
 		addnewProfileTable2.setWidget(0, 1, lNLabel);
@@ -297,8 +294,7 @@ public class ProfilePage extends VerticalPanel {
 		addnewProfileTable2.setHTML(4, 0, "<div>Religion</div>");
 		addnewProfileTable2.setWidget(4, 1, lconf);
 		addnewProfileTable2.setHTML(5, 0, "<div>Raucher</div>");
-		//addnewProfileTable2.setWidget(5, 1, lsmoke);
-		//addnewProfileTable2.setWidget(6, 1, Rbsmokeno);
+		addnewProfileTable2.setWidget(5, 1, lsmoke);
 		
 
 		
@@ -309,7 +305,7 @@ public class ProfilePage extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				// Instantiate the dialog box and show it.
-				MyDialogforDltProfiles myDialog = new MyDialogforDltProfiles();
+				MyDialogforDltProfiles myDialog = new MyDialogforDltProfiles(profile);
 
 				int left = Window.getClientWidth() / 2;
 				int top = Window.getClientHeight() / 2;
@@ -680,9 +676,9 @@ public class ProfilePage extends VerticalPanel {
 //		return decoratorPanel;
 //	}
 //
-	private static class MyDialogforDltProfiles extends DialogBox {
+	private class MyDialogforDltProfiles extends DialogBox {
 
-		public MyDialogforDltProfiles() {
+		public MyDialogforDltProfiles(final Profile profile) {
 			// Set the dialog box's caption.
 			setText("Profil löschen");
 
@@ -704,25 +700,25 @@ public class ProfilePage extends VerticalPanel {
 			
 			//TODO löschen
 
-//			jaButton.addClickHandler(new ClickHandler() {
-//				@Override
-//				public void onClick(ClickEvent event) {
-////					partnerboerseVerwaltung.delete(profile, new AsyncCallback<Void>(){
-////						
-////					}
-//					partnerboerseVerwaltung.delete(profile, new AsyncCallback<Void>() {
-//						@Override
-//						public void onSuccess(Void result) {
-//							Window.alert("Profil wurde gelöscht");
-//						}
-//
-//						@Override
-//						public void onFailure(Throwable caught) {
-//							Window.alert("Fehler beim löschen des Profiles");
-//						}
-//					});
-//				}
-//			});
+			jaButton.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+//					partnerboerseVerwaltung.delete(profile, new AsyncCallback<Void>(){
+//						
+//					}
+					partnerboerseVerwaltung.delete(profile, new AsyncCallback<Void>() {
+						@Override
+						public void onSuccess(Void result) {
+							Window.alert("Profil wurde gelöscht");
+						}
+
+						@Override
+						public void onFailure(Throwable caught) {
+							Window.alert("Fehler beim löschen des Profiles");
+						}
+					});
+				}
+			});
 			
 			
 			Label label = new Label("Wollen sie Ihr GANZES Profil wirklich unwiederruflich löschen?");

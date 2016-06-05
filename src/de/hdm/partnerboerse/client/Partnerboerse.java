@@ -43,7 +43,7 @@ public class Partnerboerse implements EntryPoint {
 			@Override
 			public void onSuccess(LoginInfo result) {
 				if(result.isLoggedIn()){
-					onModuleLoadLoggedIn();
+					onModuleLoadLoggedIn(result.getProfile());
 				} else {
 					Window.Location.replace(result.getLoginUrl());
 				}
@@ -58,7 +58,7 @@ public class Partnerboerse implements EntryPoint {
 		
 	}
 	
-	private void onModuleLoadLoggedIn(){
+	private void onModuleLoadLoggedIn(final Profile profile){
 		final VerticalPanel content = new VerticalPanel();
 
 		// Make a command that we will execute from all leaves.
@@ -102,7 +102,7 @@ public class Partnerboerse implements EntryPoint {
 		
 		Command seeSearchProfilePage = new Command() {
 			public void execute() {
-				SearchProfilePage showSearchProfile = new SearchProfilePage();
+				SearchProfilePage showSearchProfile = new SearchProfilePage(profile);
 				RootPanel.get("Content").clear();
 				RootPanel.get("Content").add(showSearchProfile);
 			}
@@ -121,7 +121,7 @@ public class Partnerboerse implements EntryPoint {
 					@Override
 					public void onSuccess(LoginInfo result) {
 						if(result.isLoggedIn()){
-							onModuleLoadLoggedIn();
+							onModuleLoadLoggedIn(result.getProfile());
 						} else {
 							Window.Location.replace(result.getLoginUrl());
 						}
