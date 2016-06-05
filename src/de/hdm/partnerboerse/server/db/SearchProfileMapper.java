@@ -139,7 +139,7 @@ public class SearchProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			String sql = "SELECT searchprofiles.id AS id, fromAge, toAge, hairColor, gender, fromHeight, toHeight, confession, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM searchprofiles LEFT JOIN profiles ON profiles.id = searchprofiles.profileId ";
+			String sql = "SELECT searchprofiles.id AS id, fromAge, toAge, searchprofiles.hairColor AS spHairColor, gender, fromHeight, toHeight, confession, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM searchprofiles LEFT JOIN profiles ON profiles.id = searchprofiles.profileId ";
 
 			System.out.println(sql);
 
@@ -150,7 +150,7 @@ public class SearchProfileMapper {
 				searchProfile.setId(rs.getInt("id"));
 				searchProfile.setFromAge(rs.getInt("fromAge"));
 				searchProfile.setToAge(rs.getInt("toAge"));
-				searchProfile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+				searchProfile.setHairColor(Profile.HairColor.valueOf(rs.getString("spHairColor")));
 				searchProfile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
 				searchProfile.setFromHeight(rs.getInt("fromHeight"));
 				searchProfile.setToHeight(rs.getInt("ToHeight"));
