@@ -8,8 +8,8 @@ import de.hdm.partnerboerse.shared.bo.*;
 public class VisitListMapper {
 
 	private static final String BASE_SELECT = "SELECT visits.id AS vid,"
-			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender FROM visits LEFT JOIN profiles AS fromProfile ON fromProfile.id = visits.fromProfile,"
-			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM visits LEFT JOIN profiles AS fromProfile ON toProfile.id = visits.fromProfile"
+			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender,"
+			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM visits LEFT JOIN profiles AS fromProfile ON fromProfile.id = visits.fromProfile"
 			+ " LEFT JOIN profiles AS toProfile ON toProfile.id = visits.toProfile";
 
 	private static VisitListMapper visitListMapper = null;
@@ -100,7 +100,7 @@ public class VisitListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE id=" + id + " ORDER BY fromProfile");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + " WHERE visits.id=" + id);
 
 			if (rs.next()) {
 				return map(rs);
@@ -120,7 +120,7 @@ public class VisitListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE profile=" + profileId + " ORDER BY id");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + " WHERE fromProfile=" + profileId);
 			
 			while (rs.next()) {
 				result.add(map(rs));
@@ -138,7 +138,7 @@ public class VisitListMapper {
 
 	private VisitList map(ResultSet rs) throws SQLException {
 		VisitList visitList = new VisitList();
-		visitList.setId(rs.getInt("id"));
+		visitList.setId(rs.getInt("vid"));
 
 		Profile profileFrom = new Profile();
 		profileFrom.setId(rs.getInt("tpId"));
@@ -169,6 +169,13 @@ public class VisitListMapper {
 
 		return visitList;
 
+	}
+	
+	public static void main(String[] args) {
+		VisitListMapper visitListMapper = new VisitListMapper();
+		visitListMapper.findAll();
+		visitListMapper.findByKey(1);
+		visitListMapper.findByProfile(1);
 	}
 
 }

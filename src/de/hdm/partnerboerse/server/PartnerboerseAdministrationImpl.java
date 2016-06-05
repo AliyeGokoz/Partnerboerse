@@ -609,13 +609,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public ArrayList<Profile> getProfilesByName(String lastName,
-			String firstName) throws IllegalArgumentException {
-
-		return this.profileMapper.findByName(lastName, firstName);
-	}
-
-	@Override
 	public ArrayList<Profile> getProfilesOf(SearchProfile searchProfile)
 			throws IllegalArgumentException {
 		return this.profileMapper.findBySearchProfile(searchProfile);

@@ -11,6 +11,7 @@ import de.hdm.partnerboerse.shared.bo.Selection;
 
 public class OptionMapper {
 
+	private static final String BASE_SELECT = "SELECT options.id AS id, option, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn FROM options LEFT JOIN selections ON selections.id = options.selectionId";
 	private static OptionMapper optionMapper = null;
 
 	protected OptionMapper() {
@@ -30,7 +31,8 @@ public class OptionMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM options ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
+					+ "FROM options ");
 
 			if (rs.next()) {
 
@@ -38,7 +40,8 @@ public class OptionMapper {
 
 				stmt = con.createStatement();
 
-				stmt.executeUpdate("INSERT INTO infos (id, option) " + "VALUES (" + option.getId() + ",'"
+				stmt.executeUpdate("INSERT INTO infos (id, option) "
+						+ "VALUES (" + option.getId() + ",'"
 						+ option.getOption() + "')");
 
 			}
@@ -55,8 +58,9 @@ public class OptionMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE options " + "SET id=\"" + option.getId() + "\", " + "option=\""
-					+ option.getOption() + "WHERE id=" + option.getId());
+			stmt.executeUpdate("UPDATE options " + "SET id=\"" + option.getId()
+					+ "\", " + "option=\"" + option.getOption() + "WHERE id="
+					+ option.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,7 +75,8 @@ public class OptionMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM options " + "WHERE id=" + option.getId());
+			stmt.executeUpdate("DELETE FROM options " + "WHERE id="
+					+ option.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -88,27 +93,15 @@ public class OptionMapper {
 
 			Statement stmt = con.createStatement();
 
-			String sql = "SELECT options.id AS id, option, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn FROM options LEFT JOIN selections ON selections.id = infos.selectionId"
-					+ " WHERE selectionId=" + selectionId + " ORDER BY id";
+			String sql = BASE_SELECT + " WHERE selectionId=" + selectionId
+					+ " ORDER BY id";
 
 			System.out.println(sql);
 
 			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
-
-				Option option = new Option();
-				option.setId(rs.getInt("id"));
-				option.setOption(rs.getString("option"));
-
-				Selection selection = new Selection();
-				selection.setId(rs.getInt("sid"));
-				selection.setTextualDescription(rs.getString("std"));
-				selection.setPropertyName(rs.getString("spn"));
-
-				option.setSelection(selection);
-
-				result.add(option);
+				result.add(map(rs));
 			}
 
 		} catch (SQLException e) {
@@ -122,6 +115,25 @@ public class OptionMapper {
 	public ArrayList<Option> findBySelection(Selection selection) {
 
 		return findBySelection(selection.getId());
+	}
+
+	private Option map(ResultSet rs) throws SQLException {
+		Option option = new Option();
+		option.setId(rs.getInt("id"));
+		option.setOption(rs.getString("option"));
+
+		Selection selection = new Selection();
+		selection.setId(rs.getInt("sid"));
+		selection.setTextualDescription(rs.getString("std"));
+		selection.setPropertyName(rs.getString("spn"));
+
+		option.setSelection(selection);
+		return option;
+	}
+	
+	public static void main(String[] args) {
+		OptionMapper optionMapper = new OptionMapper();
+		optionMapper.findBySelection(1);
 	}
 
 }

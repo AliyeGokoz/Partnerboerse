@@ -7,9 +7,9 @@ import de.hdm.partnerboerse.shared.bo.*;
 
 public class SimilarityMapper {
 
-	private static final String BASE_SELECT = "SELECT similarities.id AS sid, similarityValue"
-			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender FROM similarities LEFT JOIN profiles AS fromProfile ON fromProfile.id = similarities.fromProfile,"
-			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM similarities LEFT JOIN profiles AS fromProfile ON toProfile.id = similarities.fromProfile"
+	private static final String BASE_SELECT = "SELECT similarities.id AS sid, similarityValue, "
+			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender,"
+			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM similarities LEFT JOIN profiles AS fromProfile ON fromProfile.id = similarities.fromProfile"
 			+ " LEFT JOIN profiles AS toProfile ON toProfile.id = similarities.toProfile";
 
 	private static SimilarityMapper similarityMapper = null;
@@ -106,7 +106,7 @@ public class SimilarityMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE id=" + id + " ORDER BY fromProfile");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + " WHERE similarities.id=" + id + " ORDER BY fromProfile");
 
 			if (rs.next()) {
 
@@ -127,7 +127,7 @@ public class SimilarityMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE profile=" + profileId + " ORDER BY id");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + " WHERE fromProfile=" + profileId);
 
 			while (rs.next()) {
 
@@ -167,7 +167,7 @@ public class SimilarityMapper {
 
 	private Similarity map(ResultSet rs) throws SQLException {
 		Similarity similarity = new Similarity();
-		similarity.setId(rs.getInt("id"));
+		similarity.setId(rs.getInt("sid"));
 		similarity.setSimilarityValue(rs.getDouble("similarityValue"));
 
 		Profile profileFrom = new Profile();
@@ -201,4 +201,11 @@ public class SimilarityMapper {
 
 	}
 
+	public static void main(String[] args) {
+		SimilarityMapper similarityMapper = new SimilarityMapper();
+		similarityMapper.findByKey(1);
+		similarityMapper.findByProfile(1);
+		similarityMapper.findAll();
+	}
+	
 }
