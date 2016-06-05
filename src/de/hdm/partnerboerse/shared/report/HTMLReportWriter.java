@@ -72,12 +72,12 @@ public class HTMLReportWriter extends ReportWriter {
 			result.append("<tr>");
 			for (int k = 0; k < row.getNumColumns(); k++) {
 				if (i == 0) {
-					result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k) + "</td>");
+					result.append("<td style=\"background:silver;font-weight:bold\">" + paragraph2HTML(row.getColumnAt(k).getVaulue()) + "</td>");
 				} else {
 					if (i > 1) {
-						result.append("<td style=\"border-top:1px solid silver\">" + row.getColumnAt(k) + "</td>");
+						result.append("<td style=\"border-top:1px solid silver\">" + paragraph2HTML(row.getColumnAt(k).getVaulue())+ "</td>");
 					} else {
-						result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
+						result.append("<td valign=\"top\">" + paragraph2HTML(row.getColumnAt(k).getVaulue()) + "</td>");
 					}
 				}
 			}
@@ -93,7 +93,8 @@ public class HTMLReportWriter extends ReportWriter {
 		PartnerProposalsProfilesReport notViewedReport = new PartnerProposalsProfilesReport();
 		Row row = new Row();
 		Column column = new Column();
-		column.setValue("Test");
+		SimpleParagraph par = new SimpleParagraph("Text");
+		column.setValue(par);
 		row.addColumn(column);
 		notViewedReport.addRow(row);
 		// PartnerProposalsByNotViewedProfilesReport notViewedReportTwo = new

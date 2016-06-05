@@ -20,7 +20,7 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 
 public class PartnerboerseReport implements EntryPoint {
 	
-	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+//	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private ReportGeneratorAsync reportGeneratorAsync = ClientsideSettings.getReportGenerator();
 

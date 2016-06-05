@@ -8,8 +8,8 @@ import de.hdm.partnerboerse.shared.bo.*;
 public class FavoritesListMapper {
 	
 	private static final String BASE_SELECT = "SELECT favorites.id AS fid,"
-			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender FROM favorites LEFT JOIN profiles AS fromProfile ON fromProfile.id = favorites.fromProfile,"
-			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM favorites LEFT JOIN profiles AS fromProfile ON toProfile.id = favorites.fromProfile"
+			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender, "
+			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM favorites LEFT JOIN profiles AS fromProfile ON fromProfile.id = favorites.fromProfile"
 			+ " LEFT JOIN profiles AS toProfile ON toProfile.id = favorites.toProfile";
 
 	private static FavoritesListMapper favoritesListMapper = null;
@@ -40,7 +40,7 @@ public class FavoritesListMapper {
 
 				stmt.executeUpdate(
 						"INSERT INTO favorites (id, fromProfile, toProfile) " + "VALUES (" + favoritesList.getId()
-								+ ",'" + favoritesList.getFromProfile() + "','" + favoritesList.getToProfile() + "')");
+								+ ",'" + favoritesList.getFromProfile().getId() + "','" + favoritesList.getToProfile().getId() + "')");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -120,7 +120,7 @@ public class FavoritesListMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE profile=" + profileId + " ORDER BY id");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + " WHERE fromProfile=" + profileId);
 			while (rs.next()) {
 				result.add(map(rs));
 			}
@@ -138,7 +138,7 @@ public class FavoritesListMapper {
 	
 	private FavoritesList map(ResultSet rs) throws SQLException {
 		FavoritesList favoritesList = new FavoritesList();
-		favoritesList.setId(rs.getInt("id"));
+		favoritesList.setId(rs.getInt("fid"));
 
 		Profile profileFrom = new Profile();
 		profileFrom.setId(rs.getInt("tpId"));

@@ -9,6 +9,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.partnerboerse.client.ClientsideSettings;
 import de.hdm.partnerboerse.server.LoginServiceImpl;
 import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
+import de.hdm.partnerboerse.shared.LoginService;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.ReportGenerator;
@@ -27,19 +28,19 @@ import de.hdm.partnerboerse.shared.report.SimpleParagraph;
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
 	private PartnerboerseAdministration administration = null;
-	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
-
+	private LoginService loginService;
 
 	public ReportGeneratorImpl() throws IllegalArgumentException {
 
 	}
-	// TODO init methode einfügen
 
+	// TODO init methode einfügen
+	@Override
 	public void init() throws IllegalArgumentException {
 		PartnerboerseAdministrationImpl a = new PartnerboerseAdministrationImpl();
 		a.init();
 		this.administration = a;
-
+		this.loginService = new LoginServiceImpl();
 	}
 
 	protected PartnerboerseAdministration getPartnerboerseVerwaltung() {
@@ -117,11 +118,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.setHeaderData(header);
 
 		Row headline = new Row();
-		headline.addColumn(new Column("Profil"));
+		headline.addColumn(new Column(new SimpleParagraph("Profil")));
 		// headline.addColumn(new Column("Nachname"));
 		// headline.addColumn(new Column("Vorname"));
 		// headline.addColumn(new Column("E-Mail"));
-		headline.addColumn(new Column("Ähnlichkeitswert"));
+		headline.addColumn(new Column(new SimpleParagraph("Ähnlichkeitswert")));
 		result.addRow(headline);
 
 		for (Profile t : profiles) {
@@ -143,9 +144,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			LoginServiceImpl service = new LoginServiceImpl();
 			Profile currentProfile = service.getCurrentProfile();
 
-			profileRow.addColumn(new Column(rowInfo.toString()));
+			profileRow.addColumn(new Column(rowInfo));
 			Similarity sim = this.administration.calculateSimilarity(currentProfile, t);
-			profileRow.addColumn(new Column(Double.toString(sim.getSimilarityValue() * 100) + "%"));
+			profileRow.addColumn(new Column(new SimpleParagraph(Double.toString(sim.getSimilarityValue() * 100) + "%")));
 			// profileRow.addColumn(new Column((int)
 			// (t.getSimilarity().getSimilarityValue() * 100) + "%"));
 
@@ -163,29 +164,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	public String renderPartnerProposalsByNotViewedProfilesReport() {
 		System.out.println("Hallo");
 
-		// LoginServiceImpl service = new LoginServiceImpl();
-		// Profile currentProfile = service.getCurrentProfile();
-		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+		LoginServiceImpl service = new LoginServiceImpl();
+		Profile currentProfile = service.getCurrentProfile();
 
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+		HTMLReportWriter htmlReportWriter = new HTMLReportWriter();
+		PartnerProposalsProfilesReport createPartnerProposalsByNotViewedProfilesReport = createPartnerProposalsByNotViewedProfilesReport(
+				currentProfile);
+		htmlReportWriter.process(createPartnerProposalsByNotViewedProfilesReport);
+		String reportText = htmlReportWriter.getReportText();
 
-			}
-
-			@Override
-			public void onSuccess(Profile result) {
-				HTMLReportWriter htmlReportWriter = new HTMLReportWriter();
-				PartnerProposalsProfilesReport createPartnerProposalsByNotViewedProfilesReport = createPartnerProposalsByNotViewedProfilesReport(
-						result);
-				htmlReportWriter.process(createPartnerProposalsByNotViewedProfilesReport);
-				//reportText = htmlReportWriter.getReportText();
-
-			}
-			
-		});
-
-	return "";
+		return reportText;
 
 	}
 
