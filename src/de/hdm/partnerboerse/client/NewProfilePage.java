@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -27,6 +28,8 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Description;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profile;
+import de.hdm.partnerboerse.shared.bo.Option;
+
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
@@ -86,15 +89,21 @@ public class NewProfilePage extends VerticalPanel {
 	private HorizontalPanel addInfoToNewProfil() {
 		final HorizontalPanel addInfoToProfilPanel = new HorizontalPanel();
 		final VerticalPanel addinfo = new VerticalPanel();
+		addinfo.add(new HTML("<h3> Eigenschaften </h3>"));
 		final HorizontalPanel infoPanel = new HorizontalPanel();
 		
 		final VerticalPanel buttonPanel = new VerticalPanel();
-		final HorizontalPanel newInfoforProfilPanel = new HorizontalPanel();
+		final VerticalPanel newInfoforProfilPanel = new VerticalPanel();
+		newInfoforProfilPanel.add(new HTML("<div> Suche dir Eigenschaften aus: </div>"));
+		final VerticalPanel newInfoforProfilPaneldesc = new VerticalPanel();
+		newInfoforProfilPaneldesc.add(new HTML("<div> ODER </div>"));
+		newInfoforProfilPaneldesc.add(new HTML("<div> Schreibe einen Freitext: </div>"));
 		final FlexTable infoFlexTabel = new FlexTable();
 		final Button saveButton = new Button("<img src='images/add.png'/>");
 		final Button deleteButton = new Button("<img src='images/delete.png'/>");
 		
 		addinfo.add(newInfoforProfilPanel);
+		addinfo.add(newInfoforProfilPaneldesc);
 		addinfo.add(buttonPanel);
 		addinfo.add(deleteButton);
 		
@@ -233,7 +242,6 @@ public class NewProfilePage extends VerticalPanel {
 				propertyListbox.ensureDebugId("cwListBox-dropBox");
 				final VerticalPanel propertydropBoxPanel1 = new VerticalPanel();
 				propertydropBoxPanel1.setSpacing(4);
-				propertydropBoxPanel1.add(new HTML("<h2> Eigenschaften </h2>"));
 				propertydropBoxPanel1.add(propertyListbox1);
 				final VerticalPanel secondSelectPanel = new VerticalPanel();
 				propertydropBoxPanel1.add(secondSelectPanel);
@@ -244,17 +252,41 @@ public class NewProfilePage extends VerticalPanel {
 					@Override
 					public void onChange(ChangeEvent event) {
 						Selection selection = selections.get(propertyListbox1.getSelectedIndex());
-						Music[] selectionsValue = Music.class.getEnumConstants();
-						final ListBox valuesEnum = new ListBox();
-						for(Music m : selectionsValue){
-							valuesEnum.addItem(m.getName().toString());
-							
-						}
-						secondSelectPanel.clear();
-						secondSelectPanel.add(valuesEnum);
-//
+//						Music[] selectionsValue = Music.class.getEnumConstants();
+//						final ListBox valuesEnum = new ListBox();
+//						for(Music m : selectionsValue){
+//							valuesEnum.addItem(m.getName().toString());
+//							
+//						}
+//						secondSelectPanel.clear();
+//						secondSelectPanel.add(valuesEnum);
+////
+						partnerboerseVerwaltung.getOptionsOf(selection, new AsyncCallback<ArrayList<Option>>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onSuccess(ArrayList<Option> result) {
+								final ListBox infoListBox = new ListBox();
+								for (Option o : result){
+									infoListBox.addItem(o.getOption());
+								}
+//								for (Option op : result) {
+								
+//									infoListBox.addItem(op.getOption().toString());
+//								}
+								secondSelectPanel.clear();
+								secondSelectPanel.add(infoListBox);
+								
+							}
+						});
+
 //						
-//						partnerboerseVerwaltung.getInfoOf(selection, new AsyncCallback<ArrayList<Info>>() {
+//						partnerboerseVerwaltung.getOptionsOf(selection, new AsyncCallback<ArrayList<Info>>() {
 //
 //							@Override
 //							public void onFailure(Throwable caught) {
@@ -288,14 +320,25 @@ public class NewProfilePage extends VerticalPanel {
 						public void onSuccess(ArrayList<Description> resultDescriptions) {
 			
 							for (final Description d : resultDescriptions) {
-								propertyListbox.addItem(d.getPropertyName().toString());
+								propertyListbox.addItem(d.getTextualDescription().toString());
 							}
 							propertyListbox.ensureDebugId("cwListBox-dropBox");
 							VerticalPanel propertydropBoxPanel = new VerticalPanel();
 							propertydropBoxPanel.setSpacing(4);
-							propertydropBoxPanel.add(new HTML("<h2> Eigenschaften </h2>"));
 							propertydropBoxPanel.add(propertyListbox);
-							addInfoToProfilPanel.add(propertydropBoxPanel);
+							final VerticalPanel textAreaPanel = new VerticalPanel();
+							propertydropBoxPanel.add(textAreaPanel);
+							newInfoforProfilPaneldesc.add(propertydropBoxPanel);
+							propertyListbox.addChangeHandler(new ChangeHandler() {
+								
+								@Override
+								public void onChange(ChangeEvent event) {
+									final TextArea textdesc = new TextArea();
+									textAreaPanel.clear();
+									textAreaPanel.add(textdesc);
+									
+								}
+							});
 						}
 			
 						@Override
