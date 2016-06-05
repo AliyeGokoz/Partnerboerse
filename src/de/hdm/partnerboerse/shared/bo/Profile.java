@@ -18,9 +18,9 @@ public class Profile extends BusinessObject {
 
 	private boolean smoker = false;
 
-	private HairColor hairColor = null;
+	private HairColor hairColor = HairColor.DEFAULT;
 
-	private Confession confession = null;
+	private Confession confession = Confession.DEFAULT;
 
 	private Gender gender = null;
 	
