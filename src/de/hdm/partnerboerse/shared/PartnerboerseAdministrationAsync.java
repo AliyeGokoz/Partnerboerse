@@ -134,8 +134,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getInfoOf(Selection selection, AsyncCallback<ArrayList<Info>> callback);
 
-	void getProfilesByName(String lastName, String firstName, AsyncCallback<ArrayList<Profile>> callback);
-
 	void getProfilesOf(SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback);
 
 	void getBlockingsOf(Profile profile, AsyncCallback<ArrayList<Blocking>> callback);

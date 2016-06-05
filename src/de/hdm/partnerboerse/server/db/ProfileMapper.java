@@ -226,51 +226,6 @@ public class ProfileMapper {
 		return null;
 	}
 
-	public ArrayList<Profile> findByName(String lastName, String firstName) {
-		Connection con = DBConnection.connection();
-		ArrayList<Profile> result = new ArrayList<Profile>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			String where;
-			if (lastName != null && firstName != null) {
-				where = "WHERE lastName LIKE '" + lastName
-						+ "AND firstName LIKE '" + firstName + "'";
-			} else if (lastName != null) {
-				where = "WHERE lastName LIKE '" + lastName;
-			} else {
-				where = "WHERE firstName LIKE '" + firstName + "'";
-			}
-
-			ResultSet rs = stmt
-					.executeQuery("SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender "
-							+ "FROM profiles " + where + " ORDER BY lastName");
-
-			while (rs.next()) {
-				Profile profile = new Profile();
-				profile.setId(rs.getInt("id"));
-				profile.setFirstName(rs.getString("firstName"));
-				profile.setLastName(rs.getString("lastName"));
-				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
-				profile.seteMail(rs.getString("email"));
-				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf(rs
-						.getString("confession")));
-				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf(rs
-						.getString("hairColor")));
-				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
-
-				result.add(profile);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return result;
-	}
-
 	public ArrayList<Profile> findBySearchProfile(SearchProfile searchProfile) {
 
 		Connection con = DBConnection.connection();
@@ -420,6 +375,13 @@ public class ProfileMapper {
 		}
 
 		return result;
+	}
+	
+	public static void main(String[] args) {
+		ProfileMapper profileMapper = new ProfileMapper();
+		profileMapper.findAll();
+		profileMapper.findByEmail("");
+		profileMapper.findByKey(1);
 	}
 
 }

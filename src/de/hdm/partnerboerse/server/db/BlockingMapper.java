@@ -8,8 +8,8 @@ import de.hdm.partnerboerse.shared.bo.*;
 public class BlockingMapper {
 
 	private static final String BASE_SELECT = "SELECT blockings.id AS bid,"
-			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender FROM blockings LEFT JOIN profiles AS fromProfile ON fromProfile.id = blockings.fromProfile,"
-			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM blockings LEFT JOIN profiles AS fromProfile ON toProfile.id = blockings.fromProfile"
+			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender, "
+			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM blockings LEFT JOIN profiles AS fromProfile ON fromProfile.id = blockings.fromProfile"
 			+ " LEFT JOIN profiles AS toProfile ON toProfile.id = blockings.toProfile";
 
 	private static BlockingMapper blockingMapper = null;
@@ -100,7 +100,7 @@ public class BlockingMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE id=" + id + " ORDER BY fromProfile");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + " WHERE blockings.id=" + id + " ORDER BY fromProfile");
 
 			if (rs.next()) {
 				return map(rs);
@@ -120,7 +120,7 @@ public class BlockingMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE profile=" + profileId + " ORDER BY id");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + " WHERE fromProfile=" + profileId);
 
 			while (rs.next()) {
 				result.add(map(rs));
@@ -139,7 +139,7 @@ public class BlockingMapper {
 
 	private Blocking map(ResultSet rs) throws SQLException {
 		Blocking blocking = new Blocking();
-		blocking.setId(rs.getInt("id"));
+		blocking.setId(rs.getInt("bid"));
 
 		Profile profileFrom = new Profile();
 		profileFrom.setId(rs.getInt("tpId"));
@@ -169,5 +169,12 @@ public class BlockingMapper {
 		blocking.setToProfile(profileTo);
 
 		return blocking;
+	}
+	
+	public static void main(String[] args) {
+		BlockingMapper blockingMapper = new BlockingMapper();
+		blockingMapper.findByKey(1);
+		blockingMapper.findByProfile(1);
+		blockingMapper.findAll();
 	}
 }
