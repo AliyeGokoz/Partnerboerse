@@ -6,28 +6,28 @@ public class Column implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String value;
+	private Paragraph value;
 
 
 	public Column() {
 	}
 	
-	public Column(String s){
+	public Column(Paragraph s){
 		this.value = s;
 	}
 	
-	public String getVaulue(){
+	public Paragraph getVaulue(){
 		return this.value;
 	}
 	
-	public void setValue(String newValue){
+	public void setValue(Paragraph newValue){
 		this.value = newValue;
 	}
 
-	@Override
-	public String toString() {
-		return this.value;
-	}
-	
+//	@Override
+//	public String toString() {
+//		return this.value;
+//	}
+//	
 
 }
