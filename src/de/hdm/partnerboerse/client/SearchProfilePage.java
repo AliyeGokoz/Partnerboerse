@@ -38,6 +38,7 @@ public class SearchProfilePage extends VerticalPanel {
 	final VerticalPanel buttonsearchProfilePanel = new VerticalPanel();
 	final VerticalPanel searchProfilesPanel = new VerticalPanel();
 	final VerticalPanel buttonSPpanel = new VerticalPanel();
+	final VerticalPanel showallSPPanel = new VerticalPanel();
 	final VerticalPanel showoneSPPanel = new VerticalPanel();
 
 	final TextBox showlHeight = new TextBox();
@@ -75,6 +76,7 @@ public class SearchProfilePage extends VerticalPanel {
 		searchprofilesPanel.add(searchProfilesPanel);
 
 		buttonsearchProfilePanel.add(buttonSPpanel);
+		searchProfilesPanel.add(showallSPPanel);
 		searchProfilesPanel.add(showoneSPPanel);
 
 		/**
@@ -127,7 +129,7 @@ public class SearchProfilePage extends VerticalPanel {
 				
 				table.setRowData(allsearchprofilesresult);
 				
-				searchProfilesPanel.add(table);
+				showallSPPanel.add(table);
 			}
 		});
 
