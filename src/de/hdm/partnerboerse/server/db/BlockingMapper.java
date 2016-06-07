@@ -82,8 +82,7 @@ public class BlockingMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt
-					.executeQuery(BASE_SELECT);
+			ResultSet rs = stmt.executeQuery(BASE_SELECT);
 
 			while (rs.next()) {
 				result.add(map(rs));
@@ -170,11 +169,30 @@ public class BlockingMapper {
 
 		return blocking;
 	}
-	
+
 	public static void main(String[] args) {
 		BlockingMapper blockingMapper = new BlockingMapper();
 		blockingMapper.findByKey(1);
 		blockingMapper.findByProfile(1);
 		blockingMapper.findAll();
 	}
+
+	public boolean doBlockingExist(Profile fromProfile, Profile toProfile) {
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT fromProfile FROM blockings WHERE fromProfile="
+					+ fromProfile.getId() + " AND toProfile=" + toProfile.getId());
+			while (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return false;
+	}
+
 }
