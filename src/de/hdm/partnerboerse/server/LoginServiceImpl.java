@@ -25,6 +25,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 			loginInfo.setLoggedIn(true);
 			loginInfo.setEmailAddress(user.getEmail());
 			loginInfo.setNickname(user.getNickname());
+			loginInfo.setProfile(ProfileMapper.profileMapper().findByEmail(user.getEmail()));
 			loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));
 		} else {
 			loginInfo.setLoggedIn(false);
@@ -36,7 +37,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 	public Profile getCurrentProfile(){
 		LoginInfo login = login("");
 		if(login.isLoggedIn()){
-			return ProfileMapper.profileMapper().findByEmail(login.getEmailAddress());
+			return login.getProfile();
 		} else {
 			return null;
 		}

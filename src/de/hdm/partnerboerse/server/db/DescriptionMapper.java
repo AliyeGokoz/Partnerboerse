@@ -3,10 +3,11 @@ package de.hdm.partnerboerse.server.db;
 import java.sql.*;
 import java.util.ArrayList;
 
-
 import de.hdm.partnerboerse.shared.bo.*;
 
 public class DescriptionMapper {
+	
+	private static final String BASE_SELECT = "SELECT id, textualDescription, propertyName FROM descriptions";
 
 	private static DescriptionMapper descriptionMapper = null;
 
@@ -93,18 +94,11 @@ public class DescriptionMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, textualDescription, propertyName FROM descriptions "
-							+ "WHERE id=" + id + " ORDER BY propertyName");
+					.executeQuery(BASE_SELECT
+							+ " WHERE id=" + id + " ORDER BY propertyName");
 
 			if (rs.next()) {
-
-				Description description = new Description();
-				description.setId(rs.getInt("id"));
-				description.setTextualDescription(rs
-						.getString("textualDescription"));
-				description.setPropertyName(rs.getString("propertyName"));
-
-				return description;
+				return map(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -123,23 +117,32 @@ public class DescriptionMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, textualDescription, propertyName "
-							+ "FROM descriptions " + "ORDER BY propertyName");
+					.executeQuery(BASE_SELECT
+							+ " ORDER BY propertyName");
 
 			while (rs.next()) {
-				Description description = new Description();
-				description.setId(rs.getInt("id"));
-				description.setTextualDescription(rs
-						.getString("textualDescription"));
-				description.setPropertyName(rs.getString("propertyName"));
-
-				result.add(description);
+				result.add(map(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return result;	
+	}
+
+	private Description map(ResultSet rs) throws SQLException {
+		Description description = new Description();
+		description.setId(rs.getInt("id"));
+		description.setTextualDescription(rs
+				.getString("textualDescription"));
+		description.setPropertyName(rs.getString("propertyName"));
+		return description;
+	}
+	
+	public static void main(String[] args) {
+		DescriptionMapper descriptionMapper = new DescriptionMapper();
+		descriptionMapper.findAll();
+		descriptionMapper.findByKey(1);
 	}
 	
 }

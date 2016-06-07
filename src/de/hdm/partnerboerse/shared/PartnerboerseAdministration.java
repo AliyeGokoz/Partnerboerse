@@ -38,6 +38,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Similarity createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue);
 
 	public Blocking createBlocking(int id, Profile fromProfile, Profile toProfile);
+	
+	public Option createOption (int id, String option);
 
 	/*
 	 * delete Methoden
@@ -60,6 +62,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void delete(VisitList visitList) throws IllegalArgumentException;
 
 	public void delete(FavoritesList favoritesList) throws IllegalArgumentException;
+	
+	public void delete (Option option) throws IllegalArgumentException;
 
 	/*
 	 * Profile
@@ -128,6 +132,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<FavoritesList> getAllFavoritesLists() throws IllegalArgumentException;
 
 	public FavoritesList getFavoritesListByKey(int id) throws IllegalArgumentException;
+	
 
 	// save-Methoden
 
@@ -148,14 +153,15 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void save(VisitList visitList) throws IllegalArgumentException;
 
 	public void save(FavoritesList favoritesList) throws IllegalArgumentException;
+	
+	public void save(Option option)throws IllegalArgumentException;
+	
 
 	ArrayList<SearchProfile> getSearchProfileOf(Profile profile);
 
 	ArrayList<Info> getInfoOf(Profile profile);
 
 	ArrayList<Info> getInfoOf(Selection selection);
-
-	ArrayList<Profile> getProfilesByName(String lastName, String firstName) throws IllegalArgumentException;
 
 	ArrayList<Profile> getProfilesOf(SearchProfile searchProfile) throws IllegalArgumentException;
 
@@ -172,4 +178,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	ArrayList<Profile> getNotViewedProfiles(Profile vistingProfile);
 	
 	ArrayList<Profile> getBySearchProfile(SearchProfile searchProfile);
+	
+	ArrayList<Option> getOptionsOf(Selection selection) throws IllegalArgumentException;;
+	
 }

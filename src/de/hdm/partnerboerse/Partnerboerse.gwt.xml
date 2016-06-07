@@ -32,6 +32,6 @@
 <!-- 	<entry-point -->
 <!-- 		class="de.hdm.partnerboerse.client.PartnerboerseReport"> -->
 <!-- 	</entry-point> -->
-	<inherits name="com.google.gwt.logging.Logging"/>
+<!-- 	<inherits name="com.google.gwt.logging.Logging"/> -->
 
 </module>

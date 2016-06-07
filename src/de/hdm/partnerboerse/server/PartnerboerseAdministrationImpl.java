@@ -30,6 +30,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	private SelectionMapper selectionMapper = null;
 	private SimilarityMapper similarityMapper = null;
 	private VisitListMapper visitListMapper = null;
+	private OptionMapper optionMapper = null;
 
 	// No-Argument Constructor
 
@@ -47,6 +48,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		this.selectionMapper = SelectionMapper.selectionMapper();
 		this.similarityMapper = SimilarityMapper.similarityMapper();
 		this.visitListMapper = VisitListMapper.visitListMapper();
+		this.optionMapper = OptionMapper.optionMapper();
 
 	}
 
@@ -607,13 +609,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public ArrayList<Profile> getProfilesByName(String lastName,
-			String firstName) throws IllegalArgumentException {
-
-		return this.profileMapper.findByName(lastName, firstName);
-	}
-
-	@Override
 	public ArrayList<Profile> getProfilesOf(SearchProfile searchProfile)
 			throws IllegalArgumentException {
 		return this.profileMapper.findBySearchProfile(searchProfile);
@@ -644,6 +639,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
+
 	public ArrayList<Profile> getNotViewedProfiles(Profile vistingProfile) {
 		return this.profileMapper.findNotViewedProfiles(vistingProfile);
 	}
@@ -651,6 +647,42 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Profile> getBySearchProfile(SearchProfile searchProfile) {
 		return this.profileMapper.findBySearchProfile(searchProfile);
+	}
+
+	public Option createOption(int id, String option) {
+		
+			Option o = new Option();
+
+			o.setId(id);
+			o.setOption(option);
+
+			return this.optionMapper.insert(o);
+		}
+
+	@Override
+	public void delete(Option option) throws IllegalArgumentException {
+		
+			this.optionMapper.delete(option);
+		
+	}
+
+	@Override
+	public void save(Option option) throws IllegalArgumentException {
+		
+		if (option.getId() != 0) {
+			optionMapper.update(option);
+		} else {
+			optionMapper.insert(option);
+		}
+		
+
+	}
+
+	@Override
+	public ArrayList<Option> getOptionsOf(Selection selection) {
+		
+		return this.optionMapper.findBySelection(selection);
+	
 	}
 
 }
