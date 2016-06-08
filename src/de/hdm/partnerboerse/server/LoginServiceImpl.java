@@ -15,6 +15,15 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 
 	private static final long serialVersionUID = 1L;
 
+	private static LoginService loginService;
+	
+	public static LoginService loginService(){
+		if(loginService == null){
+			loginService = new LoginServiceImpl();
+		}
+		return loginService;
+	}
+	
 	@Override
 	public LoginInfo login(String requestUri) {
 		UserService userService = UserServiceFactory.getUserService();
