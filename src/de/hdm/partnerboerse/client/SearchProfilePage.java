@@ -216,6 +216,7 @@ public class SearchProfilePage extends VerticalPanel {
 		for (int j = 0; j < genderRadioButtons.length; j++) {
 			RadioButton radioButton = new RadioButton("genderGroup", genderValues[j].getName());
 			newSearchProfileTable.setWidget(i++, 1, radioButton);
+			genderRadioButtons[j] = radioButton;
 		}
 
 		/**
@@ -277,8 +278,6 @@ public class SearchProfilePage extends VerticalPanel {
 				});
 			}
 		});
-
-		buttonSPpanel.add(new HTML("<h3> Informationen </h3>"));
 
 	}
 
