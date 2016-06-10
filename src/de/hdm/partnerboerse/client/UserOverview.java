@@ -75,7 +75,6 @@ public class UserOverview extends VerticalPanel {
 					}
 				};
 				table.addColumn(emailColumn, "Email");
-				final Button saveToFavoritesList = new Button("Zum Merkzettel hinzufügen");
 				final SingleSelectionModel<Profile> selectionModel = new SingleSelectionModel<Profile>();
 				table.setSelectionModel(selectionModel);
 				selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -84,6 +83,7 @@ public class UserOverview extends VerticalPanel {
 						if (selected != null) {
 							Window.alert(
 									"You selected:" + " " + selected.getFirstName() + " " + selected.getLastName());
+							final Button saveToFavoritesList = new Button("Zum Merkzettel hinzufügen");
 							seeAllUsers.add(saveToFavoritesList);
 							saveToFavoritesList.addClickHandler(new ClickHandler() {
 								
