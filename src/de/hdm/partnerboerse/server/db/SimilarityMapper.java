@@ -152,7 +152,7 @@ public class SimilarityMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					BASE_SELECT + "WHERE fromProfile=" + from.getId() + " AND toProfile=" + to.getId() + " LIMIT 1");
+					BASE_SELECT + " WHERE fromProfile=" + from.getId() + " AND toProfile=" + to.getId() + " LIMIT 1");
 
 			while (rs.next()) {
 
