@@ -29,7 +29,7 @@ public interface PartnerboerseAdministrationAsync {
 	void createSearchProfile(int id, int fromAge, int toAge, int fromHeight, int toHeight, HairColor hairColor,
 			Gender gender, Confession confession, boolean smoker, AsyncCallback<SearchProfile> callback);
 
-	void createBlocking(int id, Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
+	void createBlocking(Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
 
 	void createDescription(int id, String propertyName, String textualDescription, AsyncCallback<Description> callback);
 

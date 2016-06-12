@@ -75,7 +75,7 @@ public class BlockingListOverview extends VerticalPanel{
 								if (selected != null) {
 									Window.alert(
 											"You selected:" + " " + selected.getToProfile().getFirstName() + " " + selected.getToProfile().getLastName());
-									final Button delteFromFavoritesList = new Button("Aus dem Merkzettel entfernen");
+									final Button delteFromFavoritesList = new Button("Kontaktsperre aufheben");
 									seeAllUsers.add(delteFromFavoritesList);
 									delteFromFavoritesList.addClickHandler(new ClickHandler() {
 										

@@ -39,7 +39,7 @@ public class BlockingMapper {
 				stmt = con.createStatement();
 
 				stmt.executeUpdate("INSERT INTO blockings (id, fromProfile, toProfile) " + "VALUES (" + blocking.getId()
-						+ ",'" + blocking.getFromProfile() + "','" + blocking.getToProfile() + "')");
+						+ ",'" + blocking.getFromProfile().getId() + "','" + blocking.getToProfile().getId() + "')");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
