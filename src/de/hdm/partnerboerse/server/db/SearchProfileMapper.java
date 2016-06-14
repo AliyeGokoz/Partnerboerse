@@ -37,23 +37,26 @@ public class SearchProfileMapper {
 
 				stmt = con.createStatement();
 
-				stmt.executeUpdate("INSERT INTO searchprofiles (id, fromAge, toAge, hairColor, gender, fromHeight, toHeight, confession) "
+				
+				String sql = "INSERT INTO searchprofiles (id, fromAge, toAge, hairColor, gender, fromHeight, toHeight, confession, profileId) "
 						+ "VALUES ("
 						+ searchProfile.getId()
-						+ ",'"
+						+ ","
 						+ searchProfile.getFromAge()
-						+ "','"
+						+ ","
 						+ searchProfile.getToAge()
-						+ "','"
+						+ ",'"
 						+ searchProfile.getHairColor()
-						+ ",'"
+						+ "','"
 						+ searchProfile.getGender()
-						+ ",'"
+						+ "',"
 						+ searchProfile.getFromHeight()
-						+ ",'"
+						+ ","
 						+ searchProfile.getToHeight()
 						+ ",'"
-						+ searchProfile.getConfession() + "')");
+						+ searchProfile.getConfession() + "',"+searchProfile.getProfile().getId()+")";
+				System.out.println(sql);
+				stmt.executeUpdate(sql);
 
 			}
 		} catch (SQLException e) {
