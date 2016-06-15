@@ -37,7 +37,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Similarity createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue);
 
-	public Blocking createBlocking(int id, Profile fromProfile, Profile toProfile);
+	public Blocking createBlocking(Profile fromProfile, Profile toProfile);
 	
 	public Option createOption (int id, String option);
 

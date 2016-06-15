@@ -28,15 +28,13 @@ public class SearchProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-					+ "FROM searchprofiles ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM searchprofiles ");
 
 			if (rs.next()) {
 
 				searchProfile.setId(rs.getInt("maxid") + 1);
 
 				stmt = con.createStatement();
-
 				
 				String sql = "INSERT INTO searchprofiles (id, fromAge, toAge, hairColor, gender, fromHeight, toHeight, confession, profileId) "
 						+ "VALUES ("
@@ -72,15 +70,11 @@ public class SearchProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE searchprofiles " + "SET fromAge=\""
-					+ searchProfile.getFromAge() + "\", " + "toAge=\""
-					+ searchProfile.getToAge() + "\", " + "hairColor=\""
-					+ searchProfile.getHairColor() + "\", " + "gender=\""
-					+ searchProfile.getGender() + "\", " + "fromHeight=\""
-					+ searchProfile.getFromHeight() + "\", " + "toHeight=\""
-					+ searchProfile.getToHeight() + "\", " + "confession=\""
-					+ searchProfile.getConfession() + "\" " + "WHERE id="
-					+ searchProfile.getId());
+			stmt.executeUpdate("UPDATE searchprofiles " + "SET fromAge=\"" + searchProfile.getFromAge() + "\", "
+					+ "toAge=\"" + searchProfile.getToAge() + "\", " + "hairColor=\"" + searchProfile.getHairColor()
+					+ "\", " + "gender=\"" + searchProfile.getGender() + "\", " + "fromHeight=\""
+					+ searchProfile.getFromHeight() + "\", " + "toHeight=\"" + searchProfile.getToHeight() + "\", "
+					+ "confession=\"" + searchProfile.getConfession() + "\" " + "WHERE id=" + searchProfile.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -95,8 +89,7 @@ public class SearchProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM searchprofiles " + "WHERE id="
-					+ searchProfile.getId());
+			stmt.executeUpdate("DELETE FROM searchprofiles " + "WHERE id=" + searchProfile.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -133,9 +126,7 @@ public class SearchProfileMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-
 			ResultSet rs = stmt.executeQuery(BASE_SELECT);
-
 
 			while (rs.next()) {
 
@@ -156,8 +147,7 @@ public class SearchProfileMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			String sql = BASE_SELECT + " WHERE profileId=" + profileId
-					+ " ORDER BY id";
+			String sql = BASE_SELECT + " WHERE profileId=" + profileId + " ORDER BY id";
 
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -181,14 +171,16 @@ public class SearchProfileMapper {
 		searchProfile.setId(rs.getInt("id"));
 		searchProfile.setFromAge(rs.getInt("fromAge"));
 		searchProfile.setToAge(rs.getInt("toAge"));
-		searchProfile.setHairColor(Profile.HairColor.valueOf(rs
-				.getString("spHairColor")));
+
+		String hairColorString = rs.getString("spHairColor");
 		searchProfile
-				.setGender(Profile.Gender.valueOf(rs.getString("spGender")));
+				.setHairColor(hairColorString != null ? Profile.HairColor.valueOf(rs.getString("spHairColor")) : null);
+		String genderString = rs.getString("spGender");
+		searchProfile.setGender(genderString != null ? Profile.Gender.valueOf(genderString) : null);
 		searchProfile.setFromHeight(rs.getInt("fromHeight"));
 		searchProfile.setToHeight(rs.getInt("ToHeight"));
-		searchProfile.setConfession(Profile.Confession.valueOf(rs
-				.getString("spConfession")));
+		String confessionString = rs.getString("spConfession");
+		searchProfile.setConfession(confessionString != null ? Profile.Confession.valueOf(confessionString) : null);
 
 		Profile profile = new Profile();
 		profile.setId(rs.getInt("pid"));
@@ -197,17 +189,15 @@ public class SearchProfileMapper {
 		profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 		profile.seteMail(rs.getString("email"));
 		profile.setHeight(rs.getInt("height"));
-		profile.setConfession(Profile.Confession.valueOf(rs
-				.getString("pConfession")));
+		profile.setConfession(Profile.Confession.valueOf(rs.getString("pConfession")));
 		profile.setSmoker(rs.getBoolean("smoker"));
-		profile.setHairColor(Profile.HairColor.valueOf(rs
-				.getString("pHairColor")));
+		profile.setHairColor(Profile.HairColor.valueOf(rs.getString("pHairColor")));
 		profile.setGender(Profile.Gender.valueOf(rs.getString("pGender")));
 
 		searchProfile.setProfile(profile);
 		return searchProfile;
 	}
-	
+
 	public static void main(String[] args) {
 		SearchProfileMapper searchProfileMapper = new SearchProfileMapper();
 		searchProfileMapper.findAll();

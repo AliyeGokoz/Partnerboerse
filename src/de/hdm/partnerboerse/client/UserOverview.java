@@ -24,6 +24,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.partnerboerse.server.LoginServiceImpl;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Blocking;
 import de.hdm.partnerboerse.shared.bo.FavoritesList;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
@@ -75,7 +76,6 @@ public class UserOverview extends VerticalPanel {
 					}
 				};
 				table.addColumn(emailColumn, "Email");
-				final Button saveToFavoritesList = new Button("Zum Merkzettel hinzufügen");
 				final SingleSelectionModel<Profile> selectionModel = new SingleSelectionModel<Profile>();
 				table.setSelectionModel(selectionModel);
 				selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -84,7 +84,48 @@ public class UserOverview extends VerticalPanel {
 						if (selected != null) {
 							Window.alert(
 									"You selected:" + " " + selected.getFirstName() + " " + selected.getLastName());
+							final Button saveToFavoritesList = new Button("Zum Merkzettel hinzufügen");
+							final Button saveToBlockingList = new Button("Kontakt sperren");
+
+							seeAllUsers.add(saveToBlockingList);
 							seeAllUsers.add(saveToFavoritesList);
+							
+							saveToBlockingList.addClickHandler(new ClickHandler() {
+
+								@Override
+								public void onClick(ClickEvent event) {
+								
+									loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+										
+										@Override
+										public void onSuccess(Profile result) {
+											//Window.alert("Kontakt gesperrt");
+											partnerboerseVerwaltung.createBlocking(result, selected, new AsyncCallback<Blocking>() {
+												
+												@Override
+												public void onSuccess(Blocking result) {
+													Window.alert("Sie haben den Kontakt" +" " + selected.getFirstName() + " " + selected.getFirstName() + " " + "gesperrt" );
+												}
+												
+												@Override
+												public void onFailure(Throwable caught) {
+													// TODO Auto-generated method stub
+													
+												}
+											});
+
+										}
+										
+										@Override
+										public void onFailure(Throwable caught) {
+											// TODO Auto-generated method stub
+											
+										}
+									});
+								}
+								
+							});
+							
 							saveToFavoritesList.addClickHandler(new ClickHandler() {
 								
 								@Override

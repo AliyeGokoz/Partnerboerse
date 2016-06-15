@@ -105,6 +105,14 @@ public class Partnerboerse implements EntryPoint {
 			}
 		};
 		
+		Command seeBlockingList = new Command() {
+			public void execute() {
+				BlockingListOverview seeBlockingList = new BlockingListOverview();
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(seeBlockingList);
+			}
+		};
+		
 		Command seeSearchProfilePage = new Command() {
 			public void execute() {
 				SearchProfilePage showSearchProfile = new SearchProfilePage(profile);
@@ -147,7 +155,7 @@ public class Partnerboerse implements EntryPoint {
 		favoritlistMenu.addItem("Merkzettel ansehen", seeFavoritList);
 
 		MenuBar blockedcontactsMenu = new MenuBar(true);
-		blockedcontactsMenu.addItem("Kontaktsperrenliste ansehen", cmd);
+		blockedcontactsMenu.addItem("Kontaktsperrenliste ansehen", seeBlockingList);
 		
 		MenuBar allProfilesMenu = new MenuBar(true);
 		allProfilesMenu.addItem("Alle Profile Ansehen", allUsers);

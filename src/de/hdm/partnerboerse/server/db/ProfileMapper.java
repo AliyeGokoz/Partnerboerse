@@ -3,10 +3,11 @@ package de.hdm.partnerboerse.server.db;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import org.apache.commons.lang3.StringUtils;
+import java.util.Calendar;
 
 import de.hdm.partnerboerse.shared.bo.*;
+import de.hdm.partnerboerse.shared.bo.Profile.Confession;
+import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 
 public class ProfileMapper {
 
@@ -237,49 +238,50 @@ public class ProfileMapper {
 			String sql = "SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles WHERE profiles.id > 0";
 
 			if (searchProfile.getFromHeight() != 0) {
-				sql += "AND profiles.height > " + searchProfile.getFromHeight()
+				sql += " AND profiles.height > " + searchProfile.getFromHeight()
 						+ " ";
 			}
 
 			if (searchProfile.getToHeight() != 0) {
-				sql += "AND profiles.height < " + searchProfile.getToHeight()
+				sql += " AND profiles.height < " + searchProfile.getToHeight()
 						+ " ";
 			}
 
-			if (searchProfile.getHairColor() != null) {
-				sql += "AND profiles.hairColor = '"
+			if (searchProfile.getHairColor() != null && searchProfile.getHairColor() != HairColor.DEFAULT) {
+				sql += " AND profiles.hairColor = '"
 						+ searchProfile.getHairColor() + "' ";
 			}
 
-			if (searchProfile.getConfession() != null) {
-				sql += "AND profiles.confession = '"
+			if (searchProfile.getConfession() != null && searchProfile.getConfession() != Confession.DEFAULT) {
+				sql += " AND profiles.confession = '"
 						+ searchProfile.getConfession() + "' ";
 			}
 
 			if (searchProfile.getGender() != null) {
-				sql += "AND profiles.gender = '" + searchProfile.getGender()
+				sql += " AND profiles.gender = '" + searchProfile.getGender()
 						+ "' ";
 			}
 
 			if (searchProfile.getFromAge() != 0) {
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 						"yyyy-MM-dd");
-				Date dateOfBirth = new Date(System.currentTimeMillis()
-						- searchProfile.getFromAge() * 365 * 24 * 60 * 60
-						* 1000);
-				sql += "AND profiles.dateOfBirth < '"
-						+ simpleDateFormat.format(dateOfBirth) + "' ";
+				Calendar instance = Calendar.getInstance();
+				instance.add(Calendar.YEAR, searchProfile.getFromAge());
+				sql += " AND profiles.dateOfBirth < '"
+						+ simpleDateFormat.format(instance.getTime()) + "' ";
 			}
 
 			if (searchProfile.getToAge() != 0) {
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 						"yyyy-MM-dd");
-				Date dateOfBirth = new Date(System.currentTimeMillis()
-						- searchProfile.getToAge() * 365 * 24 * 60 * 60 * 1000);
-				sql += "AND profiles.dateOfBirth > '"
-						+ simpleDateFormat.format(dateOfBirth) + "' ";
+				
+				Calendar instance = Calendar.getInstance();
+				instance.add(Calendar.YEAR, -searchProfile.getToAge());
+				sql += " AND profiles.dateOfBirth > '"
+						+ simpleDateFormat.format(instance.getTime()) + "' ";
 			}
 
+			System.out.println(sql);
 			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {

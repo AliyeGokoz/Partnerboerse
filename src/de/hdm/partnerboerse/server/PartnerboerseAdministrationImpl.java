@@ -124,7 +124,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public FavoritesList createFavoritesList(Profile fromProfile, Profile toProfile) {
 		FavoritesList fl = new FavoritesList();
-
+		
 		fl.setFromProfile(fromProfile);
 		fl.setToProfile(toProfile);
 
@@ -155,10 +155,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public Blocking createBlocking(int id, Profile fromProfile, Profile toProfile) {
+	public Blocking createBlocking(Profile fromProfile, Profile toProfile) {
 		Blocking b = new Blocking();
 
-		b.setId(id);
 		b.setFromProfile(fromProfile);
 		b.setToProfile(toProfile);
 
