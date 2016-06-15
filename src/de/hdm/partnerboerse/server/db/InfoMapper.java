@@ -28,8 +28,7 @@ public class InfoMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-					+ "FROM infos ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM infos ");
 
 			if (rs.next()) {
 
@@ -37,9 +36,11 @@ public class InfoMapper {
 
 				stmt = con.createStatement();
 
-				stmt.executeUpdate("INSERT INTO infos (id, informationValue) "
-						+ "VALUES (" + info.getId() + ",'"
-						+ info.getInformationValue() + "')");
+				stmt.executeUpdate(
+						"INSERT INTO infos (id, informationValue, profileId, selectionId, descriptionId) " + "VALUES ("
+								+ info.getId() + ",'" + info.getInformationValue() + "', " + info.getProfile().getId()
+								+ ", " + (info.getSelection() != null ? info.getSelection().getId() : "NULL") + ","
+								+ (info.getDescription() != null ? info.getDescription().getId() : "NULL") + ")");
 
 			}
 		} catch (SQLException e) {
@@ -55,8 +56,8 @@ public class InfoMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE infos " + "SET informationValue=\""
-					+ info.getInformationValue() + "WHERE id=" + info.getId());
+			stmt.executeUpdate("UPDATE infos " + "SET informationValue=\"" + info.getInformationValue() + "WHERE id="
+					+ info.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,8 +72,7 @@ public class InfoMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM infos " + "WHERE id="
-					+ info.getId());
+			stmt.executeUpdate("DELETE FROM infos " + "WHERE id=" + info.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -138,8 +138,7 @@ public class InfoMapper {
 
 			Statement stmt = con.createStatement();
 
-			String sql = BASE_SELECT
-					+ " WHERE profileId=" + profileId + " ORDER BY id";
+			String sql = BASE_SELECT + " WHERE profileId=" + profileId + " ORDER BY id";
 
 			System.out.println(sql);
 
@@ -174,8 +173,7 @@ public class InfoMapper {
 
 			Statement stmt = con.createStatement();
 
-			String sql = BASE_SELECT
-					+ " WHERE selectionId=" + selectionId + " ORDER BY id";
+			String sql = BASE_SELECT + " WHERE selectionId=" + selectionId + " ORDER BY id";
 
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -205,8 +203,7 @@ public class InfoMapper {
 
 			Statement stmt = con.createStatement();
 
-			String sql = BASE_SELECT
-					+ " WHERE descriptions.id=" + descriptionId + " ORDER BY id";
+			String sql = BASE_SELECT + " WHERE descriptions.id=" + descriptionId + " ORDER BY id";
 
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -225,7 +222,6 @@ public class InfoMapper {
 	public ArrayList<Info> findByDescription(Description description) {
 		return findByDescription(description.getId());
 	}
-	
 
 	private Info map(ResultSet rs) throws SQLException {
 		Info info = new Info();
@@ -239,11 +235,9 @@ public class InfoMapper {
 		profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 		profile.seteMail(rs.getString("email"));
 		profile.setHeight(rs.getInt("height"));
-		profile.setConfession(Profile.Confession.valueOf(rs
-				.getString("confession")));
+		profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
 		profile.setSmoker(rs.getBoolean("smoker"));
-		profile.setHairColor(Profile.HairColor.valueOf(rs
-				.getString("hairColor")));
+		profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
 		profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
 
 		info.setProfile(profile);
@@ -253,17 +247,21 @@ public class InfoMapper {
 		description.setTextualDescription(rs.getString("dtd"));
 		description.setPropertyName(rs.getString("dpn"));
 
-		info.setDescription(description);
+		if (description.getId() != 0) {
+			info.setDescription(description);
+		}
 
 		Selection selection = new Selection();
 		selection.setId(rs.getInt("sid"));
 		selection.setTextualDescription(rs.getString("std"));
 		selection.setPropertyName(rs.getString("spn"));
 
-		info.setSelection(selection);
+		if (selection.getId() != 0) {
+			info.setSelection(selection);
+		}
 		return info;
 	}
-	
+
 	public static void main(String[] args) {
 		InfoMapper infoMapper = new InfoMapper();
 		infoMapper.findByDescription(1);
