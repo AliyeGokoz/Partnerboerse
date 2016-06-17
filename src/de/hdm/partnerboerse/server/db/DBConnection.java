@@ -8,15 +8,46 @@ import com.google.appengine.api.utils.SystemProperty;
 
 import de.hdm.partnerboerse.shared.bo.Info;
 
+/**
+ * Verwaltung der Datenbank-Verbindung.
+ * 
+ * @author Claudia
+ */
 public class DBConnection {
 
+	/**
+	 * Die Instantiierung der Klasse DBConnection erfolgt nur einmal. Dies wird
+	 * auch als <b>Singleton<b> bezeichnet.
+	 * <p>
+	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
+	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
+	 * die einzige Instanz der Klasse.
+	 */
+
 	private static Connection con = null;
+
+	/**
+	 * Mit Hilfe folgender URL wird die Datenbank angesprochen.
+	 */
 
 	private static String googleUrl = "jdbc:google:mysql://partnerboerse-itprojekt:partnerboerse/partnerboerse_db?user=sampleuser&password=sampleuser";
 	private static String localUrl = "jdbc:mysql://127.0.0.1:3306/partnerboerse?user=root&password";
 
+	/**
+	 * Durch
+	 * <code>DBConnection.connection()<code> kann folgende statische Methode aufgerufen werden. 
+	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
+	 * Instanz von <code>DBConnection<code> existiert.
+	 * <p>
+	 * Die Instantiierung der DBConnection sollte immer durch den Aufruf dieser Methode erfolgen.
+	 * 
+	 * @return DAS <code>DBConncetion</code>-Objekt.
+	 * 
+	 * @see con
+	 */
 	public static Connection connection() {
 
+		// Wenn es bisher keine Verbindung zur DB gab
 		if (con == null) {
 			String url = null;
 			try {
@@ -37,6 +68,7 @@ public class DBConnection {
 			}
 		}
 
+		// Verbindung zurückgeben
 		return con;
 	}
 
@@ -52,7 +84,8 @@ public class DBConnection {
 
 		// Description description = new Description();
 		// description.setPropertyName("Gedichte");
-		// description.setTextualDescription("Ich habe folgendes Gedicht selber geschrieben:");
+		// description.setTextualDescription("Ich habe folgendes Gedicht selber
+		// geschrieben:");
 		// new DescriptionMapper().insert(description);
 
 		// Profile profile = new Profile();
@@ -92,12 +125,12 @@ public class DBConnection {
 			Info p = infos.get(i);
 			System.out.println(p.getId() + " " + p.getProfile().geteMail());
 		}
-		
+
 		Info findByKey = new InfoMapper().findByKey(1);
 		System.out.println(findByKey.getProfile().getFirstName());
 		System.out.println(findByKey.getSelection().getPropertyName());
 		System.out.println(findByKey.getDescription());
-		
+
 		//
 		// }
 		//
