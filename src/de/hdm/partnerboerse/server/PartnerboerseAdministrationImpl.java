@@ -481,24 +481,27 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void save(SearchProfile searchProfile) throws IllegalArgumentException {
+	public SearchProfile save(SearchProfile searchProfile) throws IllegalArgumentException {
 		if (searchProfile.getId() != 0) {
-			searchProfileMapper.update(searchProfile);
+			return searchProfileMapper.update(searchProfile);
 		} else {
-			searchProfileMapper.insert(searchProfile);
+			return searchProfileMapper.insert(searchProfile);
 		}
 	}
 
 	@Override
-	public void save(Info info) throws IllegalArgumentException {
+	public Info save(Info info) throws IllegalArgumentException {
+		Info savedInfo;
 		if (info.getId() != 0) {
-			infoMapper.update(info);
+			savedInfo = infoMapper.update(info);
 		} else {
-			infoMapper.insert(info);
+			savedInfo = infoMapper.insert(info);
 		}
 
 		Profile profile = info.getProfile();
 		updateSimilarityForProfile(profile);
+		
+		return savedInfo;
 	}
 
 	@Override

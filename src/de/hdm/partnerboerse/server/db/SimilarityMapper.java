@@ -55,8 +55,8 @@ public class SimilarityMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE similarities " + "SET fromProfile=\"" + similarity.getFromProfile() + "\", "
-					+ "toProfile=\"" + similarity.getToProfile() + "\", " + "similarityValue=\""
+			stmt.executeUpdate("UPDATE similarities " + "SET fromProfile=\"" + similarity.getFromProfile().getId() + "\", "
+					+ "toProfile=\"" + similarity.getToProfile().getId() + "\", " + "similarityValue=\""
 					+ similarity.getSimilarityValue() + "\" " + "WHERE id=" + similarity.getId());
 
 		} catch (SQLException e2) {

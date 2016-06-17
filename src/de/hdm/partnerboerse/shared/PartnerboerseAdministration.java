@@ -138,9 +138,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void save(Profile profile) throws IllegalArgumentException;
 
-	public void save(SearchProfile searchProfile) throws IllegalArgumentException;
+	public SearchProfile save(SearchProfile searchProfile) throws IllegalArgumentException;
 
-	public void save(Info info) throws IllegalArgumentException;
+	public Info save(Info info) throws IllegalArgumentException;
 
 	public void save(Description description) throws IllegalArgumentException;
 

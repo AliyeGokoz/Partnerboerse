@@ -50,9 +50,9 @@ public interface PartnerboerseAdministrationAsync {
 	 */
 	void save(Profile profile, AsyncCallback<Void> callback);
 
-	void save(SearchProfile searchProfile, AsyncCallback<Void> callback);
+	void save(SearchProfile searchProfile, AsyncCallback<SearchProfile> callback);
 
-	void save(Info info, AsyncCallback<Void> callback);
+	void save(Info info, AsyncCallback<Info> callback);
 
 	void save(Description description, AsyncCallback<Void> callback);
 

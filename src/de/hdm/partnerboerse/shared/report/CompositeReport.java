@@ -16,12 +16,8 @@ public class CompositeReport extends Report {
 		this.subReports.removeElement(r);
 	}
 
-	public int getNumSubReports() {
-		return this.subReports.size();
-	}
-
-	public Report getSubReportAt(int i) {
-		return this.subReports.elementAt(i);
+	public Vector<Report> getSubReports() {
+		return subReports;
 	}
 
 }
