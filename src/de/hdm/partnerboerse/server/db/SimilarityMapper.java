@@ -361,11 +361,7 @@ public class SimilarityMapper {
 
 	}
 
-	public static void main(String[] args) {
-		SimilarityMapper similarityMapper = new SimilarityMapper();
-		similarityMapper.findByKey(1);
-		similarityMapper.findByProfile(1);
-		similarityMapper.findAll();
-	}
 
 }
+
+
