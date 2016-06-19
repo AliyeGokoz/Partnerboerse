@@ -179,6 +179,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	ArrayList<Profile> getBySearchProfile(SearchProfile searchProfile);
 	
-	ArrayList<Option> getOptionsOf(Selection selection) throws IllegalArgumentException;;
+	ArrayList<Option> getOptionsOf(Selection selection) throws IllegalArgumentException;
+	
+	ArrayList<Profile> getMostSimilarProfiles (Profile fromProfile) throws IllegalArgumentException;
+
 	
 }

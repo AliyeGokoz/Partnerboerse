@@ -159,6 +159,8 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getOptionsOf(Selection selection, AsyncCallback<ArrayList<Option>> callback);
 
+	void getMostSimilarProfiles(Profile fromProfile, AsyncCallback<ArrayList<Profile>> callback);
+
 
 
 	

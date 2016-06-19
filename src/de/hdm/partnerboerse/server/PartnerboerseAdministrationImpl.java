@@ -659,4 +659,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		Profile currentProfile = LoginServiceImpl.loginService().getCurrentProfile();
 		return blockingMapper.doBlockingExist(currentProfile, profile);
 	}
+
+	@Override
+	public ArrayList<Profile> getMostSimilarProfiles(Profile fromProfile) throws IllegalArgumentException {
+		
+		return this.profileMapper.findMostSimilarProfiles(fromProfile);
+	}
 }
