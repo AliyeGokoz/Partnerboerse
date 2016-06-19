@@ -173,7 +173,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		ArrayList<Info> infos = this.getInfoOf(profile);
 		ArrayList<Blocking> blockings = this.getBlockingsOf(profile);
 		ArrayList<VisitList> visitLists = this.getVisitListsOf(profile);
-		ArrayList<Similarity> similarities = this.getSimilaritiesOf(profile);
+		ArrayList<Similarity> similarities = similarityMapper.findWith(profile);
+		
 
 		if (favoritesLists != null) {
 			for (FavoritesList favoritesList : favoritesLists) {

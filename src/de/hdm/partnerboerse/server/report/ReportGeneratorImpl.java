@@ -75,7 +75,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	}
 
-
 	@Override
 	public PartnerProposalsBySearchProfileReport createPartnerProposalsBySearchProfilesReport(Profile p) {
 
@@ -130,16 +129,13 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			ArrayList<Info> infos = this.administration.getInfoOf(t);
 			for (Info i : infos) {
 				String info = i.getInformationValue();
-				int des = i.getDescription().getId();
-				String descriptionValue = i.getDescription().getTextualDescription();
-				// int sel = i.getSelection().getId();
-				String selectionValue = i.getSelection().getTextualDescription();
-				if (des != 0) {
-					// des.toString();
+				
+				if (i.getDescription() != null) {
+					String descriptionValue = i.getDescription().getTextualDescription();
 					rowInfo.addParagraph(new SimpleParagraph(descriptionValue.toString() + " " + info));
-				} else if (des == 0) {
-					// rowInfo.addParagraph(new SimpleParagraph(sel +" "
-					// +info));
+					
+				} else if (i.getDescription() == null) {
+					String selectionValue = i.getSelection().getTextualDescription();
 					rowInfo.addParagraph(new SimpleParagraph(selectionValue.toString() + " " + info));
 
 				}
@@ -176,6 +172,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return reportText;
 
 	}
+
 	@Override
 	public String renderPartnerProposalsBySearchProfilesReport() {
 		System.out.println("Hallo");
@@ -184,7 +181,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Profile currentProfile = service.getCurrentProfile();
 
 		HTMLReportWriter htmlReportWriter = new HTMLReportWriter();
-		PartnerProposalsBySearchProfileReport createPartnerProposalsByNotViewedProfilesReport = createPartnerProposalsBySearchProfilesReport(currentProfile);
+		PartnerProposalsBySearchProfileReport createPartnerProposalsByNotViewedProfilesReport = createPartnerProposalsBySearchProfilesReport(
+				currentProfile);
 		htmlReportWriter.process(createPartnerProposalsByNotViewedProfilesReport);
 		String reportText = htmlReportWriter.getReportText();
 

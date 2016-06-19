@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -62,6 +63,8 @@ public class NewProfilePage extends VerticalPanel {
 
 	@Override
 	public void onLoad() {
+		
+		
 
 		loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
 
@@ -338,6 +341,7 @@ public class NewProfilePage extends VerticalPanel {
 		TextColumn<Info> valueColumn = new TextColumn<Info>() {
 			@Override
 			public String getValue(Info info) {
+				
 				if (info.getDescription() != null) {
 					String result = info.getDescription().getTextualDescription() + "\n" +   info.getInformationValue();
 					return result;
@@ -357,51 +361,35 @@ public class NewProfilePage extends VerticalPanel {
 
 		final SingleSelectionModel<Info> selectionInfo = new SingleSelectionModel<Info>();
 		infoTable.setSelectionModel(selectionInfo);
-		selectionInfo.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+		
+		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
-			public void onSelectionChange(SelectionChangeEvent event) {
+			public void onClick(ClickEvent event) {
 				final Info selected = selectionInfo.getSelectedObject();
 				if (selected != null) {
-					editInfoButton.addClickHandler(new ClickHandler() {
+				partnerboerseVerwaltung.delete(selected, new AsyncCallback<Void>() {
 
-						@Override
-						public void onClick(ClickEvent event) {
-							// TODO
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
 
-						}
-					});
+					}
 
-					deleteButton.addClickHandler(new ClickHandler() {
+					@Override
+					public void onSuccess(Void result) {
+						dataProvider.getList().remove(selected);
+						dataProvider.flush();
+						dataProvider.refresh();
+						infoTable.redraw();
+						
+						Window.alert("erfolgreich gelöscht");
 
-						@Override
-						public void onClick(ClickEvent event) {
-							partnerboerseVerwaltung.delete(selected, new AsyncCallback<Void>() {
-
-								@Override
-								public void onFailure(Throwable caught) {
-									// TODO Auto-generated method stub
-
-								}
-
-								@Override
-								public void onSuccess(Void result) {
-									dataProvider.getList().remove(selected);
-									dataProvider.flush();
-									dataProvider.refresh();
-									infoTable.redraw();
-									
-									Window.alert("erfolgreich gelöscht");
-
-								}
-							});
-
-						}
-					});
-
+					}
+				});
 				}
-			}
 
+			}
 		});
 	}
 
@@ -480,6 +468,7 @@ public class NewProfilePage extends VerticalPanel {
 		final DatePicker datePicker = new DatePicker();
 		datePicker.setYearAndMonthDropdownVisible(true);
 		datePicker.setYearArrowsVisible(true);
+		datePicker.setVisibleYearCount(150);
 
 		datePicker.setValue(profile.getDateOfBirth());
 
@@ -518,8 +507,37 @@ public class NewProfilePage extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				profile.setFirstName(tFirstname.getValue());
-				profile.setLastName(tLastname.getValue());
+				//Überprüfen ob ein Name eingegeben wurde und ob diese nur aus Buchstaben besteht
+				if(!tFirstname.getValue().isEmpty()){
+					String regEx = "[^0-9]*";
+					String namevalue = tFirstname.getValue();
+					if(namevalue.matches(regEx)){
+						profile.setFirstName(tFirstname.getValue());
+					}else{
+						Window.alert("Bitte tragen Sie einen gültigen Namen ein.Nur Buchstaben gültig.");
+						return;
+					}
+					
+				} else {
+					Window.alert("Bitte tragen Sie einen gültigen Namen ein.");
+					return;
+				}
+				
+				if(!tLastname.getValue().isEmpty()){
+					String regEx = "[^0-9]*";
+					String lastnamevalue = tLastname.getValue();
+					if(lastnamevalue.matches(regEx)){
+						profile.setLastName(tLastname.getValue());
+					}else{
+						Window.alert("Bitte tragen Sie einen gültigen Nachnamen ein. Nur Buchstaben gültig.");
+						return;
+					}
+					
+				} else {
+					Window.alert("Bitte tragen Sie einen gültigen Nachnamen ein.");
+					return;
+				}
+				
 				profile.seteMail(tEmail.getValue());
 				profile.setDateOfBirth(datePicker.getValue());
 				if (!tHeight.getValue().isEmpty()) {

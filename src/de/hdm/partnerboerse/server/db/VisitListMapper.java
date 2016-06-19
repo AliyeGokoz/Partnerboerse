@@ -316,11 +316,30 @@ public class VisitListMapper {
 
 	}
 
-	public static void main(String[] args) {
-		VisitListMapper visitListMapper = new VisitListMapper();
-		visitListMapper.findAll();
-		visitListMapper.findByKey(1);
-		visitListMapper.findByProfile(1);
+	public ArrayList<VisitList> findWith(Profile with) {
+		
+		//DB-Verbindung holen
+		Connection con = DBConnection.connection();
+		
+		// Vorbereitung der Ergebnis-ArrayList
+		ArrayList<VisitList> result = new ArrayList<VisitList>();
+		
+		try {
+			
+			//Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					BASE_SELECT + " WHERE fromProfile=" + with.getId() + " OR toProfile=" + with.getId());
+
+			while (rs.next()) {
+				result.add(map(rs));
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
 	}
 
 }

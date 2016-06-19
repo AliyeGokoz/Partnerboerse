@@ -2,10 +2,12 @@ package de.hdm.partnerboerse.client;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -50,12 +52,6 @@ public class SearchProfilePage extends VerticalPanel {
 	final Button editSpButton = new Button("bearbeiten");
 	final Button deleteSpButton = new Button("löschen");
 
-	final TextBox showlHeight = new TextBox();
-	final TextBox showlHairColor = new TextBox();
-	final TextBox showlConfession = new TextBox();
-	final TextBox showlGender = new TextBox();
-	final TextBox showlSmoker = new TextBox();
-
 	/**
 	 * Panel zum Anlegen von neuen Suchprofilen
 	 */
@@ -70,7 +66,7 @@ public class SearchProfilePage extends VerticalPanel {
 	/**
 	 * Widgets für das Suchprofil generieren
 	 */
-	final Button saveButton = new Button("<img src='images/saveuser.png'/>");
+
 	final ListBox lbHaircolor = new ListBox();
 	final ListBox lbConfession = new ListBox();
 	final TextBox tHeightfrom = new TextBox();
@@ -83,12 +79,16 @@ public class SearchProfilePage extends VerticalPanel {
 	private final Profile profile;
 	private RadioButton[] genderRadioButtons;
 	private Gender[] genderValues;
+	
+	private SearchProfile searchProfile;
 
 	public SearchProfilePage(Profile profile) {
 		this.profile = profile;
 	}
 
+	@Override
 	public void onLoad() {
+		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
 		dataProvider.addDataDisplay(table);
 
@@ -179,7 +179,6 @@ public class SearchProfilePage extends VerticalPanel {
 		/**
 		 * Panels dem RootPanel zuweisen
 		 */
-		RootPanel.get("Content").clear();
 		RootPanel.get("Content").add(searchprofilesPanel);
 
 		/**
@@ -192,56 +191,22 @@ public class SearchProfilePage extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
-				showoneSPPanel.clear();
-				// buttonSPpanel.clear();
+				// showoneSPPanel.getElement().setInnerHTML("");
+				searchProfile = new SearchProfile();
+				searchProfile.setProfile(profile);
 				addNewSearchProfile();
+				showoneSPPanel.setVisible(true);
 			}
 		});
+		
+		createForm();
 
 	}
 
-	private void addselectionSearchProfile() {
+	private void createForm() {
 
-		final SingleSelectionModel<SearchProfile> selectioSProfile = new SingleSelectionModel<SearchProfile>();
-		table.setSelectionModel(selectioSProfile);
-		selectioSProfile.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-
-			@Override
-			public void onSelectionChange(SelectionChangeEvent event) {
-				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
-				if (selectedsp != null) {
-
-					editSpButton.addClickHandler(new ClickHandler() {
-
-						@Override
-						public void onClick(ClickEvent event) {
-							editSearchProfile(selectedsp);
-
-						}
-					});
-
-					deleteSpButton.addClickHandler(new ClickHandler() {
-
-						@Override
-						public void onClick(ClickEvent event) {
-							deleteSearchProfile(selectedsp);
-
-						}
-					});
-				}
-			}
-
-		});
-
-	}
-
-	private void addNewSearchProfile() {
-
-		final SearchProfile searchProfile = new SearchProfile();
-		searchProfile.setProfile(profile);
-
-		showoneSPPanel.add(new HTML("<h3> Neues Suchprofil anlegen </h3>"));
+		// showoneSPPanel.getElement().setInnerHTML("");
+		showoneSPPanel.add(new HTML("<h3> Suchprofil bearbeiten </h3>"));
 
 		newSearchProfileTable.setWidth("200");
 
@@ -251,6 +216,79 @@ public class SearchProfilePage extends VerticalPanel {
 		 */
 		newSearchProfileTable.setCellSpacing(10);
 
+		heightPanel.add(tHeightfrom);
+		heightPanel.add(tHeightto);
+		agePanel.add(tagerfrom);
+		agePanel.add(tageto);
+
+		/**
+		 * Table mit Inhalt füllen damit Formular für Suchprofil angelegt werden
+		 * kann
+		 */
+		newSearchProfileTable.setHTML(0, 0, "<div>Größe</div>");
+		newSearchProfileTable.setWidget(0, 1, heightPanel);
+		newSearchProfileTable.setHTML(1, 0, "<div>Alter</div>");
+		newSearchProfileTable.setWidget(1, 1, agePanel);
+		newSearchProfileTable.setHTML(2, 0, "<div>Haarfarbe</div>");
+		newSearchProfileTable.setWidget(2, 1, lbHaircolor);
+		newSearchProfileTable.setHTML(3, 0, "<div>Religion</div>");
+		newSearchProfileTable.setWidget(3, 1, lbConfession);
+		newSearchProfileTable.setHTML(4, 0, "<div>Geschlecht</div>");
+
+		final Button saveButton = new Button("<img src='images/saveuser.png'/>");
+		showoneSPPanel.add(saveButton);
+
+		saveButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				savesearchProfile(searchProfile);
+			}
+		});
+		
+		showoneSPPanel.setVisible(false);
+	}
+
+	private void addselectionSearchProfile() {
+
+		final SingleSelectionModel<SearchProfile> selectioSProfile = new SingleSelectionModel<SearchProfile>();
+		table.setSelectionModel(selectioSProfile);
+
+		editSpButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
+				if (selectedsp != null) {
+					searchProfile = selectedsp;
+					editSearchProfile(selectedsp);
+					showoneSPPanel.setVisible(true);
+				}
+			}
+		});
+
+		deleteSpButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
+				if (selectedsp != null) {
+					deleteSearchProfile(selectedsp);
+				}
+
+			}
+		});
+
+	}
+
+	private void addNewSearchProfile() {
+
+		
+
+		tagerfrom.setValue("");
+		tageto.setValue("");
+		tHeightfrom.setValue("");
+		tHeightto.setValue("");
 		heightPanel.add(tHeightfrom);
 		heightPanel.add(tHeightto);
 		agePanel.add(tagerfrom);
@@ -275,29 +313,7 @@ public class SearchProfilePage extends VerticalPanel {
 			genderRadioButtons[j] = radioButton;
 		}
 
-		/**
-		 * Table mit Inhalt füllen damit Formular für Suchprofil angelegt werden
-		 * kann
-		 */
-		newSearchProfileTable.setHTML(0, 0, "<div>Größe</div>");
-		newSearchProfileTable.setWidget(0, 1, heightPanel);
-		newSearchProfileTable.setHTML(1, 0, "<div>Alter</div>");
-		newSearchProfileTable.setWidget(1, 1, agePanel);
-		newSearchProfileTable.setHTML(2, 0, "<div>Haarfarbe</div>");
-		newSearchProfileTable.setWidget(2, 1, lbHaircolor);
-		newSearchProfileTable.setHTML(3, 0, "<div>Religion</div>");
-		newSearchProfileTable.setWidget(3, 1, lbConfession);
-		newSearchProfileTable.setHTML(4, 0, "<div>Geschlecht</div>");
-
-		showoneSPPanel.add(saveButton);
-
-		saveButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				savesearchProfile(searchProfile);
-			}
-		});
+		
 
 	}
 
@@ -325,22 +341,10 @@ public class SearchProfilePage extends VerticalPanel {
 
 	public void editSearchProfile(final SearchProfile searchProfile) {
 
-		showoneSPPanel.clear();
-
-		showoneSPPanel.add(new HTML("<h3> Suchprofil bearbeiten </h3>"));
-
-		newSearchProfileTable.setWidth("200");
-
-		showoneSPPanel.add(newSearchProfileTable);
-		/**
-		 * FlexTable formatieren
-		 */
-		newSearchProfileTable.setCellSpacing(10);
-
-		heightPanel.add(tHeightfrom);
-		heightPanel.add(tHeightto);
-		agePanel.add(tagerfrom);
-		agePanel.add(tageto);
+		tHeightfrom.setValue("" + searchProfile.getFromHeight());
+		tHeightto.setValue("" + searchProfile.getToHeight());
+		tagerfrom.setValue("" + searchProfile.getFromAge());
+		tageto.setValue("" + searchProfile.getToAge());
 
 		HairColor[] hairColorValue = Profile.HairColor.values();
 		for (HairColor hairColor : hairColorValue) {
@@ -352,6 +356,7 @@ public class SearchProfilePage extends VerticalPanel {
 		for (Confession confession : confessionValue) {
 			lbConfession.addItem(confession.getName(), confession.toString());
 		}
+		lbConfession.setSelectedIndex(searchProfile.getConfession().ordinal());
 
 		final Gender[] genderValues = Profile.Gender.values();
 		genderRadioButtons = new RadioButton[genderValues.length];
@@ -359,33 +364,11 @@ public class SearchProfilePage extends VerticalPanel {
 		for (int j = 0; j < genderRadioButtons.length; j++) {
 			RadioButton radioButton = new RadioButton("genderGroup", genderValues[j].getName());
 			newSearchProfileTable.setWidget(i++, 1, radioButton);
+			if (genderValues[j].equals(searchProfile.getGender())) {
+				radioButton.setValue(true);
+			}
 			genderRadioButtons[j] = radioButton;
 		}
-
-		/**
-		 * Table mit Inhalt füllen damit Formular für Suchprofil angelegt werden
-		 * kann
-		 */
-		newSearchProfileTable.setHTML(0, 0, "<div>Größe</div>");
-		newSearchProfileTable.setWidget(0, 1, heightPanel);
-		newSearchProfileTable.setHTML(1, 0, "<div>Alter</div>");
-		newSearchProfileTable.setWidget(1, 1, agePanel);
-		newSearchProfileTable.setHTML(2, 0, "<div>Haarfarbe</div>");
-		newSearchProfileTable.setWidget(2, 1, lbHaircolor);
-		newSearchProfileTable.setHTML(3, 0, "<div>Religion</div>");
-		newSearchProfileTable.setWidget(3, 1, lbConfession);
-		newSearchProfileTable.setHTML(4, 0, "<div>Geschlecht</div>");
-
-		showoneSPPanel.add(saveButton);
-
-		saveButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				savesearchProfile(searchProfile);
-
-			}
-		});
 
 	}
 
@@ -403,9 +386,9 @@ public class SearchProfilePage extends VerticalPanel {
 		if (heigthFromString != null && !heigthFromString.isEmpty()) {
 			searchProfile.setFromHeight(Integer.valueOf(tHeightfrom.getValue()));
 		}
-		String heigthToString = tageto.getValue();
+		String heigthToString = tHeightto.getValue();
 		if (heigthToString != null && !heigthToString.isEmpty()) {
-			searchProfile.setToHeight(Integer.valueOf(tageto.getValue()));
+			searchProfile.setToHeight(Integer.valueOf(tHeightto.getValue()));
 		}
 		searchProfile.setHairColor(HairColor.valueOf(lbHaircolor.getValue(lbHaircolor.getSelectedIndex())));
 		searchProfile.setConfession(Confession.valueOf(lbConfession.getValue(lbConfession.getSelectedIndex())));
@@ -427,6 +410,7 @@ public class SearchProfilePage extends VerticalPanel {
 				dataProvider.refresh();
 				table.redraw();
 				Window.alert("Profil gespeichert");
+				showoneSPPanel.setVisible(false);
 			}
 
 			@Override
