@@ -2,6 +2,8 @@ package de.hdm.partnerboerse.shared;
 
 import java.io.Serializable;
 
+import de.hdm.partnerboerse.shared.bo.Profile;
+
 public class LoginInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,6 +17,8 @@ public class LoginInfo implements Serializable {
 	private String emailAddress;
 
 	private String nickname;
+	
+	private Profile profile;
 
 	public boolean isLoggedIn() {
 		return loggedIn;
@@ -54,5 +58,13 @@ public class LoginInfo implements Serializable {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	
+	public Profile getProfile() {
+		return profile;
+	}
+	
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 }

@@ -5,6 +5,20 @@ import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.*;
 
+/**
+ * Die Mapper-Klasse <code>BlockingMapper</code> bildet <code>Blocking
+ * </code>-Objekte auf Datensätze in einer relationalen Datenbank ab.Durch die
+ * Bereitstellung verschiedener Methoden können mit deren Hilfe beispielsweise
+ * Objekte erzeugt, editiert, gelöscht oder gesucht werden. Das sogenannte
+ * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
+ * DB-Strukturen in Objekte umgewandelt werden.
+ * 
+ * @see DescriptionMapper, FavoritesListMapper, InfoMapper, OptionMapper,
+ *      ProfileMapper, SearchProfileMapper, SelectionMapper, SimilarityMapper,
+ *      VisitListMapper
+ * @author Claudia
+ */
+
 public class BlockingMapper {
 
 	private static final String BASE_SELECT = "SELECT blockings.id AS bid,"
@@ -12,11 +26,40 @@ public class BlockingMapper {
 			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM blockings LEFT JOIN profiles AS fromProfile ON fromProfile.id = blockings.fromProfile"
 			+ " LEFT JOIN profiles AS toProfile ON toProfile.id = blockings.toProfile";
 
+	/**
+	 * Die Instantiierung der Klasse BlockingMapper erfolgt nur einmal. Dies
+	 * wird auch als <b>Singleton<b> bezeichnet.
+	 * <p>
+	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
+	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
+	 * die einzige Instanz der Klasse.
+	 * 
+	 * @see blockingMapper()
+	 */
+
 	private static BlockingMapper blockingMapper = null;
+
+	/**
+	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
+	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 */
 
 	protected BlockingMapper() {
 
 	}
+
+	/**
+	 * Durch
+	 * <code>BlockingMapper.blockingMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
+	 * Instanz von <code>BlockingMapper<code> existiert.
+	 * <p>
+	 * Die Instantiierung des BlockingMapper sollte immer durch den Aufruf dieser Methode erfolgen.
+	 * 
+	 * @return <code>BlockingMapper</code>-Objekt.
+	 * 
+	 * @see blockingMapper
+	 */
 
 	public static BlockingMapper blockingMapper() {
 		if (blockingMapper == null) {
@@ -25,32 +68,69 @@ public class BlockingMapper {
 		return blockingMapper;
 	}
 
+	/**
+	 * Einfügen eines <code>Blocking</code>-Objekts in die Datenbank. Dabei wird
+	 * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
+	 * berichtigt.
+	 * 
+	 * @param blocking
+	 *            das zu speichernde Objekt
+	 * @return das bereits übergebene Blocking - Objekt, jedoch mit ggf.
+	 *         korrigierter <code>id</code>.
+	 */
+
 	public Blocking insert(Blocking blocking) {
+
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
 		try {
+
+			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
+			// Momentan höchsten Primärschlüsselwert prüfen
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM blockings ");
 
 			if (rs.next()) {
+
+				/*
+				 * blocking erhält den bisher maximalen, nun um 1
+				 * inkrementierten Primärschlüssel.
+				 */
+
 				blocking.setId(rs.getInt("maxid") + 1);
 
 				stmt = con.createStatement();
 
+				// Einfügeoperation erfolgt
 				stmt.executeUpdate("INSERT INTO blockings (id, fromProfile, toProfile) " + "VALUES (" + blocking.getId()
 						+ ",'" + blocking.getFromProfile() + "','" + blocking.getToProfile() + "')");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
+
+		// Rückgabe, des evtl. korrigierten Blockings.
 		return blocking;
 	}
 
+	/**
+	 * Wiederholtes Schreiben eines Blocking-Objekts in die Datenbank.
+	 * 
+	 * @param blocking,
+	 *            das Objekt, das in die DB geschrieben werden soll
+	 * @return das als Parameter übergebene Objekt
+	 */
+
 	public Blocking update(Blocking blocking) {
+
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
 		try {
+
+			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
 			stmt.executeUpdate("UPDATE blockings " + "SET fromProfile=\"" + blocking.getFromProfile() + "\", "
@@ -59,13 +139,26 @@ public class BlockingMapper {
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
+
+		// Rückgabe, des evtl. korrigierten Blockings.
 		return blocking;
 	}
 
+	/**
+	 * Löschen der Daten eines <code>Blocking</code>-Objekts aus der Datenbank.
+	 * 
+	 * @param blocking
+	 *            das aus der DB zu löschende Objekt
+	 */
+
 	public void delete(Blocking blocking) {
+
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
 		try {
+
+			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
 			stmt.executeUpdate("DELETE FROM blockings " + "WHERE id=" + blocking.getId());
@@ -74,35 +167,72 @@ public class BlockingMapper {
 		}
 	}
 
+	/**
+	 * Auslesen aller Kontaktsperren.
+	 * 
+	 * @return Eine ArrayList mit Blocking-Objekten, die sämtliche
+	 *         Kontaktsperren repräsentieren. Bei evtl. Exceptions wird eine
+	 *         partiell gefüllte oder ggf. auch leere ArrayList zurückgeliefert.
+	 */
+
 	public ArrayList<Blocking> findAll() {
+
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
+		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Blocking> result = new ArrayList<Blocking>();
 
 		try {
+
+			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt
-					.executeQuery(BASE_SELECT);
+			ResultSet rs = stmt.executeQuery(BASE_SELECT);
 
+			// Für jeden Eintrag im Suchergebnis wird nun ein Blocking-Objekt
+			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 			while (rs.next()) {
 				result.add(map(rs));
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
+
+		// Ergebnis-ArrayList zurückgeben
 		return result;
 	}
 
+	/**
+	 * Suchen einer Kontaktsperre mit vorgegebener ID. Da diese eindeutig ist,
+	 * wird genau ein Objekt zurückgegeben.
+	 * 
+	 * @param id
+	 *            Primärschlüsselattribut in DB
+	 * @return Blocking-Objekt, das dem übergebenen Schlüssel entspricht, null
+	 *         bei nicht vorhandenem DB-Tupel.
+	 */
+
 	public Blocking findByKey(int id) {
+
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
 		try {
+
+			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
+			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(BASE_SELECT + " WHERE blockings.id=" + id + " ORDER BY fromProfile");
 
+			/*
+			 * Da id der Primärschlüssel ist, kann maximal nur ein Tupel
+			 * zurückgegeben werden. Prüfung, ob ein Ergebnis vorliegt.
+			 */
 			if (rs.next()) {
+				// Umwandlung des Ergebnis-Tupel in ein Objekt und Ausgabe des
+				// Ergebnis-Objekts
 				return map(rs);
 			}
 		} catch (SQLException e2) {
@@ -113,15 +243,33 @@ public class BlockingMapper {
 		return null;
 	}
 
+	/**
+	 * Auslesen aller Kontaktsperren eines bestimmten Profils mit Hilfe der
+	 * Profil-ID. Da ein Profil mehrere Kontaktsperren erheben kann, können
+	 * mehrere Blocking-Objekte in einer ArrayList ausgegeben werden.
+	 * 
+	 * @param profileId
+	 *            Fremdschlüsselattribut in DB
+	 * @return Eine ArrayList mit Blocking-Objekten, die sämtliche
+	 *         Kontaktsperren des vorgegebenen Profils repräsentieren.
+	 */
+
 	public ArrayList<Blocking> findByProfile(int profileId) {
+
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
+
+		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Blocking> result = new ArrayList<Blocking>();
 
 		try {
+			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(BASE_SELECT + " WHERE fromProfile=" + profileId);
 
+			// Für jeden Eintrag im Suchergebnis wird nun ein Blocking-Objekt
+			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 			while (rs.next()) {
 				result.add(map(rs));
 			}
@@ -129,9 +277,20 @@ public class BlockingMapper {
 			e2.printStackTrace();
 		}
 
+		// Ergebnis-ArrayList zurückgeben
 		return result;
 	}
 
+	/**
+	 * Auslesen aller Kontaktsperren eines bestimmten Profils mit Hilfe eines
+	 * Profil-Objekts. Da ein Profil mehrere Kontaktsperren erheben kann, können
+	 * mehrere Blocking-Objekte in einer ArrayList ausgegeben werden.
+	 * 
+	 * @param profile,
+	 *            das Profil dessen Kontaktsperren ausgelesen werden sollen
+	 * @return Eine ArrayList mit Blocking-Objekten, die sämtliche
+	 *         Kontaktsperren des vorgegebenen Profils repräsentieren.
+	 */
 	public ArrayList<Blocking> findByProfile(Profile profile) {
 
 		return findByProfile(profile.getId());
@@ -170,11 +329,34 @@ public class BlockingMapper {
 
 		return blocking;
 	}
-	
+
 	public static void main(String[] args) {
 		BlockingMapper blockingMapper = new BlockingMapper();
 		blockingMapper.findByKey(1);
 		blockingMapper.findByProfile(1);
 		blockingMapper.findAll();
 	}
+
+	public boolean doBlockingExist(Profile fromProfile, Profile toProfile) {
+
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT fromProfile FROM blockings WHERE fromProfile="
+					+ fromProfile.getId() + " AND toProfile=" + toProfile.getId());
+
+			while (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return false;
+	}
+
 }

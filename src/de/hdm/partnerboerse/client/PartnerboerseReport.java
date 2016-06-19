@@ -20,7 +20,7 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 
 public class PartnerboerseReport implements EntryPoint {
 	
-	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+//	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private ReportGeneratorAsync reportGeneratorAsync = ClientsideSettings.getReportGenerator();
 
@@ -79,6 +79,30 @@ public class PartnerboerseReport implements EntryPoint {
 		RootPanel.get("Contentzone").add(hcontent);
 		
 		RootPanel.get("Navigator").add(menu);
+		
+		profileProposalsBySearchProfile.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				reportGeneratorAsync.renderPartnerProposalsBySearchProfilesReport(new AsyncCallback<String>() {
+					
+					@Override
+					public void onSuccess(String result) {
+						RootPanel.get("Contentzone").clear();
+						HTML html = new HTML(result);
+						RootPanel.get("Contentzone").add(html);
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+			}
+		});
 		
 		profileProposals.addClickHandler(new ClickHandler() {
 	          @Override

@@ -37,7 +37,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public Similarity createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue);
 
-	public Blocking createBlocking(int id, Profile fromProfile, Profile toProfile);
+	public Blocking createBlocking(Profile fromProfile, Profile toProfile);
 	
 	public Option createOption (int id, String option);
 
@@ -138,9 +138,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void save(Profile profile) throws IllegalArgumentException;
 
-	public void save(SearchProfile searchProfile) throws IllegalArgumentException;
+	public SearchProfile save(SearchProfile searchProfile) throws IllegalArgumentException;
 
-	public void save(Info info) throws IllegalArgumentException;
+	public Info save(Info info) throws IllegalArgumentException;
 
 	public void save(Description description) throws IllegalArgumentException;
 
@@ -179,6 +179,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	ArrayList<Profile> getBySearchProfile(SearchProfile searchProfile);
 	
-	ArrayList<Option> getOptionsOf(Selection selection) throws IllegalArgumentException;;
+	ArrayList<Option> getOptionsOf(Selection selection) throws IllegalArgumentException;
+	
+	ArrayList<Profile> getMostSimilarProfiles (Profile fromProfile) throws IllegalArgumentException;
+
 	
 }

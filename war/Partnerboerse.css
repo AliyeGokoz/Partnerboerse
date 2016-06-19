@@ -120,3 +120,24 @@ text-decoration: underline;
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+.property {
+  font-style: italic;
+}
+
+.propertyhead {
+  border-bottom: 2px solid red;
+  font-style: italic;
+}
+
+.savePanel {
+  margin: 10px 0px 15px 0px;
+}
+
+.infpan{
+	padding-top: 8px;
+}
+
+.buttonmargin{
+	margin: 10px 10px 10px 10px;
+}

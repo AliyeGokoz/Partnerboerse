@@ -3,11 +3,13 @@ package de.hdm.partnerboerse.client;
 import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -41,7 +43,7 @@ public class Partnerboerse implements EntryPoint {
 			@Override
 			public void onSuccess(LoginInfo result) {
 				if(result.isLoggedIn()){
-					onModuleLoadLoggedIn();
+					onModuleLoadLoggedIn(result);
 				} else {
 					Window.Location.replace(result.getLoginUrl());
 				}
@@ -56,7 +58,8 @@ public class Partnerboerse implements EntryPoint {
 		
 	}
 	
-	private void onModuleLoadLoggedIn(){
+	private void onModuleLoadLoggedIn(final LoginInfo loginInfo){
+		final Profile profile = loginInfo.getProfile();
 		final VerticalPanel content = new VerticalPanel();
 
 		// Make a command that we will execute from all leaves.
@@ -73,6 +76,10 @@ public class Partnerboerse implements EntryPoint {
 				RootPanel.get("Content").add(addnewProfil);
 			}
 		};
+		
+		if(loginInfo.getProfile() == null){
+			addnewProfile.execute();
+		}
 		
 		Command showProfil = new Command() {
 			public void execute() {
@@ -98,9 +105,17 @@ public class Partnerboerse implements EntryPoint {
 			}
 		};
 		
+		Command seeBlockingList = new Command() {
+			public void execute() {
+				BlockingListOverview seeBlockingList = new BlockingListOverview();
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(seeBlockingList);
+			}
+		};
+		
 		Command seeSearchProfilePage = new Command() {
 			public void execute() {
-				SearchProfilePage showSearchProfile = new SearchProfilePage();
+				SearchProfilePage showSearchProfile = new SearchProfilePage(profile);
 				RootPanel.get("Content").clear();
 				RootPanel.get("Content").add(showSearchProfile);
 			}
@@ -114,39 +129,33 @@ public class Partnerboerse implements EntryPoint {
 		
 		Command logoutUser = new Command() {
 			public void execute() {
-				loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
-					
-					@Override
-					public void onSuccess(LoginInfo result) {
-						if(result.isLoggedIn()){
-							onModuleLoadLoggedIn();
-						} else {
-							Window.Location.replace(result.getLoginUrl());
-						}
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						
-					}
-				});	
+				Window.Location.replace(loginInfo.getLogoutUrl());
 			}
 		};
 
 		// Make some sub-menus that we will cascade from the top menu.
-		MenuBar profilMenu = new MenuBar(true);
-		profilMenu.addItem("Profil anlegen", addnewProfile);
-		profilMenu.addItem("Profil ansehen", showProfil);
 		
-		MenuBar searchprofilMenu = new MenuBar(true);
-		searchprofilMenu.addItem("Suchprofil anlegen", cmd);
-		searchprofilMenu.addItem("Suchprofil ansehen", seeSearchProfilePage);
+
+		
+		
+		MenuBar profilMenu = new MenuBar();
+		final String userAddimage = "<img src='images/user_add_edit.png'/>";
+		final String showUserimage ="<img src='images/user.png'/>";
+
+
+		profilMenu.addItem(new MenuItem(userAddimage,true,addnewProfile));
+		profilMenu.addItem(new MenuItem(showUserimage,true,showProfil));
+		
+		MenuBar searchprofilMenu = new MenuBar();
+		final String showSearchprofiles ="<img src='images/searchprofiles.png'/>";
+		//searchprofilMenu.addItem("Suchprofil anlegen", cmd);
+		searchprofilMenu.addItem(new MenuItem(showSearchprofiles,true, seeSearchProfilePage));
 
 		MenuBar favoritlistMenu = new MenuBar(true);
 		favoritlistMenu.addItem("Merkzettel ansehen", seeFavoritList);
 
 		MenuBar blockedcontactsMenu = new MenuBar(true);
-		blockedcontactsMenu.addItem("Kontaktsperrenliste ansehen", cmd);
+		blockedcontactsMenu.addItem("Kontaktsperrenliste ansehen", seeBlockingList);
 		
 		MenuBar allProfilesMenu = new MenuBar(true);
 		allProfilesMenu.addItem("Alle Profile Ansehen", allUsers);
@@ -188,6 +197,7 @@ public class Partnerboerse implements EntryPoint {
 
 				content.add(lblhello);
 
+				
 		RootPanel.get("Content").add(lblhello);
 		RootPanel.get("Navigator").add(menu);
 	}

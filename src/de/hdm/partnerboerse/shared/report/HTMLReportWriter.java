@@ -9,6 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Vector;
 
+import com.google.gwt.thirdparty.javascript.jscomp.ProcessCommonJSModules;
+
 public class HTMLReportWriter extends ReportWriter {
 
 	private String reportText = "";
@@ -56,44 +58,15 @@ public class HTMLReportWriter extends ReportWriter {
 	public void process(PartnerProposalsProfilesReport r) {
 		this.resetReportText();
 
-		StringBuffer result = new StringBuffer();
-
-		result.append("<H1>" + r.getTitle() + "</H1>");
-		result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-		result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
-		result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint()) + "</td>");
-		result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr></table>");
-
-		Vector<Row> rows = r.getRows();
-		result.append("<table style=\"width:400px\">");
-
-		for (int i = 0; i < rows.size(); i++) {
-			Row row = rows.elementAt(i);
-			result.append("<tr>");
-			for (int k = 0; k < row.getNumColumns(); k++) {
-				if (i == 0) {
-					result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k) + "</td>");
-				} else {
-					if (i > 1) {
-						result.append("<td style=\"border-top:1px solid silver\">" + row.getColumnAt(k) + "</td>");
-					} else {
-						result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
-					}
-				}
-			}
-			result.append("</tr>");
-		}
-
-		result.append("</table>");
-
-		this.reportText = result.toString();
+		reportText = processSimpleReport(r);
 	}
 
 	public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException, IOException {
 		PartnerProposalsProfilesReport notViewedReport = new PartnerProposalsProfilesReport();
 		Row row = new Row();
 		Column column = new Column();
-		column.setValue("Test");
+		SimpleParagraph par = new SimpleParagraph("Text");
+		column.setValue(par);
 		row.addColumn(column);
 		notViewedReport.addRow(row);
 		// PartnerProposalsByNotViewedProfilesReport notViewedReportTwo = new
@@ -122,6 +95,25 @@ public class HTMLReportWriter extends ReportWriter {
 	public void process(PartnerProposalsBySearchProfileReport r) {
 		this.resetReportText();
 
+		reportText = processCompositeReport(r);
+	}
+	
+	private String processCompositeReport(CompositeReport r){
+		StringBuffer buffer = new StringBuffer();
+		Vector<Report> subReports = r.getSubReports();
+		for (Report report : subReports) {
+			if(report instanceof SimpleReport){
+				SimpleReport simpleReport = (SimpleReport) report;
+				buffer.append(processSimpleReport(simpleReport));
+			} else if (report instanceof CompositeReport){
+				CompositeReport compositeReport = (CompositeReport) report;
+				buffer.append(processCompositeReport(compositeReport));
+			}
+		}
+		return buffer.toString();
+	}
+	
+	private String processSimpleReport(SimpleReport r){
 		StringBuffer result = new StringBuffer();
 
 		result.append("<H1>" + r.getTitle() + "</H1>");
@@ -138,12 +130,12 @@ public class HTMLReportWriter extends ReportWriter {
 			result.append("<tr>");
 			for (int k = 0; k < row.getNumColumns(); k++) {
 				if (i == 0) {
-					result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k) + "</td>");
+					result.append("<td style=\"background:silver;font-weight:bold\">" + paragraph2HTML(row.getColumnAt(k).getVaulue()) + "</td>");
 				} else {
 					if (i > 1) {
-						result.append("<td style=\"border-top:1px solid silver\">" + row.getColumnAt(k) + "</td>");
+						result.append("<td style=\"border-top:1px solid silver\">" + paragraph2HTML(row.getColumnAt(k).getVaulue())+ "</td>");
 					} else {
-						result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
+						result.append("<td valign=\"top\">" + paragraph2HTML(row.getColumnAt(k).getVaulue()) + "</td>");
 					}
 				}
 			}
@@ -152,7 +144,7 @@ public class HTMLReportWriter extends ReportWriter {
 
 		result.append("</table>");
 
-		this.reportText = result.toString();
+		return result.toString();
 	}
 
 	public String getReportText() {

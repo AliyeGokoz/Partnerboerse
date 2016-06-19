@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,6 +32,7 @@ import com.google.gwt.user.datepicker.client.DatePicker;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
+import de.hdm.partnerboerse.shared.bo.Selection;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Film;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
@@ -40,6 +42,8 @@ import de.hdm.partnerboerse.shared.bo.Profile.Music;
 public class ProfilePage extends VerticalPanel {
 
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
+	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+
 
 	@Override
 	public void onLoad() {
@@ -208,13 +212,12 @@ public class ProfilePage extends VerticalPanel {
 		/**
 		 * Panel für den Inhalt anlegen
 		 */
-		final VerticalPanel profilPanel = new VerticalPanel();
+		final HorizontalPanel profilPanel = new HorizontalPanel();
 		
 		/**
 		 * Buttons werden engelegt für das editieren und löschen
 		 */
-		final Button deleteProfileButton = new Button("<img src='images/garbage.png'/>");
-		final Button addnewProfileButton = new Button("<img src='images/edit.png'/>");
+		final Button deleteProfileButton = new Button("<img src='images/delete_user.png'/>");
 		
 		/**
 		 * Tabelle für das Formular
@@ -240,7 +243,6 @@ public class ProfilePage extends VerticalPanel {
 		 * Butten dem dazugehörenden Panel zufügen
 		 */
 		buttonsPanel.add(deleteProfileButton);
-		buttonsPanel.add(addnewProfileButton);
 		
 		/**
 		 * Profil ausgabe
@@ -251,6 +253,24 @@ public class ProfilePage extends VerticalPanel {
 		 */
 		final Label fNLabel = new Label();
 		fNLabel.setText(profile.getFirstName());
+		final Label lNLabel = new Label();
+		lNLabel.setText(profile.getLastName());
+		final Label ELabel = new Label();
+		ELabel.setText(profile.geteMail());
+		final Label bDLabel = new Label();
+		bDLabel.setText(profile.getDateOfBirth().toString());
+		final Label heightLabel = new Label();
+		heightLabel.setText(Integer.toString(profile.getHeight()));
+		final Label lgender = new Label();
+		lgender.setText(profile.getGender().getName());
+		final Label lhaircolor = new Label();
+		lhaircolor.setText(profile.getHairColor().getName().toString());
+		final Label lconf = new Label();
+		lconf.setText(profile.getConfession().getName().toString());
+		// TODO smoker ausgabe
+		final Label lsmoke = new Label();
+		lsmoke.setText(profile.isSmoker() ? "Ja" : "Nein");
+		
 		
 		/**
 		 * FlexTable mit Inhalt füllen = Userprofil Formular
@@ -259,27 +279,40 @@ public class ProfilePage extends VerticalPanel {
 		addnewProfileTable.setHTML(0, 0, "<div>Vorname</div>");
 		addnewProfileTable.setWidget(0, 1, fNLabel);
 		addnewProfileTable.setHTML(1, 0, "<div>Geburtsdatum</div>");
-		//addnewProfileTable.setWidget(1, 1, datePicker);
+		addnewProfileTable.setWidget(1, 1, bDLabel);
 		addnewProfileTable.setHTML(2, 0, "<div>Geschlecht</div>");
+		addnewProfileTable.setWidget(2, 1, lgender);
 
 		addnewProfileTable2.setHTML(0, 0, "<div>Nachname</div>");
-		//addnewProfileTable2.setWidget(0, 1, tLastname);
+		addnewProfileTable2.setWidget(0, 1, lNLabel);
 		addnewProfileTable2.setHTML(1, 0, "<div>Email</div>");
-		//addnewProfileTable2.setWidget(1, 1, tEmail);
+		addnewProfileTable2.setWidget(1, 1, ELabel);
 		addnewProfileTable2.setHTML(2, 0, "<div>Größe</div>");
-		//addnewProfileTable2.setWidget(2, 1, tHeight);
+		addnewProfileTable2.setWidget(2, 1, heightLabel);
 		addnewProfileTable2.setHTML(3, 0, "<div>Haarfarbe</div>");
-		//addnewProfileTable2.setWidget(3, 1, lbHaircolor);
+		addnewProfileTable2.setWidget(3, 1, lhaircolor);
 		addnewProfileTable2.setHTML(4, 0, "<div>Religion</div>");
-		//addnewProfileTable2.setWidget(4, 1, lbConfession);
+		addnewProfileTable2.setWidget(4, 1, lconf);
 		addnewProfileTable2.setHTML(5, 0, "<div>Raucher</div>");
-		//addnewProfileTable2.setWidget(5, 1, Rbsmokeyes);
-		//addnewProfileTable2.setWidget(6, 1, Rbsmokeno);
+		addnewProfileTable2.setWidget(5, 1, lsmoke);
 		
 
 		
 		showProfilePanel.add(profilPanel);
 		showProfilePanel.add(buttonsPanel);
+		
+		deleteProfileButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				// Instantiate the dialog box and show it.
+				MyDialogforDltProfiles myDialog = new MyDialogforDltProfiles(profile);
+
+				int left = Window.getClientWidth() / 2;
+				int top = Window.getClientHeight() / 2;
+				myDialog.setPopupPosition(left, top);
+				myDialog.show();
+			}
+		});
 		
 		return showProfilePanel;
 	}
@@ -643,39 +676,65 @@ public class ProfilePage extends VerticalPanel {
 //		return decoratorPanel;
 //	}
 //
-//	private static class MyDialogforDltProfiles extends DialogBox {
-//
-//		public MyDialogforDltProfiles() {
-//			// Set the dialog box's caption.
-//			setText("Profil löschen");
-//
-//			// Enable animation.
-//			setAnimationEnabled(true);
-//
-//			// Enable glass background.
-//			setGlassEnabled(true);
-//
-//			// DialogBox is a SimplePanel, so you have to set its widget
-//			// property to whatever you want its contents to be.
-//			Button ok = new Button("OK");
-//			ok.addClickHandler(new ClickHandler() {
-//				public void onClick(ClickEvent event) {
-//					MyDialogforDltProfiles.this.hide();
-//				}
-//			});
-//
-//			Label label = new Label("Wollen sie Ihr Profil wirklich unwiederruflich löschen?");
-//
-//			VerticalPanel panel = new VerticalPanel();
-//			panel.setHeight("100");
-//			panel.setWidth("300");
-//			panel.setSpacing(10);
-//			panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-//			panel.add(label);
-//			panel.add(ok);
-//
-//			setWidget(panel);
-//		}
-//	}
+	private class MyDialogforDltProfiles extends DialogBox {
+
+		public MyDialogforDltProfiles(final Profile profile) {
+			// Set the dialog box's caption.
+			setText("Profil löschen");
+
+			// Enable animation.
+			setAnimationEnabled(true);
+
+			// Enable glass background.
+			setGlassEnabled(true);
+
+			// DialogBox is a SimplePanel, so you have to set its widget
+			// property to whatever you want its contents to be.
+			Button jaButton = new Button("Ja");
+			Button neinButton = new Button("Nein");
+			neinButton.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					MyDialogforDltProfiles.this.hide();
+				}
+			});
+			
+			//TODO löschen
+
+			jaButton.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+//					partnerboerseVerwaltung.delete(profile, new AsyncCallback<Void>(){
+//						
+//					}
+					partnerboerseVerwaltung.delete(profile, new AsyncCallback<Void>() {
+						@Override
+						public void onSuccess(Void result) {
+							Window.alert("Profil wurde gelöscht");
+						}
+
+						@Override
+						public void onFailure(Throwable caught) {
+							Window.alert("Fehler beim löschen des Profiles");
+						}
+					});
+				}
+			});
+			
+			
+			Label label = new Label("Wollen sie Ihr GANZES Profil wirklich unwiederruflich löschen?");
+
+			final VerticalPanel panel = new VerticalPanel();
+			panel.setHeight("100");
+			panel.setWidth("300");
+			panel.setSpacing(10);
+			panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+			panel.add(label);
+			panel.add(jaButton);
+			panel.add(neinButton);
+			
+
+			setWidget(panel);
+		}
+	}
 
 }

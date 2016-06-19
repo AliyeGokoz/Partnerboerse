@@ -3,8 +3,12 @@ package de.hdm.partnerboerse.client;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -14,99 +18,162 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.partnerboerse.server.LoginServiceImpl;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Blocking;
 import de.hdm.partnerboerse.shared.bo.FavoritesList;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
-public class UserOverview extends VerticalPanel{
-	
+public class UserOverview extends VerticalPanel {
+
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
-	
+
 	@Override
 	public void onLoad() {
-	final VerticalPanel seeAllUsers = new VerticalPanel();
-	final FlexTable profileFlexTable  = new FlexTable();
-	final ScrollPanel scrollPanel = new ScrollPanel(seeAllUsers);
-	scrollPanel.setSize("500px", "480px");
-	final DecoratorPanel decoratorPanel = new DecoratorPanel();
-	decoratorPanel.add(scrollPanel);
-	
-	
-	profileFlexTable.setText(0, 0, "Vorname");
-	profileFlexTable.setText(0, 1, "Nachname");
-	profileFlexTable.setText(0, 2, "Zur Merkliste");
-	profileFlexTable.setText(0, 3, "Kontaktsperren");
-	
 
-	
-	profileFlexTable.setCellPadding(6);
+		final CellTable<Profile> table = new CellTable<Profile>();
+		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		final VerticalPanel seeAllUsers = new VerticalPanel();
 
-	seeAllUsers.add(profileFlexTable);
-	
-	RootPanel.get("Content").clear();
-	RootPanel.get("Content").add(decoratorPanel);
-	
-	partnerboerseVerwaltung.getAllProfiles(new AsyncCallback<ArrayList<Profile>>(){
+		partnerboerseVerwaltung.getAllProfiles(new AsyncCallback<ArrayList<Profile>>() {
 
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
 
-		@Override
-		public void onSuccess(ArrayList<Profile> allprofilesresult) {
-			int i = 1;
-			for (final Profile p : allprofilesresult){
-				profileFlexTable.setText(i, 0, p.getFirstName());
-				profileFlexTable.setText(i, 1, p.getLastName());
-				final Button addtoFav = new Button("+");
-				profileFlexTable.setWidget(i, 2, addtoFav);
-				final Button blockProfil = new Button("+");
-				profileFlexTable.setWidget(i++, 3, blockProfil);
-				
-				addtoFav.addClickHandler(new ClickHandler() {
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Profile> result) {
+				GWT.log("gggg");
+				final TextColumn<Profile> firstNameColumn = new TextColumn<Profile>() {
 
 					@Override
-					public void onClick(ClickEvent event) {
-						
-						 loginService.getCurrentProfile(new AsyncCallback<Profile>() {
-							
-							@Override
-							public void onSuccess(Profile currentProfile) {
-								partnerboerseVerwaltung.createFavoritesList(currentProfile, p, new AsyncCallback<FavoritesList>() {
+					public String getValue(Profile p) {
+						return p.getFirstName();
+					}
 
-									@Override
-									public void onFailure(Throwable caught) {
-										// TODO Auto-generated method stub
-										
-									}
+				};
+				table.addColumn(firstNameColumn, "Name");
 
-									@Override
-									public void onSuccess(FavoritesList result) {
-										Window.alert("You selected a menu item!");
-									}
-								});
-							}
+				final TextColumn<Profile> lastNameColumn = new TextColumn<Profile>() {
+					@Override
+					public String getValue(Profile p) {
+						return p.getLastName();
+					}
+				};
+				table.addColumn(lastNameColumn, "Nachname");
+
+				final TextColumn<Profile> emailColumn = new TextColumn<Profile>() {
+					@Override
+					public String getValue(Profile p) {
+						return p.geteMail();
+					}
+				};
+				table.addColumn(emailColumn, "Email");
+				final SingleSelectionModel<Profile> selectionModel = new SingleSelectionModel<Profile>();
+				table.setSelectionModel(selectionModel);
+				selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+					public void onSelectionChange(SelectionChangeEvent event) {
+						final Profile selected = selectionModel.getSelectedObject();
+						if (selected != null) {
+							Window.alert(
+									"You selected:" + " " + selected.getFirstName() + " " + selected.getLastName());
+							final Button saveToFavoritesList = new Button("Zum Merkzettel hinzufügen");
+							final Button saveToBlockingList = new Button("Kontakt sperren");
+
+							seeAllUsers.add(saveToBlockingList);
+							seeAllUsers.add(saveToFavoritesList);
 							
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
+							saveToBlockingList.addClickHandler(new ClickHandler() {
+
+								@Override
+								public void onClick(ClickEvent event) {
 								
-							}
-						});
-						
+									loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+										
+										@Override
+										public void onSuccess(Profile result) {
+											//Window.alert("Kontakt gesperrt");
+											partnerboerseVerwaltung.createBlocking(result, selected, new AsyncCallback<Blocking>() {
+												
+												@Override
+												public void onSuccess(Blocking result) {
+													Window.alert("Sie haben den Kontakt" +" " + selected.getFirstName() + " " + selected.getFirstName() + " " + "gesperrt" );
+												}
+												
+												@Override
+												public void onFailure(Throwable caught) {
+													// TODO Auto-generated method stub
+													
+												}
+											});
+
+										}
+										
+										@Override
+										public void onFailure(Throwable caught) {
+											// TODO Auto-generated method stub
+											
+										}
+									});
+								}
+								
+							});
+							
+							saveToFavoritesList.addClickHandler(new ClickHandler() {
+								
+								@Override
+								public void onClick(ClickEvent event) {
+									loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+										@Override
+										public void onSuccess(Profile result) {
+											Window.alert("erfolgreich hinzugefügt");
+											partnerboerseVerwaltung.createFavoritesList(result, selected,
+													new AsyncCallback<FavoritesList>() {
+
+														@Override
+														public void onSuccess(FavoritesList result) {
+//															Window.alert("erfolgreich hinzugefügt");
+														}
+
+														@Override
+														public void onFailure(Throwable caught) {
+															// TODO
+															// Auto-generated
+															// method stub
+
+														}
+													});
+
+										}
+
+										@Override
+										public void onFailure(Throwable caught) {
+											// TODO Auto-generated method stub
+
+										}
+									});
+								}
+							});
+						}
 					}
 				});
+
+				table.setRowData(result);
+
+//				final VerticalPanel seeAllUsers = new VerticalPanel();
+				seeAllUsers.add(table);
+				seeAllUsers.setWidth("400");
+
+				RootPanel.get("Content").add(seeAllUsers);
 			}
-			
-		}
-		
-	});
-	
+
+		});
 	}
 }
