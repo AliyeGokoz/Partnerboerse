@@ -104,7 +104,7 @@ public class BlockingMapper {
 				stmt = con.createStatement();
 
 				// Einfügeoperation erfolgt
-				stmt.executeUpdate("INSERT INTO blockings (id, fromProfile, toProfile) " + " VALUES (" + blocking.getId()
+				stmt.executeUpdate("INSERT INTO blockings (id, fromProfile, toProfile) VALUES (" + blocking.getId()
 						+ ",'" + blocking.getFromProfile().getId() + "','" + blocking.getToProfile().getId() + "')");
 			}
 		} catch (SQLException e2) {

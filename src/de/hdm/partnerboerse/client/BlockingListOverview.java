@@ -98,7 +98,6 @@ public class BlockingListOverview extends VerticalPanel{
 
 												@Override
 												public void onSuccess(Void result) {
-													dataProvider.getList().clear();
 													dataProvider.getList().remove(selected);
 													dataProvider.flush();
 													dataProvider.refresh();
