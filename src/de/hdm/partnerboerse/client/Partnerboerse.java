@@ -175,6 +175,7 @@ public class Partnerboerse implements EntryPoint {
 		menu.addItem("Alle Profile", allProfilesMenu);
 		menu.addItem("Personenvorschläge", partnerproposelMenu);
 		menu.addItem("Logout", logoutButton);
+		//menu.setStyleName("menubar");
 
 		// TODO automatisch Usernamen ausgeben
 		// Say Hello to User
