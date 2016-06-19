@@ -342,12 +342,13 @@ public class FavoritesListMapper {
 	}
 	
 	public ArrayList<FavoritesList> findWith(Profile with) {
-		
+		//DB-Verbindung holen
 		Connection con = DBConnection.connection();
-		
+		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<FavoritesList> result = new ArrayList<FavoritesList>();
 		
 		try {
+			//Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(

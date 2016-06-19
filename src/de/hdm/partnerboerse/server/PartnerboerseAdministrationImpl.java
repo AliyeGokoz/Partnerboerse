@@ -671,4 +671,22 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 		return this.favoritesListMapper.findWith(with);
 	}
+
+	@Override
+	public ArrayList<VisitList> getWithInVisitList(Profile with) throws IllegalArgumentException {
+		
+		return this.visitListMapper.findWith(with);
+	}
+
+	@Override
+	public ArrayList<Blocking> findWithInBlocking(Profile with) throws IllegalArgumentException {
+		
+		return this.blockingMapper.findWith(with);
+	}
+
+	@Override
+	public ArrayList<Similarity> findWithInSimilarity(Profile with) throws IllegalArgumentException {
+		
+		return this.similarityMapper.findWith(with);
+	}
 }

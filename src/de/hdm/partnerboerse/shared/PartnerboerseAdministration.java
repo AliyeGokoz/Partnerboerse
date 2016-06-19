@@ -184,4 +184,10 @@ public interface PartnerboerseAdministration extends RemoteService {
 	ArrayList<Profile> getMostSimilarProfiles (Profile fromProfile) throws IllegalArgumentException;
 
 	ArrayList<FavoritesList> getWithInFavoritesList(Profile with) throws IllegalArgumentException;
+	
+	ArrayList<VisitList> getWithInVisitList(Profile with) throws IllegalArgumentException;
+	
+    ArrayList<Blocking> findWithInBlocking(Profile with)throws IllegalArgumentException;
+    
+    ArrayList<Similarity> findWithInSimilarity(Profile with)throws IllegalArgumentException;
 }

@@ -307,10 +307,13 @@ public class SimilarityMapper {
 	}
 	
 	public ArrayList<Similarity> findWith(Profile with) {
+		//DB-Verbindung holen
 		Connection con = DBConnection.connection();
+		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Similarity> result = new ArrayList<Similarity>();
 		
 		try {
+			//Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(

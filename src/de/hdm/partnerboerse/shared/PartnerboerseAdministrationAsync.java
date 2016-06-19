@@ -163,6 +163,12 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getWithInFavoritesList(Profile with, AsyncCallback<ArrayList<FavoritesList>> callback);
 
+	void getWithInVisitList(Profile with, AsyncCallback<ArrayList<VisitList>> callback);
+
+	void findWithInBlocking(Profile with, AsyncCallback<ArrayList<Blocking>> callback);
+
+	void findWithInSimilarity(Profile with, AsyncCallback<ArrayList<Similarity>> callback);
+
 
 
 	
