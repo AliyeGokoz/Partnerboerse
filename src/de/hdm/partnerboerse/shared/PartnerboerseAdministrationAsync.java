@@ -161,6 +161,8 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getMostSimilarProfiles(Profile fromProfile, AsyncCallback<ArrayList<Profile>> callback);
 
+	void getWithInFavoritesList(Profile with, AsyncCallback<ArrayList<FavoritesList>> callback);
+
 
 
 	

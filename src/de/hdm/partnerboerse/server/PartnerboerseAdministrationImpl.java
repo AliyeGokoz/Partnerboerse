@@ -664,4 +664,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		return this.profileMapper.findMostSimilarProfiles(fromProfile);
 	}
+
+	@Override
+	public ArrayList<FavoritesList> getWithInFavoritesList(Profile with) throws IllegalArgumentException {
+	
+		return this.favoritesListMapper.findWith(with);
+	}
 }
