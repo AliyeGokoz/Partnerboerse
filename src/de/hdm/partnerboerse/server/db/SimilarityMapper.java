@@ -20,6 +20,7 @@ import de.hdm.partnerboerse.shared.bo.*;
  */
 public class SimilarityMapper {
 
+	// Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT similarities.id AS sid, similarityValue, "
 			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender,"
 			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM similarities LEFT JOIN profiles AS fromProfile ON fromProfile.id = similarities.fromProfile"
@@ -304,6 +305,13 @@ public class SimilarityMapper {
 		return null;
 	}
 
+	/**
+	 * Diese Methode bildet das Resultset auf ein Java - Objekt ab.
+	 * 
+	 * @param rs,
+	 *            das Resultset das auf ein Java-Objekt abgebildet werden soll
+	 * @return Similarity-Objekt
+	 */
 	private Similarity map(ResultSet rs) throws SQLException {
 		Similarity similarity = new Similarity();
 		similarity.setId(rs.getInt("sid"));

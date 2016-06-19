@@ -20,6 +20,7 @@ import de.hdm.partnerboerse.shared.bo.*;
  */
 public class VisitListMapper {
 
+	// Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT visits.id AS vid,"
 			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender,"
 			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM visits LEFT JOIN profiles AS fromProfile ON fromProfile.id = visits.fromProfile"
@@ -273,6 +274,13 @@ public class VisitListMapper {
 		return findByProfile(profile.getId());
 	}
 
+	/**
+	 * Diese Methode bildet das Resultset auf ein Java - Objekt ab.
+	 * 
+	 * @param rs,
+	 *            das Resultset das auf ein Java-Objekt abgebildet werden soll
+	 * @return VisitList-Objekt
+	 */
 	private VisitList map(ResultSet rs) throws SQLException {
 		VisitList visitList = new VisitList();
 		visitList.setId(rs.getInt("vid"));

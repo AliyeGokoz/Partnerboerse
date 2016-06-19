@@ -24,6 +24,7 @@ import de.hdm.partnerboerse.shared.bo.Selection;
  */
 public class OptionMapper {
 
+	// Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT options.id AS id, option, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn FROM options LEFT JOIN selections ON selections.id = options.selectionId";
 
 	/**
@@ -216,6 +217,14 @@ public class OptionMapper {
 
 		return findBySelection(selection.getId());
 	}
+
+	/**
+	 * Diese Methode bildet das Resultset auf ein Java - Objekt ab.
+	 * 
+	 * @param rs,
+	 *            das Resultset das auf ein Java-Objekt abgebildet werden soll
+	 * @return Option-Objekt
+	 */
 
 	private Option map(ResultSet rs) throws SQLException {
 		Option option = new Option();

@@ -21,6 +21,7 @@ import de.hdm.partnerboerse.shared.bo.*;
 
 public class FavoritesListMapper {
 
+	// Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT favorites.id AS fid,"
 			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender, "
 			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM favorites LEFT JOIN profiles AS fromProfile ON fromProfile.id = favorites.fromProfile"
@@ -271,6 +272,14 @@ public class FavoritesListMapper {
 		return result;
 	}
 
+	/**
+	 * Auslesen ob eine Favoritisierung zwischen zwei gegebenen Profilen existiert.
+	 * 
+	 *  
+	 * @param fromProfile und toProfile, die beiden Profile zwischen denen eine Favoritisierung geprüft werden soll
+	 *            
+	 * @return true oder false, je nach dem ob eine Favoritisierung existiert oder nicht
+	 */
 	public boolean doFavoritesListEntryExist(Profile fromProfile, Profile toProfile) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
@@ -305,6 +314,14 @@ public class FavoritesListMapper {
 
 		return findByProfile(profile.getId());
 	}
+
+	/**
+	 * Diese Methode bildet das Resultset auf ein Java - Objekt ab.
+	 * 
+	 * @param rs,
+	 *            das Resultset das auf ein Java-Objekt abgebildet werden soll
+	 * @return FavoritesList-Objekt
+	 */
 
 	private FavoritesList map(ResultSet rs) throws SQLException {
 		FavoritesList favoritesList = new FavoritesList();
