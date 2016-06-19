@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
@@ -24,13 +25,18 @@ public class BlockingListOverview extends VerticalPanel{
 	
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
+	ListDataProvider<Blocking> dataProvider = new ListDataProvider<>();
+
 
 	@Override
 	public void onLoad() {
-		
 		final CellTable<Blocking> table = new CellTable<Blocking>();
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		final VerticalPanel seeAllUsers = new VerticalPanel();
+		final VerticalPanel buttonPanel = new VerticalPanel();
+		final ListDataProvider<Blocking> dataProvider = new ListDataProvider<>();
+		dataProvider.addDataDisplay(table);
+
 		
 		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
 			
@@ -76,7 +82,7 @@ public class BlockingListOverview extends VerticalPanel{
 									Window.alert(
 											"You selected:" + " " + selected.getToProfile().getFirstName() + " " + selected.getToProfile().getLastName());
 									final Button delteFromFavoritesList = new Button("Kontaktsperre aufheben");
-									seeAllUsers.add(delteFromFavoritesList);
+									buttonPanel.add(delteFromFavoritesList);
 									delteFromFavoritesList.addClickHandler(new ClickHandler() {
 										
 										@Override
@@ -92,7 +98,14 @@ public class BlockingListOverview extends VerticalPanel{
 
 												@Override
 												public void onSuccess(Void result) {
-													Window.alert("erfolgreich gelöscht");
+													dataProvider.getList().clear();
+													dataProvider.getList().remove(selected);
+													dataProvider.flush();
+													dataProvider.refresh();
+													table.redraw();
+													Window.alert("Kontaktsperre wurde aufgehoben !");
+													buttonPanel.clear();
+													
 												}
 											});
 										}
@@ -101,13 +114,16 @@ public class BlockingListOverview extends VerticalPanel{
 							}
 						});
 
-						table.setRowData(result);
+						dataProvider.getList().addAll(result);
 
 //						final VerticalPanel seeAllUsers = new VerticalPanel();
 						seeAllUsers.add(table);
 						seeAllUsers.setWidth("400");
-
+						seeAllUsers.add(buttonPanel);
+						
+						RootPanel.get("Content").clear();
 						RootPanel.get("Content").add(seeAllUsers);
+						
 
 					}
 					

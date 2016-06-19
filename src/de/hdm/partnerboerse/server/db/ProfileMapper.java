@@ -434,7 +434,7 @@ public class ProfileMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles similarProfiles INNER JOIN similarities ON similarities.toProfile = similarProfiles.id WHERE similarities.fromProfile = "
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender, similarities.similarityValue FROM profiles similarProfiles INNER JOIN similarities ON similarities.toProfile = similarProfiles.id WHERE similarities.fromProfile = "
 							+ fromProfile.getId()
 							+ " AND  similarities.similarityValue > 0.5 ORDER BY similarities.similarityValue DESC");
 
@@ -452,6 +452,11 @@ public class ProfileMapper {
 				profile.setSmoker(rs.getBoolean("smoker"));
 				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
 				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+				
+				Similarity similarity = new Similarity();
+				similarity.setFromProfile(fromProfile);
+				
+				profile.setSimilarityValue(rs.getDouble("similarities.similarityValue"));
 
 				result.add(profile);
 			}

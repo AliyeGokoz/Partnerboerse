@@ -2,8 +2,6 @@ package de.hdm.partnerboerse.client;
 
 import java.util.ArrayList;
 
-import com.gargoylesoftware.htmlunit.javascript.host.Text;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -12,11 +10,9 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
@@ -32,10 +28,14 @@ public class FavoritListOverview extends VerticalPanel {
 
 	@Override
 	public void onLoad() {
-		
 		final CellTable<FavoritesList> table = new CellTable<FavoritesList>();
+		final ListDataProvider<FavoritesList> dataProvider = new ListDataProvider<>();
+		dataProvider.addDataDisplay(table);
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		final VerticalPanel seeAllUsers = new VerticalPanel();
+		final VerticalPanel buttonPanel = new VerticalPanel();
+		
+		
 		
 		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
 			
@@ -81,7 +81,7 @@ public class FavoritListOverview extends VerticalPanel {
 									Window.alert(
 											"You selected:" + " " + selected.getToProfile().getFirstName() + " " + selected.getToProfile().getLastName());
 									final Button delteFromFavoritesList = new Button("Aus dem Merkzettel entfernen");
-									seeAllUsers.add(delteFromFavoritesList);
+									buttonPanel.add(delteFromFavoritesList);
 									delteFromFavoritesList.addClickHandler(new ClickHandler() {
 										
 										@Override
@@ -97,7 +97,13 @@ public class FavoritListOverview extends VerticalPanel {
 
 												@Override
 												public void onSuccess(Void result) {
-													Window.alert("erfolgreich gelöscht");
+													dataProvider.getList().clear();
+													dataProvider.getList().remove(selected);
+													dataProvider.flush();
+													dataProvider.refresh();
+													table.redraw();
+													Window.alert("Favorit wurde entfernt !");
+													buttonPanel.clear();
 												}
 											});
 										}
@@ -106,12 +112,14 @@ public class FavoritListOverview extends VerticalPanel {
 							}
 						});
 
-						table.setRowData(result);
+						dataProvider.getList().addAll(result);
 
 //						final VerticalPanel seeAllUsers = new VerticalPanel();
 						seeAllUsers.add(table);
 						seeAllUsers.setWidth("400");
-
+						seeAllUsers.add(buttonPanel);
+						
+						RootPanel.get("Content").clear();
 						RootPanel.get("Content").add(seeAllUsers);
 
 					}

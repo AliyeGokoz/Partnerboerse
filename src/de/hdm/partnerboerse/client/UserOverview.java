@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
@@ -27,6 +28,7 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Blocking;
 import de.hdm.partnerboerse.shared.bo.FavoritesList;
 import de.hdm.partnerboerse.shared.bo.Profile;
+import de.hdm.partnerboerse.shared.bo.SearchProfile;
 
 public class UserOverview extends VerticalPanel {
 
@@ -39,6 +41,7 @@ public class UserOverview extends VerticalPanel {
 		final CellTable<Profile> table = new CellTable<Profile>();
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		final VerticalPanel seeAllUsers = new VerticalPanel();
+		final VerticalPanel buttonPanel = new VerticalPanel();
 
 		partnerboerseVerwaltung.getAllProfiles(new AsyncCallback<ArrayList<Profile>>() {
 
@@ -87,8 +90,8 @@ public class UserOverview extends VerticalPanel {
 							final Button saveToFavoritesList = new Button("Zum Merkzettel hinzufügen");
 							final Button saveToBlockingList = new Button("Kontakt sperren");
 
-							seeAllUsers.add(saveToBlockingList);
-							seeAllUsers.add(saveToFavoritesList);
+							buttonPanel.add(saveToBlockingList);
+							buttonPanel.add(saveToFavoritesList);
 							
 							saveToBlockingList.addClickHandler(new ClickHandler() {
 
@@ -105,6 +108,7 @@ public class UserOverview extends VerticalPanel {
 												@Override
 												public void onSuccess(Blocking result) {
 													Window.alert("Sie haben den Kontakt" +" " + selected.getFirstName() + " " + selected.getFirstName() + " " + "gesperrt" );
+													buttonPanel.clear();
 												}
 												
 												@Override
@@ -133,13 +137,13 @@ public class UserOverview extends VerticalPanel {
 									loginService.getCurrentProfile(new AsyncCallback<Profile>() {
 										@Override
 										public void onSuccess(Profile result) {
-											Window.alert("erfolgreich hinzugefügt");
+											Window.alert("Erfolgreich zum Merkzettel hinzugefügt");
 											partnerboerseVerwaltung.createFavoritesList(result, selected,
 													new AsyncCallback<FavoritesList>() {
 
 														@Override
 														public void onSuccess(FavoritesList result) {
-//															Window.alert("erfolgreich hinzugefügt");
+															buttonPanel.clear();
 														}
 
 														@Override
@@ -170,6 +174,7 @@ public class UserOverview extends VerticalPanel {
 //				final VerticalPanel seeAllUsers = new VerticalPanel();
 				seeAllUsers.add(table);
 				seeAllUsers.setWidth("400");
+				seeAllUsers.add(buttonPanel);
 
 				RootPanel.get("Content").add(seeAllUsers);
 			}
