@@ -1,43 +1,23 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.datepicker.client.DatePicker;
 
+import de.hdm.partnerboerse.shared.LoginInfo;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
-import de.hdm.partnerboerse.shared.bo.Selection;
-import de.hdm.partnerboerse.shared.bo.Profile.Confession;
-import de.hdm.partnerboerse.shared.bo.Profile.Film;
-import de.hdm.partnerboerse.shared.bo.Profile.Gender;
-import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
-import de.hdm.partnerboerse.shared.bo.Profile.Music;
 
 public class ProfilePage extends VerticalPanel {
 
@@ -48,7 +28,7 @@ public class ProfilePage extends VerticalPanel {
 	@Override
 	public void onLoad() {
 		
-		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+		loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -57,7 +37,8 @@ public class ProfilePage extends VerticalPanel {
 			}
 
 			@Override
-			public void onSuccess(Profile profile) {
+			public void onSuccess(LoginInfo loginInfo) {
+				
 				/**
 				 * TabPanel anlegen für die verschiedenen Bereiche wie Allg infos und Über Mich
 				 */
@@ -72,7 +53,7 @@ public class ProfilePage extends VerticalPanel {
 				/**
 				 * Content für die Tabs Zuweißen
 				 */
-				showProfilTapPanel.add(showProfil(profile), tab1Title);
+				showProfilTapPanel.add(showProfil(loginInfo), tab1Title);
 				showProfilTapPanel.add(showInfoProfil(), tab2Title);
 				
 				//select first tab
@@ -194,7 +175,8 @@ public class ProfilePage extends VerticalPanel {
 		return showInfoProfilePanel;
 	}
 
-	private HorizontalPanel showProfil(final Profile profile) {
+	private HorizontalPanel showProfil(final LoginInfo loginInfo) {
+		Profile profile = loginInfo.getProfile();
 		
 		//TODO inhalt anzeigen wenn Profil gefüllt, wenn kein Profil gefüllt ist dann Anzeige: Hey 
 		// hey leg dir doch ein Profil an
@@ -305,7 +287,7 @@ public class ProfilePage extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				// Instantiate the dialog box and show it.
-				MyDialogforDltProfiles myDialog = new MyDialogforDltProfiles(profile);
+				MyDialogforDltProfiles myDialog = new MyDialogforDltProfiles(loginInfo);
 
 				int left = Window.getClientWidth() / 2;
 				int top = Window.getClientHeight() / 2;
@@ -678,7 +660,7 @@ public class ProfilePage extends VerticalPanel {
 //
 	private class MyDialogforDltProfiles extends DialogBox {
 
-		public MyDialogforDltProfiles(final Profile profile) {
+		public MyDialogforDltProfiles(final LoginInfo loginInfo) {
 			// Set the dialog box's caption.
 			setText("Profil löschen");
 
@@ -706,10 +688,10 @@ public class ProfilePage extends VerticalPanel {
 //					partnerboerseVerwaltung.delete(profile, new AsyncCallback<Void>(){
 //						
 //					}
-					partnerboerseVerwaltung.delete(profile, new AsyncCallback<Void>() {
+					partnerboerseVerwaltung.delete(loginInfo.getProfile(), new AsyncCallback<Void>() {
 						@Override
 						public void onSuccess(Void result) {
-							Window.alert("Profil wurde gelöscht");
+							Window.Location.assign(loginInfo.getLogoutUrl());
 						}
 
 						@Override

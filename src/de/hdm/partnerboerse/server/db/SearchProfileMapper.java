@@ -45,9 +45,9 @@ public class SearchProfileMapper {
 						+ searchProfile.getToAge()
 						+ ",'"
 						+ searchProfile.getHairColor()
-						+ "','"
-						+ searchProfile.getGender()
 						+ "',"
+						+ (searchProfile.getGender() != null ? "'" +searchProfile.getGender()+"'" : null)
+						+ ","
 						+ searchProfile.getFromHeight()
 						+ ","
 						+ searchProfile.getToHeight()
@@ -72,7 +72,7 @@ public class SearchProfileMapper {
 
 			stmt.executeUpdate("UPDATE searchprofiles " + "SET fromAge=\"" + searchProfile.getFromAge() + "\", "
 					+ "toAge=\"" + searchProfile.getToAge() + "\", " + "hairColor=\"" + searchProfile.getHairColor()
-					+ "\", " + "gender=\"" + searchProfile.getGender() + "\", " + "fromHeight=\""
+					+ "\", " + "gender=" + (searchProfile.getGender() != null ? "\""+searchProfile.getGender()+"\"" : null ) + ", " + "fromHeight=\""
 					+ searchProfile.getFromHeight() + "\", " + "toHeight=\"" + searchProfile.getToHeight() + "\", "
 					+ "confession=\"" + searchProfile.getConfession() + "\" " + "WHERE id=" + searchProfile.getId());
 
