@@ -359,4 +359,31 @@ public class BlockingMapper {
 		return false;
 	}
 
+	public ArrayList<Blocking> findWith(Profile with) {
+		
+		//DB-Verbindung holen
+		Connection con = DBConnection.connection();
+		
+		// Vorbereitung der Ergebnis-ArrayList
+		ArrayList<Blocking> result = new ArrayList<Blocking>();
+		
+		try {
+			
+			//Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					BASE_SELECT + " WHERE fromProfile=" + with.getId() + " OR toProfile=" + with.getId());
+
+			while (rs.next()) {
+				result.add(map(rs));
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
+
+	
 }

@@ -2,6 +2,7 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdm.partnerboerse.shared.bo.*;
 
@@ -303,6 +304,26 @@ public class SimilarityMapper {
 
 		return null;
 	}
+	
+	public ArrayList<Similarity> findWith(Profile with) {
+		Connection con = DBConnection.connection();
+		ArrayList<Similarity> result = new ArrayList<Similarity>();
+		
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					BASE_SELECT + " WHERE fromProfile=" + with.getId() + " OR toProfile=" + with.getId());
+
+			while (rs.next()) {
+				result.add(map(rs));
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
+	}
 
 	private Similarity map(ResultSet rs) throws SQLException {
 		Similarity similarity = new Similarity();
@@ -340,11 +361,7 @@ public class SimilarityMapper {
 
 	}
 
-	public static void main(String[] args) {
-		SimilarityMapper similarityMapper = new SimilarityMapper();
-		similarityMapper.findByKey(1);
-		similarityMapper.findByProfile(1);
-		similarityMapper.findAll();
-	}
 
 }
+
+
