@@ -20,7 +20,8 @@ import de.hdm.partnerboerse.shared.bo.*;
  */
 
 public class SearchProfileMapper {
-
+	
+	// Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT searchprofiles.id AS id, fromAge, toAge, searchprofiles.hairColor AS spHairColor, searchprofiles.gender AS spGender, fromHeight, toHeight, searchprofiles.confession AS spConfession, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, profiles.confession AS pConfession, smoker, profiles.hairColor AS pHairColor, profiles.gender AS pGender FROM searchprofiles LEFT JOIN profiles ON profiles.id = searchprofiles.profileId";
 
 	/**
@@ -326,7 +327,14 @@ public class SearchProfileMapper {
 		return findByProfile(profile.getId());
 	}
 	
-//TODO
+	/**
+	 * Diese Methode bildet das ResultSet auf ein Java-Objekt ab.
+	 *
+	 * @param rs
+	 *            , das ResultSet, dass auf ein Java-Objekt abgebildet werden soll
+	 * @return SearchProfile-Objekt
+	 */
+	
 	private SearchProfile map(ResultSet rs) throws SQLException {
 		SearchProfile searchProfile = new SearchProfile();
 		searchProfile.setId(rs.getInt("id"));
@@ -359,11 +367,7 @@ public class SearchProfileMapper {
 		return searchProfile;
 	}
 
-	public static void main(String[] args) {
-		SearchProfileMapper searchProfileMapper = new SearchProfileMapper();
-		searchProfileMapper.findAll();
-		searchProfileMapper.findByKey(1);
-		searchProfileMapper.findByProfile(1);
-	}
 
 }
+
+

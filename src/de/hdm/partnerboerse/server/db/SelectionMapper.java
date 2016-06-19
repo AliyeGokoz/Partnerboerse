@@ -265,10 +265,5 @@ public class SelectionMapper {
 		return result;
 	}
 
-	public static void main(String[] args) {
-		SelectionMapper selectionMapper = new SelectionMapper();
-		selectionMapper.findAll();
-		selectionMapper.findByKey(1);
-	}
 
 }

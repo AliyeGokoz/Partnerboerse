@@ -20,7 +20,8 @@ import de.hdm.partnerboerse.shared.bo.*;
  */
 
 public class DescriptionMapper {
-
+	
+	// Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT id, textualDescription, propertyName FROM descriptions";
 
 	/**
@@ -254,7 +255,14 @@ public class DescriptionMapper {
 		return result;
 	}
 
-	// TODO
+	/**
+	 * Diese Methode bildet das ResultSet auf ein Java-Objekt ab.
+	 *
+	 * @param rs
+	 *            , das ResultSet, dass auf ein Java-Objekt abgebildet werden soll
+	 * @return Description-Objekt
+	 */
+	
 	private Description map(ResultSet rs) throws SQLException {
 		Description description = new Description();
 		description.setId(rs.getInt("id"));
@@ -263,10 +271,6 @@ public class DescriptionMapper {
 		return description;
 	}
 
-	public static void main(String[] args) {
-		DescriptionMapper descriptionMapper = new DescriptionMapper();
-		descriptionMapper.findAll();
-		descriptionMapper.findByKey(1);
-	}
+
 
 }

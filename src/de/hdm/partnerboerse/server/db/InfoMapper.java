@@ -22,6 +22,7 @@ import de.hdm.partnerboerse.shared.bo.*;
 
 public class InfoMapper {
 
+	// Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT infos.id AS id, informationValue, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescription AS dtd, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId";
 
 	/**
@@ -87,11 +88,9 @@ public class InfoMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-
 			// Momentan höchsten Primärschlüsselwert prüfen
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
 					+ "FROM infos ");
-
 
 			if (rs.next()) {
 
@@ -104,13 +103,19 @@ public class InfoMapper {
 
 				stmt = con.createStatement();
 
-
-				stmt.executeUpdate(
-						"INSERT INTO infos (id, informationValue, profileId, selectionId, descriptionId) " + "VALUES ("
-								+ info.getId() + ",'" + info.getInformationValue() + "', " + info.getProfile().getId()
-								+ ", " + (info.getSelection() != null ? info.getSelection().getId() : "NULL") + ","
-								+ (info.getDescription() != null ? info.getDescription().getId() : "NULL") + ")");
-
+				stmt.executeUpdate("INSERT INTO infos (id, informationValue, profileId, selectionId, descriptionId) "
+						+ "VALUES ("
+						+ info.getId()
+						+ ",'"
+						+ info.getInformationValue()
+						+ "', "
+						+ info.getProfile().getId()
+						+ ", "
+						+ (info.getSelection() != null ? info.getSelection()
+								.getId() : "NULL")
+						+ ","
+						+ (info.getDescription() != null ? info
+								.getDescription().getId() : "NULL") + ")");
 
 			}
 		} catch (SQLException e) {
@@ -138,8 +143,8 @@ public class InfoMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE infos " + "SET informationValue=\"" + info.getInformationValue() + "WHERE id="
-					+ info.getId());
+			stmt.executeUpdate("UPDATE infos " + "SET informationValue=\""
+					+ info.getInformationValue() + "WHERE id=" + info.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -166,7 +171,8 @@ public class InfoMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM infos " + "WHERE id=" + info.getId());
+			stmt.executeUpdate("DELETE FROM infos " + "WHERE id="
+					+ info.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -280,7 +286,6 @@ public class InfoMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-
 			String sql = BASE_SELECT + " WHERE profileId=" + profileId
 					+ " ORDER BY id";
 
@@ -345,13 +350,11 @@ public class InfoMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-
 			// Für jeden Eintrag im Suchergebnis wird nun ein Info-Objekt
 			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 
 			String sql = BASE_SELECT + " WHERE selectionId=" + selectionId
 					+ " ORDER BY id";
-
 
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -406,13 +409,11 @@ public class InfoMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-
 			// Für jeden Eintrag im Suchergebnis wird nun ein Info-Objekt
 			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 
 			String sql = BASE_SELECT + " WHERE descriptions.id="
 					+ descriptionId + " ORDER BY id";
-
 
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -444,7 +445,14 @@ public class InfoMapper {
 		return findByDescription(description.getId());
 	}
 
-	// TODO
+	/**
+	 * Diese Methode bildet das ResultSet auf ein Java-Objekt ab.
+	 *
+	 * @param rs
+	 *            , das ResultSet, dass auf ein Java-Objekt abgebildet werden soll
+	 * @return Info-Objekt
+	 */
+
 	private Info map(ResultSet rs) throws SQLException {
 		Info info = new Info();
 		info.setId(rs.getInt("id"));
@@ -457,9 +465,11 @@ public class InfoMapper {
 		profile.setDateOfBirth(rs.getDate("dateOfBirth"));
 		profile.seteMail(rs.getString("email"));
 		profile.setHeight(rs.getInt("height"));
-		profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
+		profile.setConfession(Profile.Confession.valueOf(rs
+				.getString("confession")));
 		profile.setSmoker(rs.getBoolean("smoker"));
-		profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+		profile.setHairColor(Profile.HairColor.valueOf(rs
+				.getString("hairColor")));
 		profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
 
 		info.setProfile(profile);
@@ -482,15 +492,6 @@ public class InfoMapper {
 			info.setSelection(selection);
 		}
 		return info;
-	}
-
-	public static void main(String[] args) {
-		InfoMapper infoMapper = new InfoMapper();
-		infoMapper.findByDescription(1);
-		infoMapper.findByKey(1);
-		infoMapper.findByProfile(1);
-		infoMapper.findBySelection(1);
-		infoMapper.findAll();
 	}
 
 }
