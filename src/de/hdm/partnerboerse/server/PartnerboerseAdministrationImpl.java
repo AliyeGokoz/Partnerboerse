@@ -124,7 +124,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public FavoritesList createFavoritesList(Profile fromProfile, Profile toProfile) {
 		FavoritesList fl = new FavoritesList();
-
+		
 		fl.setFromProfile(fromProfile);
 		fl.setToProfile(toProfile);
 
@@ -155,10 +155,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public Blocking createBlocking(int id, Profile fromProfile, Profile toProfile) {
+	public Blocking createBlocking(Profile fromProfile, Profile toProfile) {
 		Blocking b = new Blocking();
 
-		b.setId(id);
 		b.setFromProfile(fromProfile);
 		b.setToProfile(toProfile);
 
@@ -174,7 +173,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		ArrayList<Info> infos = this.getInfoOf(profile);
 		ArrayList<Blocking> blockings = this.getBlockingsOf(profile);
 		ArrayList<VisitList> visitLists = this.getVisitListsOf(profile);
-		ArrayList<Similarity> similarities = this.getSimilaritiesOf(profile);
+		ArrayList<Similarity> similarities = similarityMapper.findWith(profile);
+		
 
 		if (favoritesLists != null) {
 			for (FavoritesList favoritesList : favoritesLists) {
@@ -482,24 +482,27 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void save(SearchProfile searchProfile) throws IllegalArgumentException {
+	public SearchProfile save(SearchProfile searchProfile) throws IllegalArgumentException {
 		if (searchProfile.getId() != 0) {
-			searchProfileMapper.update(searchProfile);
+			return searchProfileMapper.update(searchProfile);
 		} else {
-			searchProfileMapper.insert(searchProfile);
+			return searchProfileMapper.insert(searchProfile);
 		}
 	}
 
 	@Override
-	public void save(Info info) throws IllegalArgumentException {
+	public Info save(Info info) throws IllegalArgumentException {
+		Info savedInfo;
 		if (info.getId() != 0) {
-			infoMapper.update(info);
+			savedInfo = infoMapper.update(info);
 		} else {
-			infoMapper.insert(info);
+			savedInfo = infoMapper.insert(info);
 		}
 
 		Profile profile = info.getProfile();
 		updateSimilarityForProfile(profile);
+		
+		return savedInfo;
 	}
 
 	@Override
@@ -655,5 +658,35 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public boolean isBlocked(Profile profile) {
 		Profile currentProfile = LoginServiceImpl.loginService().getCurrentProfile();
 		return blockingMapper.doBlockingExist(currentProfile, profile);
+	}
+
+	@Override
+	public ArrayList<Profile> getMostSimilarProfiles(Profile fromProfile) throws IllegalArgumentException {
+		
+		return this.profileMapper.findMostSimilarProfiles(fromProfile);
+	}
+
+	@Override
+	public ArrayList<FavoritesList> getWithInFavoritesList(Profile with) throws IllegalArgumentException {
+	
+		return this.favoritesListMapper.findWith(with);
+	}
+
+	@Override
+	public ArrayList<VisitList> getWithInVisitList(Profile with) throws IllegalArgumentException {
+		
+		return this.visitListMapper.findWith(with);
+	}
+
+	@Override
+	public ArrayList<Blocking> findWithInBlocking(Profile with) throws IllegalArgumentException {
+		
+		return this.blockingMapper.findWith(with);
+	}
+
+	@Override
+	public ArrayList<Similarity> findWithInSimilarity(Profile with) throws IllegalArgumentException {
+		
+		return this.similarityMapper.findWith(with);
 	}
 }

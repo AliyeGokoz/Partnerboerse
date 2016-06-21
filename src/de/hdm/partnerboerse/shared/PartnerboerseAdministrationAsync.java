@@ -29,7 +29,7 @@ public interface PartnerboerseAdministrationAsync {
 	void createSearchProfile(int id, int fromAge, int toAge, int fromHeight, int toHeight, HairColor hairColor,
 			Gender gender, Confession confession, boolean smoker, AsyncCallback<SearchProfile> callback);
 
-	void createBlocking(int id, Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
+	void createBlocking(Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
 
 	void createDescription(int id, String propertyName, String textualDescription, AsyncCallback<Description> callback);
 
@@ -50,9 +50,9 @@ public interface PartnerboerseAdministrationAsync {
 	 */
 	void save(Profile profile, AsyncCallback<Void> callback);
 
-	void save(SearchProfile searchProfile, AsyncCallback<Void> callback);
+	void save(SearchProfile searchProfile, AsyncCallback<SearchProfile> callback);
 
-	void save(Info info, AsyncCallback<Void> callback);
+	void save(Info info, AsyncCallback<Info> callback);
 
 	void save(Description description, AsyncCallback<Void> callback);
 
@@ -158,6 +158,16 @@ public interface PartnerboerseAdministrationAsync {
 	void save(Option option, AsyncCallback<Void> callback);
 
 	void getOptionsOf(Selection selection, AsyncCallback<ArrayList<Option>> callback);
+
+	void getMostSimilarProfiles(Profile fromProfile, AsyncCallback<ArrayList<Profile>> callback);
+
+	void getWithInFavoritesList(Profile with, AsyncCallback<ArrayList<FavoritesList>> callback);
+
+	void getWithInVisitList(Profile with, AsyncCallback<ArrayList<VisitList>> callback);
+
+	void findWithInBlocking(Profile with, AsyncCallback<ArrayList<Blocking>> callback);
+
+	void findWithInSimilarity(Profile with, AsyncCallback<ArrayList<Similarity>> callback);
 
 
 

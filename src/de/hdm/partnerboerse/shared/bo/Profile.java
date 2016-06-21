@@ -24,8 +24,8 @@ public class Profile extends BusinessObject {
 
 	private Gender gender = null;
 	
-	private Similarity similarity = null;
-
+	private double similarityValue;
+	
 	private String hobby = null;
 
 	private Sport sport = null;
@@ -208,15 +208,6 @@ public class Profile extends BusinessObject {
 	public String getHobby() {
 		return hobby;
 	}
-	
-	public Similarity getSimilarity() {
-		return similarity;
-	}
-
-
-	public void setSimilarity(Similarity similarity) {
-		this.similarity = similarity;
-	}
 
 	public void setHobby(String hobby) {
 		this.hobby = hobby;
@@ -244,6 +235,14 @@ public class Profile extends BusinessObject {
 
 	public void setFilm(Film film) {
 		this.film = film;
+	}
+	
+	public double getSimilarityValue() {
+		return similarityValue;
+	}
+	
+	public void setSimilarityValue(double similarityValue) {
+		this.similarityValue = similarityValue;
 	}
 
 	public String toString() {

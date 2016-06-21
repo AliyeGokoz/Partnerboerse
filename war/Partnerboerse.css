@@ -11,19 +11,20 @@ h1 {
 
 
 div#Fullcontent {
+	background-color: #BA6B76;
 	width: 800px;
 	min-width: 300px;
-	border: 1px solid red;
-	margin: 0 auto;  
+	margin: 40px auto;  
  }
  
  div#Header {
+ 	padding-top: 5px;
 	margin: 0 auto;      
 }
  
 div#Content {
-	min-height: 450px;
-	max-height: 500px;
+	min-height: 500px;
+	max-height: 600px;
 	width:100%;
 	overflow:scroll;
 	
@@ -58,6 +59,13 @@ div#Footer {
 	text-align: center;
 	
 	background: #FFCCCC;
+}
+
+.menubar{
+	background-color: #741F30;
+	padding: 5px 10px;
+	font-weigth: bold;
+	color: #fffff;
 }
 
 .hbuttons{
@@ -106,6 +114,16 @@ text-decoration: underline;
 
 .gwt-StackPanel {
   margin: 10px 10px 10px 10px;
+}
+
+.gwt-MenuBar-horizontal{
+	background: #7D1A2F url(images/hborder.png) repeat-x 0px -2003px !important;
+}
+.gwt-MenuItem{
+	padding: 5px 10px !important;
+    vertical-align: bottom !important;
+    color: white !important;
+    font-weight: bold;
 }
 
 .dialogVPanel {

@@ -43,7 +43,7 @@ public class Partnerboerse implements EntryPoint {
 			@Override
 			public void onSuccess(LoginInfo result) {
 				if(result.isLoggedIn()){
-					onModuleLoadLoggedIn(result.getProfile());
+					onModuleLoadLoggedIn(result);
 				} else {
 					Window.Location.replace(result.getLoginUrl());
 				}
@@ -58,7 +58,8 @@ public class Partnerboerse implements EntryPoint {
 		
 	}
 	
-	private void onModuleLoadLoggedIn(final Profile profile){
+	private void onModuleLoadLoggedIn(final LoginInfo loginInfo){
+		final Profile profile = loginInfo.getProfile();
 		final VerticalPanel content = new VerticalPanel();
 
 		// Make a command that we will execute from all leaves.
@@ -75,6 +76,10 @@ public class Partnerboerse implements EntryPoint {
 				RootPanel.get("Content").add(addnewProfil);
 			}
 		};
+		
+		if(loginInfo.getProfile() == null){
+			addnewProfile.execute();
+		}
 		
 		Command showProfil = new Command() {
 			public void execute() {
@@ -100,6 +105,14 @@ public class Partnerboerse implements EntryPoint {
 			}
 		};
 		
+		Command seeBlockingList = new Command() {
+			public void execute() {
+				BlockingListOverview seeBlockingList = new BlockingListOverview();
+				RootPanel.get("Content").clear();
+				RootPanel.get("Content").add(seeBlockingList);
+			}
+		};
+		
 		Command seeSearchProfilePage = new Command() {
 			public void execute() {
 				SearchProfilePage showSearchProfile = new SearchProfilePage(profile);
@@ -116,22 +129,7 @@ public class Partnerboerse implements EntryPoint {
 		
 		Command logoutUser = new Command() {
 			public void execute() {
-				loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
-					
-					@Override
-					public void onSuccess(LoginInfo result) {
-						if(result.isLoggedIn()){
-							onModuleLoadLoggedIn(result.getProfile());
-						} else {
-							Window.Location.replace(result.getLoginUrl());
-						}
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						
-					}
-				});	
+				Window.Location.replace(loginInfo.getLogoutUrl());
 			}
 		};
 
@@ -157,7 +155,7 @@ public class Partnerboerse implements EntryPoint {
 		favoritlistMenu.addItem("Merkzettel ansehen", seeFavoritList);
 
 		MenuBar blockedcontactsMenu = new MenuBar(true);
-		blockedcontactsMenu.addItem("Kontaktsperrenliste ansehen", cmd);
+		blockedcontactsMenu.addItem("Kontaktsperrenliste ansehen", seeBlockingList);
 		
 		MenuBar allProfilesMenu = new MenuBar(true);
 		allProfilesMenu.addItem("Alle Profile Ansehen", allUsers);
@@ -177,6 +175,7 @@ public class Partnerboerse implements EntryPoint {
 		menu.addItem("Alle Profile", allProfilesMenu);
 		menu.addItem("Personenvorschläge", partnerproposelMenu);
 		menu.addItem("Logout", logoutButton);
+		//menu.setStyleName("menubar");
 
 		// TODO automatisch Usernamen ausgeben
 		// Say Hello to User

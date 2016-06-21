@@ -1,12 +1,15 @@
 package de.hdm.partnerboerse.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -20,20 +23,21 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DatePicker;
+import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 
+import de.hdm.partnerboerse.shared.LoginInfo;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Description;
 import de.hdm.partnerboerse.shared.bo.Info;
-import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Option;
-
+import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
-import de.hdm.partnerboerse.shared.bo.Profile.Music;
 import de.hdm.partnerboerse.shared.bo.Selection;
 
 public class NewProfilePage extends VerticalPanel {
@@ -41,15 +45,35 @@ public class NewProfilePage extends VerticalPanel {
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
+	// Add a drop box with the list types
+	final ListBox propertyListbox = new ListBox(false);
+	final ListBox propertyListbox1 = new ListBox(false);
+	final ListBox infoListBox = new ListBox();
+	final TextArea textdesc = new TextArea();
+	final VerticalPanel infoPanel = new VerticalPanel();
+	final Button deleteButton = new Button("<img src='images/delete.png'/>");
+	final Button editInfoButton = new Button("bearbeiten");
+	final CellTable<Info> infoTable = new CellTable<>();
+	ListDataProvider<Info> dataProvider = new ListDataProvider<>();
+	private ListBox optionsListBox;
+
+	private final ArrayList<Description> descriptions = new ArrayList<>();
+	private final ArrayList<Selection> selections = new ArrayList<>();
+	private final ArrayList<Option> options = new ArrayList<>();
+
 	@Override
 	public void onLoad() {
+		
+		
 
-		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+		loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
 
 			@Override
-			public void onSuccess(Profile profile) {
-				profile = profile == null ? new Profile() : profile;
-
+			public void onSuccess(LoginInfo loginInfo) {
+				Profile profile = loginInfo.getProfile() == null ? new Profile() : loginInfo.getProfile();
+				profile.seteMail(loginInfo.getEmailAddress());
+				
+				
 				/**
 				 * TabPanel anlegen für die verschiedenen Bereiche wie Allg
 				 * infos und Über Mich
@@ -66,13 +90,15 @@ public class NewProfilePage extends VerticalPanel {
 				 * Content für die Tabs Zuweißen
 				 */
 				addProfilTapPanel.add(addNewProfil(profile), tab1Title);
-				addProfilTapPanel.add(addInfoToNewProfil(), tab2Title);
+				addProfilTapPanel.add(addInfoToNewProfil(profile), tab2Title);
 
 				// select first tab
 				addProfilTapPanel.selectTab(0);
 
 				// set width if tabpanel
 				addProfilTapPanel.setStyleName("profiletabPanel");
+
+				getInfoTabel(profile);
 
 				RootPanel.get("Content").clear();
 				RootPanel.get("Content").add(addProfilTapPanel);
@@ -86,144 +112,42 @@ public class NewProfilePage extends VerticalPanel {
 
 	}
 
-	private HorizontalPanel addInfoToNewProfil() {
+	private HorizontalPanel addInfoToNewProfil(final Profile profil) {
 		final HorizontalPanel addInfoToProfilPanel = new HorizontalPanel();
 		final VerticalPanel addinfo = new VerticalPanel();
 		addinfo.add(new HTML("<h3> Eigenschaften </h3>"));
-		final HorizontalPanel infoPanel = new HorizontalPanel();
-		
+		// infosOutput.add(infoPanel);
+		// infosOutput.add(w);
+
 		final VerticalPanel buttonPanel = new VerticalPanel();
 		final VerticalPanel newInfoforProfilPanel = new VerticalPanel();
 		newInfoforProfilPanel.add(new HTML("<div> Suche dir Eigenschaften aus: </div>"));
-		final VerticalPanel newInfoforProfilPaneldesc = new VerticalPanel();
-		newInfoforProfilPaneldesc.add(new HTML("<div> ODER </div>"));
-		newInfoforProfilPaneldesc.add(new HTML("<div> Schreibe einen Freitext: </div>"));
-		final FlexTable infoFlexTabel = new FlexTable();
-		final Button saveButton = new Button("<img src='images/add.png'/>");
-		final Button deleteButton = new Button("<img src='images/delete.png'/>");
-		
-		addinfo.add(newInfoforProfilPanel);
-		addinfo.add(newInfoforProfilPaneldesc);
-		addinfo.add(buttonPanel);
-		addinfo.add(deleteButton);
-		
-		
-//		/**
-//		 *  Create table for infos
-//		 */
-//		infoFlexTabel.setText(0, 0, "Deine Hinzugefügten Informationen");
+		final VerticalPanel selectionInfoPanel = new VerticalPanel();
+		final VerticalPanel descriptionInfoPanel = new VerticalPanel();
+		newInfoforProfilPanel.add(selectionInfoPanel);
+		newInfoforProfilPanel.add(descriptionInfoPanel);
 
-		
+		// final Button saveButton = new Button("<img src='images/add.png'/>");
+		final Button saveButto1 = new Button("Hinzufügen");
+		final Button saveButto2 = new Button("Hinzufügen");
+
+		addinfo.add(newInfoforProfilPanel);
+		addinfo.add(descriptionInfoPanel);
+		addinfo.add(buttonPanel);
+
 		infoPanel.add(new HTML("<h3> Deine Hinzugefügten Informationen </h3>"));
-		
+
 		infoPanel.setStyleName("infpan");
-		
-		// Add styles to elements in the stock list table.
-		infoFlexTabel.setCellPadding(6);
-		
-		// Add styles to elements in the stock list table.
-//		infoFlexTabel.getCellFormatter().addStyleName(0, 0, "propertyhead");
-		
+
 		buttonPanel.setStyleName("hbuttons");
 		newInfoforProfilPanel.setStyleName("htcontent");
-		
+
 		buttonPanel.setStyleName("savePanel");
-		buttonPanel.add(saveButton);
+		// buttonPanel.add(saveButton);
 
 		/**
 		 * ListBox für die Eigenschaften erstellen
 		 */
-
-		// Add a drop box with the list types
-		final ListBox propertyListbox = new ListBox(false);
-		final ListBox propertyListbox1 = new ListBox(false);
-
-		// saveButton.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// propertyListbox1.getV
-		// }
-		// });
-		//
-//		partnerboerseVerwaltung.getAllDescriptions(new AsyncCallback<ArrayList<Description>>() {
-//
-//			@Override
-//			public void onSuccess(ArrayList<Description> resultDescriptions) {
-//
-//				for (final Description d : resultDescriptions) {
-//					propertyListbox.addItem(d.getPropertyName().toString());
-//				}
-//				propertyListbox.ensureDebugId("cwListBox-dropBox");
-//				VerticalPanel propertydropBoxPanel = new VerticalPanel();
-//				propertydropBoxPanel.setSpacing(4);
-//				propertydropBoxPanel.add(new HTML("<h2> Eigenschaften </h2>"));
-//				propertydropBoxPanel.add(propertyListbox);
-//				addInfoToProfilPanel.add(propertydropBoxPanel);
-//			}
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
-
-//		partnerboerseVerwaltung.getAllSelections(new AsyncCallback<ArrayList<Selection>>() {
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//			@Override
-//			public void onSuccess(final ArrayList<Selection> selections) {
-//				for (final Selection s : selections) {
-//					propertyListbox1.addItem(s.getPropertyName().toString());
-//				}
-//
-//				propertyListbox.ensureDebugId("cwListBox-dropBox");
-//				final VerticalPanel propertydropBoxPanel1 = new VerticalPanel();
-//				propertydropBoxPanel1.setSpacing(4);
-//				propertydropBoxPanel1.add(new HTML("<h2> Eigenschaften </h2>"));
-//				propertydropBoxPanel1.add(propertyListbox1);
-//				final VerticalPanel secondSelectPanel = new VerticalPanel();
-//				propertydropBoxPanel1.add(secondSelectPanel);
-//				profilPanel.add(propertydropBoxPanel1);
-//				propertyListbox1.addChangeHandler(new ChangeHandler() {
-//
-//					//TODO zweite ListBox Ausgabe überarbeiten
-//					@Override
-//					public void onChange(ChangeEvent event) {
-//						Selection selection = selections.get(propertyListbox1.getSelectedIndex());
-//						partnerboerseVerwaltung.getInfoOf(selection, new AsyncCallback<ArrayList<Info>>() {
-//
-//							@Override
-//							public void onFailure(Throwable caught) {
-//								// TODO Auto-generated method stub
-//
-//							}
-//
-//							@Override
-//							public void onSuccess(ArrayList<Info> result) {
-//								final ListBox infoListBox = new ListBox();
-//
-//								for (Info info : result) {
-//									infoListBox.addItem(info.getInformationValue());
-//								}
-//
-//								secondSelectPanel.clear();
-//								secondSelectPanel.add(infoListBox);
-//
-//							}
-//						});
-//
-//					}
-//				});
-//
-//			}
-//		});
 
 		partnerboerseVerwaltung.getAllSelections(new AsyncCallback<ArrayList<Selection>>() {
 
@@ -235,6 +159,8 @@ public class NewProfilePage extends VerticalPanel {
 
 			@Override
 			public void onSuccess(final ArrayList<Selection> selections) {
+				NewProfilePage.this.selections.clear();
+				NewProfilePage.this.selections.addAll(selections);
 				for (final Selection s : selections) {
 					propertyListbox1.addItem(s.getPropertyName().toString());
 				}
@@ -245,116 +171,226 @@ public class NewProfilePage extends VerticalPanel {
 				propertydropBoxPanel1.add(propertyListbox1);
 				final VerticalPanel secondSelectPanel = new VerticalPanel();
 				propertydropBoxPanel1.add(secondSelectPanel);
-				newInfoforProfilPanel.add(propertydropBoxPanel1);
+				selectionInfoPanel.add(propertydropBoxPanel1);
+				selectionInfoPanel.add(saveButto1);
 				propertyListbox1.addChangeHandler(new ChangeHandler() {
 
-					//TODO zweite ListBox Ausgabe überarbeiten
 					@Override
 					public void onChange(ChangeEvent event) {
 						Selection selection = selections.get(propertyListbox1.getSelectedIndex());
-//						Music[] selectionsValue = Music.class.getEnumConstants();
-//						final ListBox valuesEnum = new ListBox();
-//						for(Music m : selectionsValue){
-//							valuesEnum.addItem(m.getName().toString());
-//							
-//						}
-//						secondSelectPanel.clear();
-//						secondSelectPanel.add(valuesEnum);
-////
+
 						partnerboerseVerwaltung.getOptionsOf(selection, new AsyncCallback<ArrayList<Option>>() {
 
 							@Override
 							public void onFailure(Throwable caught) {
 								// TODO Auto-generated method stub
-								
+
 							}
 
 							@Override
 							public void onSuccess(ArrayList<Option> result) {
-								final ListBox infoListBox = new ListBox();
-								for (Option o : result){
-									infoListBox.addItem(o.getOption());
+								NewProfilePage.this.options.clear();
+								NewProfilePage.this.options.addAll(result);
+
+								optionsListBox = new ListBox();
+								for (Option o : result) {
+									optionsListBox.addItem(o.getOption());
 								}
-//								for (Option op : result) {
-								
-//									infoListBox.addItem(op.getOption().toString());
-//								}
 								secondSelectPanel.clear();
-								secondSelectPanel.add(infoListBox);
-								
+								secondSelectPanel.add(optionsListBox);
+
 							}
 						});
-
-//						
-//						partnerboerseVerwaltung.getOptionsOf(selection, new AsyncCallback<ArrayList<Info>>() {
-//
-//							@Override
-//							public void onFailure(Throwable caught) {
-//								// TODO Auto-generated method stub
-//
-//							}
-//
-//							@Override
-//							public void onSuccess(ArrayList<Info> result) {
-//								final ListBox infoListBox = new ListBox();
-//
-//								for (Info info : result) {
-//									infoListBox.addItem(info.getInformationValue());
-//								}
-//
-//								secondSelectPanel.clear();
-//								secondSelectPanel.add(infoListBox);
-//
-//							}
-//						});
 
 					}
 				});
 
 			}
 		});
-		
+
 		partnerboerseVerwaltung.getAllDescriptions(new AsyncCallback<ArrayList<Description>>() {
-			
-						@Override
-						public void onSuccess(ArrayList<Description> resultDescriptions) {
-			
-							for (final Description d : resultDescriptions) {
-								propertyListbox.addItem(d.getTextualDescription().toString());
-							}
-							propertyListbox.ensureDebugId("cwListBox-dropBox");
-							VerticalPanel propertydropBoxPanel = new VerticalPanel();
-							propertydropBoxPanel.setSpacing(4);
-							propertydropBoxPanel.add(propertyListbox);
-							final VerticalPanel textAreaPanel = new VerticalPanel();
-							propertydropBoxPanel.add(textAreaPanel);
-							newInfoforProfilPaneldesc.add(propertydropBoxPanel);
-							propertyListbox.addChangeHandler(new ChangeHandler() {
-								
-								@Override
-								public void onChange(ChangeEvent event) {
-									final TextArea textdesc = new TextArea();
-									textAreaPanel.clear();
-									textAreaPanel.add(textdesc);
-									
-								}
-							});
-						}
-			
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-			
-						}
-					});
-		
-		infoPanel.add(infoFlexTabel);
-		
-		
-		
+
+			@Override
+			public void onSuccess(ArrayList<Description> resultDescriptions) {
+
+				descriptions.clear();
+				descriptions.addAll(resultDescriptions);
+				for (final Description d : resultDescriptions) {
+					propertyListbox.addItem(d.getTextualDescription().toString());
+				}
+				propertyListbox.ensureDebugId("cwListBox-dropBox");
+				VerticalPanel propertydropBoxPanel = new VerticalPanel();
+				propertydropBoxPanel.setSpacing(4);
+				propertydropBoxPanel.add(propertyListbox);
+				final VerticalPanel textAreaPanel = new VerticalPanel();
+				propertydropBoxPanel.add(textAreaPanel);
+				descriptionInfoPanel.add(propertydropBoxPanel);
+				descriptionInfoPanel.add(saveButto2);
+				propertyListbox.addChangeHandler(new ChangeHandler() {
+
+					@Override
+					public void onChange(ChangeEvent event) {
+						textAreaPanel.clear();
+						textdesc.setValue("");
+						textAreaPanel.add(textdesc);
+					}
+				});
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		/**
+		 * ClickHandler zum Abspeichern von Infos
+		 */
+		saveButto1.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Info info = new Info();
+				info.setProfile(profil);
+				Selection selection = selections.get(propertyListbox1.getSelectedIndex());
+				info.setSelection(selection);
+				Option option = options.get(optionsListBox.getSelectedIndex());
+				info.setInformationValue(option.getOption());
+				saveInfo(info);
+
+			}
+		});
+
+		saveButto2.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Info info = new Info();
+
+				Description description = descriptions.get(propertyListbox.getSelectedIndex());
+				info.setDescription(description);
+				info.setProfile(profil);
+				info.setInformationValue(textdesc.getValue().toString());
+
+				saveInfo(info);
+			}
+		});
+
 		addInfoToProfilPanel.add(addinfo);
 		addInfoToProfilPanel.add(infoPanel);
 		return addInfoToProfilPanel;
+	}
+
+	private void saveInfo(final Info info) {
+		partnerboerseVerwaltung.save(info, new AsyncCallback<Info>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Konnte nicht gespeichert!");
+
+			}
+
+			@Override
+			public void onSuccess(Info result) {
+
+				dataProvider.getList().add(info);
+				dataProvider.flush();
+				dataProvider.refresh();
+				infoTable.redraw();
+
+				Window.alert("Info abgespeichert!");
+
+			}
+		});
+	}
+
+	private void getInfoTabel(Profile currentProfile) {
+
+		partnerboerseVerwaltung.getInfoOf(currentProfile, new AsyncCallback<ArrayList<Info>>() {
+
+			@Override
+			public void onSuccess(ArrayList<Info> result) {
+				dataProvider.getList().clear();
+				dataProvider.getList().addAll(result);
+				dataProvider.flush();
+				dataProvider.refresh();
+				infoTable.redraw();
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		dataProvider.addDataDisplay(infoTable);
+
+		TextColumn<Info> nameInfo = new TextColumn<Info>() {
+			@Override
+			public String getValue(Info info) {
+				if (info.getDescription() != null) {
+					return info.getDescription().getPropertyName();
+				} else {
+					return info.getSelection().getPropertyName();
+				}
+			}
+		};
+
+		TextColumn<Info> valueColumn = new TextColumn<Info>() {
+			@Override
+			public String getValue(Info info) {
+				
+				if (info.getDescription() != null) {
+					String result = info.getDescription().getTextualDescription() + "\n" +   info.getInformationValue();
+					return result;
+				} else {
+					return info.getInformationValue();
+				}
+//				return info.getInformationValue();
+			}
+		};
+
+		infoTable.addColumn(nameInfo, "Eigenschaft");
+		infoTable.addColumn(valueColumn, "Information");
+
+		infoPanel.add(infoTable);
+		infoPanel.add(deleteButton);
+		infoPanel.add(editInfoButton);
+
+		final SingleSelectionModel<Info> selectionInfo = new SingleSelectionModel<Info>();
+		infoTable.setSelectionModel(selectionInfo);
+		
+		deleteButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				final Info selected = selectionInfo.getSelectedObject();
+				if (selected != null) {
+				partnerboerseVerwaltung.delete(selected, new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						dataProvider.getList().remove(selected);
+						dataProvider.flush();
+						dataProvider.refresh();
+						infoTable.redraw();
+						
+						Window.alert("erfolgreich gelöscht");
+
+					}
+				});
+				}
+
+			}
+		});
 	}
 
 	private HorizontalPanel addNewProfil(final Profile profile) {
@@ -388,6 +424,7 @@ public class NewProfilePage extends VerticalPanel {
 		final TextBox tLastname = new TextBox();
 		tLastname.setValue(profile.getLastName());
 		final TextBox tEmail = new TextBox();
+		tEmail.setEnabled(false);
 		tEmail.setValue(profile.geteMail());
 		final TextBox tHeight = new TextBox();
 		tHeight.setValue("" + profile.getHeight());
@@ -416,7 +453,7 @@ public class NewProfilePage extends VerticalPanel {
 		for (int j = 0; j < genderRadioButtons.length; j++) {
 			RadioButton radioButton = new RadioButton("genderGroup", genderValues[j].getName());
 			addnewProfileTable.setWidget(i++, 1, radioButton);
-			if(genderValues[j].equals(profile.getGender())){
+			if (genderValues[j].equals(profile.getGender())) {
 				radioButton.setValue(true);
 			}
 			genderRadioButtons[j] = radioButton;
@@ -426,12 +463,13 @@ public class NewProfilePage extends VerticalPanel {
 		Rbsmokeyes.setValue(profile.isSmoker());
 		final RadioButton Rbsmokeno = new RadioButton("smokeGroup", "nein");
 		Rbsmokeno.setValue(!profile.isSmoker());
-		
+
 		// TODO DatePicker überarbeiten
 		final DatePicker datePicker = new DatePicker();
 		datePicker.setYearAndMonthDropdownVisible(true);
 		datePicker.setYearArrowsVisible(true);
-		
+		datePicker.setVisibleYearCount(150);
+
 		datePicker.setValue(profile.getDateOfBirth());
 
 		/**
@@ -469,8 +507,37 @@ public class NewProfilePage extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				profile.setFirstName(tFirstname.getValue());
-				profile.setLastName(tLastname.getValue());
+				//Überprüfen ob ein Name eingegeben wurde und ob diese nur aus Buchstaben besteht
+				if(!tFirstname.getValue().isEmpty()){
+					String regEx = "[^0-9]*";
+					String namevalue = tFirstname.getValue();
+					if(namevalue.matches(regEx)){
+						profile.setFirstName(tFirstname.getValue());
+					}else{
+						Window.alert("Bitte tragen Sie einen gültigen Namen ein.Nur Buchstaben gültig.");
+						return;
+					}
+					
+				} else {
+					Window.alert("Bitte tragen Sie einen gültigen Namen ein.");
+					return;
+				}
+				
+				if(!tLastname.getValue().isEmpty()){
+					String regEx = "[^0-9]*";
+					String lastnamevalue = tLastname.getValue();
+					if(lastnamevalue.matches(regEx)){
+						profile.setLastName(tLastname.getValue());
+					}else{
+						Window.alert("Bitte tragen Sie einen gültigen Nachnamen ein. Nur Buchstaben gültig.");
+						return;
+					}
+					
+				} else {
+					Window.alert("Bitte tragen Sie einen gültigen Nachnamen ein.");
+					return;
+				}
+				
 				profile.seteMail(tEmail.getValue());
 				profile.setDateOfBirth(datePicker.getValue());
 				if (!tHeight.getValue().isEmpty()) {
@@ -505,7 +572,7 @@ public class NewProfilePage extends VerticalPanel {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Window.alert("Fehler beim speichern");
+						Window.alert("Profil konnte nicht gespeichert werden. Bitte füllen Sie alle Felder aus");
 					}
 				});
 			}

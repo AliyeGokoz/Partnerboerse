@@ -80,6 +80,30 @@ public class PartnerboerseReport implements EntryPoint {
 		
 		RootPanel.get("Navigator").add(menu);
 		
+		profileProposalsBySearchProfile.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				reportGeneratorAsync.renderPartnerProposalsBySearchProfilesReport(new AsyncCallback<String>() {
+					
+					@Override
+					public void onSuccess(String result) {
+						RootPanel.get("Contentzone").clear();
+						HTML html = new HTML(result);
+						RootPanel.get("Contentzone").add(html);
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+			}
+		});
+		
 		profileProposals.addClickHandler(new ClickHandler() {
 	          @Override
 	          public void onClick(ClickEvent event) {
