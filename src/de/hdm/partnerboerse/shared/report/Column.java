@@ -12,6 +12,10 @@ public class Column implements Serializable {
 	public Column() {
 	}
 	
+	
+	/**
+	 * 
+	 */
 	public Column(Paragraph s){
 		this.value = s;
 	}
@@ -24,10 +28,5 @@ public class Column implements Serializable {
 		this.value = newValue;
 	}
 
-//	@Override
-//	public String toString() {
-//		return this.value;
-//	}
-//	
 
 }
