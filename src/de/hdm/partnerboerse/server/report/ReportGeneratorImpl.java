@@ -134,11 +134,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				String info = i.getInformationValue();
 				
 				if (i.getDescription() != null) {
-					String descriptionValue = i.getDescription().getTextualDescription();
+					String descriptionValue = i.getDescription().getTextualDescriptionForProfile();
 					rowInfo.addParagraph(new SimpleParagraph(descriptionValue.toString() + " " + info));
 					
 				} else if (i.getDescription() == null) {
-					String selectionValue = i.getSelection().getTextualDescription();
+					String selectionValue = i.getSelection().getTextualDescriptionForProfile();
 					rowInfo.addParagraph(new SimpleParagraph(selectionValue.toString() + " " + info));
 
 				}

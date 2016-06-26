@@ -69,9 +69,9 @@ public class ShowInfoOfProfile {
 			@Override
 			public String getValue(Info info) {
 				if (info.getDescription() != null) {
-					return info.getDescription().getTextualDescription();
+					return info.getDescription().getTextualDescriptionForProfile();
 				} else {
-					return info.getSelection().getTextualDescription();
+					return info.getSelection().getTextualDescriptionForProfile();
 				}
 			}
 		};
