@@ -6,8 +6,10 @@ public class Property extends BusinessObject{
 
 	private String propertyName = "";
 	
-	private String textualDescription = "";
-
+	private String textualDescriptionForProfile = "";
+	
+	private String textualDescriptionForSearchProfile = "";
+	
 	public String getPropertyName() {
 		return propertyName;
 	}
@@ -16,15 +18,23 @@ public class Property extends BusinessObject{
 		this.propertyName = propertyName;
 	}
 
-	public String getTextualDescription() {
-		return textualDescription;
+	public String getTextualDescriptionForProfile() {
+		return textualDescriptionForProfile;
 	}
 
-	public void setTextualDescription(String textualDescription) {
-		this.textualDescription = textualDescription;
+	public void setTextualDescriptionForProfile(String textualDescriptionForProfile) {
+		this.textualDescriptionForProfile = textualDescriptionForProfile;
 	}
 	
+	public String getTextualDescriptionForSearchProfile() {
+		return textualDescriptionForSearchProfile;
+	}
+
+	public void setTextualDescriptionForSearchProfile(String textualDescriptionForSearchProfile) {
+		this.textualDescriptionForSearchProfile = textualDescriptionForSearchProfile;
+	}
+
 	public String toString() {
-	    return super.toString() + " " + this.propertyName + " " + this.textualDescription;
-	  }
+	    return super.toString() + " " + this.propertyName + " " + this.textualDescriptionForProfile + " " + this.textualDescriptionForSearchProfile;
+	}   
 }

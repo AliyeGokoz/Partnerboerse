@@ -276,7 +276,7 @@ public class AddSearchProfilePage {
 				descriptions.addAll(resultDescription);
 
 				for (final Description d : resultDescription) {
-					descriptionpropertyListbox.addItem(d.getTextualDescription().toString());
+					descriptionpropertyListbox.addItem(d.getTextualDescriptionForProfile());
 				}
 
 				// descriptionpropertyDBPanel.setSpacing(4);

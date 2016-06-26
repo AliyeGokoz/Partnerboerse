@@ -11,6 +11,8 @@ public class Info extends BusinessObject {
 	private Description description;
 
 	private Profile profile;
+	
+	private SearchProfile searchProfile; 
 
 	public String getInformationValue() {
 		return informationValue;
@@ -46,5 +48,13 @@ public class Info extends BusinessObject {
 
 	public String toString() {
 		return super.toString() + " " + this.informationValue;
+	}
+
+	public SearchProfile getSearchProfile() {
+		return searchProfile;
+	}
+
+	public void setSearchProfile(SearchProfile searchProfile) {
+		this.searchProfile = searchProfile;
 	}
 }

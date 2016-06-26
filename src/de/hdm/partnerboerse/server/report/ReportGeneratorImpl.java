@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.server.report;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -32,6 +33,8 @@ import de.hdm.partnerboerse.shared.report.SimpleParagraph;
 
 @SuppressWarnings("serial")
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
+	Date date = new Date();
+	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
 	private PartnerboerseAdministration administration = null;
 	private LoginService loginService;
@@ -52,7 +55,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	protected PartnerboerseAdministration getPartnerboerseVerwaltung() {
 		return this.administration;
 	}
-
+	
 	protected void addImprint(Report r) {
 		r.setImprint(new SimpleParagraph("Imprint"));
 	}
@@ -104,7 +107,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		this.addImprint(result);
 
 		result.setTitle("Partnervorschläge der nicht gesehenen Profile");
-
+		
 		result.setCreated(new Date());
 
 		CompositeParagraph header = new CompositeParagraph();
@@ -121,21 +124,21 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			Row profileRow = new Row();
 
 			CompositeParagraph rowInfo = new CompositeParagraph();
-			rowInfo.addParagraph(new SimpleParagraph(t.getLastName() + "," + t.getFirstName()));
-			rowInfo.addParagraph(new SimpleParagraph(t.geteMail()));
-			rowInfo.addParagraph(new SimpleParagraph(t.getConfession().getName()));
-			rowInfo.addParagraph(new SimpleParagraph(t.getDateOfBirth().toString()));
+			rowInfo.addParagraph(new SimpleParagraph("Nach-/Vorname:" + " " + t.getLastName() + "," + t.getFirstName()));
+			rowInfo.addParagraph(new SimpleParagraph("Email:" +" "+ t.geteMail()));
+			rowInfo.addParagraph(new SimpleParagraph("Religion:"+" "+ t.getConfession().getName()));
+			rowInfo.addParagraph(new SimpleParagraph("Geburtsdatum:" + " " + t.getDateOfBirth().toString()));
 
 			ArrayList<Info> infos = this.administration.getInfoOf(t);
 			for (Info i : infos) {
 				String info = i.getInformationValue();
 				
 				if (i.getDescription() != null) {
-					String descriptionValue = i.getDescription().getTextualDescription();
+					String descriptionValue = i.getDescription().getTextualDescriptionForProfile();
 					rowInfo.addParagraph(new SimpleParagraph(descriptionValue.toString() + " " + info));
 					
 				} else if (i.getDescription() == null) {
-					String selectionValue = i.getSelection().getTextualDescription();
+					String selectionValue = i.getSelection().getTextualDescriptionForProfile();
 					rowInfo.addParagraph(new SimpleParagraph(selectionValue.toString() + " " + info));
 
 				}

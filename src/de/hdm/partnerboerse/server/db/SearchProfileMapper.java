@@ -22,7 +22,7 @@ import de.hdm.partnerboerse.shared.bo.*;
 public class SearchProfileMapper {
 	
 	// Grundlegendes Select-Statement
-	private static final String BASE_SELECT = "SELECT searchprofiles.id AS id, fromAge, toAge, searchprofiles.hairColor AS spHairColor, searchprofiles.gender AS spGender, fromHeight, toHeight, searchprofiles.confession AS spConfession, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, profiles.confession AS pConfession, smoker, profiles.hairColor AS pHairColor, profiles.gender AS pGender FROM searchprofiles LEFT JOIN profiles ON profiles.id = searchprofiles.profileId";
+	private static final String BASE_SELECT = "SELECT searchprofiles.id AS id, name, fromAge, toAge, searchprofiles.hairColor AS spHairColor, searchprofiles.gender AS spGender, fromHeight, toHeight, searchprofiles.confession AS spConfession, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, profiles.confession AS pConfession, smoker, profiles.hairColor AS pHairColor, profiles.gender AS pGender FROM searchprofiles LEFT JOIN profiles ON profiles.id = searchprofiles.profileId";
 
 	/**
 	 * Die Instantiierung der Klasse SearchProfileMapper erfolgt nur einmal.
@@ -105,10 +105,12 @@ public class SearchProfileMapper {
 				stmt = con.createStatement();
 
 				
-				String sql = "INSERT INTO searchprofiles (id, fromAge, toAge, hairColor, gender, fromHeight, toHeight, confession, profileId) "
+				String sql = "INSERT INTO searchprofiles (id, name, fromAge, toAge, hairColor, gender, fromHeight, toHeight, confession, profileId) "
 
 						+ "VALUES ("
 						+ searchProfile.getId()
+						+ ","
+						+ searchProfile.getName()
 						+ ","
 						+ searchProfile.getFromAge()
 						+ ","
@@ -153,7 +155,7 @@ public class SearchProfileMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE searchprofiles " + "SET fromAge=\"" + searchProfile.getFromAge() + "\", "
+			stmt.executeUpdate("UPDATE searchprofiles " + "SET name=\"" + searchProfile.getName() + "\", " +  "fromAge=\"" + searchProfile.getFromAge() + "\", "
 					+ "toAge=\"" + searchProfile.getToAge() + "\", " + "hairColor=\"" + searchProfile.getHairColor()
 					+ "\", " + "gender=" + (searchProfile.getGender() != null ? "\""+searchProfile.getGender()+"\"" : null ) + ", " + "fromHeight=\""
 					+ searchProfile.getFromHeight() + "\", " + "toHeight=\"" + searchProfile.getToHeight() + "\", "
@@ -338,6 +340,7 @@ public class SearchProfileMapper {
 	private SearchProfile map(ResultSet rs) throws SQLException {
 		SearchProfile searchProfile = new SearchProfile();
 		searchProfile.setId(rs.getInt("id"));
+		searchProfile.setName(rs.getString("name"));
 		searchProfile.setFromAge(rs.getInt("fromAge"));
 		searchProfile.setToAge(rs.getInt("toAge"));
 

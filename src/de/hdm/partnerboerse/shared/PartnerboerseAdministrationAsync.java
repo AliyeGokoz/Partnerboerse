@@ -26,16 +26,19 @@ public interface PartnerboerseAdministrationAsync {
 	void createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
 			boolean smoker, HairColor hairColor, Confession confession, Gender gender, AsyncCallback<Profile> callback);
 
-	void createSearchProfile(int id, int fromAge, int toAge, int fromHeight, int toHeight, HairColor hairColor,
-			Gender gender, Confession confession, boolean smoker, AsyncCallback<SearchProfile> callback);
+	void createSearchProfile(int id, String name, int fromAge, int toAge, int fromHeight, int toHeight,
+			HairColor hairColor, Gender gender, Confession confession, boolean smoker,
+			AsyncCallback<SearchProfile> callback);
 
 	void createBlocking(Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
 
-	void createDescription(int id, String propertyName, String textualDescription, AsyncCallback<Description> callback);
+	void createDescription(int id, String propertyName, String textualDescriptionForProfile,
+			String textualDescriptionForSearchProfile, AsyncCallback<Description> callback);
 
 	void createInfo(int id, String informationValue, AsyncCallback<Info> callback);
 
-	void createSelection(int id, String propertyName, String textualDescription, AsyncCallback<Selection> callback);
+	void createSelection(int id, String propertyName, String textualDescriptionForProfile,
+			String textualDescriptionForSearchProfile, AsyncCallback<Selection> callback);
 
 	void createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue,
 			AsyncCallback<Similarity> callback);
@@ -165,9 +168,13 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getWithInVisitList(Profile with, AsyncCallback<ArrayList<VisitList>> callback);
 
-	void findWithInBlocking(Profile with, AsyncCallback<ArrayList<Blocking>> callback);
+	void getWithInBlocking(Profile with, AsyncCallback<ArrayList<Blocking>> callback);
 
-	void findWithInSimilarity(Profile with, AsyncCallback<ArrayList<Similarity>> callback);
+	void getWithInSimilarity(Profile with, AsyncCallback<ArrayList<Similarity>> callback);
+
+	void getInfosOf(int searchProfileId, AsyncCallback<ArrayList<Info>> callback);
+
+	void getInfosOf(SearchProfile searchProfile, AsyncCallback<ArrayList<Info>> callback);
 
 	void visit(Profile profile, AsyncCallback<Void> callback);
 
