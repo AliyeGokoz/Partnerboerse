@@ -1,5 +1,10 @@
 package de.hdm.partnerboerse.shared.report;
 
+/**
+ * Report, der zu einem bestimmten Profil ähnliche mit einem Ähnlichkeitsmaß berechnete 
+ * Profile in Form von Partnervorschlägen darstellt.
+ * 
+ */
 public class PartnerProposalsProfilesReport extends SimpleReport{
 
 	/**

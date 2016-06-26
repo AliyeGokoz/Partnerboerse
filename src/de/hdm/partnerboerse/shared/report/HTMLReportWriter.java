@@ -11,17 +11,37 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 
+/**
+ * Diese Klasse ist ein<code>ReportWriter</code>, der Reports mittels HTML formatiert. 
+ * 
+ */
+
 public class HTMLReportWriter extends ReportWriter {
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+	
+	 /**
+	   * Diese Variable wird mit dem Ergebnis einer Umwandlung  belegt.
+	   */
 
 	private String reportText = "";
 	// private String reportTextTwo = "";
 
+	 /**
+	   * Variable <code>reportText</code> zurücksetzen.
+	   */
+	
 	public void resetReportText() {
 		this.reportText = "";
 	}
 
+	/**
+	   * Ein <code>Paragraph</code>-Objekts in HTML umwandeln
+	   * 
+	   * @param p der Paragraph
+	   * @return HTML-Text
+	   */
+	
 	public String paragraph2HTML(Paragraph p) {
 		if (p instanceof CompositeParagraph) {
 			return this.paragraph2HTML((CompositeParagraph) p);
@@ -30,6 +50,13 @@ public class HTMLReportWriter extends ReportWriter {
 		}
 	}
 
+	/**
+	   * Ein <code>CompositeParagraph</code>-Objekts in HTML umwandeln.
+	   * 
+	   * @param p der CompositeParagraph
+	   * @return HTML-Text
+	   */
+	
 	public String paragraph2HTML(CompositeParagraph p) {
 		StringBuffer result = new StringBuffer();
 
@@ -40,11 +67,24 @@ public class HTMLReportWriter extends ReportWriter {
 		return result.toString();
 	}
 
+	/**
+	   * Ein <code>SimpleParagraph</code>-Objekt in HTML umwandeln.
+	   * 
+	   * @param p der SimpleParagraph
+	   * @return HTML-Text
+	   */
+	
 	public String paragraph2HTML(SimpleParagraph p) {
 		return "<p>" + p.toString() + "</p>";
 
 	}
 
+	/**
+	   * Produzieren des HTML-Header-Texts.
+	   * 
+	   * @return HTML-Text
+	   */
+	
 	public String getHeader() {
 		StringBuffer result = new StringBuffer();
 
@@ -52,49 +92,70 @@ public class HTMLReportWriter extends ReportWriter {
 		return result.toString();
 	}
 
+	  /**
+	   * Produzieren des HTML-Trailer-Texts.
+	   * 
+	   * @return HTML-Text
+	   */
+	
 	public String getTrailer() {
 		return "</body></html>";
 	}
 
+	/**
+	   * Übergebenen Report prozessieren und im Zielformat ablegen. 
+	   * 
+	   * @param r der zu prozessierende Report
+	   */
+	
 	@Override
 	public void process(PartnerProposalsProfilesReport r) {
+		
+		// Ergebnis vorhergehender Prozessierungen löschen.
 		this.resetReportText();
 
 		reportText = processSimpleReport(r);
 	}
 
-	public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException, IOException {
-		PartnerProposalsProfilesReport notViewedReport = new PartnerProposalsProfilesReport();
-		Row row = new Row();
-		Column column = new Column();
-		SimpleParagraph par = new SimpleParagraph("Text");
-		column.setValue(par);
-		row.addColumn(column);
-		notViewedReport.addRow(row);
-		// PartnerProposalsByNotViewedProfilesReport notViewedReportTwo = new
-		// PartnerProposalsByNotViewedProfilesReport();
-		// notViewedReportTwo.addRow(row);
+//	public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException, IOException {
+//		PartnerProposalsProfilesReport notViewedReport = new PartnerProposalsProfilesReport();
+//		Row row = new Row();
+//		Column column = new Column();
+//		SimpleParagraph par = new SimpleParagraph("Text");
+//		column.setValue(par);
+//		row.addColumn(column);
+//		notViewedReport.addRow(row);
+//		// PartnerProposalsByNotViewedProfilesReport notViewedReportTwo = new
+//		// PartnerProposalsByNotViewedProfilesReport();
+//		// notViewedReportTwo.addRow(row);
+//
+//		HTMLReportWriter htmlReportWriter = new HTMLReportWriter();
+//		// PartnerProposalsByNotViewedProfilesReport compositeReport = new
+//		// PartnerProposalsByNotViewedProfilesReport();
+//		SimpleParagraph simpleParagraph = new SimpleParagraph();
+//		simpleParagraph.setText("Hallo");
+//		notViewedReport.setImprint(simpleParagraph);
+//		notViewedReport.setTitle("Blargel");
+//		notViewedReport.setHeaderData(simpleParagraph);
+//		//
+//		// compositeReport.addSubReport(notViewedReport);
+//		// compositeReport.addSubReport(notViewedReportTwo);
+//		htmlReportWriter.process(notViewedReport);
+//		System.out.println(htmlReportWriter.reportText);
+//		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("report.html"), "utf-8"))) {
+//			writer.write(htmlReportWriter.reportText);
+//		}
+//	}
 
-		HTMLReportWriter htmlReportWriter = new HTMLReportWriter();
-		// PartnerProposalsByNotViewedProfilesReport compositeReport = new
-		// PartnerProposalsByNotViewedProfilesReport();
-		SimpleParagraph simpleParagraph = new SimpleParagraph();
-		simpleParagraph.setText("Hallo");
-		notViewedReport.setImprint(simpleParagraph);
-		notViewedReport.setTitle("Blargel");
-		notViewedReport.setHeaderData(simpleParagraph);
-		//
-		// compositeReport.addSubReport(notViewedReport);
-		// compositeReport.addSubReport(notViewedReportTwo);
-		htmlReportWriter.process(notViewedReport);
-		System.out.println(htmlReportWriter.reportText);
-		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("report.html"), "utf-8"))) {
-			writer.write(htmlReportWriter.reportText);
-		}
-	}
-
+	/**
+	   * Übergebenen Report prozessieren und im Zielformat ablegen. 
+	   * 
+	   * @param r der zu prozessierende Report
+	   */
+	
 	@Override
 	public void process(PartnerProposalsBySearchProfileReport r) {
+		// Ergebnis vorhergehender Prozessierungen löschen.
 		this.resetReportText();
 
 		reportText = processCompositeReport(r);
@@ -151,6 +212,12 @@ public class HTMLReportWriter extends ReportWriter {
 		return result.toString();
 	}
 
+	 /**
+	   * Ergebnisses der zuletzt aufgerufenen Prozessierungsmethode auslesen.
+	   * 
+	   * @return ein String im HTML-Format
+	   */
+	
 	public String getReportText() {
 		return this.getHeader() + this.reportText + this.getTrailer();
 	}

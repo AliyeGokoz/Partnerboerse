@@ -1,15 +1,37 @@
 package de.hdm.partnerboerse.shared.report;
 
+/**
+ * <p>
+ * Diese Klasse wird benötigt, um auf dem Client die ihm vom Server zur
+ * Verfügung gestellten <code>Report</code>-Objekte in ein menschenlesbares
+ * Format zu überführen.
+ * </p>
+ * 
+ */
+
+/**
+ * Übersetzen eines <code>PartnerProposalsProfilesReport</code> in das
+ * Zielformat.
+ * 
+ * @param r
+ *            der zu übersetzende Report
+ */
 public class ReportWriter {
 
 	public void process(PartnerProposalsProfilesReport r) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
+	/**
+	 * Übersetzen eines <code>PartnerProposalsBySearchProfileReport</code> in
+	 * das Zielformat.
+	 * 
+	 * @param r
+	 *            der zu übersetzende Report
+	 */
+
 	public void process(PartnerProposalsBySearchProfileReport r) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }
