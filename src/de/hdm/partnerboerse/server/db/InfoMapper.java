@@ -278,7 +278,7 @@ public class InfoMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			String sql = BASE_SELECT + " WHERE profileId=" + profileId + " ORDER BY id";
+			String sql = BASE_SELECT + " WHERE infos.profileId=" + profileId + " ORDER BY id";
 
 			System.out.println(sql);
 
