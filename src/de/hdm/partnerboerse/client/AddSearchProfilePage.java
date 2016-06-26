@@ -174,9 +174,6 @@ public class AddSearchProfilePage {
 
 		searchProfileFormular.add(saveSearchProfileButton);
 
-		createselectioninfo();
-		createdecriptionInfo();
-
 		/**
 		 * Panels mit den Infos an den Panel heften für die Ausgabe
 		 */
@@ -195,106 +192,6 @@ public class AddSearchProfilePage {
 		});
 		return addsearchProfilePanel;
 
-	}
-
-	/**
-	 * Methode zum generieren der Dropdown-Listen für die Information(Selection)
-	 */
-	public void createselectioninfo() {
-		partnerboerseVerwaltung.getAllSelections(new AsyncCallback<ArrayList<Selection>>() {
-
-			@Override
-			public void onSuccess(final ArrayList<Selection> selections) {
-				AddSearchProfilePage.this.selections.clear();
-				AddSearchProfilePage.this.selections.addAll(selections);
-
-				for (final Selection s : selections) {
-					selectionpropertyListbox.addItem(s.getPropertyName().toString());
-				}
-
-				// selectionpropertyDBPanel.setSpacing(4);
-				// selectionpropertyDBPanel.add(selectionpropertyListbox);
-
-				selectionInfoPanel.add(selectionpropertyListbox);
-
-				selectionpropertyListbox.addChangeHandler(new ChangeHandler() {
-
-					@Override
-					public void onChange(ChangeEvent event) {
-						Selection selection = selections.get(selectionpropertyListbox.getSelectedIndex());
-
-						partnerboerseVerwaltung.getOptionsOf(selection, new AsyncCallback<ArrayList<Option>>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void onSuccess(ArrayList<Option> result) {
-								optionsListBox.clear();
-								AddSearchProfilePage.this.options.clear();
-								AddSearchProfilePage.this.options.addAll(result);
-
-								for (Option o : result) {
-									optionsListBox.addItem(o.getOption());
-								}
-
-								selectionInfoPanel.add(optionsListBox);
-								selectionInfoPanel.add(addselectionInfo);
-							}
-						});
-					}
-				});
-
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-	}
-
-	/**
-	 * Methode zum generieren der Dropdown-List für die Information(Description)
-	 */
-	public void createdecriptionInfo() {
-		partnerboerseVerwaltung.getAllDescriptions(new AsyncCallback<ArrayList<Description>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onSuccess(ArrayList<Description> resultDescription) {
-				descriptions.clear();
-				descriptions.addAll(resultDescription);
-
-				for (final Description d : resultDescription) {
-					descriptionpropertyListbox.addItem(d.getTextualDescriptionForProfile());
-				}
-
-				// descriptionpropertyDBPanel.setSpacing(4);
-				// descriptionpropertyDBPanel.add(descriptionpropertyListbox);
-
-				descriptionInfoPanel.add(descriptionpropertyListbox);
-
-				descriptionpropertyListbox.addChangeHandler(new ChangeHandler() {
-
-					@Override
-					public void onChange(ChangeEvent event) {
-						textdesc.setValue("");
-						descriptionInfoPanel.add(textdesc);
-						descriptionInfoPanel.add(adddescriptionInfo);
-					}
-				});
-			}
-		});
 	}
 
 	public void savesearchProfile(final SearchProfile searchProfile) {
