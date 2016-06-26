@@ -115,21 +115,24 @@ public class SearchProfilePage extends VerticalPanel {
 			}
 		};
 		
-//		TextColumn<SearchProfile> genderColumn = new TextColumn<SearchProfile>() {
-//			@Override
-//			public String getValue(SearchProfile searchProfile) {
-//				return searchProfile.getGender().getName();
-//			}
-//		};
+		TextColumn<SearchProfile> genderColumn = new TextColumn<SearchProfile>() {
+			@Override
+			public String getValue(SearchProfile searchProfile) {
+				if(searchProfile.getGender() !=null){
+					return searchProfile.getGender().getName();
+				}
+				return "";
+			}
+		};
 
 		/**
 		 * Spalten der Tabelle zuweisen
 		 */
-		table.addColumn(heightColumn, "Größe");
-		table.addColumn(ageColumn, "Alter");
+		table.addColumn(heightColumn, "Größe" + " von - bis");
+		table.addColumn(ageColumn, "Alter" + " von - bis");
 		table.addColumn(hairColorColumn, "Haarfarbe");
 		table.addColumn(confessionColumn, "Religion");
-//		table.addColumn(genderColumn, "Geschlecht");
+		table.addColumn(genderColumn, "Geschlecht");
 
 		/**
 		 * Tabele aller Suchprofile dem ersten Panel zuweisen
@@ -206,10 +209,9 @@ public class SearchProfilePage extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				showoneSPPanel.clear();
-				AddSearchProfilePage addSProfile = new AddSearchProfilePage(profile);
-				showoneSPPanel.add(addSProfile.addsearchProfile());
-				showoneSPPanel.setVisible(true);
+				searchprofilesPanel.clear();
+				AddSearchProfilePage addSProfile = new AddSearchProfilePage(profile, SearchProfilePage.this);
+				searchprofilesPanel.add(addSProfile.addsearchProfile());
 			}
 		});
 		
@@ -236,11 +238,10 @@ public class SearchProfilePage extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
 				if (selectedsp != null) {
-					showoneSPPanel.clear();
+					searchprofilesPanel.clear();
 					searchProfile = selectedsp;
-					EditSearchProfilePage editSProfile = new EditSearchProfilePage(profile);
-					showoneSPPanel.add(editSProfile.editsearchprofile(selectedsp));
-					showoneSPPanel.setVisible(true);
+					EditSearchProfilePage editSProfile = new EditSearchProfilePage(profile, SearchProfilePage.this);
+					searchprofilesPanel.add(editSProfile.editsearchprofile(selectedsp));
 				}
 			}
 		});

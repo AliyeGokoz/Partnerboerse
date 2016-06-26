@@ -1,5 +1,9 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -15,8 +19,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Description;
+import de.hdm.partnerboerse.shared.bo.Option;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
+import de.hdm.partnerboerse.shared.bo.Selection;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
@@ -52,6 +59,8 @@ private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSet
 	final TextBox tageto = new TextBox();
 	final RadioButton Rbsmokeyes = new RadioButton("smokeGroup", "ja");
 	final RadioButton Rbsmokeno = new RadioButton("smokeGroup", "nein");
+	final ListBox selectionpropertyListboxSP = new ListBox(false);
+	
 	
 	/**
 	 * Button zum speichern anlegen
@@ -61,10 +70,13 @@ private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSet
 	private final Profile profile;
 	private RadioButton[] genderRadioButtons;
 	private Gender[] genderValues;
+
+	private SearchProfilePage searchprofilepage;
 	
 	
-	public EditSearchProfilePage(Profile profile){
+	public EditSearchProfilePage(Profile profile, SearchProfilePage searchprofilepage){
 		this.profile = profile;
+		this.searchprofilepage = searchprofilepage;
 	}
 	
 	public Widget editsearchprofile(final SearchProfile searchProfile){
@@ -134,7 +146,7 @@ private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSet
 		 * Table mit Inhalt füllen damit Formular für Suchprofil angelegt werden
 		 * kann
 		 */
-		newSearchProfileTable.setHTML(0, 0, "<div>Größe</div>");
+		newSearchProfileTable.setHTML(0, 0, "<div>Größe in cm</div>");
 		newSearchProfileTable.setWidget(0, 1, heightPanel);
 		newSearchProfileTable.setHTML(1, 0, "<div>Alter</div>");
 		newSearchProfileTable.setWidget(1, 1, agePanel);
@@ -156,6 +168,7 @@ private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSet
 		
 		return editsearchprofilePanel;
 	}
+	
 	
 	public void savesearchProfile(final SearchProfile searchProfile){
 
@@ -188,16 +201,15 @@ private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSet
 
 			@Override
 			public void onSuccess(SearchProfile result) {
-				SearchProfilePage spp = new SearchProfilePage(profile);
 				
 				if (searchProfile.getId() == 0) {
-					spp.dataProvider.getList().add(result);
+					searchprofilepage.dataProvider.getList().add(result);
 				}
-				spp.dataProvider.flush();
-				spp.dataProvider.refresh();
-				spp.table.redraw();
+				searchprofilepage.dataProvider.flush();
+				searchprofilepage.dataProvider.refresh();
+				searchprofilepage.table.redraw();
 				Window.alert("Profil gespeichert");
-				spp.showoneSPPanel.setVisible(false);
+				searchprofilepage.showoneSPPanel.setVisible(false);
 			}
 
 			@Override
