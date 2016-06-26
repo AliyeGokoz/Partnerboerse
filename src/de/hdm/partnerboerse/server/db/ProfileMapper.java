@@ -341,11 +341,13 @@ public class ProfileMapper {
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Profile> result = new ArrayList<Profile>();
 
+		// SELECT * FROM profiles p1 LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE EXISTS (SELECT * FROM infos i2 LEFT JOIN profiles p2 ON i2.profileId = p2.id WHERE i1.informationValue = i2.informationValue AND (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND i2.searchprofileId = 1); 
+		
 		try {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			String sql = "SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles WHERE profiles.id > 0";
+			String sql = "SELECT p1.id, p1.firstName, p1.lastName, p1.dateOfBirth, p1.email, p1.height, p1.confession, p1.smoker, p1.hairColor, p1.gender FROM profiles p1 LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE EXISTS (SELECT * FROM infos i2 LEFT JOIN profiles p2 ON i2.profileId = p2.id WHERE i1.informationValue = i2.informationValue AND (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND i2.searchprofileId = 1) AND p1.id > 0";
 
 			if (searchProfile.getFromHeight() != 0) {
 				sql += " AND profiles.height > " + searchProfile.getFromHeight() + " ";
@@ -519,13 +521,6 @@ public class ProfileMapper {
 
 		// Ergebnis-ArrayList zurückgeben
 		return result;
-	}
-
-	public static void main(String[] args) {
-		ProfileMapper profileMapper = new ProfileMapper();
-		profileMapper.findAll();
-		profileMapper.findByEmail("");
-		profileMapper.findByKey(1);
 	}
 
 }

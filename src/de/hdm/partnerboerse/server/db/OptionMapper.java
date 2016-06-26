@@ -241,9 +241,4 @@ public class OptionMapper {
 		return option;
 	}
 
-	public static void main(String[] args) {
-		OptionMapper optionMapper = new OptionMapper();
-		optionMapper.findBySelection(1);
-	}
-
 }

@@ -338,13 +338,6 @@ public class BlockingMapper {
 		return blocking;
 	}
 
-	public static void main(String[] args) {
-		BlockingMapper blockingMapper = new BlockingMapper();
-		blockingMapper.findByKey(1);
-		blockingMapper.findByProfile(1);
-		blockingMapper.findAll();
-	}
-
 	/**
 	 * Auslesen ob eine Kontaktsperre zwischen zwei gegebenen Profilen existiert.
 	 * 
