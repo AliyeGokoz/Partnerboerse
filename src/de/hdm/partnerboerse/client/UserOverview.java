@@ -29,8 +29,9 @@ import de.hdm.partnerboerse.shared.bo.Blocking;
 import de.hdm.partnerboerse.shared.bo.FavoritesList;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
+import de.hdm.partnerboerse.shared.bo.VisitList;
 
-public class UserOverview extends VerticalPanel {
+public class UserOverview extends HorizontalPanel {
 
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
@@ -53,7 +54,7 @@ public class UserOverview extends VerticalPanel {
 
 			@Override
 			public void onSuccess(ArrayList<Profile> result) {
-				GWT.log("gggg");
+
 				final TextColumn<Profile> firstNameColumn = new TextColumn<Profile>() {
 
 					@Override
@@ -85,87 +86,93 @@ public class UserOverview extends VerticalPanel {
 					public void onSelectionChange(SelectionChangeEvent event) {
 						final Profile selected = selectionModel.getSelectedObject();
 						if (selected != null) {
-							Window.alert(
-									"You selected:" + " " + selected.getFirstName() + " " + selected.getLastName());
-							final Button saveToFavoritesList = new Button("Zum Merkzettel hinzufügen");
-							final Button saveToBlockingList = new Button("Kontakt sperren");
-
-							buttonPanel.add(saveToBlockingList);
-							buttonPanel.add(saveToFavoritesList);
-							
-							saveToBlockingList.addClickHandler(new ClickHandler() {
-
-								@Override
-								public void onClick(ClickEvent event) {
-								
-									loginService.getCurrentProfile(new AsyncCallback<Profile>() {
-										
-										@Override
-										public void onSuccess(Profile result) {
-											//Window.alert("Kontakt gesperrt");
-											partnerboerseVerwaltung.createBlocking(result, selected, new AsyncCallback<Blocking>() {
-												
-												@Override
-												public void onSuccess(Blocking result) {
-													Window.alert("Sie haben den Kontakt" +" " + selected.getFirstName() + " " + selected.getFirstName() + " " + "gesperrt" );
-													buttonPanel.clear();
-												}
-												
-												@Override
-												public void onFailure(Throwable caught) {
-													// TODO Auto-generated method stub
-													
-												}
-											});
-
-										}
-										
-										@Override
-										public void onFailure(Throwable caught) {
-											// TODO Auto-generated method stub
-											
-										}
-									});
-								}
-								
-							});
-							
-							saveToFavoritesList.addClickHandler(new ClickHandler() {
-								
-								@Override
-								public void onClick(ClickEvent event) {
-									loginService.getCurrentProfile(new AsyncCallback<Profile>() {
-										@Override
-										public void onSuccess(Profile result) {
-											Window.alert("Erfolgreich zum Merkzettel hinzugefügt");
-											partnerboerseVerwaltung.createFavoritesList(result, selected,
-													new AsyncCallback<FavoritesList>() {
-
-														@Override
-														public void onSuccess(FavoritesList result) {
-															buttonPanel.clear();
-														}
-
-														@Override
-														public void onFailure(Throwable caught) {
-															// TODO
-															// Auto-generated
-															// method stub
-
-														}
-													});
-
-										}
-
-										@Override
-										public void onFailure(Throwable caught) {
-											// TODO Auto-generated method stub
-
-										}
-									});
-								}
-							});
+							GWT.log("bdbddjd");
+							seeAllUsers.clear();
+//							saveUsedProfile(visitList, profile, selected);							
+							OtherUserProfilePage showProfile = new OtherUserProfilePage();
+							seeAllUsers.add(showProfile.showProfileofUser(selected));
 						}
+//							Window.alert(
+//									"You selected:" + " " + selected.getFirstName() + " " + selected.getLastName());
+//							final Button saveToFavoritesList = new Button("Zum Merkzettel hinzufügen");
+//							final Button saveToBlockingList = new Button("Kontakt sperren");
+//
+//							buttonPanel.add(saveToBlockingList);
+//							buttonPanel.add(saveToFavoritesList);
+//							
+//							saveToBlockingList.addClickHandler(new ClickHandler() {
+//
+//								@Override
+//								public void onClick(ClickEvent event) {
+//								
+//									loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+//										
+//										@Override
+//										public void onSuccess(Profile result) {
+//											//Window.alert("Kontakt gesperrt");
+//											partnerboerseVerwaltung.createBlocking(result, selected, new AsyncCallback<Blocking>() {
+//												
+//												@Override
+//												public void onSuccess(Blocking result) {
+//													Window.alert("Sie haben den Kontakt" +" " + selected.getFirstName() + " " + selected.getFirstName() + " " + "gesperrt" );
+//													buttonPanel.clear();
+//												}
+//												
+//												@Override
+//												public void onFailure(Throwable caught) {
+//													// TODO Auto-generated method stub
+//													
+//												}
+//											});
+//
+//										}
+//										
+//										@Override
+//										public void onFailure(Throwable caught) {
+//											// TODO Auto-generated method stub
+//											
+//										}
+//									});
+//								}
+//								
+//							});
+//							
+//							saveToFavoritesList.addClickHandler(new ClickHandler() {
+//								
+//								@Override
+//								public void onClick(ClickEvent event) {
+//									loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+//										@Override
+//										public void onSuccess(Profile result) {
+//											Window.alert("Erfolgreich zum Merkzettel hinzugefügt");
+//											partnerboerseVerwaltung.createFavoritesList(result, selected,
+//													new AsyncCallback<FavoritesList>() {
+//
+//														@Override
+//														public void onSuccess(FavoritesList result) {
+//															buttonPanel.clear();
+//														}
+//
+//														@Override
+//														public void onFailure(Throwable caught) {
+//															// TODO
+//															// Auto-generated
+//															// method stub
+//
+//														}
+//													});
+//
+//										}
+//
+//										@Override
+//										public void onFailure(Throwable caught) {
+//											// TODO Auto-generated method stub
+//
+//										}
+//									});
+//								}
+//							});
+//						}
 					}
 				});
 
@@ -181,4 +188,25 @@ public class UserOverview extends VerticalPanel {
 
 		});
 	}
+
+	
+	public void saveUsedProfile(final VisitList visitList, final Profile profile){
+		
+		
+		partnerboerseVerwaltung.save(visitList, new AsyncCallback<Void>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+
 }
