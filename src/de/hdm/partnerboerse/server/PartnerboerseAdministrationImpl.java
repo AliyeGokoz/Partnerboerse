@@ -5,13 +5,30 @@ import java.util.Date;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.partnerboerse.server.db.*;
-import de.hdm.partnerboerse.shared.LoginService;
+import de.hdm.partnerboerse.server.db.BlockingMapper;
+import de.hdm.partnerboerse.server.db.DescriptionMapper;
+import de.hdm.partnerboerse.server.db.FavoritesListMapper;
+import de.hdm.partnerboerse.server.db.InfoMapper;
+import de.hdm.partnerboerse.server.db.OptionMapper;
+import de.hdm.partnerboerse.server.db.ProfileMapper;
+import de.hdm.partnerboerse.server.db.SearchProfileMapper;
+import de.hdm.partnerboerse.server.db.SelectionMapper;
+import de.hdm.partnerboerse.server.db.SimilarityMapper;
+import de.hdm.partnerboerse.server.db.VisitListMapper;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
-import de.hdm.partnerboerse.shared.bo.*;
+import de.hdm.partnerboerse.shared.bo.Blocking;
+import de.hdm.partnerboerse.shared.bo.Description;
+import de.hdm.partnerboerse.shared.bo.FavoritesList;
+import de.hdm.partnerboerse.shared.bo.Info;
+import de.hdm.partnerboerse.shared.bo.Option;
+import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
+import de.hdm.partnerboerse.shared.bo.SearchProfile;
+import de.hdm.partnerboerse.shared.bo.Selection;
+import de.hdm.partnerboerse.shared.bo.Similarity;
+import de.hdm.partnerboerse.shared.bo.VisitList;
 
 public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implements PartnerboerseAdministration {
 
@@ -124,11 +141,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public FavoritesList createFavoritesList(Profile fromProfile, Profile toProfile) {
 		FavoritesList fl = new FavoritesList();
-		
+
 		fl.setFromProfile(fromProfile);
 		fl.setToProfile(toProfile);
 
-		return this.favoritesListMapper.insert(fl);
+		return this.save(fl);
 	}
 
 	@Override
@@ -174,7 +191,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		ArrayList<Blocking> blockings = this.getBlockingsOf(profile);
 		ArrayList<VisitList> visitLists = this.getVisitListsOf(profile);
 		ArrayList<Similarity> similarities = similarityMapper.findWith(profile);
-		
 
 		if (favoritesLists != null) {
 			for (FavoritesList favoritesList : favoritesLists) {
@@ -273,6 +289,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public ArrayList<Profile> getAllProfiles() throws IllegalArgumentException {
 		return this.profileMapper.findAll();
+	}
+
+	public ArrayList<Profile> getAllProfilesFiltered() {
+		ArrayList<Profile> allProfiles = getAllProfiles();
+		Profile currentProfile = LoginServiceImpl.loginService().getCurrentProfile();
+		allProfiles.remove(currentProfile);
+		ArrayList<Blocking> blockings = blockingMapper.findByProfile(currentProfile);
+		for (Blocking blocking : blockings) {
+			allProfiles.remove(blocking.getToProfile());
+		}
+		return allProfiles;
 	}
 
 	@Override
@@ -501,7 +528,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		Profile profile = info.getProfile();
 		updateSimilarityForProfile(profile);
-		
+
 		return savedInfo;
 	}
 
@@ -552,12 +579,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void save(FavoritesList favoritesList) throws IllegalArgumentException {
+	public FavoritesList save(FavoritesList favoritesList) throws IllegalArgumentException {
 		if (favoritesList.getId() != 0) {
-			favoritesListMapper.update(favoritesList);
+			return favoritesListMapper.update(favoritesList);
 		} else {
-			favoritesListMapper.insert(favoritesList);
+			if(!favoritesListMapper.doFavoritesListEntryExist(favoritesList.getFromProfile(), favoritesList.getToProfile())){
+				return favoritesListMapper.insert(favoritesList);
+			}
 		}
+		return favoritesList;
 	}
 
 	// Get-Methoden
@@ -662,31 +692,43 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Profile> getMostSimilarProfiles(Profile fromProfile) throws IllegalArgumentException {
-		
+
 		return this.profileMapper.findMostSimilarProfiles(fromProfile);
 	}
 
 	@Override
 	public ArrayList<FavoritesList> getWithInFavoritesList(Profile with) throws IllegalArgumentException {
-	
+
 		return this.favoritesListMapper.findWith(with);
 	}
 
 	@Override
 	public ArrayList<VisitList> getWithInVisitList(Profile with) throws IllegalArgumentException {
-		
+
 		return this.visitListMapper.findWith(with);
 	}
 
 	@Override
 	public ArrayList<Blocking> findWithInBlocking(Profile with) throws IllegalArgumentException {
-		
+
 		return this.blockingMapper.findWith(with);
 	}
 
 	@Override
 	public ArrayList<Similarity> findWithInSimilarity(Profile with) throws IllegalArgumentException {
-		
+
 		return this.similarityMapper.findWith(with);
+	}
+
+	@Override
+	public void visit(Profile profile) {
+		Profile currentProfile = LoginServiceImpl.loginService().getCurrentProfile();
+
+		if (!visitListMapper.doVisitListExist(currentProfile, profile)) {
+			VisitList visitList = new VisitList();
+			visitList.setFromProfile(currentProfile);
+			visitList.setToProfile(profile);
+			visitListMapper.insert(visitList);
+		}
 	}
 }

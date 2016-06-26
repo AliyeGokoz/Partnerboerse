@@ -64,7 +64,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void save(VisitList visitList, AsyncCallback<Void> callback);
 
-	void save(FavoritesList favoritesList, AsyncCallback<Void> callback);
+	void save(FavoritesList favoritesList, AsyncCallback<FavoritesList> callback);
 
 	/*
 	 * get
@@ -168,6 +168,10 @@ public interface PartnerboerseAdministrationAsync {
 	void findWithInBlocking(Profile with, AsyncCallback<ArrayList<Blocking>> callback);
 
 	void findWithInSimilarity(Profile with, AsyncCallback<ArrayList<Similarity>> callback);
+
+	void visit(Profile profile, AsyncCallback<Void> callback);
+
+	void getAllProfilesFiltered(AsyncCallback<ArrayList<Profile>> callback);
 
 
 

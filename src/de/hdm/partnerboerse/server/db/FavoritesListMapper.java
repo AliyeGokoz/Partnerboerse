@@ -1,9 +1,13 @@
 package de.hdm.partnerboerse.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
-import de.hdm.partnerboerse.shared.bo.*;
+import de.hdm.partnerboerse.shared.bo.FavoritesList;
+import de.hdm.partnerboerse.shared.bo.Profile;
 
 /**
  * Die Mapper-Klasse <code>FavoritesListMapper</code> bildet <code>FavoritesList

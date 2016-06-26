@@ -250,6 +250,6 @@ public class Profile extends BusinessObject {
 				+ this.smoker + " " + this.height + " " + this.hairColor + " " + this.confession + " " + this.gender
 				+ " " + this.hobby + " " + this.sport + " " + this.music + " " + this.film;
 	}
-
+	
 
 }

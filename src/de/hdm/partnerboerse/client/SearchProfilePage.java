@@ -3,6 +3,8 @@ package de.hdm.partnerboerse.client;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -25,11 +27,14 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Description;
+import de.hdm.partnerboerse.shared.bo.Option;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
+import de.hdm.partnerboerse.shared.bo.Selection;
 
 public class SearchProfilePage extends VerticalPanel {
 
@@ -45,9 +50,9 @@ public class SearchProfilePage extends VerticalPanel {
 	final VerticalPanel buttonSPpanel = new VerticalPanel();
 	final VerticalPanel showallSPPanel = new VerticalPanel();
 	final VerticalPanel showoneSPPanel = new VerticalPanel();
-	
+
 	/**
-	 * List für die Ausgabe der Searchprofiles 
+	 * List für die Ausgabe der Searchprofiles
 	 */
 	CellTable<SearchProfile> table = new CellTable<>();
 	ListDataProvider<SearchProfile> dataProvider = new ListDataProvider<>();
@@ -58,9 +63,10 @@ public class SearchProfilePage extends VerticalPanel {
 	final Button addnewSPButton = new Button("<img src='images/add-sp-icon.png'/>");
 	final Button editSpButton = new Button("<img src='images/edit-sp-icon.png'/>");
 	final Button deleteSpButton = new Button("<img src='images/delete-sp-icon.png'/>");
+	final Button addInfotoSP = new Button("Info hinzufügen");
 
 	private final Profile profile;
-	
+
 	private SearchProfile searchProfile;
 
 	public SearchProfilePage(Profile profile) {
@@ -69,7 +75,7 @@ public class SearchProfilePage extends VerticalPanel {
 
 	@Override
 	public void onLoad() {
-		
+
 		/**
 		 * style panels
 		 */
@@ -77,7 +83,7 @@ public class SearchProfilePage extends VerticalPanel {
 		showoneSPPanel.setStyleName("addsppanel");
 
 		dataProvider.addDataDisplay(table);
-		
+
 		/**
 		 * Ausgabe für die Headline der Suchprofile
 		 */
@@ -86,7 +92,7 @@ public class SearchProfilePage extends VerticalPanel {
 		/**
 		 * Tabelen Spalten für die Suchprofile
 		 */
-		
+
 		TextColumn<SearchProfile> heightColumn = new TextColumn<SearchProfile>() {
 			@Override
 			public String getValue(SearchProfile searchProfile) {
@@ -114,11 +120,11 @@ public class SearchProfilePage extends VerticalPanel {
 				return searchProfile.getConfession().getName();
 			}
 		};
-		
+
 		TextColumn<SearchProfile> genderColumn = new TextColumn<SearchProfile>() {
 			@Override
 			public String getValue(SearchProfile searchProfile) {
-				if(searchProfile.getGender() !=null){
+				if (searchProfile.getGender() != null) {
 					return searchProfile.getGender().getName();
 				}
 				return "";
@@ -157,6 +163,7 @@ public class SearchProfilePage extends VerticalPanel {
 		buttonsearchProfilePanel.add(addnewSPButton);
 		buttonsearchProfilePanel.add(editSpButton);
 		buttonsearchProfilePanel.add(deleteSpButton);
+		buttonsearchProfilePanel.add(addInfotoSP);
 
 		/*
 		 * Panels werden dem 'searchprofilesPanel' angehengt
@@ -164,9 +171,9 @@ public class SearchProfilePage extends VerticalPanel {
 		searchprofilesPanel.add(buttonsearchProfilePanel);
 		searchprofilesPanel.add(showallSPPanel);
 		searchprofilesPanel.add(showoneSPPanel);
-		
-//		searchProfilesPanel.add(showallSPPanel);
-//		searchProfilesPanel.add(showoneSPPanel);
+
+		// searchProfilesPanel.add(showallSPPanel);
+		// searchProfilesPanel.add(showoneSPPanel);
 
 		/**
 		 * Der CellList SingleSelectionModel zuweisen
@@ -214,13 +221,12 @@ public class SearchProfilePage extends VerticalPanel {
 				searchprofilesPanel.add(addSProfile.addsearchProfile());
 			}
 		});
-		
 
 	}
 
 	/**
-	 * Weist der CellList eine SingleSelectionModel zu, so können die Daten 
-	 * dann onClick bearbeitet oder gelöscht werden.
+	 * Weist der CellList eine SingleSelectionModel zu, so können die Daten dann
+	 * onClick bearbeitet oder gelöscht werden.
 	 */
 	private void addselectionSearchProfile() {
 
@@ -228,9 +234,9 @@ public class SearchProfilePage extends VerticalPanel {
 		table.setSelectionModel(selectioSProfile);
 
 		/**
-		 * ClickHandler für den Button "Bearbeiten" anlegen, damit
-		 * dieser beim Anklicken die Ansicht öffnet damit das
-		 * Suchprofil überarbeitet werden kann
+		 * ClickHandler für den Button "Bearbeiten" anlegen, damit dieser beim
+		 * Anklicken die Ansicht öffnet damit das Suchprofil überarbeitet werden
+		 * kann
 		 */
 		editSpButton.addClickHandler(new ClickHandler() {
 
@@ -247,11 +253,11 @@ public class SearchProfilePage extends VerticalPanel {
 		});
 
 		/**
-		 * ClickHandler für den Button "Löschen" anlegen, damit
-		 * dieser beim Anklicken die Ansicht öffnet damit ein Neues Suchprofil
-		 * angelegt werden kann.
+		 * ClickHandler für den Button "Löschen" anlegen, damit dieser beim
+		 * Anklicken die Ansicht öffnet damit ein Neues Suchprofil angelegt
+		 * werden kann.
 		 * 
-		 */		
+		 */
 		deleteSpButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -263,12 +269,27 @@ public class SearchProfilePage extends VerticalPanel {
 
 			}
 		});
+		
+		addInfotoSP.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
+				if (selectedsp != null) {
+					searchprofilesPanel.clear();
+					searchProfile = selectedsp;
+					AddInfoToSearchProfile addinfo = new AddInfoToSearchProfile();
+					searchprofilesPanel.add(addinfo.addInfo());
+				}	
+			}
+		});
 
 	}
 
 	/**
-	 * Methode zum Löschen der Suchprofile, das markierte Suchprofil wird 
+	 * Methode zum Löschen der Suchprofile, das markierte Suchprofil wird
 	 * gelöscht und die CellList wird aktualisiert.
+	 * 
 	 * @param searchProfile
 	 */
 	public void deleteSearchProfile(final SearchProfile searchProfile) {
@@ -292,5 +313,4 @@ public class SearchProfilePage extends VerticalPanel {
 		});
 
 	}
-
 }

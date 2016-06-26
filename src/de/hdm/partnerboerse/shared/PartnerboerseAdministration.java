@@ -152,7 +152,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void save(VisitList visitList) throws IllegalArgumentException;
 
-	public void save(FavoritesList favoritesList) throws IllegalArgumentException;
+	public FavoritesList save(FavoritesList favoritesList) throws IllegalArgumentException;
 	
 	public void save(Option option)throws IllegalArgumentException;
 	
@@ -190,4 +190,8 @@ public interface PartnerboerseAdministration extends RemoteService {
     ArrayList<Blocking> findWithInBlocking(Profile with)throws IllegalArgumentException;
     
     ArrayList<Similarity> findWithInSimilarity(Profile with)throws IllegalArgumentException;
+
+	void visit(Profile profile);
+
+	ArrayList<Profile> getAllProfilesFiltered();
 }

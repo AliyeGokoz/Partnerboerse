@@ -97,13 +97,27 @@ public class VisitListMapper {
 
 				// Einfügeoperation erfolgt
 				stmt.executeUpdate("INSERT INTO visits (id, fromProfile, toProfile) " + "VALUES (" + visitList.getId()
-						+ ",'" + visitList.getFromProfile() + "','" + visitList.getToProfile() + "')");
+						+ ",'" + visitList.getFromProfile().getId() + "','" + visitList.getToProfile().getId() + "')");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
 		// Rückgabe, der evtl. korrigierten VisitList.
 		return visitList;
+	}
+
+	public boolean doVisitListExist(Profile fromProfile, Profile toProfile) {
+		try {
+			Statement statement = DBConnection.connection().createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS count FROM visits WHERE fromProfile = "
+					+ fromProfile.getId() + " AND toProfile = " + toProfile.getId());
+			resultSet.next();
+			return resultSet.getInt("count") > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 
 	/**
@@ -235,7 +249,6 @@ public class VisitListMapper {
 	 * @return Eine ArrayList mit VisitList-Objekten, die sämtliche Besuche des
 	 *         vorgegebenen Profils repräsentieren.
 	 */
-
 	public ArrayList<VisitList> findByProfile(int profileId) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
@@ -317,20 +330,20 @@ public class VisitListMapper {
 	}
 
 	public ArrayList<VisitList> findWith(Profile with) {
-		
-		//DB-Verbindung holen
+
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
-		
+
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<VisitList> result = new ArrayList<VisitList>();
-		
+
 		try {
-			
-			//Leeres SQL-Statement (JDBC) anlegen
+
+			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(
-					BASE_SELECT + " WHERE fromProfile=" + with.getId() + " OR toProfile=" + with.getId());
+			ResultSet rs = stmt
+					.executeQuery(BASE_SELECT + " WHERE fromProfile=" + with.getId() + " OR toProfile=" + with.getId());
 
 			while (rs.next()) {
 				result.add(map(rs));
