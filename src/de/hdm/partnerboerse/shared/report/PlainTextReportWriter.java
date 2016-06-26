@@ -2,50 +2,92 @@ package de.hdm.partnerboerse.shared.report;
 
 import java.util.Vector;
 
+/**
+ * Ein <code>ReportWriter</code>, der Reports mittels Plain Text formatiert. In
+ * der Variable <code>reportText</code> wird das im Zielformat vorliegende
+ * Ergebnis abgelegt. Nach anschließendem Aufrufen der entsprechenden
+ * Prozessierungsmethode kann das Ergebnis mit <code>getReportText()</code>
+ * ausgelesen werden.
+ */
+
 public class PlainTextReportWriter extends ReportWriter {
+
+	// Diese Variable wird mit dem Ergebnis einer Umwandlung belegt.
 
 	private String reportText = "";
 
+	// Variable wird zurückgesetzt.
 	public void resetReportText() {
 		this.reportText = "";
 
 	}
 
+	/**
+	 * Produzieren eines Header-Texts.
+	 * 
+	 * @return Text
+	 */
 	public String getHeader() {
 		return "";
 	}
+
+	/**
+	 * Produzieren eines Trailer-Texts.
+	 * 
+	 * @return Text
+	 */
 
 	public String getTrailer() {
 		return "___________________________________________";
 
 	}
 
+	/**
+	 * Übergebener Report prozessieren und im Zielformat ablegen. Später kann
+	 * mittels <code>getReportText()</code> ein Auslesen des Ergebnisses
+	 * erfolgen.
+	 * 
+	 * @param r
+	 *            ist der zu prozessierende Report.
+	 */
+
 	@Override
 	public void process(PartnerProposalsProfilesReport r) {
 		reportText = processSimpleReport(r);
 	}
+
+	/**
+	 * Übergebener Report prozessieren und im Zielformat ablegen. Später kann
+	 * mittels <code>getReportText()</code> ein Auslesen des Ergebnisses
+	 * erfolgen.
+	 * 
+	 * @param r
+	 *            ist der zu prozessierende Report.
+	 */
 
 	@Override
 	public void process(PartnerProposalsBySearchProfileReport r) {
 		reportText = processCompositeReport(r);
 	}
 
-	private String processCompositeReport(CompositeReport r){
+	// TODO
+	private String processCompositeReport(CompositeReport r) {
 		StringBuffer buffer = new StringBuffer();
 		Vector<Report> subReports = r.getSubReports();
 		for (Report report : subReports) {
-			if(report instanceof SimpleReport){
+			if (report instanceof SimpleReport) {
 				SimpleReport simpleReport = (SimpleReport) report;
 				buffer.append(processSimpleReport(simpleReport));
-			} else if (report instanceof CompositeReport){
+			} else if (report instanceof CompositeReport) {
 				CompositeReport compositeReport = (CompositeReport) report;
 				buffer.append(processCompositeReport(compositeReport));
 			}
 		}
 		return buffer.toString();
 	}
-	
-	private String processSimpleReport(SimpleReport r){
+
+	// TODO
+	private String processSimpleReport(SimpleReport r) {
 		this.resetReportText();
 		StringBuffer result = new StringBuffer();
 		result.append(r.getTitle() + "\n\n");
@@ -63,7 +105,14 @@ public class PlainTextReportWriter extends ReportWriter {
 		result.append(r.getImprint() + "\n");
 		return result.toString();
 	}
-	
+
+	/**
+	 * Das Ergebnis der zuletzt aufgerufenen Prozessierungsmethode wird
+	 * ausgelesen.
+	 * 
+	 * @return ein String der aus einem einfachen Text besteht.
+	 */
+
 	public String getReportText() {
 		return this.getHeader() + this.reportText + this.getTrailer();
 
