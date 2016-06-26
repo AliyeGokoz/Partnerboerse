@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.hdm.partnerboerse.client.SearchProfileFormular;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Description;
 import de.hdm.partnerboerse.shared.bo.Option;
