@@ -55,7 +55,7 @@ public class Profile extends BusinessObject {
 
 		DEFAULT("nicht gesetzt"), PROTESTANT("evangelisch"), CATHOLIC("katholisch"), BUDDHISTIC(
 				"buddistisch"), HINDU("hinduistisch"), MUSLIM("muslimisch"), JEWISH(
-				"j�disch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
+				"jüdisch"), NO_CONFESSION("keine Konfession"), OTHERS("andere");
 
 
 		private final String name;
@@ -70,7 +70,7 @@ public class Profile extends BusinessObject {
 	}
 
 	public enum Gender {
-		FEMALE("weiblich"), MALE("m�nnlich"), OTHERS("andere");
+		FEMALE("weiblich"), MALE("männlich"), OTHERS("andere");
 
 		private final String name;
 

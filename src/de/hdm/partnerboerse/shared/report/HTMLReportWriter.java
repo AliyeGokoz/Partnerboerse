@@ -7,14 +7,16 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
-import com.google.gwt.thirdparty.javascript.jscomp.ProcessCommonJSModules;
 
 public class HTMLReportWriter extends ReportWriter {
+	
+	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
 	private String reportText = "";
-	//private String reportTextTwo = "";
+	// private String reportTextTwo = "";
 
 	public void resetReportText() {
 		this.reportText = "";
@@ -97,30 +99,30 @@ public class HTMLReportWriter extends ReportWriter {
 
 		reportText = processCompositeReport(r);
 	}
-	
-	private String processCompositeReport(CompositeReport r){
+
+	private String processCompositeReport(CompositeReport r) {
 		StringBuffer buffer = new StringBuffer();
 		Vector<Report> subReports = r.getSubReports();
 		for (Report report : subReports) {
-			if(report instanceof SimpleReport){
+			if (report instanceof SimpleReport) {
 				SimpleReport simpleReport = (SimpleReport) report;
 				buffer.append(processSimpleReport(simpleReport));
-			} else if (report instanceof CompositeReport){
+			} else if (report instanceof CompositeReport) {
 				CompositeReport compositeReport = (CompositeReport) report;
 				buffer.append(processCompositeReport(compositeReport));
 			}
 		}
 		return buffer.toString();
 	}
-	
-	private String processSimpleReport(SimpleReport r){
+
+	private String processSimpleReport(SimpleReport r) {
 		StringBuffer result = new StringBuffer();
 
 		result.append("<H1>" + r.getTitle() + "</H1>");
 		result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
 		result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData()) + "</b></td>");
 		result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint()) + "</td>");
-		result.append("</tr><tr><td></td><td>" + r.getCreated().toString() + "</td></tr></table>");
+		result.append("</tr><tr><td></td><td>" + sdf.format(r.getCreated()) + "</td></tr></table>");
 
 		Vector<Row> rows = r.getRows();
 		result.append("<table style=\"width:400px\">");
@@ -130,10 +132,12 @@ public class HTMLReportWriter extends ReportWriter {
 			result.append("<tr>");
 			for (int k = 0; k < row.getNumColumns(); k++) {
 				if (i == 0) {
-					result.append("<td style=\"background:silver;font-weight:bold\">" + paragraph2HTML(row.getColumnAt(k).getVaulue()) + "</td>");
+					result.append("<td style=\"background:silver;font-weight:bold\">"
+							+ paragraph2HTML(row.getColumnAt(k).getVaulue()) + "</td>");
 				} else {
 					if (i > 1) {
-						result.append("<td style=\"border-top:1px solid silver\">" + paragraph2HTML(row.getColumnAt(k).getVaulue())+ "</td>");
+						result.append("<td style=\"border-top:1px solid silver\">"
+								+ paragraph2HTML(row.getColumnAt(k).getVaulue()) + "</td>");
 					} else {
 						result.append("<td valign=\"top\">" + paragraph2HTML(row.getColumnAt(k).getVaulue()) + "</td>");
 					}
