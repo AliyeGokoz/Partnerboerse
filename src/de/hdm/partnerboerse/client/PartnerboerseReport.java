@@ -1,8 +1,13 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -12,17 +17,20 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.ListDataProvider;
 
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.ReportGeneratorAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
+import de.hdm.partnerboerse.shared.bo.SearchProfile;
 
 public class PartnerboerseReport implements EntryPoint {
 	
 //	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private ReportGeneratorAsync reportGeneratorAsync = ClientsideSettings.getReportGenerator();
+	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
 	
 	Command showReport = new Command() {
@@ -43,7 +51,8 @@ public class PartnerboerseReport implements EntryPoint {
 	};
 
 	@Override
-	public void onModuleLoad() {
+	public void onModuleLoad() {	
+		
 		final VerticalPanel content = new VerticalPanel();
 		MenuBar backToMenu = new MenuBar(true);
 		backToMenu.addItem("Zurück zum Hauptmenü", goBack);
@@ -79,6 +88,46 @@ public class PartnerboerseReport implements EntryPoint {
 		RootPanel.get("Contentzone").add(hcontent);
 		
 		RootPanel.get("Navigator").add(menu);
+		
+		final CellTable<SearchProfile> table = new CellTable<SearchProfile>();
+		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		final VerticalPanel selectSearchProfile = new VerticalPanel();
+		final ListDataProvider<SearchProfile> dataProvider = new ListDataProvider<>();
+		dataProvider.addDataDisplay(table);
+		
+		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Profile result) {
+				partnerboerseVerwaltung.getSearchProfileOf(result, new AsyncCallback<ArrayList<SearchProfile>>() {
+					
+					@Override
+					public void onSuccess(ArrayList<SearchProfile> result) {
+						final TextColumn<SearchProfile> searchProfileName = new TextColumn<SearchProfile>() {
+							
+							@Override
+							public String getValue(SearchProfile sp) {
+								return sp.getFromHeight() + "-" + sp;
+							}
+						};
+						table.addColumn(searchProfileName, "Suchprofil Name");						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+			}
+			
+		});
 		
 		profileProposalsBySearchProfile.addClickHandler(new ClickHandler() {
 			
