@@ -85,7 +85,7 @@ public class Partnerboerse implements EntryPoint {
 			public void execute() {
 				ProfilePage showProfil = new ProfilePage();
 				RootPanel.get("Content").clear();
-				RootPanel.get("Content").add(showProfil);
+				RootPanel.get("Content").add(showProfil.showProfilePage());
 			}
 		};
 		

@@ -103,7 +103,11 @@ text-decoration: underline;
 .profiletabPanel{
 	width:800px;
 	max-height:400px;
-	overflow:scroll;
+}
+
+profileTap{
+    overflow: hidden;
+    padding: 6px;
 }
 
 .searchprofileBPanel{
