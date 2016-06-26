@@ -71,7 +71,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		 */
 		// ArrayList<Profile> profiles =
 		// this.administration.getMostSimilarProfiles(p);
-		ArrayList<Profile> profiles = this.administration.getAllProfiles();
+		ArrayList<Profile> profiles = this.administration.getNotViewedProfiles(p);
 
 		return createReport(p, profiles);
 
@@ -151,9 +151,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			Profile currentProfile = service.getCurrentProfile();
 
 			profileRow.addColumn(new Column(rowInfo));
-			Similarity sim = this.administration.calculateSimilarity(currentProfile, t);
-			profileRow
-					.addColumn(new Column(new SimpleParagraph(Double.toString(sim.getSimilarityValue() * 100) + "%")));
+			profileRow.addColumn(new Column(new SimpleParagraph(Double.toString(t.getSimilarityValue() * 100) + "%")));
 
 			result.addRow(profileRow);
 		}

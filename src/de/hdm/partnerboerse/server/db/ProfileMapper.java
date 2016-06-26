@@ -492,14 +492,14 @@ public class ProfileMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles LEFT JOIN visits ON visits.toProfile = profiles.id WHERE visits.id IS NULL OR NOT visits.fromProfile = "
-							+ vistingProfile.getId() + " GROUP BY profiles.id");
+					"SELECT profiles.id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender, similarities.similarityValue FROM profiles LEFT JOIN visits ON visits.toProfile = profiles.id INNER JOIN similarities ON similarities.toProfile = profiles.id WHERE visits.id IS NULL OR NOT visits.fromProfile = "
+							+ vistingProfile.getId() + " GROUP BY profiles.id ORDER BY similarities.similarityValue DESC");
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Profile-Objekt
 			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 			while (rs.next()) {
 				Profile profile = new Profile();
-				profile.setId(rs.getInt("id"));
+				profile.setId(rs.getInt("profiles.id"));
 				profile.setFirstName(rs.getString("firstName"));
 				profile.setLastName(rs.getString("lastName"));
 				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
@@ -509,6 +509,7 @@ public class ProfileMapper {
 				profile.setSmoker(rs.getBoolean("smoker"));
 				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
 				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+				profile.setSimilarityValue(rs.getDouble("similarities.similarityValue"));
 
 				result.add(profile);
 			}
