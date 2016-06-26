@@ -58,6 +58,7 @@ public class AddInfoToSearchProfile {
 	private final ArrayList<Selection> selections = new ArrayList<>();
 	private final ArrayList<Option> options = new ArrayList<>();
 	private final ArrayList<Description> descriptions = new ArrayList<>();
+	private ShowInfoOfSearchProfile showinfoOfsearchprofile = new ShowInfoOfSearchProfile();
 	
 	public Widget addInfo(SearchProfile selectedsp){
 		
@@ -233,10 +234,10 @@ public class AddInfoToSearchProfile {
 
 			@Override
 			public void onSuccess(Info result) {
-				// dataProvider.getList().add(info);
-				// dataProvider.flush();
-				// dataProvider.refresh();
-				// infoTable.redraw();
+				showinfoOfsearchprofile.dataProvider.getList().add(info);
+				showinfoOfsearchprofile.dataProvider.flush();
+				showinfoOfsearchprofile.dataProvider.refresh();
+				showinfoOfsearchprofile.infoTable.redraw();
 				textdesc.setValue("");
 				Window.alert("Info abgespeichert!");
 
@@ -245,9 +246,8 @@ public class AddInfoToSearchProfile {
 	}
 	
 	public void showInfoOfSP(final SearchProfile searchProfile){
-		ShowInfoOfSearchProfile showInfo = new ShowInfoOfSearchProfile();
 		showInfos.clear();
-		showInfos.add(showInfo.showInfoOfSearchProfile(searchProfile));
+		showInfos.add(showinfoOfsearchprofile.showInfoOfSearchProfile(searchProfile));
 	}
 	
 }
