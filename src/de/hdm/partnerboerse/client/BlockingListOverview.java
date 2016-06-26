@@ -79,8 +79,6 @@ public class BlockingListOverview extends VerticalPanel{
 							public void onSelectionChange(SelectionChangeEvent event) {
 								final Blocking selected = selectionModel.getSelectedObject();
 								if (selected != null) {
-									Window.alert(
-											"You selected:" + " " + selected.getToProfile().getFirstName() + " " + selected.getToProfile().getLastName());
 									final Button delteFromFavoritesList = new Button("Kontaktsperre aufheben");
 									buttonPanel.add(delteFromFavoritesList);
 									delteFromFavoritesList.addClickHandler(new ClickHandler() {
