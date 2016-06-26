@@ -350,30 +350,30 @@ public class ProfileMapper {
 			String sql = "SELECT p1.id, p1.firstName, p1.lastName, p1.dateOfBirth, p1.email, p1.height, p1.confession, p1.smoker, p1.hairColor, p1.gender FROM profiles p1 LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE EXISTS (SELECT * FROM infos i2 LEFT JOIN profiles p2 ON i2.profileId = p2.id WHERE i1.informationValue = i2.informationValue AND (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND i2.searchprofileId = 1) AND p1.id > 0";
 
 			if (searchProfile.getFromHeight() != 0) {
-				sql += " AND profiles.height > " + searchProfile.getFromHeight() + " ";
+				sql += " AND p1.height > " + searchProfile.getFromHeight() + " ";
 			}
 
 			if (searchProfile.getToHeight() != 0) {
-				sql += " AND profiles.height < " + searchProfile.getToHeight() + " ";
+				sql += " AND p1.height < " + searchProfile.getToHeight() + " ";
 			}
 
 			if (searchProfile.getHairColor() != null && searchProfile.getHairColor() != HairColor.DEFAULT) {
-				sql += " AND profiles.hairColor = '" + searchProfile.getHairColor() + "' ";
+				sql += " AND p1.hairColor = '" + searchProfile.getHairColor() + "' ";
 			}
 
 			if (searchProfile.getConfession() != null && searchProfile.getConfession() != Confession.DEFAULT) {
-				sql += " AND profiles.confession = '" + searchProfile.getConfession() + "' ";
+				sql += " AND p1.confession = '" + searchProfile.getConfession() + "' ";
 			}
 
 			if (searchProfile.getGender() != null) {
-				sql += " AND profiles.gender = '" + searchProfile.getGender() + "' ";
+				sql += " AND p1.gender = '" + searchProfile.getGender() + "' ";
 			}
 
 			if (searchProfile.getFromAge() != 0) {
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				Calendar instance = Calendar.getInstance();
 				instance.add(Calendar.YEAR, searchProfile.getFromAge());
-				sql += " AND profiles.dateOfBirth < '" + simpleDateFormat.format(instance.getTime()) + "' ";
+				sql += " AND p1.dateOfBirth < '" + simpleDateFormat.format(instance.getTime()) + "' ";
 			}
 
 			if (searchProfile.getToAge() != 0) {
@@ -381,7 +381,7 @@ public class ProfileMapper {
 
 				Calendar instance = Calendar.getInstance();
 				instance.add(Calendar.YEAR, -searchProfile.getToAge());
-				sql += " AND profiles.dateOfBirth > '" + simpleDateFormat.format(instance.getTime()) + "' ";
+				sql += " AND p1.dateOfBirth > '" + simpleDateFormat.format(instance.getTime()) + "' ";
 			}
 
 			System.out.println(sql);
@@ -391,16 +391,16 @@ public class ProfileMapper {
 			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 			while (rs.next()) {
 				Profile profile = new Profile();
-				profile.setId(rs.getInt("id"));
-				profile.setFirstName(rs.getString("firstName"));
-				profile.setLastName(rs.getString("lastName"));
-				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
-				profile.seteMail(rs.getString("email"));
-				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
-				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
-				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+				profile.setId(rs.getInt("p1.id"));
+				profile.setFirstName(rs.getString("p1.firstName"));
+				profile.setLastName(rs.getString("p1.lastName"));
+				profile.setDateOfBirth(rs.getDate("p1.dateOfBirth"));
+				profile.seteMail(rs.getString("p1.email"));
+				profile.setHeight(rs.getInt("p1.height"));
+				profile.setConfession(Profile.Confession.valueOf(rs.getString("p1.confession")));
+				profile.setSmoker(rs.getBoolean("p1.smoker"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("p1.hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("p1.gender")));
 
 				result.add(profile);
 			}
