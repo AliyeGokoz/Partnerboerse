@@ -22,7 +22,7 @@ import de.hdm.partnerboerse.shared.bo.*;
 public class DescriptionMapper {
 	
 	// Grundlegendes Select-Statement
-	private static final String BASE_SELECT = "SELECT id, textualDescription, propertyName FROM descriptions";
+	private static final String BASE_SELECT = "SELECT id, textualDescriptionForProfile, textualDescriptionForSearchProfile, propertyName FROM descriptions";
 
 	/**
 	 * Die Instantiierung der Klasse DescriptionMapper erfolgt nur einmal. Dies
@@ -103,11 +103,13 @@ public class DescriptionMapper {
 				stmt = con.createStatement();
 
 				// Einfügeoperation erfolgt
-				stmt.executeUpdate("INSERT INTO descriptions (id, textualDescription, propertyName) "
+				stmt.executeUpdate("INSERT INTO descriptions (id, textualDescriptionForProfile, textualDescriptionForSearchProfile, propertyName) "
 						+ "VALUES ("
 						+ description.getId()
 						+ ",'"
-						+ description.getTextualDescription()
+						+ description.getTextualDescriptionForProfile()
+						+ "','"
+						+ description.getTextualDescriptionForSearchProfile()
 						+ "','"
 						+ description.getPropertyName() + "')");
 
@@ -138,11 +140,10 @@ public class DescriptionMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE descriptions "
-					+ "SET textualDescription=\""
-					+ description.getTextualDescription() + "\", "
-					+ "propertyName=\"" + description.getPropertyName()
-					+ "WHERE id=" + description.getId());
+			stmt.executeUpdate("UPDATE descriptions " + "SET textualDescriptionForProfile=\""
+					+ description.getTextualDescriptionForProfile() + "\", " + "textualDescriptionForSearchProfile=\""
+					+ description.getTextualDescriptionForSearchProfile() + "\", " + "propertyName=\""
+					+ description.getPropertyName() + "WHERE id=" + description.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -266,7 +267,8 @@ public class DescriptionMapper {
 	private Description map(ResultSet rs) throws SQLException {
 		Description description = new Description();
 		description.setId(rs.getInt("id"));
-		description.setTextualDescription(rs.getString("textualDescription"));
+		description.setTextualDescriptionForProfile(rs.getString("textualDescriptionForProfile"));
+		description.setTextualDescriptionForSearchProfile(rs.getString("textualDescriptionForSearchProfile"));
 		description.setPropertyName(rs.getString("propertyName"));
 		return description;
 	}

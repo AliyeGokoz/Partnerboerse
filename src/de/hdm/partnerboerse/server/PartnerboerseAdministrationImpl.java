@@ -72,12 +72,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public SearchProfile createSearchProfile(int id, int fromAge, int toAge, int fromHeight, int toHeight,
+	public SearchProfile createSearchProfile(int id, String name, int fromAge, int toAge, int fromHeight, int toHeight,
 			HairColor hairColor, Gender gender, Confession confession, boolean smoker) {
 		SearchProfile sp = new SearchProfile();
 		// TODO Auto-generated method stub
 
 		sp.setId(id);
+		sp.setName(name);
 		sp.setFromAge(fromAge);
 		sp.setToAge(toAge);
 		sp.setFromHeight(fromHeight);
@@ -100,23 +101,25 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public Selection createSelection(int id, String propertyName, String textualDescription) {
+	public Selection createSelection(int id, String propertyName, String textualDescriptionForProfile, String textualDescriptionForSearchProfile) {
 		Selection s = new Selection();
 
 		s.setId(id);
 		s.setPropertyName(propertyName);
-		s.setTextualDescription(textualDescription);
+		s.setTextualDescriptionForProfile(textualDescriptionForProfile);
+		s.setTextualDescriptionForSearchProfile(textualDescriptionForSearchProfile);
 
 		return this.selectionMapper.insert(s);
 	}
 
 	@Override
-	public Description createDescription(int id, String propertyName, String textualDescription) {
+	public Description createDescription(int id, String propertyName, String textualDescriptionForProfile, String textualDescriptionForSearchProfile) {
 		Description d = new Description();
 
 		d.setId(id);
 		d.setPropertyName(propertyName);
-		d.setTextualDescription(textualDescription);
+		d.setTextualDescriptionForProfile(textualDescriptionForProfile);
+		d.setTextualDescriptionForSearchProfile(textualDescriptionForSearchProfile);
 
 		return this.descriptionMapper.insert(d);
 	}
@@ -214,6 +217,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void delete(SearchProfile searchProfile) throws IllegalArgumentException {
+		
+		ArrayList<Info> infos = infoMapper.findBySearchProfile(searchProfile);
+		for (Info info : infos) {
+			this.infoMapper.delete(info);
+		}
 
 		this.searchProfileMapper.delete(searchProfile);
 	}
@@ -362,22 +370,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		}
 
 		if (two.getAge() > one.getAge() - 3 && two.getAge() < one.getAge() + 3) {
-			matches++;
-		}
-
-		if (one.getFilm() == two.getFilm()) {
-			matches++;
-		}
-
-		if (one.getMusic() == two.getMusic()) {
-			matches++;
-		}
-
-		if (one.getHobby() == two.getHobby()) {
-			matches++;
-		}
-
-		if (one.getSport() == two.getSport()) {
 			matches++;
 		}
 
@@ -679,14 +671,26 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Blocking> findWithInBlocking(Profile with) throws IllegalArgumentException {
+	public ArrayList<Blocking> getWithInBlocking(Profile with) throws IllegalArgumentException {
 		
 		return this.blockingMapper.findWith(with);
 	}
 
 	@Override
-	public ArrayList<Similarity> findWithInSimilarity(Profile with) throws IllegalArgumentException {
+	public ArrayList<Similarity> getWithInSimilarity(Profile with) throws IllegalArgumentException {
 		
 		return this.similarityMapper.findWith(with);
+	}
+
+	@Override
+	public ArrayList<Info> getInfosOf(int searchProfileId) throws IllegalArgumentException {
+	
+		return this.infoMapper.findBySearchProfile(searchProfileId);
+	}
+
+	@Override
+	public ArrayList<Info> getInfosOf(SearchProfile searchProfile) throws IllegalArgumentException {
+	
+		return this.infoMapper.findBySearchProfile(searchProfile);
 	}
 }

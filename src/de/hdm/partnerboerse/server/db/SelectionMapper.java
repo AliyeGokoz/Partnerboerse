@@ -21,7 +21,10 @@ import de.hdm.partnerboerse.shared.bo.*;
 
 public class SelectionMapper {
 
-	/**
+	// Grundlegendes Select-Statement
+		private static final String BASE_SELECT = "SELECT id, textualDescriptionForProfile, textualDescriptionForSearchProfile, propertyName FROM selections";
+	
+		/**
 	 * Die Instantiierung der Klasse SelectionMapper erfolgt nur einmal. Dies
 	 * wird auch als <b>Singleton<b> bezeichnet.
 	 * <p>
@@ -100,11 +103,13 @@ public class SelectionMapper {
 				stmt = con.createStatement();
 
 				// Einfügeoperation erfolgt
-				stmt.executeUpdate("INSERT INTO selections (id, textualDescription, propertyName) "
+				stmt.executeUpdate("INSERT INTO selections (id, textualDescriptionForProfile, textualDescriptionForSearchProfile, propertyName) "
 						+ "VALUES ("
 						+ selection.getId()
 						+ ",'"
-						+ selection.getTextualDescription()
+						+ selection.getTextualDescriptionForProfile()
+						+ "','"
+						+ selection.getTextualDescriptionForSearchProfile()
 						+ "','"
 						+ selection.getPropertyName() + "')");
 
@@ -136,11 +141,10 @@ public class SelectionMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE selections "
-					+ "SET textualDescription=\""
-					+ selection.getTextualDescription() + "\", "
-					+ "propertyName=\"" + selection.getPropertyName()
-					+ "WHERE id=" + selection.getId());
+			stmt.executeUpdate("UPDATE selections " + "SET textualDescriptionForProfile=\""
+					+ selection.getTextualDescriptionForProfile() + "\", " + "textualDescriptionForSearchProfile=\""
+					+ selection.getTextualDescriptionForSearchProfile() + "\", " + "propertyName=\""
+					+ selection.getPropertyName() + "WHERE id=" + selection.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -196,23 +200,17 @@ public class SelectionMapper {
 
 			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, textualDescription, propertyName FROM selections "
-							+ "WHERE id=" + id + " ORDER BY propertyName");
+					.executeQuery(BASE_SELECT + "WHERE id=" + id + " ORDER BY propertyName");
 
 			/*
 			 * Da id der Primärschlüssel ist, kann maximal nur ein Tupel
 			 * zurückgegeben werden. Prüfung, ob ein Ergebnis vorliegt.
 			 */
+			
 			if (rs.next()) {
-
-				Selection selection = new Selection();
-				selection.setId(rs.getInt("id"));
-				selection.setTextualDescription(rs
-						.getString("textualDescription"));
-				selection.setPropertyName(rs.getString("propertyName"));
-
-				// Ausgabe des Ergebnis-Objekts.
-				return selection;
+				// Umwandlung des Ergebnis-Tupel in ein Objekt und Ausgabe des
+				// Ergebnis-Objekts.
+				return map(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -245,17 +243,11 @@ public class SelectionMapper {
 			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, textualDescription, propertyName "
-							+ "FROM selections " + "ORDER BY propertyName");
+					.executeQuery(BASE_SELECT + "ORDER BY propertyName");
 
 			while (rs.next()) {
-				Selection selection = new Selection();
-				selection.setId(rs.getInt("id"));
-				selection.setTextualDescription(rs
-						.getString("textualDescription"));
-				selection.setPropertyName(rs.getString("propertyName"));
 
-				result.add(selection);
+				result.add(map(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -265,5 +257,14 @@ public class SelectionMapper {
 		return result;
 	}
 
+	private Selection map(ResultSet rs) throws SQLException {
+		Selection selection = new Selection();
+		selection.setId(rs.getInt("id"));
+		selection.setTextualDescriptionForProfile(rs.getString("textualDescriptionForProfile"));
+		selection.setTextualDescriptionForSearchProfile(rs.getString("textualDescriptionForSearchProfile"));
+		selection.setPropertyName(rs.getString("propertyName"));
+		return selection; 	
+	}
 
+	
 }
