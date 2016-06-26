@@ -61,6 +61,7 @@ public class SearchProfilePage extends VerticalPanel {
 	/**
 	 * Buttons anlegen zum Anlegen, Löschen, Bearbeiten
 	 */
+	final Button showSP = new Button("Suchprofil ansehen");
 	final Button addnewSPButton = new Button("<img src='images/add-sp-icon.png'/>");
 	final Button editSpButton = new Button("<img src='images/edit-sp-icon.png'/>");
 	final Button deleteSpButton = new Button("<img src='images/delete-sp-icon.png'/>");
@@ -101,59 +102,10 @@ public class SearchProfilePage extends VerticalPanel {
 			}
 		};
 
-		// TextColumn<SearchProfile> heightColumn = new
-		// TextColumn<SearchProfile>() {
-		// @Override
-		// public String getValue(SearchProfile searchProfile) {
-		// return searchProfile.getFromHeight() + " - " +
-		// searchProfile.getToHeight();
-		// }
-		// };
-
-		// TextColumn<SearchProfile> ageColumn = new TextColumn<SearchProfile>()
-		// {
-		// @Override
-		// public String getValue(SearchProfile searchProfile) {
-		// return searchProfile.getFromAge() + " - " + searchProfile.getToAge();
-		// }
-		// };
-		//
-		// TextColumn<SearchProfile> hairColorColumn = new
-		// TextColumn<SearchProfile>() {
-		// @Override
-		// public String getValue(SearchProfile searchProfile) {
-		// return searchProfile.getHairColor().getName();
-		// }
-		// };
-		//
-		// TextColumn<SearchProfile> confessionColumn = new
-		// TextColumn<SearchProfile>() {
-		// @Override
-		// public String getValue(SearchProfile searchProfile) {
-		// return searchProfile.getConfession().getName();
-		// }
-		// };
-		//
-		// TextColumn<SearchProfile> genderColumn = new
-		// TextColumn<SearchProfile>() {
-		// @Override
-		// public String getValue(SearchProfile searchProfile) {
-		// if (searchProfile.getGender() != null) {
-		// return searchProfile.getGender().getName();
-		// }
-		// return "";
-		// }
-		// };
-
 		/**
 		 * Spalten der Tabelle zuweisen
 		 */
 		table.addColumn(nameColumn);
-		// table.addColumn(heightColumn, "Größe" + " von - bis");
-		// table.addColumn(ageColumn, "Alter" + " von - bis");
-		// table.addColumn(hairColorColumn, "Haarfarbe");
-		// table.addColumn(confessionColumn, "Religion");
-		// table.addColumn(genderColumn, "Geschlecht");
 
 		/**
 		 * Tabele aller Suchprofile dem ersten Panel zuweisen
@@ -175,6 +127,7 @@ public class SearchProfilePage extends VerticalPanel {
 		 * Button dem VerticalPanel zuweisen
 		 */
 		// searchProfilPanel.add(new HTML("<h2>Hallo</h2>"));
+		buttonsearchProfilePanel.add(showSP);
 		buttonsearchProfilePanel.add(addnewSPButton);
 		buttonsearchProfilePanel.add(editSpButton);
 		buttonsearchProfilePanel.add(deleteSpButton);
@@ -186,9 +139,6 @@ public class SearchProfilePage extends VerticalPanel {
 		searchprofilesPanel.add(buttonsearchProfilePanel);
 		searchprofilesPanel.add(showallSPPanel);
 		searchprofilesPanel.add(showoneSPPanel);
-
-		// searchProfilesPanel.add(showallSPPanel);
-		// searchProfilesPanel.add(showoneSPPanel);
 
 		/**
 		 * Der CellList SingleSelectionModel zuweisen
@@ -247,11 +197,14 @@ public class SearchProfilePage extends VerticalPanel {
 
 		final SingleSelectionModel<SearchProfile> selectioSProfile = new SingleSelectionModel<SearchProfile>();
 		table.setSelectionModel(selectioSProfile);
-
-		selectioSProfile.addSelectionChangeHandler(new Handler() {
+		
+		/*
+		 * 
+		 */
+		showSP.addClickHandler(new ClickHandler() {
 			
 			@Override
-			public void onSelectionChange(SelectionChangeEvent event) {
+			public void onClick(ClickEvent event) {
 				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
 
 				if (selectedsp != null) {
@@ -260,8 +213,24 @@ public class SearchProfilePage extends VerticalPanel {
 					ShowOneSearchProfile showSP = new ShowOneSearchProfile(SearchProfilePage.this);
 					showoneSPPanel.add(showSP.showSearchProfile(selectedsp));
 				}
+				
 			}
 		});
+		
+//		selectioSProfile.addSelectionChangeHandler(new Handler() {
+//			
+//			@Override
+//			public void onSelectionChange(SelectionChangeEvent event) {
+//				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
+//
+//				if (selectedsp != null) {
+//					showoneSPPanel.clear();
+//					searchProfile = selectedsp;
+//					ShowOneSearchProfile showSP = new ShowOneSearchProfile(SearchProfilePage.this);
+//					showoneSPPanel.add(showSP.showSearchProfile(selectedsp));
+//				}
+//			}
+//		});
 		
 		
 		/*
