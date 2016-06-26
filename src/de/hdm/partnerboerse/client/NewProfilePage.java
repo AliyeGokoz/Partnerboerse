@@ -216,7 +216,7 @@ public class NewProfilePage extends VerticalPanel {
 				descriptions.clear();
 				descriptions.addAll(resultDescriptions);
 				for (final Description d : resultDescriptions) {
-					propertyListbox.addItem(d.getTextualDescription().toString());
+					propertyListbox.addItem(d.getTextualDescriptionForProfile().toString());
 				}
 				propertyListbox.ensureDebugId("cwListBox-dropBox");
 				VerticalPanel propertydropBoxPanel = new VerticalPanel();
@@ -343,7 +343,7 @@ public class NewProfilePage extends VerticalPanel {
 			public String getValue(Info info) {
 				
 				if (info.getDescription() != null) {
-					String result = info.getDescription().getTextualDescription() + "\n" +   info.getInformationValue();
+					String result = info.getDescription().getTextualDescriptionForProfile() + "\n" +   info.getInformationValue();
 					return result;
 				} else {
 					return info.getInformationValue();
