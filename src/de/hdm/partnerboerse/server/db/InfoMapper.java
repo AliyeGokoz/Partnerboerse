@@ -505,12 +505,6 @@ public class InfoMapper {
 	 * @return Info-Objekt
 	 */
 
-	public static void main(String[] args) {
-		ArrayList<Info> findAll = new InfoMapper().findAll();
-		for (Info info : findAll) {
-
-		}
-	}
 
 	private Info map(ResultSet rs) throws SQLException {
 		Info info = new Info();
