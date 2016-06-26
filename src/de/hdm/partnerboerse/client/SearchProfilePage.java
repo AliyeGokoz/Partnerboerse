@@ -148,7 +148,7 @@ public class SearchProfilePage extends VerticalPanel {
 		/**
 		 * Spalten der Tabelle zuweisen
 		 */
-		table.addColumn(nameColumn, "Größe" + " von - bis");
+		table.addColumn(nameColumn);
 		// table.addColumn(heightColumn, "Größe" + " von - bis");
 		// table.addColumn(ageColumn, "Alter" + " von - bis");
 		// table.addColumn(hairColorColumn, "Haarfarbe");
