@@ -22,7 +22,7 @@ import de.hdm.partnerboerse.shared.bo.*;
 public class SelectionMapper {
 
 	// Grundlegendes Select-Statement
-		private static final String BASE_SELECT = "SELECT id, textualDescriptionForProfile, textualDescriptionForSearchProfile, propertyName FROM selections";
+		private static final String BASE_SELECT = "SELECT id, textualDescriptionForProfile, textualDescriptionForSearchProfile, propertyName FROM selections ";
 	
 		/**
 	 * Die Instantiierung der Klasse SelectionMapper erfolgt nur einmal. Dies

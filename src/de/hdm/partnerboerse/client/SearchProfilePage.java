@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
@@ -93,52 +94,66 @@ public class SearchProfilePage extends VerticalPanel {
 		 * Tabelen Spalten für die Suchprofile
 		 */
 
-		TextColumn<SearchProfile> heightColumn = new TextColumn<SearchProfile>() {
+		TextColumn<SearchProfile> nameColumn = new TextColumn<SearchProfile>() {
 			@Override
 			public String getValue(SearchProfile searchProfile) {
-				return searchProfile.getFromHeight() + " - " + searchProfile.getToHeight();
+				return searchProfile.getName();
 			}
 		};
 
-		TextColumn<SearchProfile> ageColumn = new TextColumn<SearchProfile>() {
-			@Override
-			public String getValue(SearchProfile searchProfile) {
-				return searchProfile.getFromAge() + " - " + searchProfile.getToAge();
-			}
-		};
+		// TextColumn<SearchProfile> heightColumn = new
+		// TextColumn<SearchProfile>() {
+		// @Override
+		// public String getValue(SearchProfile searchProfile) {
+		// return searchProfile.getFromHeight() + " - " +
+		// searchProfile.getToHeight();
+		// }
+		// };
 
-		TextColumn<SearchProfile> hairColorColumn = new TextColumn<SearchProfile>() {
-			@Override
-			public String getValue(SearchProfile searchProfile) {
-				return searchProfile.getHairColor().getName();
-			}
-		};
-
-		TextColumn<SearchProfile> confessionColumn = new TextColumn<SearchProfile>() {
-			@Override
-			public String getValue(SearchProfile searchProfile) {
-				return searchProfile.getConfession().getName();
-			}
-		};
-
-		TextColumn<SearchProfile> genderColumn = new TextColumn<SearchProfile>() {
-			@Override
-			public String getValue(SearchProfile searchProfile) {
-				if (searchProfile.getGender() != null) {
-					return searchProfile.getGender().getName();
-				}
-				return "";
-			}
-		};
+		// TextColumn<SearchProfile> ageColumn = new TextColumn<SearchProfile>()
+		// {
+		// @Override
+		// public String getValue(SearchProfile searchProfile) {
+		// return searchProfile.getFromAge() + " - " + searchProfile.getToAge();
+		// }
+		// };
+		//
+		// TextColumn<SearchProfile> hairColorColumn = new
+		// TextColumn<SearchProfile>() {
+		// @Override
+		// public String getValue(SearchProfile searchProfile) {
+		// return searchProfile.getHairColor().getName();
+		// }
+		// };
+		//
+		// TextColumn<SearchProfile> confessionColumn = new
+		// TextColumn<SearchProfile>() {
+		// @Override
+		// public String getValue(SearchProfile searchProfile) {
+		// return searchProfile.getConfession().getName();
+		// }
+		// };
+		//
+		// TextColumn<SearchProfile> genderColumn = new
+		// TextColumn<SearchProfile>() {
+		// @Override
+		// public String getValue(SearchProfile searchProfile) {
+		// if (searchProfile.getGender() != null) {
+		// return searchProfile.getGender().getName();
+		// }
+		// return "";
+		// }
+		// };
 
 		/**
 		 * Spalten der Tabelle zuweisen
 		 */
-		table.addColumn(heightColumn, "Größe" + " von - bis");
-		table.addColumn(ageColumn, "Alter" + " von - bis");
-		table.addColumn(hairColorColumn, "Haarfarbe");
-		table.addColumn(confessionColumn, "Religion");
-		table.addColumn(genderColumn, "Geschlecht");
+		table.addColumn(nameColumn, "Größe" + " von - bis");
+		// table.addColumn(heightColumn, "Größe" + " von - bis");
+		// table.addColumn(ageColumn, "Alter" + " von - bis");
+		// table.addColumn(hairColorColumn, "Haarfarbe");
+		// table.addColumn(confessionColumn, "Religion");
+		// table.addColumn(genderColumn, "Geschlecht");
 
 		/**
 		 * Tabele aller Suchprofile dem ersten Panel zuweisen
@@ -216,9 +231,9 @@ public class SearchProfilePage extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				searchprofilesPanel.clear();
+				showoneSPPanel.clear();
 				AddSearchProfilePage addSProfile = new AddSearchProfilePage(profile, SearchProfilePage.this);
-				searchprofilesPanel.add(addSProfile.addsearchProfile());
+				showoneSPPanel.add(addSProfile.addsearchProfile());
 			}
 		});
 
@@ -233,7 +248,23 @@ public class SearchProfilePage extends VerticalPanel {
 		final SingleSelectionModel<SearchProfile> selectioSProfile = new SingleSelectionModel<SearchProfile>();
 		table.setSelectionModel(selectioSProfile);
 
-		/**
+		selectioSProfile.addSelectionChangeHandler(new Handler() {
+			
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
+
+				if (selectedsp != null) {
+					showoneSPPanel.clear();
+					searchProfile = selectedsp;
+					ShowOneSearchProfile showSP = new ShowOneSearchProfile(SearchProfilePage.this);
+					showoneSPPanel.add(showSP.showSearchProfile(selectedsp));
+				}
+			}
+		});
+		
+		
+		/*
 		 * ClickHandler für den Button "Bearbeiten" anlegen, damit dieser beim
 		 * Anklicken die Ansicht öffnet damit das Suchprofil überarbeitet werden
 		 * kann
@@ -244,10 +275,10 @@ public class SearchProfilePage extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
 				if (selectedsp != null) {
-					searchprofilesPanel.clear();
+					showoneSPPanel.clear();
 					searchProfile = selectedsp;
 					EditSearchProfilePage editSProfile = new EditSearchProfilePage(profile, SearchProfilePage.this);
-					searchprofilesPanel.add(editSProfile.editsearchprofile(selectedsp));
+					showoneSPPanel.add(editSProfile.editsearchprofile(selectedsp));
 				}
 			}
 		});
@@ -269,9 +300,9 @@ public class SearchProfilePage extends VerticalPanel {
 
 			}
 		});
-		
+
 		addInfotoSP.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
@@ -279,8 +310,8 @@ public class SearchProfilePage extends VerticalPanel {
 					searchprofilesPanel.clear();
 					searchProfile = selectedsp;
 					AddInfoToSearchProfile addinfo = new AddInfoToSearchProfile();
-					searchprofilesPanel.add(addinfo.addInfo());
-				}	
+					searchprofilesPanel.add(addinfo.addInfo(selectedsp));
+				}
 			}
 		});
 

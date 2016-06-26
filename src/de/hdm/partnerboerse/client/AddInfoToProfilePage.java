@@ -55,6 +55,12 @@ public class AddInfoToProfilePage {
 	private final ArrayList<Selection> selections = new ArrayList<>();
 	private final ArrayList<Option> options = new ArrayList<>();
 	private final ArrayList<Description> descriptions = new ArrayList<>();
+	
+	private ShowInfoOfProfile showinfoofprofile;
+
+	public AddInfoToProfilePage(final ShowInfoOfProfile showinfoofprofile) {
+		this.showinfoofprofile = showinfoofprofile;
+	}
 
 	public Widget addinfotoprofile(Profile profile) {
 
@@ -228,10 +234,10 @@ public class AddInfoToProfilePage {
 
 			@Override
 			public void onSuccess(Info result) {
-				// dataProvider.getList().add(info);
-				// dataProvider.flush();
-				// dataProvider.refresh();
-				// infoTable.redraw();
+				showinfoofprofile.dataProvider.getList().add(info);
+				showinfoofprofile.dataProvider.flush();
+				showinfoofprofile.dataProvider.refresh();
+				showinfoofprofile.infoTable.redraw();
 				textdesc.setValue("");
 				Window.alert("Info abgespeichert!");
 

@@ -105,7 +105,7 @@ public class InfoMapper {
 				stmt.executeUpdate(
 						"INSERT INTO infos (id, informationValue, profileId, searchprofileId, selectionId, descriptionId) "
 								+ "VALUES (" + info.getId() + ",'" + info.getInformationValue() + "', "
-								+ info.getProfile().getId() + ", "
+								+ (info.getProfile() != null ? info.getProfile().getId() : "NULL") + ", "
 								+ (info.getSearchProfile() != null ? info.getSearchProfile().getId() : "NULL") + ", "
 								+ (info.getSelection() != null ? info.getSelection().getId() : "NULL") + ", "
 								+ (info.getDescription() != null ? info.getDescription().getId() : "NULL") + ")");
@@ -543,9 +543,18 @@ public class InfoMapper {
 			searchProfile.setToAge(rs.getInt("spta"));
 			searchProfile.setFromHeight(rs.getInt("spfh"));
 			searchProfile.setToHeight(rs.getInt("spth"));
-			searchProfile.setHairColor(Profile.HairColor.valueOf(rs.getString("sphc")));
-			searchProfile.setGender(Profile.Gender.valueOf(rs.getString("spg")));
-			searchProfile.setConfession(Profile.Confession.valueOf(rs.getString("spc")));
+			String hairColor = rs.getString("sphc");
+			if (hairColor != null) {
+				searchProfile.setHairColor(Profile.HairColor.valueOf(hairColor));
+			}
+			String gender = rs.getString("spg");
+			if (gender != null) {
+				searchProfile.setGender(Profile.Gender.valueOf(gender));
+			}
+			String confession = rs.getString("spc");
+			if (confession != null) {
+				searchProfile.setConfession(Profile.Confession.valueOf(confession));
+			}
 
 			info.setSearchProfile(searchProfile);
 		}

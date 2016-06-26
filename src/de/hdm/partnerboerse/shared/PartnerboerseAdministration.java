@@ -198,4 +198,5 @@ public interface PartnerboerseAdministration extends RemoteService {
     ArrayList<Info> getInfosOf(int searchProfileId)throws IllegalArgumentException;
     
     ArrayList<Info> getInfosOf(SearchProfile searchProfile)throws IllegalArgumentException;
+
 }

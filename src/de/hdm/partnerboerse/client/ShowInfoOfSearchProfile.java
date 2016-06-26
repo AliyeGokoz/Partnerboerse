@@ -17,6 +17,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Info;
+import de.hdm.partnerboerse.shared.bo.SearchProfile;
 
 public class ShowInfoOfSearchProfile {
 
@@ -39,27 +40,28 @@ public class ShowInfoOfSearchProfile {
 	 */
 	final Button deleteButton = new Button("<img src='images/delete.png'/>");
 	
-	public Widget showInfoOfSearchProfile(){
+	
+	public Widget showInfoOfSearchProfile(final SearchProfile searchProfile){
 		
 		
-//		partnerboerseVerwaltung.getInfoOf(currentProfile, new AsyncCallback<ArrayList<Info>>() {
-//
-//			@Override
-//			public void onSuccess(ArrayList<Info> result) {
-//				dataProvider.getList().clear();
-//				dataProvider.getList().addAll(result);
-//				dataProvider.flush();
-//				dataProvider.refresh();
-//				infoTable.redraw();
-//
-//			}
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
+		partnerboerseVerwaltung.getInfosOf(searchProfile, new AsyncCallback<ArrayList<Info>>() {
+
+			@Override
+			public void onSuccess(ArrayList<Info> result) {
+				dataProvider.getList().clear();
+				dataProvider.getList().addAll(result);
+				dataProvider.flush();
+				dataProvider.refresh();
+				infoTable.redraw();
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 
 		dataProvider.addDataDisplay(infoTable);
 
@@ -68,9 +70,9 @@ public class ShowInfoOfSearchProfile {
 			@Override
 			public String getValue(Info info) {
 				if (info.getDescription() != null) {
-					return info.getDescription().getTextualDescription();
+					return info.getDescription().getTextualDescriptionForSearchProfile();
 				} else {
-					return info.getSelection().getTextualDescription();
+					return info.getSelection().getTextualDescriptionForSearchProfile();
 				}
 			}
 		};

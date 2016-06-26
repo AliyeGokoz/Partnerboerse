@@ -96,12 +96,13 @@ public class NewProfilePage extends VerticalPanel {
 	private HorizontalPanel addInfoToNewProfil(final Profile profil) {
 		final HorizontalPanel infoOfProfilPanel = new HorizontalPanel();
 		
+		ShowInfoOfProfile showInfos = new ShowInfoOfProfile();
+		
 		final HorizontalPanel addInfoToProfilPanel = new HorizontalPanel();
-		AddInfoToProfilePage addinf = new AddInfoToProfilePage();
+		AddInfoToProfilePage addinf = new AddInfoToProfilePage(showInfos);
 		addInfoToProfilPanel.add(addinf.addinfotoprofile(profil));
 		
 		final VerticalPanel infoPanel = new VerticalPanel();
-		ShowInfoOfProfile showInfos = new ShowInfoOfProfile();
 		infoPanel.add(showInfos.showInfo(profil));
 		
 		infoOfProfilPanel.add(addInfoToProfilPanel);

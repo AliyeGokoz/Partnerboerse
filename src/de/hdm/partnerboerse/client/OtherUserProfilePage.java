@@ -111,17 +111,14 @@ public class OtherUserProfilePage {
 		return showProfile;
 	}
 
-	public Date getDate(final Profile selected) {
-		String string = selected.getDateOfBirth().toString();
-		Date result = null;
+	public void getDate(final Profile selected) {
 		try {
-			DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd");
-			result = format.parse(string);
+			DateTimeFormat format = DateTimeFormat.getFormat("dd.MM.yyyy");
+			String result = format.format(selected.getDateOfBirth());
 			dateofBirthLabel.setText("" + result);
 		} catch (Exception e) {
 			// ignore
 		}
-		return result;
 	}
 
 	public void goBacktoUserOverview() {
