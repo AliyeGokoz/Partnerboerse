@@ -2,6 +2,7 @@ package de.hdm.partnerboerse.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -29,6 +30,18 @@ public class ProfilePage {
 	 * Panel für die Ausgabe
 	 */
 	final HorizontalPanel showProfile = new HorizontalPanel();
+	
+	//Widgets anlegen für die Ausgabe
+	final Label fNLabel = new Label();
+	final Label lNLabel = new Label();
+	final Label ELabel = new Label();
+	final Label bDLabel = new Label();
+	final Label heightLabel = new Label();
+	final Label lgender = new Label();
+	final Label lhaircolor = new Label();
+	final Label lconf = new Label();
+	final Label lsmoke = new Label();
+	
 	
 	public Widget showProfilePage() {
 
@@ -108,30 +121,16 @@ public class ProfilePage {
 		 */
 		buttonsPanel.add(deleteProfileButton);
 
-		/**
-		 * Profil ausgabe
-		 */
+		
 
-		/**
-		 * Label für die Ausgaben
-		 */
-		final Label fNLabel = new Label();
+		//Label füllen
 		fNLabel.setText(profile.getFirstName());
-		final Label lNLabel = new Label();
 		lNLabel.setText(profile.getLastName());
-		final Label ELabel = new Label();
 		ELabel.setText(profile.geteMail());
-		final Label bDLabel = new Label();
-		bDLabel.setText(profile.getDateOfBirth().toString());
-		final Label heightLabel = new Label();
 		heightLabel.setText(Integer.toString(profile.getHeight()));
-		final Label lgender = new Label();
 		lgender.setText(profile.getGender().getName());
-		final Label lhaircolor = new Label();
 		lhaircolor.setText(profile.getHairColor().getName().toString());
-		final Label lconf = new Label();
 		lconf.setText(profile.getConfession().getName().toString());
-		final Label lsmoke = new Label();
 		lsmoke.setText(profile.isSmoker() ? "Ja" : "Nein");
 
 		/**
@@ -173,6 +172,10 @@ public class ProfilePage {
 				myDialog.show();
 			}
 		});
+		
+		//Datum ausgeben 
+		getDate(profile);
+		
 
 		return showProfile;
 	}
@@ -235,6 +238,16 @@ public class ProfilePage {
 			panel.add(neinButton);
 
 			setWidget(panel);
+		}
+	}
+	
+	public void getDate(final Profile profile) {
+		try {
+			DateTimeFormat format = DateTimeFormat.getFormat("dd.MM.yyyy");
+			String result = format.format(profile.getDateOfBirth());
+			bDLabel.setText("" + result);
+		} catch (Exception e) {
+			// ignore
 		}
 	}
 
