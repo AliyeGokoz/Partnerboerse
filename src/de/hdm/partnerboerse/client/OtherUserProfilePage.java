@@ -67,7 +67,7 @@ public class OtherUserProfilePage {
 		showProfileofUser.setWidth("200");
 		showProfileofUser.setCellSpacing(10);
 
-		setDate(selected);
+		getDate(selected);
 
 		// Label mit Inhalt füllen
 		firstnameLabel.setText(selected.getFirstName());
@@ -111,7 +111,7 @@ public class OtherUserProfilePage {
 		return showProfile;
 	}
 
-	public void setDate(final Profile selected) {
+	public void getDate(final Profile selected) {
 		try {
 			DateTimeFormat format = DateTimeFormat.getFormat("dd.MM.yyyy");
 			String result = format.format(selected.getDateOfBirth());

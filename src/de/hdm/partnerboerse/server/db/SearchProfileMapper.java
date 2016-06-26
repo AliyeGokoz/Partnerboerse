@@ -109,9 +109,9 @@ public class SearchProfileMapper {
 
 						+ "VALUES ("
 						+ searchProfile.getId()
-						+ ","
+						+ ",'"
 						+ searchProfile.getName()
-						+ ","
+						+ "',"
 						+ searchProfile.getFromAge()
 						+ ","
 						+ searchProfile.getToAge()

@@ -562,8 +562,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			savedInfo = infoMapper.insert(info);
 		}
 
-		Profile profile = info.getProfile();
-		updateSimilarityForProfile(profile);
+		if(info.getProfile() != null){
+			updateSimilarityForProfile(info.getProfile());
+		} else {
+			updateSimilarityForProfile(info.getSearchProfile().getProfile());
+		}
 
 		return savedInfo;
 	}
