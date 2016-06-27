@@ -341,13 +341,26 @@ public class ProfileMapper {
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Profile> result = new ArrayList<Profile>();
 
-		// SELECT * FROM profiles p1 LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE EXISTS (SELECT * FROM infos i2 LEFT JOIN profiles p2 ON i2.profileId = p2.id WHERE i1.informationValue = i2.informationValue AND (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND i2.searchprofileId = 1); 
-		
+		// SELECT p1.id, p1.firstName, p1.lastName, p1.dateOfBirth, p1.email,
+		// p1.height, p1.confession, p1.smoker, p1.hairColor, p1.gender FROM
+		// profiles p1 LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE (SELECT
+		// COUNT(*) FROM infos WHERE searchprofileId = 6) = 0 OR EXISTS (SELECT
+		// * FROM infos i2 LEFT JOIN searchprofiles sp2 ON i2.searchprofileId =
+		// sp2.id WHERE i1.informationValue = i2.informationValue AND
+		// (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND
+		// i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR
+		// (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND
+		// i2.searchprofileId = 6) GROUP BY p1.id HAVING COUNT(i1.id) = (SELECT
+		// COUNT(*) FROM infos WHERE searchprofileId = 6) AND p1.id > 0
+
 		try {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			String sql = "SELECT p1.id, p1.firstName, p1.lastName, p1.dateOfBirth, p1.email, p1.height, p1.confession, p1.smoker, p1.hairColor, p1.gender FROM profiles p1 LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE EXISTS (SELECT * FROM infos i2 LEFT JOIN profiles p2 ON i2.profileId = p2.id WHERE i1.informationValue = i2.informationValue AND (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND i2.searchprofileId = 1) AND p1.id > 0";
+			String sql = "SELECT p1.id, p1.firstName, p1.lastName, p1.dateOfBirth, p1.email, p1.height, p1.confession, p1.smoker, p1.hairColor, p1.gender, s1.similarityValue FROM profiles p1 LEFT JOIN similarities s1 ON p1.id = s1.toProfile LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE (SELECT COUNT(*) FROM infos WHERE searchprofileId = 6) = 0 OR EXISTS (SELECT * FROM infos i2 LEFT JOIN searchprofiles sp2 ON i2.searchprofileId = sp2.id WHERE i1.informationValue = i2.informationValue AND (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND i2.searchprofileId = "
+					+ searchProfile.getId()
+					+ ") GROUP BY p1.id HAVING COUNT(i1.id) = (SELECT COUNT(*) FROM infos WHERE searchprofileId = "
+					+ searchProfile.getId() + ") AND p1.id > 0";
 
 			if (searchProfile.getFromHeight() != 0) {
 				sql += " AND profiles.height > " + searchProfile.getFromHeight() + " ";
@@ -401,6 +414,7 @@ public class ProfileMapper {
 				profile.setSmoker(rs.getBoolean("smoker"));
 				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
 				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+				profile.setSimilarityValue(rs.getDouble("s1.similarityValue"));
 
 				result.add(profile);
 			}
@@ -454,10 +468,10 @@ public class ProfileMapper {
 				profile.setSmoker(rs.getBoolean("smoker"));
 				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
 				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
-				
+
 				Similarity similarity = new Similarity();
 				similarity.setFromProfile(fromProfile);
-				
+
 				profile.setSimilarityValue(rs.getDouble("similarities.similarityValue"));
 
 				result.add(profile);
@@ -495,7 +509,8 @@ public class ProfileMapper {
 
 			ResultSet rs = stmt.executeQuery(
 					"SELECT profiles.id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender, similarities.similarityValue FROM profiles LEFT JOIN visits ON visits.toProfile = profiles.id INNER JOIN similarities ON similarities.toProfile = profiles.id WHERE visits.id IS NULL OR NOT visits.fromProfile = "
-							+ vistingProfile.getId() + " GROUP BY profiles.id ORDER BY similarities.similarityValue DESC");
+							+ vistingProfile.getId()
+							+ " GROUP BY profiles.id ORDER BY similarities.similarityValue DESC");
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Profile-Objekt
 			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
