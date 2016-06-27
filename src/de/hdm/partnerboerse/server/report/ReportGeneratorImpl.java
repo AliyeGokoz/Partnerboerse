@@ -4,26 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.partnerboerse.client.ClientsideSettings;
-import de.hdm.partnerboerse.client.Partnerboerse;
 import de.hdm.partnerboerse.server.LoginServiceImpl;
 import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
 import de.hdm.partnerboerse.shared.LoginService;
-import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.ReportGenerator;
-import de.hdm.partnerboerse.shared.bo.Description;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
-import de.hdm.partnerboerse.shared.bo.Selection;
-import de.hdm.partnerboerse.shared.bo.Similarity;
 import de.hdm.partnerboerse.shared.report.Column;
 import de.hdm.partnerboerse.shared.report.CompositeParagraph;
-import de.hdm.partnerboerse.shared.report.CompositeReport;
 import de.hdm.partnerboerse.shared.report.HTMLReportWriter;
 import de.hdm.partnerboerse.shared.report.PartnerProposalsBySearchProfileReport;
 import de.hdm.partnerboerse.shared.report.PartnerProposalsProfilesReport;
@@ -55,12 +47,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	protected PartnerboerseAdministration getPartnerboerseVerwaltung() {
 		return this.administration;
 	}
-	
+
 	protected void addImprint(Report r) {
 		r.setImprint(new SimpleParagraph("Imprint"));
 	}
 
-	@Override
 	public PartnerProposalsProfilesReport createPartnerProposalsByNotViewedProfilesReport(Profile p) {
 
 		if (this.getPartnerboerseVerwaltung() == null) {
@@ -72,14 +63,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		 */
 		// ArrayList<Profile> profiles =
 		// this.administration.getMostSimilarProfiles(p);
-		ArrayList<Profile> profiles = this.administration.getAllProfiles();
+		ArrayList<Profile> profiles = this.administration.getNotViewedProfiles(p);
 
 		return createReport(p, profiles);
 
 	}
 
-	@Override
-	public PartnerProposalsBySearchProfileReport createPartnerProposalsBySearchProfilesReport(Profile p) {
+	public PartnerProposalsBySearchProfileReport createPartnerProposalsBySearchProfilesReport(Profile p,
+			ArrayList<SearchProfile> searchProfiles) {
 
 		if (this.getPartnerboerseVerwaltung() == null) {
 			return null;
@@ -90,7 +81,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		 */
 
 		PartnerProposalsBySearchProfileReport compositeReport = new PartnerProposalsBySearchProfileReport();
-		ArrayList<SearchProfile> searchProfiles = this.administration.getSearchProfileOf(p);
+		if (searchProfiles == null || searchProfiles.isEmpty()) {
+			searchProfiles = this.administration.getSearchProfileOf(p);
+		}
 		for (SearchProfile sp : searchProfiles) {
 			ArrayList<Profile> profiles = this.administration.getProfilesOf(sp);
 
@@ -107,7 +100,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		this.addImprint(result);
 
 		result.setTitle("Partnervorschläge der nicht gesehenen Profile");
-		
+
 		result.setCreated(new Date());
 
 		CompositeParagraph header = new CompositeParagraph();
@@ -124,19 +117,20 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			Row profileRow = new Row();
 
 			CompositeParagraph rowInfo = new CompositeParagraph();
-			rowInfo.addParagraph(new SimpleParagraph("Nach-/Vorname:" + " " + t.getLastName() + "," + t.getFirstName()));
-			rowInfo.addParagraph(new SimpleParagraph("Email:" +" "+ t.geteMail()));
-			rowInfo.addParagraph(new SimpleParagraph("Religion:"+" "+ t.getConfession().getName()));
+			rowInfo.addParagraph(
+					new SimpleParagraph("Nach-/Vorname:" + " " + t.getLastName() + "," + t.getFirstName()));
+			rowInfo.addParagraph(new SimpleParagraph("Email:" + " " + t.geteMail()));
+			rowInfo.addParagraph(new SimpleParagraph("Religion:" + " " + t.getConfession().getName()));
 			rowInfo.addParagraph(new SimpleParagraph("Geburtsdatum:" + " " + t.getDateOfBirth().toString()));
 
 			ArrayList<Info> infos = this.administration.getInfoOf(t);
 			for (Info i : infos) {
 				String info = i.getInformationValue();
-				
+
 				if (i.getDescription() != null) {
 					String descriptionValue = i.getDescription().getTextualDescriptionForProfile();
 					rowInfo.addParagraph(new SimpleParagraph(descriptionValue.toString() + " " + info));
-					
+
 				} else if (i.getDescription() == null) {
 					String selectionValue = i.getSelection().getTextualDescriptionForProfile();
 					rowInfo.addParagraph(new SimpleParagraph(selectionValue.toString() + " " + info));
@@ -149,9 +143,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			Profile currentProfile = service.getCurrentProfile();
 
 			profileRow.addColumn(new Column(rowInfo));
-			Similarity sim = this.administration.calculateSimilarity(currentProfile, t);
-			profileRow
-					.addColumn(new Column(new SimpleParagraph(Double.toString(sim.getSimilarityValue() * 100) + "%")));
+			profileRow.addColumn(new Column(new SimpleParagraph(Double.toString(t.getSimilarityValue() * 100) + "%")));
 
 			result.addRow(profileRow);
 		}
@@ -177,16 +169,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public String renderPartnerProposalsBySearchProfilesReport() {
+	public String renderPartnerProposalsBySearchProfilesReport(ArrayList<SearchProfile> searchProfiles) {
 		System.out.println("Hallo");
 
 		LoginServiceImpl service = new LoginServiceImpl();
 		Profile currentProfile = service.getCurrentProfile();
 
 		HTMLReportWriter htmlReportWriter = new HTMLReportWriter();
-		PartnerProposalsBySearchProfileReport createPartnerProposalsByNotViewedProfilesReport = createPartnerProposalsBySearchProfilesReport(
-				currentProfile);
-		htmlReportWriter.process(createPartnerProposalsByNotViewedProfilesReport);
+		PartnerProposalsBySearchProfileReport createPartnerProposalsBySearchProfileReport = createPartnerProposalsBySearchProfilesReport(
+				currentProfile, searchProfiles);
+		htmlReportWriter.process(createPartnerProposalsBySearchProfileReport);
 		String reportText = htmlReportWriter.getReportText();
 
 		return reportText;
