@@ -123,11 +123,12 @@ public class BlockingListOverview extends VerticalPanel{
 					
 					@Override
 					public void onSuccess(ArrayList<Blocking> result) {
-						
-						
-
+						dataProvider.getList().clear();
+						dataProvider.getList().addAll(result);
+						dataProvider.flush();
+						dataProvider.refresh();
+						table.redraw();
 					}
-					
 					
 					@Override
 					public void onFailure(Throwable caught) {

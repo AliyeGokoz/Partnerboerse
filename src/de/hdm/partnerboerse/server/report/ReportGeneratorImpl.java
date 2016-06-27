@@ -4,26 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.partnerboerse.client.ClientsideSettings;
-import de.hdm.partnerboerse.client.Partnerboerse;
 import de.hdm.partnerboerse.server.LoginServiceImpl;
 import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
 import de.hdm.partnerboerse.shared.LoginService;
-import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.ReportGenerator;
-import de.hdm.partnerboerse.shared.bo.Description;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
-import de.hdm.partnerboerse.shared.bo.Selection;
-import de.hdm.partnerboerse.shared.bo.Similarity;
 import de.hdm.partnerboerse.shared.report.Column;
 import de.hdm.partnerboerse.shared.report.CompositeParagraph;
-import de.hdm.partnerboerse.shared.report.CompositeReport;
 import de.hdm.partnerboerse.shared.report.HTMLReportWriter;
 import de.hdm.partnerboerse.shared.report.PartnerProposalsBySearchProfileReport;
 import de.hdm.partnerboerse.shared.report.PartnerProposalsProfilesReport;
@@ -184,9 +176,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Profile currentProfile = service.getCurrentProfile();
 
 		HTMLReportWriter htmlReportWriter = new HTMLReportWriter();
-		PartnerProposalsBySearchProfileReport createPartnerProposalsByNotViewedProfilesReport = createPartnerProposalsBySearchProfilesReport(
+		PartnerProposalsBySearchProfileReport createPartnerProposalsBySearchProfileReport = createPartnerProposalsBySearchProfilesReport(
 				currentProfile, searchProfiles);
-		htmlReportWriter.process(createPartnerProposalsByNotViewedProfilesReport);
+		htmlReportWriter.process(createPartnerProposalsBySearchProfileReport);
 		String reportText = htmlReportWriter.getReportText();
 
 		return reportText;
