@@ -173,7 +173,6 @@ public class PartnerboerseReport implements EntryPoint {
 
 					@Override
 					public void onSuccess(ArrayList<SearchProfile> result) {
-						Window.alert("Test " + result.size());
 						dataProvider.getList().clear();
 						dataProvider.getList().addAll(result);
 						dataProvider.flush();
