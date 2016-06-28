@@ -244,7 +244,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.visitListMapper.insert(vl);
 	}
 
-	
 	@Override
 	public Similarity createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue) {
 		Similarity si = new Similarity();
@@ -393,15 +392,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.profileMapper.findAll();
 	}
 
+	@Override
 	public ArrayList<Profile> getAllProfilesFiltered() {
-		ArrayList<Profile> allProfiles = getAllProfiles();
 		Profile currentProfile = LoginServiceImpl.loginService().getCurrentProfile();
-		allProfiles.remove(currentProfile);
-		ArrayList<Blocking> blockings = blockingMapper.findByProfile(currentProfile);
-		for (Blocking blocking : blockings) {
-			allProfiles.remove(blocking.getToProfile());
-		}
-		return allProfiles;
+		SearchProfile searchProfile = new SearchProfile();
+		searchProfile.setProfile(currentProfile);
+		return profileMapper.findBySearchProfile(searchProfile);
 	}
 
 	/**
@@ -421,7 +417,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Auslesen eines Such-Profils aus der Datenbank anhand dessen Such-Profil-Kennung.
+	 * Auslesen eines Such-Profils aus der Datenbank anhand dessen
+	 * Such-Profil-Kennung.
 	 */
 	@Override
 	public SearchProfile getSearchProfileByKey(int id) throws IllegalArgumentException {
@@ -453,7 +450,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Auslesen einer Beschreibung aus der Datenbank anhand deren Beschreibungs-Kennung.
+	 * Auslesen einer Beschreibung aus der Datenbank anhand deren
+	 * Beschreibungs-Kennung.
 	 */
 	@Override
 	public Description getDescriptionByKey(int id) throws IllegalArgumentException {
@@ -663,7 +661,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			savedInfo = infoMapper.insert(info);
 		}
 
-		if(info.getProfile() != null){
+		if (info.getProfile() != null) {
 			updateSimilarityForProfile(info.getProfile());
 		} else {
 			updateSimilarityForProfile(info.getSearchProfile().getProfile());
@@ -791,11 +789,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Profile> getNotViewedProfiles(Profile vistingProfile) {
-		return this.profileMapper.findNotViewedProfiles(vistingProfile);
-	}
-
-	@Override
 	public ArrayList<Profile> getBySearchProfile(SearchProfile searchProfile) {
 		return this.profileMapper.findBySearchProfile(searchProfile);
 	}
@@ -866,8 +859,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Similarity> getWithInSimilarity(Profile with)
-			throws IllegalArgumentException {
+	public ArrayList<Similarity> getWithInSimilarity(Profile with) throws IllegalArgumentException {
 		return this.similarityMapper.findWith(with);
 	}
 
@@ -889,8 +881,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Info> getInfosOf(SearchProfile searchProfile)
-			throws IllegalArgumentException {
+	public ArrayList<Info> getInfosOf(SearchProfile searchProfile) throws IllegalArgumentException {
 
 		return this.infoMapper.findBySearchProfile(searchProfile);
 	}
