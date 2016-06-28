@@ -4,27 +4,29 @@ import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 
-public class SearchProfile extends BusinessObject{
+public class SearchProfile extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
-	
-	private String name = ""; 
+
+	private String name = "";
 
 	private int fromAge = 0;
-	
+
 	private int toAge = 0;
-	
+
 	private int fromHeight = 0;
-	
+
 	private int toHeight = 0;
-	
+
 	private HairColor hairColor = null;
-	
+
 	private Confession confession = null;
-	
+
 	private Gender gender = null;
-	
+
 	private Profile profile;
+
+	private boolean noVisited;
 
 	public int getFromAge() {
 		return fromAge;
@@ -96,6 +98,14 @@ public class SearchProfile extends BusinessObject{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isNoVisited() {
+		return noVisited;
+	}
+
+	public void setNoVisited(boolean noVisited) {
+		this.noVisited = noVisited;
 	}
 
 }
