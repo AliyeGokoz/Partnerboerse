@@ -44,58 +44,58 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	 * auf die Blocking-Tabelle.
 	 */
 	private BlockingMapper blockingMapper = null;
-	
+
 	/**
 	 * Referenz auf den DescriptionMapper, dieser ermöglicht den
 	 * Datenbankzugriff auf die Description-Tabelle.
 	 */
 	private DescriptionMapper descriptionMapper = null;
-	
+
 	/**
-	 * Referenz auf den FavoritesListMapper, dieser ermöglicht den 
-	 * Datenbankzugriff auf die FavoritesList-Tabelle 
+	 * Referenz auf den FavoritesListMapper, dieser ermöglicht den
+	 * Datenbankzugriff auf die FavoritesList-Tabelle
 	 */
 	private FavoritesListMapper favoritesListMapper = null;
-	
+
 	/**
-	 * Referenz auf den InfoMapper, dieser ermöglicht den
-	 * Datenbankzugriff auf die Info-Tabelle.
+	 * Referenz auf den InfoMapper, dieser ermöglicht den Datenbankzugriff auf
+	 * die Info-Tabelle.
 	 */
 	private InfoMapper infoMapper = null;
-	
+
 	/**
-	 * Referenz auf den ProfileMapper, dieser ermöglicht den
-	 * Datenbankzugriff auf die Profile-Tabelle.
+	 * Referenz auf den ProfileMapper, dieser ermöglicht den Datenbankzugriff
+	 * auf die Profile-Tabelle.
 	 */
 	private ProfileMapper profileMapper = null;
-	
+
 	/**
 	 * Referenz auf den SearchProfileMapper, dieser ermöglicht den
 	 * Datenbankzugriff auf die SearchProfile-Tabelle.
 	 */
 	private SearchProfileMapper searchProfileMapper = null;
-	
+
 	/**
-	 * Referenz auf den SelectionMapper, dieser ermöglicht den
-	 * Datenbankzugriff auf die Selection-Tabelle.
+	 * Referenz auf den SelectionMapper, dieser ermöglicht den Datenbankzugriff
+	 * auf die Selection-Tabelle.
 	 */
 	private SelectionMapper selectionMapper = null;
-	
+
 	/**
-	 * Referenz auf den SimilarityMapper, dieser ermöglicht den
-	 * Datenbankzugriff auf die Similarity-Tabelle.
+	 * Referenz auf den SimilarityMapper, dieser ermöglicht den Datenbankzugriff
+	 * auf die Similarity-Tabelle.
 	 */
 	private SimilarityMapper similarityMapper = null;
-	
+
 	/**
-	 * Referenz auf den VisitListMapper, dieser ermöglicht den
-	 * Datenbankzugriff auf die VisitList-Tabelle.
+	 * Referenz auf den VisitListMapper, dieser ermöglicht den Datenbankzugriff
+	 * auf die VisitList-Tabelle.
 	 */
 	private VisitListMapper visitListMapper = null;
-	
+
 	/**
-	 * Referenz auf den OptionMapper, dieser ermöglicht den
-	 * Datenbankzugriff auf die Option-Tabelle.
+	 * Referenz auf den OptionMapper, dieser ermöglicht den Datenbankzugriff auf
+	 * die Option-Tabelle.
 	 */
 	private OptionMapper optionMapper = null;
 
@@ -144,8 +144,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Ein neues Such-Profil wird angelegt, dies führt zu einer Speicherung
-	 * des neuen Such-Profils in der Datenbank.
+	 * Ein neues Such-Profil wird angelegt, dies führt zu einer Speicherung des
+	 * neuen Such-Profils in der Datenbank.
 	 */
 	@Override
 	public SearchProfile createSearchProfile(int id, String name, int fromAge, int toAge, int fromHeight, int toHeight,
@@ -165,10 +165,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.searchProfileMapper.insert(sp);
 	}
-	
+
 	/**
-	 * Eine neue Info wird angelegt, dies führt zu einer Speicherung
-	 * der neuen Info in der Datenbank.
+	 * Eine neue Info wird angelegt, dies führt zu einer Speicherung der neuen
+	 * Info in der Datenbank.
 	 */
 	@Override
 	public Info createInfo(int id, String informationValue) {
@@ -181,8 +181,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Eine neue Auswahl wird angelegt, dies führt zu einer Speicherung
-	 * der neuen Auswahl in der Datenbank.
+	 * Eine neue Auswahl wird angelegt, dies führt zu einer Speicherung der
+	 * neuen Auswahl in der Datenbank.
 	 */
 	@Override
 	public Selection createSelection(int id, String propertyName, String textualDescriptionForProfile,
@@ -198,8 +198,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Eine neue Beschreibung wird angelegt, dies führt zu einer Speicherung
-	 * der neuen Beschreibung in der Datenbank.
+	 * Eine neue Beschreibung wird angelegt, dies führt zu einer Speicherung der
+	 * neuen Beschreibung in der Datenbank.
 	 */
 	@Override
 	public Description createDescription(int id, String propertyName, String textualDescriptionForProfile,
@@ -215,8 +215,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Ein neuer Merkzettel wird angelegt, dies führt zu einer Speicherung
-	 * des neuen Merkzettels in der Datenbank.
+	 * Ein neuer Merkzettel wird angelegt, dies führt zu einer Speicherung des
+	 * neuen Merkzettels in der Datenbank.
 	 */
 	@Override
 	public FavoritesList createFavoritesList(Profile fromProfile, Profile toProfile) {
@@ -227,12 +227,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.save(fl);
 	}
-	
+
 	/**
-	 * Eine neue Besuchsliste wird angelegt, dies führt zu einer Speicherung
-	 * der neuen Besuchsliste in der Datenbank.
+	 * Eine neue Besuchsliste wird angelegt, dies führt zu einer Speicherung der
+	 * neuen Besuchsliste in der Datenbank.
 	 */
-	
+
 	@Override
 	public VisitList createVisitList(int id, Profile fromProfile, Profile toProfile) {
 		VisitList vl = new VisitList();
@@ -244,7 +244,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.visitListMapper.insert(vl);
 	}
 
-	
 	@Override
 	public Similarity createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue) {
 		Similarity si = new Similarity();
@@ -256,7 +255,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.similarityMapper.insert(si);
 	}
-	
+
 	/**
 	 * Eine neue Kontaktsperre wird angelegt, dies führt zu einer Speicherung
 	 * der neuen Kontaktsperre in der Datenbank.
@@ -393,15 +392,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.profileMapper.findAll();
 	}
 
+	@Override
 	public ArrayList<Profile> getAllProfilesFiltered() {
-		ArrayList<Profile> allProfiles = getAllProfiles();
 		Profile currentProfile = LoginServiceImpl.loginService().getCurrentProfile();
-		allProfiles.remove(currentProfile);
-		ArrayList<Blocking> blockings = blockingMapper.findByProfile(currentProfile);
-		for (Blocking blocking : blockings) {
-			allProfiles.remove(blocking.getToProfile());
-		}
-		return allProfiles;
+		SearchProfile searchProfile = new SearchProfile();
+		searchProfile.setProfile(currentProfile);
+		return profileMapper.findBySearchProfile(searchProfile);
 	}
 
 	/**
@@ -421,7 +417,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Auslesen eines Such-Profils aus der Datenbank anhand dessen Such-Profil-Kennung.
+	 * Auslesen eines Such-Profils aus der Datenbank anhand dessen
+	 * Such-Profil-Kennung.
 	 */
 	@Override
 	public SearchProfile getSearchProfileByKey(int id) throws IllegalArgumentException {
@@ -453,7 +450,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Auslesen einer Beschreibung aus der Datenbank anhand deren Beschreibungs-Kennung.
+	 * Auslesen einer Beschreibung aus der Datenbank anhand deren
+	 * Beschreibungs-Kennung.
 	 */
 	@Override
 	public Description getDescriptionByKey(int id) throws IllegalArgumentException {
@@ -486,7 +484,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Auslesen eines Ähnlichkeitsmaßes aus der Datenbank anhand deren Ähnlichkeits-Kennung.
+	 * Auslesen eines Ähnlichkeitsmaßes aus der Datenbank anhand deren
+	 * Ähnlichkeits-Kennung.
 	 */
 	@Override
 	public Similarity getSimilarityByKey(int id) throws IllegalArgumentException {
@@ -663,7 +662,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			savedInfo = infoMapper.insert(info);
 		}
 
-		if(info.getProfile() != null){
+		if (info.getProfile() != null) {
 			updateSimilarityForProfile(info.getProfile());
 		} else {
 			updateSimilarityForProfile(info.getSearchProfile().getProfile());
@@ -791,11 +790,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Profile> getNotViewedProfiles(Profile vistingProfile) {
-		return this.profileMapper.findNotViewedProfiles(vistingProfile);
-	}
-
-	@Override
 	public ArrayList<Profile> getBySearchProfile(SearchProfile searchProfile) {
 		return this.profileMapper.findBySearchProfile(searchProfile);
 	}
@@ -866,8 +860,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Similarity> getWithInSimilarity(Profile with)
-			throws IllegalArgumentException {
+	public ArrayList<Similarity> getWithInSimilarity(Profile with) throws IllegalArgumentException {
 		return this.similarityMapper.findWith(with);
 	}
 
@@ -889,8 +882,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public ArrayList<Info> getInfosOf(SearchProfile searchProfile)
-			throws IllegalArgumentException {
+	public ArrayList<Info> getInfosOf(SearchProfile searchProfile) throws IllegalArgumentException {
 
 		return this.infoMapper.findBySearchProfile(searchProfile);
 	}
