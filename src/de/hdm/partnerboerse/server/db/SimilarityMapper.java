@@ -23,8 +23,8 @@ public class SimilarityMapper {
 
 	// Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT similarities.id AS sid, similarityValue, "
-			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender,"
-			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM similarities LEFT JOIN profiles AS fromProfile ON fromProfile.id = similarities.fromProfile"
+			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender, fromProfile.orientation AS fpOrientation,"
+			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender, toProfile.orientation AS tpOrientation FROM similarities LEFT JOIN profiles AS fromProfile ON fromProfile.id = similarities.fromProfile"
 			+ " LEFT JOIN profiles AS toProfile ON toProfile.id = similarities.toProfile";
 
 	/**
@@ -305,19 +305,19 @@ public class SimilarityMapper {
 
 		return null;
 	}
-	
+
 	public ArrayList<Similarity> findWith(Profile with) {
-		//DB-Verbindung holen
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Similarity> result = new ArrayList<Similarity>();
-		
+
 		try {
-			//Leeres SQL-Statement (JDBC) anlegen
+			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(
-					BASE_SELECT + " WHERE fromProfile=" + with.getId() + " OR toProfile=" + with.getId());
+			ResultSet rs = stmt
+					.executeQuery(BASE_SELECT + " WHERE fromProfile=" + with.getId() + " OR toProfile=" + with.getId());
 
 			while (rs.next()) {
 				result.add(map(rs));
@@ -342,16 +342,17 @@ public class SimilarityMapper {
 		similarity.setSimilarityValue(rs.getDouble("similarityValue"));
 
 		Profile profileFrom = new Profile();
-		profileFrom.setId(rs.getInt("tpId"));
-		profileFrom.setFirstName(rs.getString("tpFirstName"));
-		profileFrom.setLastName(rs.getString("tpLastName"));
-		profileFrom.setDateOfBirth(rs.getDate("tpDateOfBirth"));
-		profileFrom.seteMail(rs.getString("tpEmail"));
-		profileFrom.setHeight(rs.getInt("tpHeight"));
-		profileFrom.setConfession(Profile.Confession.valueOf(rs.getString("tpConfession")));
-		profileFrom.setSmoker(rs.getBoolean("tpSmoker"));
-		profileFrom.setHairColor(Profile.HairColor.valueOf(rs.getString("tpHairColor")));
-		profileFrom.setGender(Profile.Gender.valueOf(rs.getString("tpGender")));
+		profileFrom.setId(rs.getInt("fpId"));
+		profileFrom.setFirstName(rs.getString("fpFirstName"));
+		profileFrom.setLastName(rs.getString("fpLastName"));
+		profileFrom.setDateOfBirth(rs.getDate("fpDateOfBirth"));
+		profileFrom.seteMail(rs.getString("fpEmail"));
+		profileFrom.setHeight(rs.getInt("fpHeight"));
+		profileFrom.setConfession(Profile.Confession.valueOf(rs.getString("fpConfession")));
+		profileFrom.setSmoker(rs.getBoolean("fpSmoker"));
+		profileFrom.setHairColor(Profile.HairColor.valueOf(rs.getString("fpHairColor")));
+		profileFrom.setGender(Profile.Gender.valueOf(rs.getString("fpGender")));
+		profileFrom.setOrientation(Profile.Orientation.valueOf(rs.getString("fpOrientation")));
 
 		Profile profileTo = new Profile();
 		profileTo.setId(rs.getInt("tpId"));
@@ -364,6 +365,7 @@ public class SimilarityMapper {
 		profileTo.setSmoker(rs.getBoolean("tpSmoker"));
 		profileTo.setHairColor(Profile.HairColor.valueOf(rs.getString("tpHairColor")));
 		profileTo.setGender(Profile.Gender.valueOf(rs.getString("tpGender")));
+		profileTo.setOrientation(Profile.Orientation.valueOf(rs.getString("tpOrientation")));
 
 		similarity.setFromProfile(profileFrom);
 		similarity.setToProfile(profileTo);
@@ -372,7 +374,4 @@ public class SimilarityMapper {
 
 	}
 
-
 }
-
-
