@@ -23,7 +23,7 @@ import de.hdm.partnerboerse.shared.bo.*;
 public class InfoMapper {
 
 	// Grundlegendes Select-Statement
-	private static final String BASE_SELECT = "SELECT infos.id AS id, informationValue,selections.id AS sid, selections.textualDescriptionForProfile AS stdfp,selections.textualDescriptionForSearchProfile AS stdfsp, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescriptionForProfile AS dtdfp,descriptions.textualDescriptionForSearchProfile AS dtdfsp, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, profiles.confession AS pc, smoker, profiles.hairColor AS ph, profiles.gender AS pg, profiles.orientation AS po, searchprofiles.id AS spid, searchprofiles.name AS spn, searchprofiles.fromAge AS spfa, searchprofiles.toAge AS spta, searchprofiles.fromHeight AS spfh, searchprofiles.toHeight AS spth, searchprofiles.hairColor AS sphc, searchprofiles.gender AS spg, searchprofiles.confession AS spc FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId LEFT JOIN searchprofiles ON searchprofiles.id = infos.searchprofileId ";
+	private static final String BASE_SELECT = "SELECT infos.id AS id, informationValue,selections.id AS sid, selections.textualDescriptionForProfile AS stdfp,selections.textualDescriptionForSearchProfile AS stdfsp, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescriptionForProfile AS dtdfp,descriptions.textualDescriptionForSearchProfile AS dtdfsp, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, profiles.confession AS pc, smoker, profiles.hairColor AS ph, profiles.gender AS pg, searchprofiles.id AS spid, searchprofiles.name AS spn, searchprofiles.fromAge AS spfa, searchprofiles.toAge AS spta, searchprofiles.fromHeight AS spfh, searchprofiles.toHeight AS spth, searchprofiles.hairColor AS sphc, searchprofiles.gender AS spg, searchprofiles.confession AS spc FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId LEFT JOIN searchprofiles ON searchprofiles.id = infos.searchprofileId ";
 
 	/**
 	 * Die Instantiierung der Klasse InfoMapper erfolgt nur einmal. Dies wird
@@ -524,7 +524,6 @@ public class InfoMapper {
 			profile.setSmoker(rs.getBoolean("smoker"));
 			profile.setHairColor(Profile.HairColor.valueOf(rs.getString("ph")));
 			profile.setGender(Profile.Gender.valueOf(rs.getString("pg")));
-			profile.setOrientation(Profile.Orientation.valueOf(rs.getString("po")));
 
 			info.setProfile(profile);
 		}

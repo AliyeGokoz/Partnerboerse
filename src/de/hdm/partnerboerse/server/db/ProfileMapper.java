@@ -25,8 +25,6 @@ import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 
 public class ProfileMapper {
 
-	private static final String BASE_SELECT = "SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender, orientation FROM profiles ";
-
 	/**
 	 * Die Instantiierung der Klasse ProfileMapper erfolgt nur einmal. Dies wird
 	 * auch als <b>Singleton<b> bezeichnet.

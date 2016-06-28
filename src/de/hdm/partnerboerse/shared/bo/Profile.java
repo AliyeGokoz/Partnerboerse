@@ -23,15 +23,14 @@ public class Profile extends BusinessObject {
 	private Confession confession = Confession.DEFAULT;
 
 	private Gender gender = null;
-
-	private Orientation orientation = null;
-
+	
 	private double similarityValue;
 
-	public static enum HairColor {
+	public enum HairColor {
 
-		DEFAULT("nicht gesetzt"), BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED("rot"), GREY("grau"), OTHERS(
-				"sonstiges");
+		DEFAULT("nicht gesetzt"), BROWN("braun"), BLOND("blond"), BLACK("schwarz"), RED(
+				"rot"), GREY("grau"), OTHERS("sonstiges");
+
 
 		private final String name;
 
@@ -92,10 +91,10 @@ public class Profile extends BusinessObject {
 		this.lastName = lastName;
 	}
 
-	public int getAge() {
+	public int getAge(){
 		return (int) ((System.currentTimeMillis() - getDateOfBirth().getTime()) / 1000 / 60 / 60 / 24 / 365);
 	}
-
+	
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
@@ -152,18 +151,10 @@ public class Profile extends BusinessObject {
 		this.gender = gender;
 	}
 	
-	public Orientation getOrientation() {
-		return orientation;
-	}
-	
-	public void setOrientation(Orientation orientation) {
-		this.orientation = orientation;
-	}
-
 	public double getSimilarityValue() {
 		return similarityValue;
 	}
-
+	
 	public void setSimilarityValue(double similarityValue) {
 		this.similarityValue = similarityValue;
 	}
@@ -172,5 +163,6 @@ public class Profile extends BusinessObject {
 		return super.toString() + this.firstName + " " + this.lastName + " " + this.eMail + " " + this.dateOfBirth + " "
 				+ this.smoker + " " + this.height + " " + this.hairColor + " " + this.confession + " " + this.gender;
 	}
+	
 
 }
