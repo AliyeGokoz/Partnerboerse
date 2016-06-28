@@ -1,6 +1,5 @@
 package de.hdm.partnerboerse.server.report;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -140,9 +139,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 			}
 
+			LoginServiceImpl service = new LoginServiceImpl();
+			Profile currentProfile = service.getCurrentProfile();
+
 			profileRow.addColumn(new Column(rowInfo));
-			profileRow.addColumn(new Column(
-					new SimpleParagraph(new DecimalFormat("#.##").format(t.getSimilarityValue() * 100) + "%")));
+			profileRow.addColumn(new Column(new SimpleParagraph(Double.toString(t.getSimilarityValue() * 100) + "%")));
 
 			result.addRow(profileRow);
 		}
