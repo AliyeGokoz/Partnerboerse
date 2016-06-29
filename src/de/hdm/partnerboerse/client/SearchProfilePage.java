@@ -307,8 +307,6 @@ public class SearchProfilePage extends VerticalPanel {
 				dataProvider.flush();
 				dataProvider.refresh();
 				table.redraw();
-				Window.alert("Suchprofil wurde gelöscht !");
-
 			}
 		});
 

@@ -133,8 +133,7 @@ public class ShowOneSearchProfile {
 		/*
 		 * FlexTable mit Inhalt füllen
 		 */
-		table.setHTML(0, 0, "<div>Name deines Suchprofiles</div>");
-		table.setWidget(0, 1, nameofSp);
+		table.setWidget(0, 0, nameofSp);
 		table.setHTML(1, 0, "<div>Größe in cm</div>");
 		table.setWidget(1, 1, heightofSp);
 		table.setHTML(2, 0, "<div>Alter</div>");
