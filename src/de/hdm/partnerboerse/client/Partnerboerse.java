@@ -159,8 +159,8 @@ public class Partnerboerse implements EntryPoint {
 		/*
 		 * String für das Menü, damit statt einem Text ein Bild angezeigt wird.
 		 */
-		final String userAddimage = "<img src='images/user_add_edit.png'/>";
-		final String showUserimage = "<img src='images/user.png'/>";
+		final String userAddimage = "<img src='images/user-profile-edition.png'/>";
+		final String showUserimage = "<img src='images/user-profile-show.png'/>";
 		final String showSearchprofiles = "<img src='images/searchprofiles.png'/>";
 
 		/*
