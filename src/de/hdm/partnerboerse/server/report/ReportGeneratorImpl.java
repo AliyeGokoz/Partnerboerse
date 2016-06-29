@@ -49,8 +49,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return this.administration;
 	}
 
-	protected void addImprint(Report r) {
-		r.setImprint(new SimpleParagraph("Imprint"));
+	protected void addImprint(Report r, String text) {
+		r.setImprint(new SimpleParagraph(text));
 	}
 
 	public PartnerProposalsProfilesReport createPartnerProposalsByNotViewedProfilesReport(Profile p) {
@@ -59,19 +59,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			return null;
 		}
 
-		/*
-		 * TODO Methode erstellen die alle ähnlichen Profile ausgibt
-		 */
-		// ArrayList<Profile> profiles =
-		// this.administration.getMostSimilarProfiles(p);
 		SearchProfile searchProfile = new SearchProfile();
+		searchProfile.setName("Nicht besuchte Profile");
 		searchProfile.setNoVisited(true);
 		searchProfile.setProfile(p);
-		
+
 		ArrayList<Profile> profiles = this.administration.getBySearchProfile(searchProfile);
 
-		return createReport(p, profiles);
-
+		return createReport(p, profiles, searchProfile.getName());
 	}
 
 	public PartnerProposalsBySearchProfileReport createPartnerProposalsBySearchProfilesReport(Profile p,
@@ -81,10 +76,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			return null;
 		}
 
-		/*
-		 * TODO Methode erstellen die alle ähnlichen Profile ausgibt
-		 */
-
 		PartnerProposalsBySearchProfileReport compositeReport = new PartnerProposalsBySearchProfileReport();
 		if (searchProfiles == null || searchProfiles.isEmpty()) {
 			searchProfiles = this.administration.getSearchProfileOf(p);
@@ -92,17 +83,17 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		for (SearchProfile sp : searchProfiles) {
 			ArrayList<Profile> profiles = this.administration.getProfilesOf(sp);
 
-			PartnerProposalsProfilesReport createReport = createReport(p, profiles);
+			PartnerProposalsProfilesReport createReport = createReport(p, profiles, sp.getName());
 
 			compositeReport.addSubReport(createReport);
 		}
 		return compositeReport;
 	}
 
-	private PartnerProposalsProfilesReport createReport(Profile p, ArrayList<Profile> profiles) {
+	private PartnerProposalsProfilesReport createReport(Profile p, ArrayList<Profile> profiles, String name) {
 		PartnerProposalsProfilesReport result = new PartnerProposalsProfilesReport();
 
-		this.addImprint(result);
+		this.addImprint(result, name);
 
 		result.setTitle("Partnervorschläge der nicht gesehenen Profile");
 
@@ -156,7 +147,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	@Override
 	public String renderPartnerProposalsByNotViewedProfilesReport() {
-		System.out.println("Hallo");
 
 		LoginServiceImpl service = new LoginServiceImpl();
 		Profile currentProfile = service.getCurrentProfile();
@@ -173,7 +163,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	@Override
 	public String renderPartnerProposalsBySearchProfilesReport(ArrayList<SearchProfile> searchProfiles) {
-		System.out.println("Hallo");
 
 		LoginServiceImpl service = new LoginServiceImpl();
 		Profile currentProfile = service.getCurrentProfile();
