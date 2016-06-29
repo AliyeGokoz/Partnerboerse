@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.client;
 
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
@@ -25,6 +26,7 @@ public class ProfilePage {
 
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+	
 
 	/**
 	 * Panel für die Ausgabe
@@ -38,6 +40,7 @@ public class ProfilePage {
 	final Label bDLabel = new Label();
 	final Label heightLabel = new Label();
 	final Label lgender = new Label();
+	final Label lorientation = new Label();
 	final Label lhaircolor = new Label();
 	final Label lconf = new Label();
 	final Label lsmoke = new Label();
@@ -129,6 +132,7 @@ public class ProfilePage {
 		ELabel.setText(profile.geteMail());
 		heightLabel.setText(Integer.toString(profile.getHeight()));
 		lgender.setText(profile.getGender().getName());
+		lorientation.setText(profile.getOrientation().getName());
 		lhaircolor.setText(profile.getHairColor().getName().toString());
 		lconf.setText(profile.getConfession().getName().toString());
 		lsmoke.setText(profile.isSmoker() ? "Ja" : "Nein");
@@ -143,10 +147,12 @@ public class ProfilePage {
 		addnewProfileTable.setWidget(1, 1, bDLabel);
 		addnewProfileTable.setHTML(2, 0, "<div>Geschlecht</div>");
 		addnewProfileTable.setWidget(2, 1, lgender);
-		addnewProfileTable.setHTML(3, 0, "<div>Religion</div>");
-		addnewProfileTable.setWidget(3, 1, lconf);
-		addnewProfileTable.setHTML(4, 0, "<div>Raucher</div>");
-		addnewProfileTable.setWidget(4, 1, lsmoke);
+		addnewProfileTable.setHTML(3, 0, "<div>Orientierung:</div>");
+		addnewProfileTable.setWidget(3, 1, lorientation);
+		addnewProfileTable.setHTML(4, 0, "<div>Religion</div>");
+		addnewProfileTable.setWidget(4, 1, lconf);
+		addnewProfileTable.setHTML(5, 0, "<div>Raucher</div>");
+		addnewProfileTable.setWidget(5, 1, lsmoke);
 
 		addnewProfileTable2.setHTML(0, 0, "<div>Nachname</div>");
 		addnewProfileTable2.setWidget(0, 1, lNLabel);

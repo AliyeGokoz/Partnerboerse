@@ -7,7 +7,9 @@ import java.util.Calendar;
 
 import de.hdm.partnerboerse.shared.bo.*;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
+import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
+import de.hdm.partnerboerse.shared.bo.Profile.Orientation;
 
 /**
  * Die Mapper-Klasse <code>ProfileMapper</code> bildet <code>Profile
@@ -24,6 +26,8 @@ import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
  */
 
 public class ProfileMapper {
+
+	private static final String BASE_SELECT = "SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender, orientation FROM profiles ";
 
 	/**
 	 * Die Instantiierung der Klasse ProfileMapper erfolgt nur einmal. Dies wird
@@ -99,13 +103,13 @@ public class ProfileMapper {
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 				// Einfügeoperation erfolgt
-				String sql = "INSERT INTO profiles (id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender) "
+				String sql = "INSERT INTO profiles (id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender, orientation) "
 						+ "VALUES (" + profile.getId() + ",'" + profile.getFirstName() + "','" + profile.getLastName()
 						+ "','" + simpleDateFormat.format(profile.getDateOfBirth()) + "','" + profile.geteMail()
 
 						+ "'," + profile.getHeight() + ",'" + profile.getConfession() + "','"
 						+ (profile.isSmoker() ? 1 : 0) + "','" + profile.getHairColor() + "','" + profile.getGender()
-						+ "')";
+						+ "', '" + profile.getOrientation() + "')";
 				System.out.println(sql);
 				stmt.executeUpdate(sql);
 			}
@@ -141,8 +145,8 @@ public class ProfileMapper {
 					+ "\", " + "height=\"" + profile.getHeight() + "\", " + "confession=\""
 
 					+ profile.getConfession() + "\", " + "smoker=\"" + (profile.isSmoker() ? 1 : 0) + "\", "
-					+ "hairColor=\"" + profile.getHairColor() + "\", " + "gender=\"" + profile.getGender() + "\" "
-					+ "WHERE id=" + profile.getId());
+					+ "hairColor=\"" + profile.getHairColor() + "\", " + "gender=\"" + profile.getGender()
+					+ "\", orientation=\"" + profile.getOrientation() + "\"" + "WHERE id=" + profile.getId());
 
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -189,24 +193,12 @@ public class ProfileMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(
-					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender "
-							+ "FROM profiles " + "ORDER BY lastName");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + "ORDER BY lastName");
 
 			// Für jeden Eintrag im Suchergebnis wird nun ein Profile-Objekt
 			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 			while (rs.next()) {
-				Profile profile = new Profile();
-				profile.setId(rs.getInt("id"));
-				profile.setFirstName(rs.getString("firstName"));
-				profile.setLastName(rs.getString("lastName"));
-				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
-				profile.seteMail(rs.getString("email"));
-				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
-				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
-				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+				Profile profile = map(rs);
 
 				result.add(profile);
 			}
@@ -238,9 +230,7 @@ public class ProfileMapper {
 			Statement stmt = con.createStatement();
 
 			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery(
-					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles "
-							+ "WHERE id=" + id + " ORDER BY lastName");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + "WHERE id=" + id + " ORDER BY lastName");
 
 			/*
 			 * Da id der Primärschlüssel ist, kann maximal nur ein Tupel
@@ -250,19 +240,7 @@ public class ProfileMapper {
 				// Umwandlung des Ergebnis-Tupel in ein Objekt und Ausgabe des
 				// Ergebnis-Objekts
 
-				Profile profile = new Profile();
-				profile.setId(rs.getInt("id"));
-				profile.setFirstName(rs.getString("firstName"));
-				profile.setLastName(rs.getString("lastName"));
-				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
-				profile.seteMail(rs.getString("email"));
-				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
-				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
-				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
-
-				return profile;
+				return map(rs);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -290,9 +268,7 @@ public class ProfileMapper {
 			Statement stmt = con.createStatement();
 
 			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery(
-					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender "
-							+ "FROM profiles WHERE email = '" + email + "' LIMIT 1");
+			ResultSet rs = stmt.executeQuery(BASE_SELECT + " WHERE email = '" + email + "' LIMIT 1");
 
 			/*
 			 * Da email eindeutig ist, kann maximal nur ein Tupel zurückgegeben
@@ -302,19 +278,7 @@ public class ProfileMapper {
 
 				// Umwandlung des Ergebnis-Tupel in ein Objekt und Ausgabe des
 				// Ergebnis-Objekts
-				Profile profile = new Profile();
-				profile.setId(rs.getInt("id"));
-				profile.setFirstName(rs.getString("firstName"));
-				profile.setLastName(rs.getString("lastName"));
-				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
-				profile.seteMail(rs.getString("email"));
-				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
-				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
-				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
-
-				return profile;
+				return map(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -341,39 +305,68 @@ public class ProfileMapper {
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Profile> result = new ArrayList<Profile>();
 
-		// SELECT * FROM profiles p1 LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE EXISTS (SELECT * FROM infos i2 LEFT JOIN profiles p2 ON i2.profileId = p2.id WHERE i1.informationValue = i2.informationValue AND (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND i2.searchprofileId = 1); 
-		
+		// SELECT p1.id, p1.firstName, p1.lastName, p1.dateOfBirth, p1.email,
+		// p1.height, p1.confession, p1.smoker, p1.hairColor, p1.gender FROM
+		// profiles p1 LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE (SELECT
+		// COUNT(*) FROM infos WHERE searchprofileId = 6) = 0 OR EXISTS (SELECT
+		// * FROM infos i2 LEFT JOIN searchprofiles sp2 ON i2.searchprofileId =
+		// sp2.id WHERE i1.informationValue = i2.informationValue AND
+		// (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND
+		// i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR
+		// (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND
+		// i2.searchprofileId = 6) GROUP BY p1.id HAVING COUNT(i1.id) = (SELECT
+		// COUNT(*) FROM infos WHERE searchprofileId = 6) AND p1.id > 0
+
 		try {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			String sql = "SELECT p1.id, p1.firstName, p1.lastName, p1.dateOfBirth, p1.email, p1.height, p1.confession, p1.smoker, p1.hairColor, p1.gender FROM profiles p1 LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE EXISTS (SELECT * FROM infos i2 LEFT JOIN profiles p2 ON i2.profileId = p2.id WHERE i1.informationValue = i2.informationValue AND (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND i2.searchprofileId = 1) AND p1.id > 0";
+			String sql = "SELECT p1.id, p1.firstName, p1.lastName, p1.dateOfBirth, p1.email, p1.height, p1.confession, p1.smoker, p1.hairColor, p1.gender, p1.orientation, s1.similarityValue FROM profiles p1 LEFT JOIN similarities s1 ON p1.id = s1.toProfile LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE p1.id > 0 ";
+			if (searchProfile.getId() != 0) {
+				sql += " AND ((SELECT COUNT(*) FROM infos WHERE searchprofileId = 6) = 0 OR EXISTS (SELECT * FROM infos i2 LEFT JOIN searchprofiles sp2 ON i2.searchprofileId = sp2.id WHERE i1.informationValue = i2.informationValue AND (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND i2.searchprofileId = "
+						+ searchProfile.getId()
+						+ " GROUP BY p1.id HAVING COUNT(i1.id)) = (SELECT COUNT(*) FROM infos WHERE searchprofileId = "
+						+ searchProfile.getId() + ")) ";
+			}
 
 			if (searchProfile.getFromHeight() != 0) {
-				sql += " AND profiles.height > " + searchProfile.getFromHeight() + " ";
+				sql += " AND p1.height > " + searchProfile.getFromHeight() + " ";
 			}
 
 			if (searchProfile.getToHeight() != 0) {
-				sql += " AND profiles.height < " + searchProfile.getToHeight() + " ";
+				sql += " AND p1.height < " + searchProfile.getToHeight() + " ";
 			}
 
 			if (searchProfile.getHairColor() != null && searchProfile.getHairColor() != HairColor.DEFAULT) {
-				sql += " AND profiles.hairColor = '" + searchProfile.getHairColor() + "' ";
+				sql += " AND p1.hairColor = '" + searchProfile.getHairColor() + "' ";
 			}
 
 			if (searchProfile.getConfession() != null && searchProfile.getConfession() != Confession.DEFAULT) {
-				sql += " AND profiles.confession = '" + searchProfile.getConfession() + "' ";
+				sql += " AND p1.confession = '" + searchProfile.getConfession() + "' ";
 			}
 
 			if (searchProfile.getGender() != null) {
-				sql += " AND profiles.gender = '" + searchProfile.getGender() + "' ";
+				sql += " AND p1.gender = '" + searchProfile.getGender().name() + "' ";
+			} else {
+				Profile profile = searchProfile.getProfile();
+				Gender gender = profile.getGender();
+
+				Orientation orientation = searchProfile.getProfile().getOrientation();
+				if (gender != null && gender != Gender.OTHERS && orientation != null) {
+					if (orientation == Orientation.HETERO) {
+						Gender searchedGender = gender == Gender.MALE ? Gender.FEMALE : Gender.MALE;
+						sql += " AND p1.gender = '" + searchedGender.name() + "' ";
+					} else if (orientation == Orientation.HOMO) {
+						sql += " AND p1.gender = '" + gender.name() + "' ";
+					}
+				}
 			}
 
 			if (searchProfile.getFromAge() != 0) {
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				Calendar instance = Calendar.getInstance();
 				instance.add(Calendar.YEAR, searchProfile.getFromAge());
-				sql += " AND profiles.dateOfBirth < '" + simpleDateFormat.format(instance.getTime()) + "' ";
+				sql += " AND p1.dateOfBirth < '" + simpleDateFormat.format(instance.getTime()) + "' ";
 			}
 
 			if (searchProfile.getToAge() != 0) {
@@ -381,8 +374,19 @@ public class ProfileMapper {
 
 				Calendar instance = Calendar.getInstance();
 				instance.add(Calendar.YEAR, -searchProfile.getToAge());
-				sql += " AND profiles.dateOfBirth > '" + simpleDateFormat.format(instance.getTime()) + "' ";
+				sql += " AND p1.dateOfBirth > '" + simpleDateFormat.format(instance.getTime()) + "' ";
 			}
+
+			if (searchProfile.isNoVisited()) {
+				sql += " AND NOT EXISTS (SELECT * FROM visits WHERE visits.fromProfile = "
+						+ searchProfile.getProfile().getId() + " AND visits.toProfile = p1.id)";
+			}
+
+			sql += " AND NOT EXISTS (SELECT * FROM blockings WHERE blockings.fromProfile = "
+					+ searchProfile.getProfile().getId() + " AND blockings.toProfile = p1.id)";
+
+			sql += " AND p1.id != " + searchProfile.getProfile().getId();
+			sql += " GROUP BY p1.id ORDER BY s1.similarityValue DESC";
 
 			System.out.println(sql);
 			ResultSet rs = stmt.executeQuery(sql);
@@ -391,16 +395,18 @@ public class ProfileMapper {
 			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 			while (rs.next()) {
 				Profile profile = new Profile();
-				profile.setId(rs.getInt("id"));
-				profile.setFirstName(rs.getString("firstName"));
-				profile.setLastName(rs.getString("lastName"));
-				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
-				profile.seteMail(rs.getString("email"));
-				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
-				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
-				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+				profile.setId(rs.getInt("p1.id"));
+				profile.setFirstName(rs.getString("p1.firstName"));
+				profile.setLastName(rs.getString("p1.lastName"));
+				profile.setDateOfBirth(rs.getDate("p1.dateOfBirth"));
+				profile.seteMail(rs.getString("p1.email"));
+				profile.setHeight(rs.getInt("p1.height"));
+				profile.setConfession(Profile.Confession.valueOf(rs.getString("p1.confession")));
+				profile.setSmoker(rs.getBoolean("p1.smoker"));
+				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("p1.hairColor")));
+				profile.setGender(Profile.Gender.valueOf(rs.getString("p1.gender")));
+				profile.setOrientation(Profile.Orientation.valueOf(rs.getString("p1.orientation")));
+				profile.setSimilarityValue(rs.getDouble("s1.similarityValue"));
 
 				result.add(profile);
 			}
@@ -436,7 +442,7 @@ public class ProfileMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender, similarities.similarityValue FROM profiles similarProfiles INNER JOIN similarities ON similarities.toProfile = similarProfiles.id WHERE similarities.fromProfile = "
+					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender, orientation, similarities.similarityValue FROM profiles similarProfiles INNER JOIN similarities ON similarities.toProfile = similarProfiles.id WHERE similarities.fromProfile = "
 							+ fromProfile.getId()
 							+ " AND  similarities.similarityValue > 0.5 ORDER BY similarities.similarityValue DESC");
 
@@ -454,10 +460,11 @@ public class ProfileMapper {
 				profile.setSmoker(rs.getBoolean("smoker"));
 				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
 				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
-				
+				profile.setOrientation(Profile.Orientation.valueOf(rs.getString("orientation")));
+
 				Similarity similarity = new Similarity();
 				similarity.setFromProfile(fromProfile);
-				
+
 				profile.setSimilarityValue(rs.getDouble("similarities.similarityValue"));
 
 				result.add(profile);
@@ -470,56 +477,20 @@ public class ProfileMapper {
 		return result;
 	}
 
-	/**
-	 * Auslesen aller von einem gegebenen Profil noch nicht besuchten Profile.
-	 * 
-	 * Da mehrere Profile von einem gegebenen Profil noch nicht besucht sein
-	 * können, können mehrere Profile-Objekte in einer ArrayList ausgegeben
-	 * werden.
-	 * 
-	 * @param visitingProfile,
-	 *            das Profil dessen Nicht-Besuche ausgelesen werden sollen
-	 * @return Eine ArrayList mit Profile-Objekten, die das gegebene
-	 *         Profile-Objekt nicht besucht hat
-	 */
-
-	public ArrayList<Profile> findNotViewedProfiles(Profile vistingProfile) {
-		// DB-Verbindung holen
-		Connection con = DBConnection.connection();
-		// Vorbereitung der Ergebnis-ArrayList
-		ArrayList<Profile> result = new ArrayList<Profile>();
-
-		try {
-			// Leeres SQL-Statement (JDBC) anlegen
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery(
-					"SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM profiles LEFT JOIN visits ON visits.toProfile = profiles.id WHERE visits.id IS NULL OR NOT visits.fromProfile = "
-							+ vistingProfile.getId() + " GROUP BY profiles.id");
-
-			// Für jeden Eintrag im Suchergebnis wird nun ein Profile-Objekt
-			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
-			while (rs.next()) {
-				Profile profile = new Profile();
-				profile.setId(rs.getInt("id"));
-				profile.setFirstName(rs.getString("firstName"));
-				profile.setLastName(rs.getString("lastName"));
-				profile.setDateOfBirth(rs.getDate("dateOfBirth"));
-				profile.seteMail(rs.getString("email"));
-				profile.setHeight(rs.getInt("height"));
-				profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
-				profile.setSmoker(rs.getBoolean("smoker"));
-				profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
-				profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
-
-				result.add(profile);
-			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
-		}
-
-		// Ergebnis-ArrayList zurückgeben
-		return result;
+	private Profile map(ResultSet rs) throws SQLException {
+		Profile profile = new Profile();
+		profile.setId(rs.getInt("id"));
+		profile.setFirstName(rs.getString("firstName"));
+		profile.setLastName(rs.getString("lastName"));
+		profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+		profile.seteMail(rs.getString("email"));
+		profile.setHeight(rs.getInt("height"));
+		profile.setConfession(Profile.Confession.valueOf(rs.getString("confession")));
+		profile.setSmoker(rs.getBoolean("smoker"));
+		profile.setHairColor(Profile.HairColor.valueOf(rs.getString("hairColor")));
+		profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+		profile.setOrientation(Profile.Orientation.valueOf(rs.getString("orientation")));
+		return profile;
 	}
 
 }
