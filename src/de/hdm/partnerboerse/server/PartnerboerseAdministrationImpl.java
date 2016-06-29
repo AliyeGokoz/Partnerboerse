@@ -25,6 +25,7 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
+import de.hdm.partnerboerse.shared.bo.Profile.Orientation;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.bo.Selection;
 import de.hdm.partnerboerse.shared.bo.Similarity;
@@ -396,6 +397,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public ArrayList<Profile> getAllProfilesFiltered() {
 		Profile currentProfile = LoginServiceImpl.loginService().getCurrentProfile();
 		SearchProfile searchProfile = new SearchProfile();
+		
+		/*
+		 *  Sorgt dafür, dass sowohl Männer als auch Frauen aus der DB gelesen werden
+		 */
+		currentProfile.setOrientation(Orientation.BI);
+		
 		searchProfile.setProfile(currentProfile);
 		return profileMapper.findBySearchProfile(searchProfile);
 	}
