@@ -62,13 +62,6 @@ public class Partnerboerse implements EntryPoint {
 		final Profile profile = loginInfo.getProfile();
 		final VerticalPanel content = new VerticalPanel();
 
-		// Make a command that we will execute from all leaves.
-		Command cmd = new Command() {
-			public void execute() {
-				Window.alert("You selected a menu item!");
-			}
-		};
-
 		Command addnewProfile = new Command() {
 			public void execute() {
 				NewProfilePage addnewProfil = new NewProfilePage();

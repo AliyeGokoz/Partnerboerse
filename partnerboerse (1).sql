@@ -2,10 +2,10 @@
 -- version 4.5.2
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Erstellungszeit: 05. Jun 2016 um 11:00
--- Server-Version: 10.1.13-MariaDB
--- PHP-Version: 5.5.34
+-- Host: 173.194.81.182
+-- Erstellungszeit: 27. Jun 2016 um 20:45
+-- Server-Version: 5.6.30
+-- PHP-Version: 5.6.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `partnerboerse`
+-- Datenbank: `partnerboerse_db`
 --
 
 -- --------------------------------------------------------
@@ -32,13 +32,6 @@ CREATE TABLE `blockings` (
   `toProfile` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
---
--- Daten für Tabelle `blockings`
---
-
-INSERT INTO `blockings` (`id`, `fromProfile`, `toProfile`) VALUES
-(1, 1, 5);
-
 -- --------------------------------------------------------
 
 --
@@ -47,7 +40,8 @@ INSERT INTO `blockings` (`id`, `fromProfile`, `toProfile`) VALUES
 
 CREATE TABLE `descriptions` (
   `id` int(11) NOT NULL,
-  `textualDescription` text COLLATE utf8_bin NOT NULL,
+  `textualDescriptionForProfile` text COLLATE utf8_bin NOT NULL,
+  `textualDescriptionForSearchProfile` text COLLATE utf8_bin NOT NULL,
   `propertyName` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -55,11 +49,10 @@ CREATE TABLE `descriptions` (
 -- Daten für Tabelle `descriptions`
 --
 
-INSERT INTO `descriptions` (`id`, `textualDescription`, `propertyName`) VALUES
-(1, 'Ich mache gern:', 'Hobbys'),
-(2, 'Mein/e Lieblingsband/Lieblingskünstler/in sind/ist:', 'Musik'),
-(3, 'Mein/e Lieblingsfilm/e ist/sind:', 'Filme'),
-(4, 'Ich habe folgendes Gedicht selber geschrieben:', 'Gedichte');
+INSERT INTO `descriptions` (`id`, `textualDescriptionForProfile`, `textualDescriptionForSearchProfile`, `propertyName`) VALUES
+(1, 'Ich mache gerne:', 'Mein große Liebe macht gerne:', 'Hobbys'),
+(2, 'Mein/e Lieblingsband/Lieblingskünstler/in sind/ist:', 'Meine große Liebe hat folgende Lieblingsband/Lieblingskünstler/in:', 'Musik'),
+(3, 'Mein/e Lieblingsfilm/e ist/sind:', 'Meine große Liebe hat folgenden Lieblingsfilm/e:', 'Filme');
 
 -- --------------------------------------------------------
 
@@ -93,7 +86,8 @@ INSERT INTO `favorites` (`id`, `fromProfile`, `toProfile`) VALUES
 CREATE TABLE `infos` (
   `id` int(11) NOT NULL,
   `informationValue` varchar(255) COLLATE utf8_bin NOT NULL,
-  `profileId` int(11) NOT NULL,
+  `profileId` int(11) DEFAULT NULL,
+  `searchprofileId` int(11) DEFAULT NULL,
   `selectionId` int(11) DEFAULT NULL,
   `descriptionId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -102,15 +96,15 @@ CREATE TABLE `infos` (
 -- Daten für Tabelle `infos`
 --
 
-INSERT INTO `infos` (`id`, `informationValue`, `profileId`, `selectionId`, `descriptionId`) VALUES
-(1, 'Rock', 1, 1, NULL),
-(2, 'John Zorn', 2, NULL, 2),
-(3, 'Meditieren', 3, NULL, 1),
-(4, 'Volkstanz', 4, 2, NULL),
-(5, 'Hayat Sarkisi', 5, NULL, 3),
-(6, 'Komödie', 6, 3, NULL),
-(7, 'Griechische Filme', 7, NULL, 3),
-(8, 'Reisen', 7, NULL, 1);
+INSERT INTO `infos` (`id`, `informationValue`, `profileId`, `searchprofileId`, `selectionId`, `descriptionId`) VALUES
+(1, 'Rock', NULL, 1, 1, NULL),
+(2, 'John Zorn', NULL, 2, NULL, 2),
+(3, 'Meditieren', NULL, 3, NULL, 1),
+(4, 'Volkstanz', 4, NULL, 2, NULL),
+(5, 'Hayat Sarkisi', 5, NULL, NULL, 3),
+(6, 'Komödie', 6, NULL, 3, NULL),
+(7, 'Griechische Filme', 7, NULL, NULL, 3),
+(8, 'Reisen', 7, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -208,7 +202,9 @@ INSERT INTO `profiles` (`id`, `firstName`, `lastName`, `dateOfBirth`, `email`, `
 (7, 'Jorgo', 'Titatidou', '1977-02-03', 'kefderak.jorgo@gmail.de', 166, 'OTHERS', 1, 'BLACK', 'MALE'),
 (8, 'Jolanta', 'Jolanta', '2016-05-16', 'Jolanta', 155, 'BUDDHISTIC', 1, 'BLOND', 'FEMALE'),
 (9, 'Jolanta', 'Jolanta', '2016-05-16', 'updated', 155, 'BUDDHISTIC', 1, 'BLOND', 'FEMALE'),
-(10, 'Jolanta', 'Jolanta', '2000-01-01', 'updated', 155, 'BUDDHISTIC', 1, 'BLOND', 'FEMALE');
+(10, 'Jolanta', 'Jolanta', '2000-01-01', 'updated', 155, 'BUDDHISTIC', 1, 'BLOND', 'FEMALE'),
+(11, 'Claudia', 'Ryniak', '1991-12-29', 'claudiaryniak1@gmail.com', 160, 'NO_CONFESSION', 1, 'BLOND', 'FEMALE'),
+(12, 'Claudia', 'Ryniak', '1991-12-29', 'claudiaryniak1@gmail.com', 160, 'NO_CONFESSION', 1, 'BLOND', 'FEMALE');
 
 -- --------------------------------------------------------
 
@@ -218,11 +214,12 @@ INSERT INTO `profiles` (`id`, `firstName`, `lastName`, `dateOfBirth`, `email`, `
 
 CREATE TABLE `searchprofiles` (
   `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `fromAge` int(11) NOT NULL,
-  `hairColor` enum('DEFAULT','BROWN','BLOND','BLACK','RED','GREY','OTHERS') COLLATE utf8_bin NOT NULL,
-  `gender` enum('FEMALE','MALE','OTHERS','') COLLATE utf8_bin NOT NULL,
+  `hairColor` enum('DEFAULT','BROWN','BLOND','BLACK','RED','GREY','OTHERS') COLLATE utf8_bin DEFAULT NULL,
+  `gender` enum('FEMALE','MALE','OTHERS','') COLLATE utf8_bin DEFAULT NULL,
   `fromHeight` int(11) NOT NULL,
-  `confession` enum('DEFAULT','PROTESTANT','CATHOLIC','BUDDHISTIC','HINDU','MUSLIM','JEWISH','NO_CONFESSION','OTHERS') COLLATE utf8_bin NOT NULL,
+  `confession` enum('DEFAULT','PROTESTANT','CATHOLIC','BUDDHISTIC','HINDU','MUSLIM','JEWISH','NO_CONFESSION','OTHERS') COLLATE utf8_bin DEFAULT NULL,
   `profileId` int(11) NOT NULL,
   `toHeight` int(11) NOT NULL,
   `toAge` int(11) NOT NULL
@@ -232,11 +229,11 @@ CREATE TABLE `searchprofiles` (
 -- Daten für Tabelle `searchprofiles`
 --
 
-INSERT INTO `searchprofiles` (`id`, `fromAge`, `hairColor`, `gender`, `fromHeight`, `confession`, `profileId`, `toHeight`, `toAge`) VALUES
-(1, 20, 'DEFAULT', 'MALE', 170, 'DEFAULT', 6, 190, 70),
-(2, 20, 'BLACK', 'FEMALE', 150, 'DEFAULT', 5, 175, 40),
-(3, 30, 'BLOND', 'MALE', 170, 'PROTESTANT', 2, 185, 50),
-(4, 20, 'DEFAULT', 'FEMALE', 160, 'MUSLIM', 5, 170, 40);
+INSERT INTO `searchprofiles` (`id`, `name`, `fromAge`, `hairColor`, `gender`, `fromHeight`, `confession`, `profileId`, `toHeight`, `toAge`) VALUES
+(1, 'Große Liebe', 20, 'DEFAULT', 'MALE', 170, 'DEFAULT', 6, 190, 70),
+(2, 'Traumpartner', 20, 'BLACK', 'FEMALE', 150, 'DEFAULT', 5, 175, 40),
+(3, 'Erster Versuch', 30, 'BLOND', 'MALE', 170, 'PROTESTANT', 2, 185, 50),
+(4, 'Suchprofil 1', 20, 'DEFAULT', NULL, 160, 'MUSLIM', 5, 170, 40);
 
 -- --------------------------------------------------------
 
@@ -246,7 +243,8 @@ INSERT INTO `searchprofiles` (`id`, `fromAge`, `hairColor`, `gender`, `fromHeigh
 
 CREATE TABLE `selections` (
   `id` int(11) NOT NULL,
-  `textualDescription` text COLLATE utf8_bin NOT NULL,
+  `textualDescriptionForProfile` text COLLATE utf8_bin NOT NULL,
+  `textualDescriptionForSearchProfile` text COLLATE utf8_bin NOT NULL,
   `propertyName` varchar(255) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -254,11 +252,11 @@ CREATE TABLE `selections` (
 -- Daten für Tabelle `selections`
 --
 
-INSERT INTO `selections` (`id`, `textualDescription`, `propertyName`) VALUES
-(1, 'Ich höre gern:', 'Musik'),
-(2, 'Ich betreibe gerne folgende Sportart/en:', 'Sport'),
-(3, 'Ich schaue gerne:', 'Filme'),
-(4, 'Ich lese gerne:', 'Bücher');
+INSERT INTO `selections` (`id`, `textualDescriptionForProfile`, `textualDescriptionForSearchProfile`, `propertyName`) VALUES
+(1, 'Ich höre gerne:', 'Meine große Liebe hört gerne:', 'Musik'),
+(2, 'Ich betreibe gerne folgende Sportart/en:', 'Meine große Liebe betreibt gerne folgende Sportart/en:', 'Sport'),
+(3, 'Ich schaue gerne:', 'Meine große Liebe schaut gerne:', 'Filme'),
+(4, 'Ich lese gerne:', 'Meine große Liebe liest gerne:', 'Bücher');
 
 -- --------------------------------------------------------
 
@@ -387,7 +385,53 @@ INSERT INTO `similarities` (`id`, `fromProfile`, `toProfile`, `similarityValue`)
 (107, 0, 1, 0.7),
 (108, 0, 6, 0.6),
 (109, 0, 7, 0.5),
-(110, 0, 5, 0.6);
+(110, 0, 5, 0.6),
+(111, 11, 3, 0.6),
+(112, 3, 11, 0.6),
+(113, 11, 2, 0.5),
+(114, 2, 11, 0.5),
+(115, 11, 4, 0.4),
+(116, 4, 11, 0.4),
+(117, 11, 8, 0.7),
+(118, 8, 11, 0.7),
+(119, 11, 9, 0.7),
+(120, 9, 11, 0.7),
+(121, 11, 10, 0.7),
+(122, 10, 11, 0.7),
+(123, 11, 1, 0.6),
+(124, 1, 11, 0.6),
+(125, 12, 3, 0.6),
+(126, 3, 12, 0.6),
+(127, 11, 11, 0.9),
+(128, 11, 11, 0.9),
+(129, 12, 2, 0.5),
+(130, 11, 6, 0.8),
+(131, 6, 11, 0.8),
+(132, 12, 4, 0.4),
+(133, 11, 7, 0.7),
+(134, 7, 11, 0.7),
+(135, 12, 8, 0.7),
+(136, 11, 5, 0.6),
+(137, 5, 11, 0.6),
+(138, 12, 9, 0.7),
+(139, 11, 0, 0.6),
+(140, 0, 11, 0.6),
+(141, 12, 10, 0.7),
+(142, 10, 12, 0.7),
+(143, 12, 1, 0.6),
+(144, 1, 12, 0.6),
+(145, 12, 11, 0.9),
+(146, 11, 12, 0.9),
+(147, 12, 12, 0.9),
+(148, 12, 12, 0.9),
+(149, 12, 6, 0.8),
+(150, 6, 12, 0.8),
+(151, 12, 7, 0.7),
+(152, 7, 12, 0.7),
+(153, 12, 5, 0.6),
+(154, 5, 12, 0.6),
+(155, 12, 0, 0.6),
+(156, 0, 12, 0.6);
 
 -- --------------------------------------------------------
 
@@ -446,7 +490,8 @@ ALTER TABLE `infos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `profileId` (`profileId`),
   ADD KEY `selectionId` (`selectionId`),
-  ADD KEY `descriptionId` (`descriptionId`);
+  ADD KEY `descriptionId` (`descriptionId`),
+  ADD KEY `searchProfileId` (`searchprofileId`);
 
 --
 -- Indizes für die Tabelle `options`
@@ -514,7 +559,8 @@ ALTER TABLE `favorites`
 ALTER TABLE `infos`
   ADD CONSTRAINT `infos_ibfk_1` FOREIGN KEY (`profileId`) REFERENCES `profiles` (`id`),
   ADD CONSTRAINT `infos_ibfk_2` FOREIGN KEY (`selectionId`) REFERENCES `selections` (`id`),
-  ADD CONSTRAINT `infos_ibfk_3` FOREIGN KEY (`descriptionId`) REFERENCES `descriptions` (`id`);
+  ADD CONSTRAINT `infos_ibfk_3` FOREIGN KEY (`descriptionId`) REFERENCES `descriptions` (`id`),
+  ADD CONSTRAINT `infos_ibfk_4` FOREIGN KEY (`searchprofileId`) REFERENCES `searchprofiles` (`id`);
 
 --
 -- Constraints der Tabelle `options`

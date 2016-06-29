@@ -22,14 +22,14 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Profile createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
 			boolean smoker, HairColor hairColor, Confession confession, Gender gender);
 
-	public SearchProfile createSearchProfile(int id, int fromAge, int toAge, int fromHeight, int toHeight,
+	public SearchProfile createSearchProfile(int id, String name, int fromAge, int toAge, int fromHeight, int toHeight,
 			HairColor hairColor, Gender gender, Confession confession, boolean smoker);
 
 	public Info createInfo(int id, String informationValue);
 
-	public Selection createSelection(int id, String propertyName, String textualDescription);
+	public Selection createSelection(int id, String propertyName, String textualDescriptionForProfile, String textualDescriptionForSearchProfile);
 
-	public Description createDescription(int id, String propertyName, String textualDescription);
+	public Description createDescription(int id, String propertyName, String textualDescriptionForProfile, String textualDescriptionForSearchProfile);
 
 	public FavoritesList createFavoritesList(Profile fromProfile, Profile toProfile);
 
@@ -152,7 +152,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public void save(VisitList visitList) throws IllegalArgumentException;
 
-	public void save(FavoritesList favoritesList) throws IllegalArgumentException;
+	public FavoritesList save(FavoritesList favoritesList) throws IllegalArgumentException;
 	
 	public void save(Option option)throws IllegalArgumentException;
 	
@@ -174,8 +174,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	ArrayList<Similarity> getSimilaritiesOf(Profile profile) throws IllegalArgumentException;
 
 	Similarity calculateSimilarity(Profile one, Profile two);
-
-	ArrayList<Profile> getNotViewedProfiles(Profile vistingProfile);
 	
 	ArrayList<Profile> getBySearchProfile(SearchProfile searchProfile);
 	
@@ -187,7 +185,16 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	ArrayList<VisitList> getWithInVisitList(Profile with) throws IllegalArgumentException;
 	
-    ArrayList<Blocking> findWithInBlocking(Profile with)throws IllegalArgumentException;
+    ArrayList<Blocking> getWithInBlocking(Profile with)throws IllegalArgumentException;
     
-    ArrayList<Similarity> findWithInSimilarity(Profile with)throws IllegalArgumentException;
+	void visit(Profile profile);
+
+	ArrayList<Profile> getAllProfilesFiltered();
+
+    ArrayList<Similarity> getWithInSimilarity(Profile with)throws IllegalArgumentException;
+    
+    ArrayList<Info> getInfosOf(int searchProfileId)throws IllegalArgumentException;
+    
+    ArrayList<Info> getInfosOf(SearchProfile searchProfile)throws IllegalArgumentException;
+
 }

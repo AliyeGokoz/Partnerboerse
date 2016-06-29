@@ -5,15 +5,25 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import java.util.Date;
 
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.hdm.partnerboerse.shared.LoginService;
+import de.hdm.partnerboerse.shared.LoginServiceAsync;
+import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Blocking;
+import de.hdm.partnerboerse.shared.bo.FavoritesList;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
 public class OtherUserProfilePage {
+
+	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
+	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 
 	/**
 	 * Panel anlegen für die Ausgabe
@@ -58,7 +68,7 @@ public class OtherUserProfilePage {
 		showProfileofUser.setCellSpacing(10);
 
 		getDate(selected);
-		
+
 		// Label mit Inhalt füllen
 		firstnameLabel.setText(selected.getFirstName());
 		lastnameLabel.setText(selected.getLastName());
@@ -96,26 +106,24 @@ public class OtherUserProfilePage {
 		showProfile.add(saveToFavoritesList);
 
 		goBacktoUserOverview();
-		
+		onClickforBlockingandFavorit(selected);
+
 		return showProfile;
 	}
 
-	public Date getDate(final Profile selected) {
-		String string = selected.getDateOfBirth().toString();
-		Date result = null;
+	public void getDate(final Profile selected) {
 		try {
-			DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd");
-			result = format.parse(string);
+			DateTimeFormat format = DateTimeFormat.getFormat("dd.MM.yyyy");
+			String result = format.format(selected.getDateOfBirth());
 			dateofBirthLabel.setText("" + result);
 		} catch (Exception e) {
 			// ignore
 		}
-		return result;
 	}
-	
-	public void goBacktoUserOverview(){
+
+	public void goBacktoUserOverview() {
 		backButton.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				UserOverview showUserOverview = new UserOverview();
@@ -124,92 +132,76 @@ public class OtherUserProfilePage {
 			}
 		});
 	}
-	
-	public void onClickforBlockingandFavoirt(){
-		
+
+	public void onClickforBlockingandFavorit(final Profile selected) {
+
 		saveToBlockingList.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
-				
-				
+
+				loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+
+					@Override
+					public void onSuccess(Profile result) {
+						partnerboerseVerwaltung.createBlocking(result, selected, new AsyncCallback<Blocking>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onSuccess(Blocking result) {
+								Window.alert("Sie haben den Kontakt " + selected.getFirstName() + " gesperrt" );
+								
+							}
+						});
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+				});
 			}
 		});
 		
-		//saveToBlockingList.addClickHandler(new ClickHandler() {
-			//
-//											@Override
-//											public void onClick(ClickEvent event) {
-//											
-//												loginService.getCurrentProfile(new AsyncCallback<Profile>() {
-//													
-//													@Override
-//													public void onSuccess(Profile result) {
-//														//Window.alert("Kontakt gesperrt");
-//														partnerboerseVerwaltung.createBlocking(result, selected, new AsyncCallback<Blocking>() {
-//															
-//															@Override
-//															public void onSuccess(Blocking result) {
-//																Window.alert("Sie haben den Kontakt" +" " + selected.getFirstName() + " " + selected.getFirstName() + " " + "gesperrt" );
-//																buttonPanel.clear();
-//															}
-//															
-//															@Override
-//															public void onFailure(Throwable caught) {
-//																// TODO Auto-generated method stub
-//																
-//															}
-//														});
-			//
-//													}
-//													
-//													@Override
-//													public void onFailure(Throwable caught) {
-//														// TODO Auto-generated method stub
-//														
-//													}
-//												});
-//											}
-//											
-//										});
-//										
-//										saveToFavoritesList.addClickHandler(new ClickHandler() {
-//											
-//											@Override
-//											public void onClick(ClickEvent event) {
-//												loginService.getCurrentProfile(new AsyncCallback<Profile>() {
-//													@Override
-//													public void onSuccess(Profile result) {
-//														Window.alert("Erfolgreich zum Merkzettel hinzugefügt");
-//														partnerboerseVerwaltung.createFavoritesList(result, selected,
-//																new AsyncCallback<FavoritesList>() {
-			//
-//																	@Override
-//																	public void onSuccess(FavoritesList result) {
-//																		buttonPanel.clear();
-//																	}
-			//
-//																	@Override
-//																	public void onFailure(Throwable caught) {
-//																		// TODO
-//																		// Auto-generated
-//																		// method stub
-			//
-//																	}
-//																});
-			//
-//													}
-			//
-//													@Override
-//													public void onFailure(Throwable caught) {
-//														// TODO Auto-generated method stub
-			//
-//													}
-//												});
-//											}
-//										});
-//									}
-		
+		saveToFavoritesList.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				loginService.getCurrentProfile(new AsyncCallback<Profile>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						
+						
+					}
+
+					@Override
+					public void onSuccess(Profile result) {
+						partnerboerseVerwaltung.createFavoritesList(result, selected, new AsyncCallback<FavoritesList>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onSuccess(FavoritesList result) {
+								Window.alert("Sie haben den Kontakt " +  selected.getFirstName() + " zum Merkzettel hinzugefügt." );
+								
+							}
+						});
+						
+					}
+				});
+				
+			}
+		});
 	}
-	
+
 }

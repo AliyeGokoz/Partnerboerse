@@ -9,7 +9,6 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
@@ -18,9 +17,9 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Info;
-import de.hdm.partnerboerse.shared.bo.Profile;
+import de.hdm.partnerboerse.shared.bo.SearchProfile;
 
-public class ShowInfoOfProfile {
+public class ShowInfoOfSearchProfile {
 
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
@@ -40,10 +39,12 @@ public class ShowInfoOfProfile {
 	 * Button zum Löschen von Informationen
 	 */
 	final Button deleteButton = new Button("<img src='images/delete.png'/>");
-
-	public Widget showInfo(Profile currentProfile) {
-
-		partnerboerseVerwaltung.getInfoOf(currentProfile, new AsyncCallback<ArrayList<Info>>() {
+	
+	
+	public Widget showInfoOfSearchProfile(final SearchProfile searchProfile){
+		
+		
+		partnerboerseVerwaltung.getInfosOf(searchProfile, new AsyncCallback<ArrayList<Info>>() {
 
 			@Override
 			public void onSuccess(ArrayList<Info> result) {
@@ -69,9 +70,9 @@ public class ShowInfoOfProfile {
 			@Override
 			public String getValue(Info info) {
 				if (info.getDescription() != null) {
-					return info.getDescription().getTextualDescriptionForProfile();
+					return info.getDescription().getTextualDescriptionForSearchProfile();
 				} else {
-					return info.getSelection().getTextualDescriptionForProfile();
+					return info.getSelection().getTextualDescriptionForSearchProfile();
 				}
 			}
 		};
@@ -129,5 +130,5 @@ public class ShowInfoOfProfile {
 			}
 		});
 	}
-
+	
 }

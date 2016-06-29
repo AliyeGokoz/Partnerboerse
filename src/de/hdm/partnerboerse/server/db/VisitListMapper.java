@@ -22,8 +22,8 @@ public class VisitListMapper {
 
 	// Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT visits.id AS vid,"
-			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender,"
-			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender FROM visits LEFT JOIN profiles AS fromProfile ON fromProfile.id = visits.fromProfile"
+			+ " fromProfile.id AS fpId, fromProfile.firstName AS fpFirstName, fromProfile.lastName AS fpLastName, fromProfile.dateOfBirth AS fpDateOfBirth, fromProfile.email AS fpEmail, fromProfile.height AS fpHeight, fromProfile.confession AS fpConfession, fromProfile.smoker AS fpSmoker, fromProfile.hairColor AS fpHairColor, fromProfile.gender AS fpGender, fromProfile.orientation AS fpOrientation,"
+			+ " toProfile.id AS tpId, toProfile.firstName AS tpFirstName, toProfile.lastName AS tpLastName, toProfile.dateOfBirth AS tpDateOfBirth, toProfile.email AS tpEmail, toProfile.height AS tpHeight, toProfile.confession AS tpConfession, toProfile.smoker AS tpSmoker, toProfile.hairColor AS tpHairColor, toProfile.gender AS tpGender, toProfile.orientation AS tpOrientation FROM visits LEFT JOIN profiles AS fromProfile ON fromProfile.id = visits.fromProfile"
 			+ " LEFT JOIN profiles AS toProfile ON toProfile.id = visits.toProfile";
 
 	/**
@@ -97,13 +97,27 @@ public class VisitListMapper {
 
 				// Einfügeoperation erfolgt
 				stmt.executeUpdate("INSERT INTO visits (id, fromProfile, toProfile) " + "VALUES (" + visitList.getId()
-						+ ",'" + visitList.getFromProfile() + "','" + visitList.getToProfile() + "')");
+						+ ",'" + visitList.getFromProfile().getId() + "','" + visitList.getToProfile().getId() + "')");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
 		// Rückgabe, der evtl. korrigierten VisitList.
 		return visitList;
+	}
+
+	public boolean doVisitListExist(Profile fromProfile, Profile toProfile) {
+		try {
+			Statement statement = DBConnection.connection().createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) AS count FROM visits WHERE fromProfile = "
+					+ fromProfile.getId() + " AND toProfile = " + toProfile.getId());
+			resultSet.next();
+			return resultSet.getInt("count") > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
 	}
 
 	/**
@@ -235,7 +249,6 @@ public class VisitListMapper {
 	 * @return Eine ArrayList mit VisitList-Objekten, die sämtliche Besuche des
 	 *         vorgegebenen Profils repräsentieren.
 	 */
-
 	public ArrayList<VisitList> findByProfile(int profileId) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
@@ -286,16 +299,17 @@ public class VisitListMapper {
 		visitList.setId(rs.getInt("vid"));
 
 		Profile profileFrom = new Profile();
-		profileFrom.setId(rs.getInt("tpId"));
-		profileFrom.setFirstName(rs.getString("tpFirstName"));
-		profileFrom.setLastName(rs.getString("tpLastName"));
-		profileFrom.setDateOfBirth(rs.getDate("tpDateOfBirth"));
-		profileFrom.seteMail(rs.getString("tpEmail"));
-		profileFrom.setHeight(rs.getInt("tpHeight"));
-		profileFrom.setConfession(Profile.Confession.valueOf(rs.getString("tpConfession")));
-		profileFrom.setSmoker(rs.getBoolean("tpSmoker"));
-		profileFrom.setHairColor(Profile.HairColor.valueOf(rs.getString("tpHairColor")));
-		profileFrom.setGender(Profile.Gender.valueOf(rs.getString("tpGender")));
+		profileFrom.setId(rs.getInt("fpId"));
+		profileFrom.setFirstName(rs.getString("fpFirstName"));
+		profileFrom.setLastName(rs.getString("fpLastName"));
+		profileFrom.setDateOfBirth(rs.getDate("fpDateOfBirth"));
+		profileFrom.seteMail(rs.getString("fpEmail"));
+		profileFrom.setHeight(rs.getInt("fpHeight"));
+		profileFrom.setConfession(Profile.Confession.valueOf(rs.getString("fpConfession")));
+		profileFrom.setSmoker(rs.getBoolean("fpSmoker"));
+		profileFrom.setHairColor(Profile.HairColor.valueOf(rs.getString("fpHairColor")));
+		profileFrom.setGender(Profile.Gender.valueOf(rs.getString("fpGender")));
+		profileFrom.setOrientation(Profile.Orientation.valueOf(rs.getString("fpOrientation")));
 
 		Profile profileTo = new Profile();
 		profileTo.setId(rs.getInt("tpId"));
@@ -308,7 +322,8 @@ public class VisitListMapper {
 		profileTo.setSmoker(rs.getBoolean("tpSmoker"));
 		profileTo.setHairColor(Profile.HairColor.valueOf(rs.getString("tpHairColor")));
 		profileTo.setGender(Profile.Gender.valueOf(rs.getString("tpGender")));
-
+		profileTo.setOrientation(Profile.Orientation.valueOf(rs.getString("tpOrientation")));
+		
 		visitList.setFromProfile(profileFrom);
 		visitList.setToProfile(profileTo);
 
@@ -317,20 +332,20 @@ public class VisitListMapper {
 	}
 
 	public ArrayList<VisitList> findWith(Profile with) {
-		
-		//DB-Verbindung holen
+
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
-		
+
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<VisitList> result = new ArrayList<VisitList>();
-		
+
 		try {
-			
-			//Leeres SQL-Statement (JDBC) anlegen
+
+			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(
-					BASE_SELECT + " WHERE fromProfile=" + with.getId() + " OR toProfile=" + with.getId());
+			ResultSet rs = stmt
+					.executeQuery(BASE_SELECT + " WHERE fromProfile=" + with.getId() + " OR toProfile=" + with.getId());
 
 			while (rs.next()) {
 				result.add(map(rs));

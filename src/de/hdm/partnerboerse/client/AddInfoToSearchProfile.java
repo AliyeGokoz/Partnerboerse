@@ -22,9 +22,10 @@ import de.hdm.partnerboerse.shared.bo.Description;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Option;
 import de.hdm.partnerboerse.shared.bo.Profile;
+import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.bo.Selection;
 
-public class AddInfoToProfilePage {
+public class AddInfoToSearchProfile {
 
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
@@ -32,7 +33,9 @@ public class AddInfoToProfilePage {
 	/**
 	 * Panel anlegen für die Ausgabe
 	 */
+	final HorizontalPanel infosofSP = new HorizontalPanel();
 	final VerticalPanel addinfo = new VerticalPanel();
+	final VerticalPanel showInfos = new VerticalPanel();
 	final VerticalPanel selectionInfoPanel = new VerticalPanel();
 	final VerticalPanel descriptionInfoPanel = new VerticalPanel();
 	final VerticalPanel selectionpropertyDBPanel = new VerticalPanel();
@@ -55,33 +58,30 @@ public class AddInfoToProfilePage {
 	private final ArrayList<Selection> selections = new ArrayList<>();
 	private final ArrayList<Option> options = new ArrayList<>();
 	private final ArrayList<Description> descriptions = new ArrayList<>();
+	private ShowInfoOfSearchProfile showinfoOfsearchprofile = new ShowInfoOfSearchProfile();
 	
-	private ShowInfoOfProfile showinfoofprofile;
-
-	public AddInfoToProfilePage(final ShowInfoOfProfile showinfoofprofile) {
-		this.showinfoofprofile = showinfoofprofile;
-	}
-
-	public Widget addinfotoprofile(Profile profile) {
-
+	public Widget addInfo(SearchProfile selectedsp){
+		
 		addinfo.add(new HTML("<h3> Eigenschaften </h3>"));
 		// final VerticalPanel newInfoforProfilPanel = new VerticalPanel();
 		addinfo.add(new HTML("<div> Suche dir Eigenschaften aus: </div>"));
 		addinfo.add(selectionInfoPanel);
 		addinfo.add(descriptionInfoPanel);
 
-		/**
-		 * 
-		 */
 		createselectioninfo();
 
 		createdecriptionInfo();
+		
+		showInfoOfSP(selectedsp);
 
-		saveButtonClickHandler(profile);
-
-		return addinfo;
+		saveButtonClickHandler(selectedsp);
+		
+		infosofSP.add(addinfo);
+		infosofSP.add(showInfos);
+		
+		return infosofSP;
 	}
-
+	
 	/**
 	 * Methode zum generieren der Dropdown-Listen für die Information(Selection)
 	 */
@@ -90,8 +90,8 @@ public class AddInfoToProfilePage {
 
 			@Override
 			public void onSuccess(final ArrayList<Selection> selections) {
-				AddInfoToProfilePage.this.selections.clear();
-				AddInfoToProfilePage.this.selections.addAll(selections);
+				AddInfoToSearchProfile.this.selections.clear();
+				AddInfoToSearchProfile.this.selections.addAll(selections);
 
 				for (final Selection s : selections) {
 					selectionpropertyListbox.addItem(s.getPropertyName().toString());
@@ -119,8 +119,8 @@ public class AddInfoToProfilePage {
 							@Override
 							public void onSuccess(ArrayList<Option> result) {
 								optionsListBox.clear();
-								AddInfoToProfilePage.this.options.clear();
-								AddInfoToProfilePage.this.options.addAll(result);
+								AddInfoToSearchProfile.this.options.clear();
+								AddInfoToSearchProfile.this.options.addAll(result);
 
 								for (Option o : result) {
 									optionsListBox.addItem(o.getOption());
@@ -161,7 +161,7 @@ public class AddInfoToProfilePage {
 				descriptions.addAll(resultDescription);
 
 				for (final Description d : resultDescription) {
-					descriptionpropertyListbox.addItem(d.getTextualDescriptionForProfile());
+					descriptionpropertyListbox.addItem(d.getTextualDescriptionForSearchProfile().toString());
 				}
 
 				// descriptionpropertyDBPanel.setSpacing(4);
@@ -186,15 +186,15 @@ public class AddInfoToProfilePage {
 	 * Methode, welche den Buttons, onClickHandler zuweisst damit Informationen
 	 * abgespeichert werden könnne.
 	 * 
-	 * @param profile
+	 * @param searchProfile
 	 */
-	public void saveButtonClickHandler(final Profile profile) {
+	public void saveButtonClickHandler(final SearchProfile searchProfile) {
 		addselectionInfo.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				Info info = new Info();
-				info.setProfile(profile);
+				info.setSearchProfile(searchProfile);
 				Selection selection = selections.get(selectionpropertyListbox.getSelectedIndex());
 				info.setSelection(selection);
 				Option option = options.get(optionsListBox.getSelectedIndex());
@@ -210,7 +210,7 @@ public class AddInfoToProfilePage {
 				Info info = new Info();
 				Description description = descriptions.get(descriptionpropertyListbox.getSelectedIndex());
 				info.setDescription(description);
-				info.setProfile(profile);
+				info.setSearchProfile(searchProfile);
 				info.setInformationValue(textdesc.getValue().toString());
 				saveInfo(info);
 			}
@@ -234,14 +234,20 @@ public class AddInfoToProfilePage {
 
 			@Override
 			public void onSuccess(Info result) {
-				showinfoofprofile.dataProvider.getList().add(info);
-				showinfoofprofile.dataProvider.flush();
-				showinfoofprofile.dataProvider.refresh();
-				showinfoofprofile.infoTable.redraw();
+				showinfoOfsearchprofile.dataProvider.getList().add(info);
+				showinfoOfsearchprofile.dataProvider.flush();
+				showinfoOfsearchprofile.dataProvider.refresh();
+				showinfoOfsearchprofile.infoTable.redraw();
 				textdesc.setValue("");
 				Window.alert("Info abgespeichert!");
 
 			}
 		});
 	}
+	
+	public void showInfoOfSP(final SearchProfile searchProfile){
+		showInfos.clear();
+		showInfos.add(showinfoOfsearchprofile.showInfoOfSearchProfile(searchProfile));
+	}
+	
 }

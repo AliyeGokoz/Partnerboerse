@@ -23,7 +23,7 @@ import de.hdm.partnerboerse.shared.bo.*;
 public class InfoMapper {
 
 	// Grundlegendes Select-Statement
-	private static final String BASE_SELECT = "SELECT infos.id AS id, informationValue, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescription AS dtd, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId";
+	private static final String BASE_SELECT = "SELECT infos.id AS id, informationValue,selections.id AS sid, selections.textualDescriptionForProfile AS stdfp,selections.textualDescriptionForSearchProfile AS stdfsp, selections.propertyName AS spn, descriptions.id AS did, descriptions.textualDescriptionForProfile AS dtdfp,descriptions.textualDescriptionForSearchProfile AS dtdfsp, descriptions.propertyName AS dpn, profiles.id AS pid, firstName, lastName, dateOfBirth, email, height, profiles.confession AS pc, smoker, profiles.hairColor AS ph, profiles.gender AS pg, profiles.orientation AS po, searchprofiles.id AS spid, searchprofiles.name AS spn, searchprofiles.fromAge AS spfa, searchprofiles.toAge AS spta, searchprofiles.fromHeight AS spfh, searchprofiles.toHeight AS spth, searchprofiles.hairColor AS sphc, searchprofiles.gender AS spg, searchprofiles.confession AS spc FROM infos LEFT JOIN selections ON selections.id = infos.selectionId LEFT JOIN descriptions ON descriptions.id = infos.descriptionId LEFT JOIN profiles ON profiles.id = infos.profileId LEFT JOIN searchprofiles ON searchprofiles.id = infos.searchprofileId ";
 
 	/**
 	 * Die Instantiierung der Klasse InfoMapper erfolgt nur einmal. Dies wird
@@ -89,8 +89,7 @@ public class InfoMapper {
 			Statement stmt = con.createStatement();
 
 			// Momentan höchsten Primärschlüsselwert prüfen
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-					+ "FROM infos ");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM infos ");
 
 			if (rs.next()) {
 
@@ -103,19 +102,13 @@ public class InfoMapper {
 
 				stmt = con.createStatement();
 
-				stmt.executeUpdate("INSERT INTO infos (id, informationValue, profileId, selectionId, descriptionId) "
-						+ "VALUES ("
-						+ info.getId()
-						+ ",'"
-						+ info.getInformationValue()
-						+ "', "
-						+ info.getProfile().getId()
-						+ ", "
-						+ (info.getSelection() != null ? info.getSelection()
-								.getId() : "NULL")
-						+ ","
-						+ (info.getDescription() != null ? info
-								.getDescription().getId() : "NULL") + ")");
+				stmt.executeUpdate(
+						"INSERT INTO infos (id, informationValue, profileId, searchprofileId, selectionId, descriptionId) "
+								+ "VALUES (" + info.getId() + ",'" + info.getInformationValue() + "', "
+								+ (info.getProfile() != null ? info.getProfile().getId() : "NULL") + ", "
+								+ (info.getSearchProfile() != null ? info.getSearchProfile().getId() : "NULL") + ", "
+								+ (info.getSelection() != null ? info.getSelection().getId() : "NULL") + ", "
+								+ (info.getDescription() != null ? info.getDescription().getId() : "NULL") + ")");
 
 			}
 		} catch (SQLException e) {
@@ -143,8 +136,8 @@ public class InfoMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE infos " + "SET informationValue=\""
-					+ info.getInformationValue() + "WHERE id=" + info.getId());
+			stmt.executeUpdate("UPDATE infos " + "SET informationValue=\"" + info.getInformationValue() + "WHERE id="
+					+ info.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -171,8 +164,7 @@ public class InfoMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM infos " + "WHERE id="
-					+ info.getId());
+			stmt.executeUpdate("DELETE FROM infos " + "WHERE id=" + info.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -286,8 +278,7 @@ public class InfoMapper {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			String sql = BASE_SELECT + " WHERE profileId=" + profileId
-					+ " ORDER BY id";
+			String sql = BASE_SELECT + " WHERE infos.profileId=" + profileId + " ORDER BY id";
 
 			System.out.println(sql);
 
@@ -353,8 +344,7 @@ public class InfoMapper {
 			// Für jeden Eintrag im Suchergebnis wird nun ein Info-Objekt
 			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 
-			String sql = BASE_SELECT + " WHERE selectionId=" + selectionId
-					+ " ORDER BY id";
+			String sql = BASE_SELECT + " WHERE selectionId=" + selectionId + " ORDER BY id";
 
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -412,8 +402,7 @@ public class InfoMapper {
 			// Für jeden Eintrag im Suchergebnis wird nun ein Info-Objekt
 			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
 
-			String sql = BASE_SELECT + " WHERE descriptions.id="
-					+ descriptionId + " ORDER BY id";
+			String sql = BASE_SELECT + " WHERE descriptions.id=" + descriptionId + " ORDER BY id";
 
 			ResultSet rs = stmt.executeQuery(sql);
 
@@ -446,37 +435,129 @@ public class InfoMapper {
 	}
 
 	/**
+	 * Auslesen aller Infos eines bestimmten Suchprofils mit Hilfe der
+	 * Suchprofil-ID. Da ein Suchprofil mehrere Infos haben kann, können mehrere
+	 * Info-Objekte in einer ArrayList ausgegeben werden.
+	 * 
+	 * @param searchProfileId
+	 *            Fremdschlüsselattribut in DB
+	 * @return Eine ArrayList mit Info-Objekten, die sämtliche Infos des
+	 *         vorgegebenen Suchprofils repräsentieren.
+	 */
+
+	public ArrayList<Info> findBySearchProfile(int searchProfileId) {
+
+		// Vorbereitung der Ergebnis-ArrayList
+		ArrayList<Info> result = new ArrayList<Info>();
+
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+
+		try {
+
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+
+			String sql = BASE_SELECT + " WHERE searchprofileId=" + searchProfileId + " ORDER BY id";
+
+			System.out.println(sql);
+
+			ResultSet rs = stmt.executeQuery(sql);
+
+			// Für jeden Eintrag im Suchergebnis wird nun ein Info-Objekt
+			// erstellt und zur Ergebnis-ArrayList hinzugefügt.
+			while (rs.next()) {
+
+				Info info = map(rs);
+
+				result.add(info);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		// Ergebnis-ArrayList zurückgeben
+		return result;
+	}
+
+	/**
+	 * Auslesen aller Infos eines bestimmten Suchprofils mit Hilfe eines
+	 * SearchProfile-Objekts. Da ein Suchprofil mehrere Infos haben kann, können
+	 * mehrere Info-Objekte in einer ArrayList ausgegeben werden.
+	 * 
+	 * @param SearchProfile
+	 *            -Objekt
+	 * @return Eine ArrayList mit Info-Objekten, die sämtliche Infos des
+	 *         vorgegebenen SearchProfile repräsentieren.
+	 */
+
+	public ArrayList<Info> findBySearchProfile(SearchProfile searchProfile) {
+		return findBySearchProfile(searchProfile.getId());
+	}
+
+	/**
 	 * Diese Methode bildet das ResultSet auf ein Java-Objekt ab.
 	 *
 	 * @param rs
-	 *            , das ResultSet, dass auf ein Java-Objekt abgebildet werden soll
+	 *            , das ResultSet, dass auf ein Java-Objekt abgebildet werden
+	 *            soll
 	 * @return Info-Objekt
 	 */
+
 
 	private Info map(ResultSet rs) throws SQLException {
 		Info info = new Info();
 		info.setId(rs.getInt("id"));
 		info.setInformationValue(rs.getString("informationValue"));
 
-		Profile profile = new Profile();
-		profile.setId(rs.getInt("pid"));
-		profile.setFirstName(rs.getString("firstName"));
-		profile.setLastName(rs.getString("lastName"));
-		profile.setDateOfBirth(rs.getDate("dateOfBirth"));
-		profile.seteMail(rs.getString("email"));
-		profile.setHeight(rs.getInt("height"));
-		profile.setConfession(Profile.Confession.valueOf(rs
-				.getString("confession")));
-		profile.setSmoker(rs.getBoolean("smoker"));
-		profile.setHairColor(Profile.HairColor.valueOf(rs
-				.getString("hairColor")));
-		profile.setGender(Profile.Gender.valueOf(rs.getString("gender")));
+		if (rs.getInt("pid") != 0) {
 
-		info.setProfile(profile);
+			Profile profile = new Profile();
+			profile.setId(rs.getInt("pid"));
+			profile.setFirstName(rs.getString("firstName"));
+			profile.setLastName(rs.getString("lastName"));
+			profile.setDateOfBirth(rs.getDate("dateOfBirth"));
+			profile.seteMail(rs.getString("email"));
+			profile.setHeight(rs.getInt("height"));
+			profile.setConfession(Profile.Confession.valueOf(rs.getString("pc")));
+			profile.setSmoker(rs.getBoolean("smoker"));
+			profile.setHairColor(Profile.HairColor.valueOf(rs.getString("ph")));
+			profile.setGender(Profile.Gender.valueOf(rs.getString("pg")));
+			profile.setOrientation(Profile.Orientation.valueOf(rs.getString("po")));
+
+			info.setProfile(profile);
+		}
+
+		if (rs.getInt("spid") != 0) {
+
+			SearchProfile searchProfile = new SearchProfile();
+			searchProfile.setId(rs.getInt("spid"));
+			searchProfile.setName(rs.getString("spn"));
+			searchProfile.setFromAge(rs.getInt("spfa"));
+			searchProfile.setToAge(rs.getInt("spta"));
+			searchProfile.setFromHeight(rs.getInt("spfh"));
+			searchProfile.setToHeight(rs.getInt("spth"));
+			String hairColor = rs.getString("sphc");
+			if (hairColor != null) {
+				searchProfile.setHairColor(Profile.HairColor.valueOf(hairColor));
+			}
+			String gender = rs.getString("spg");
+			if (gender != null) {
+				searchProfile.setGender(Profile.Gender.valueOf(gender));
+			}
+			String confession = rs.getString("spc");
+			if (confession != null) {
+				searchProfile.setConfession(Profile.Confession.valueOf(confession));
+			}
+
+			info.setSearchProfile(searchProfile);
+		}
 
 		Description description = new Description();
 		description.setId(rs.getInt("did"));
-		description.setTextualDescription(rs.getString("dtd"));
+		description.setTextualDescriptionForProfile(rs.getString("dtdfp"));
+		description.setTextualDescriptionForSearchProfile(rs.getString("dtdfsp"));
 		description.setPropertyName(rs.getString("dpn"));
 
 		if (description.getId() != 0) {
@@ -485,7 +566,8 @@ public class InfoMapper {
 
 		Selection selection = new Selection();
 		selection.setId(rs.getInt("sid"));
-		selection.setTextualDescription(rs.getString("std"));
+		selection.setTextualDescriptionForProfile(rs.getString("stdfp"));
+		selection.setTextualDescriptionForSearchProfile(rs.getString("stdfsp"));
 		selection.setPropertyName(rs.getString("spn"));
 
 		if (selection.getId() != 0) {

@@ -25,7 +25,7 @@ import de.hdm.partnerboerse.shared.bo.Selection;
 public class OptionMapper {
 
 	// Grundlegendes Select-Statement
-	private static final String BASE_SELECT = "SELECT options.id AS id, option, selections.id AS sid, selections.textualDescription AS std, selections.propertyName AS spn FROM options LEFT JOIN selections ON selections.id = options.selectionId";
+	private static final String BASE_SELECT = "SELECT options.id AS id, option, selections.id AS sid, selections.textualDescriptionForProfile AS stdfp, selections.textualDescriptionForSearchProfile AS stdfsp, selections.propertyName AS spn FROM options LEFT JOIN selections ON selections.id = options.selectionId";
 
 	/**
 	 * Die Instantiierung der Klasse OptionMapper erfolgt nur einmal. Dies wird
@@ -233,16 +233,12 @@ public class OptionMapper {
 
 		Selection selection = new Selection();
 		selection.setId(rs.getInt("sid"));
-		selection.setTextualDescription(rs.getString("std"));
+		selection.setTextualDescriptionForProfile(rs.getString("stdfp"));
+		selection.setTextualDescriptionForSearchProfile(rs.getString("stdfsp"));
 		selection.setPropertyName(rs.getString("spn"));
 
 		option.setSelection(selection);
 		return option;
-	}
-
-	public static void main(String[] args) {
-		OptionMapper optionMapper = new OptionMapper();
-		optionMapper.findBySelection(1);
 	}
 
 }

@@ -78,8 +78,6 @@ public class FavoritListOverview extends VerticalPanel {
 							public void onSelectionChange(SelectionChangeEvent event) {
 								final FavoritesList selected = selectionModel.getSelectedObject();
 								if (selected != null) {
-									Window.alert(
-											"You selected:" + " " + selected.getToProfile().getFirstName() + " " + selected.getToProfile().getLastName());
 									final Button delteFromFavoritesList = new Button("Aus dem Merkzettel entfernen");
 									buttonPanel.add(delteFromFavoritesList);
 									delteFromFavoritesList.addClickHandler(new ClickHandler() {
