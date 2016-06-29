@@ -1,7 +1,14 @@
 package de.hdm.partnerboerse.shared.bo;
 
-public class Selection extends Property{
- 
+/**
+ * 
+ * Die Klasse Property realisiert eine beispielhafte Auswahl einer Info. Die
+ * Klasse erbt von der Klasse {@link Property}.
+ *
+ */
+
+public class Selection extends Property {
+
 	private static final long serialVersionUID = 1L;
 
 }
