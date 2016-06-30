@@ -1,6 +1,5 @@
 package de.hdm.partnerboerse.client;
 
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
@@ -9,6 +8,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -22,18 +22,25 @@ import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
+/**
+ * Klasse für die Ausgabe des Profiles
+ * 
+ * @author aliyegokoz
+ * @author alena gerlinskaja
+ */
 public class ProfilePage {
 
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
-	
 
-	/**
+	/*
 	 * Panel für die Ausgabe
 	 */
 	final HorizontalPanel showProfile = new HorizontalPanel();
-	
-	//Widgets anlegen für die Ausgabe
+
+	/*
+	 * Widgets anlegen für die Ausgabe
+	 */
 	final Label fNLabel = new Label();
 	final Label lNLabel = new Label();
 	final Label ELabel = new Label();
@@ -44,17 +51,34 @@ public class ProfilePage {
 	final Label lhaircolor = new Label();
 	final Label lconf = new Label();
 	final Label lsmoke = new Label();
-	
-	
+	final HTML name = new HTML("Vorname");
+	final HTML lastname = new HTML("Nachname");
+	final HTML birth = new HTML("Geburtsdatum");
+	final HTML gender = new HTML("Geschlecht");
+	final HTML orient = new HTML("Orientierung");
+	final HTML conff = new HTML("Religion");
+	final HTML smoke = new HTML("Raucher");
+	final HTML email = new HTML("Email");
+	final HTML height = new HTML("Größe");
+	final HTML haircolor = new HTML("Haarfarbe");
+
+	/**
+	 * 
+	 * Widget als Rückgabe für den Aufruf. Diese Methode gibt beim Klick auf den
+	 * Button das Profil des eingeloggten Users aus.
+	 *
+	 * @return Widget = HorizontalPanel
+	 */
 	public Widget showProfilePage() {
 
-		/**
+		/*
 		 * Panel für die Ausgabe
 		 */
 		final HorizontalPanel showProfilePanel = new HorizontalPanel();
-		
 
-
+		/*
+		 * Aktueler User
+		 */
 		loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
 
 			@Override
@@ -66,67 +90,91 @@ public class ProfilePage {
 			@Override
 			public void onSuccess(LoginInfo loginInfo) {
 
-				
 				showProfil(loginInfo);
 				showProfilePanel.add(showProfile);
 
 			}
 		});
+
+		/*
+		 * Panel Stylen
+		 */
+		showProfilePanel.setStyleName("contentpanel");
+
+		/*
+		 * Return Panel
+		 */
 		return showProfilePanel;
 
 	}
 
-	private HorizontalPanel showInfoProfil() {
-		final HorizontalPanel showInfoProfilePanel = new HorizontalPanel();
-		return showInfoProfilePanel;
-	}
-
+	/**
+	 * Ausgabe des Profiles
+	 * 
+	 * @param loginInfo
+	 * @return HorizontalPanel
+	 */
 	private HorizontalPanel showProfil(final LoginInfo loginInfo) {
 		Profile profile = loginInfo.getProfile();
 
-		/**
+		/*
 		 * Anlegen von VerticalPanel für die Buttons
 		 */
 		final VerticalPanel buttonsPanel = new VerticalPanel();
 
-		/**
+		/*
 		 * Panel für den Inhalt anlegen
 		 */
 		final HorizontalPanel profilPanel = new HorizontalPanel();
 
-		/**
+		/*
 		 * Buttons werden engelegt für das editieren und löschen
 		 */
-		final Button deleteProfileButton = new Button("<img src='images/delete_user.png'/>");
+		final Button deleteProfileButton = new Button("<img src='images/delete.png'/>");
 
-		/**
+		/*
+		 * Style Button, Label
+		 */
+		deleteProfileButton.setStyleName("button");
+		name.setStyleName("labelstyle");
+		lastname.setStyleName("labelstyle");
+		email.setStyleName("labelstyle");
+		gender.setStyleName("labelstyle");
+		height.setStyleName("labelstyle");
+		conff.setStyleName("labelstyle");
+		orient.setStyleName("labelstyle");
+		smoke.setStyleName("labelstyle");
+		haircolor.setStyleName("labelstyle");
+		birth.setStyleName("labelstyle");
+
+		/*
 		 * Tabelle für das Formular
 		 */
 		final FlexTable addnewProfileTable = new FlexTable();
 		final FlexTable addnewProfileTable2 = new FlexTable();
-		addnewProfileTable.setWidth("200");
-		addnewProfileTable2.setWidth("200");
 
-		/**
+		/*
 		 * FlexTable formatieren
 		 */
+		addnewProfileTable.setWidth("200");
+		addnewProfileTable2.setWidth("200");
 		addnewProfileTable.setCellSpacing(10);
 		addnewProfileTable2.setCellSpacing(10);
 
-		/**
+		/*
 		 * Panel für den Inhalt dem VerticalPanel zuweißen
 		 */
 		profilPanel.add(addnewProfileTable);
 		profilPanel.add(addnewProfileTable2);
 
-		/**
+		/*
 		 * Butten dem dazugehörenden Panel zufügen
 		 */
 		buttonsPanel.add(deleteProfileButton);
 
-		
-
-		//Label füllen
+		/*
+		 * Label mit Inhalt füllen
+		 */
 		fNLabel.setText(profile.getFirstName());
 		lNLabel.setText(profile.getLastName());
 		ELabel.setText(profile.geteMail());
@@ -137,79 +185,87 @@ public class ProfilePage {
 		lconf.setText(profile.getConfession().getName().toString());
 		lsmoke.setText(profile.isSmoker() ? "Ja" : "Nein");
 
-		/**
+		/*
 		 * FlexTable mit Inhalt füllen = Userprofil Formular
 		 */
-		// addnewProfileTable.setHTML(0, 0, "<h2>Profil anlegen</h2>");
-		addnewProfileTable.setHTML(0, 0, "<div>Vorname</div>");
+		addnewProfileTable.setWidget(0, 0, name);
 		addnewProfileTable.setWidget(0, 1, fNLabel);
-		addnewProfileTable.setHTML(1, 0, "<div>Geburtsdatum</div>");
+		addnewProfileTable.setWidget(1, 0, birth);
 		addnewProfileTable.setWidget(1, 1, bDLabel);
-		addnewProfileTable.setHTML(2, 0, "<div>Geschlecht</div>");
+		addnewProfileTable.setWidget(2, 0, gender);
 		addnewProfileTable.setWidget(2, 1, lgender);
-		addnewProfileTable.setHTML(3, 0, "<div>Orientierung:</div>");
+		addnewProfileTable.setWidget(3, 0, orient);
 		addnewProfileTable.setWidget(3, 1, lorientation);
-		addnewProfileTable.setHTML(4, 0, "<div>Religion</div>");
+		addnewProfileTable.setWidget(4, 0, conff);
 		addnewProfileTable.setWidget(4, 1, lconf);
-		addnewProfileTable.setHTML(5, 0, "<div>Raucher</div>");
+		addnewProfileTable.setWidget(5, 0, smoke);
 		addnewProfileTable.setWidget(5, 1, lsmoke);
 
-		addnewProfileTable2.setHTML(0, 0, "<div>Nachname</div>");
+		addnewProfileTable2.setWidget(0, 0, lastname);
 		addnewProfileTable2.setWidget(0, 1, lNLabel);
-		addnewProfileTable2.setHTML(1, 0, "<div>Email</div>");
+		addnewProfileTable2.setWidget(1, 0, email);
 		addnewProfileTable2.setWidget(1, 1, ELabel);
-		addnewProfileTable2.setHTML(2, 0, "<div>Größe</div>");
+		addnewProfileTable2.setWidget(2, 0, height);
 		addnewProfileTable2.setWidget(2, 1, heightLabel);
-		addnewProfileTable2.setHTML(3, 0, "<div>Haarfarbe</div>");
+		addnewProfileTable2.setWidget(3, 0, haircolor);
 		addnewProfileTable2.setWidget(3, 1, lhaircolor);
 
 		showProfile.add(profilPanel);
 		showProfile.add(buttonsPanel);
+		
 
+		/*
+		 * dem Button zum Löschen einen Clickhandler zuweißen
+		 */
 		deleteProfileButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				// Instantiate the dialog box and show it.
 				MyDialogforDltProfiles myDialog = new MyDialogforDltProfiles(loginInfo);
 
-				int left = Window.getClientWidth() / 2;
-				int top = Window.getClientHeight() / 2;
-				myDialog.setPopupPosition(left, top);
+				myDialog.center();
 				myDialog.show();
 			}
 		});
-		
-		//Datum ausgeben 
+
+		/*
+		 * Datumformat in Deutsches Format
+		 */
 		getDate(profile);
-		
 
 		return showProfile;
 	}
 
-	
+	/**
+	 * DialogBox erzeugen die Erscheint, wenn auf den Löschen-Button geklickt
+	 * wird.
+	 */
 	private class MyDialogforDltProfiles extends DialogBox {
 
+		/**
+		 * DialogBox mit einer Ausgabe füllen
+		 * 
+		 * @param loginInfo
+		 */
 		public MyDialogforDltProfiles(final LoginInfo loginInfo) {
-			// Set the dialog box's caption.
+			/*
+			 * Überschrift der DialogBox
+			 */
 			setText("Profil löschen");
 
-			// Enable animation.
-			setAnimationEnabled(true);
-
-			// Enable glass background.
-			setGlassEnabled(true);
-
-			// DialogBox is a SimplePanel, so you have to set its widget
-			// property to whatever you want its contents to be.
+			/*
+			 * Button generieren für die Antwort des Users
+			 */
 			Button jaButton = new Button("Ja");
 			Button neinButton = new Button("Nein");
+			
+			/*
+			 * ClickHandler für die Buttons
+			 */
 			neinButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					MyDialogforDltProfiles.this.hide();
 				}
 			});
-
-			// TODO löschen
 
 			jaButton.addClickHandler(new ClickHandler() {
 				@Override
@@ -232,8 +288,14 @@ public class ProfilePage {
 				}
 			});
 
+			/*
+			 * Label für die Frage
+			 */
 			Label label = new Label("Wollen sie Ihr GANZES Profil wirklich unwiederruflich löschen?");
 
+			/*
+			 * VerticalPanel mit Ausgabe
+			 */
 			final VerticalPanel panel = new VerticalPanel();
 			panel.setHeight("100");
 			panel.setWidth("300");
@@ -246,7 +308,11 @@ public class ProfilePage {
 			setWidget(panel);
 		}
 	}
-	
+
+	/**
+	 * Datumformat in Deutsches format umwandeln
+	 * @param profile
+	 */
 	public void getDate(final Profile profile) {
 		try {
 			DateTimeFormat format = DateTimeFormat.getFormat("dd.MM.yyyy");

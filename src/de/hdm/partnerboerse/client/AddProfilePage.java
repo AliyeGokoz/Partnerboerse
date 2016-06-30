@@ -21,27 +21,33 @@ import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 import de.hdm.partnerboerse.shared.bo.Profile.Orientation;
 
+/**
+ * Klasse welche es ermöglicht Profile hinzuzufügen
+ * @author aliyegokoz
+ * @author alena gerlinskaja
+ *
+ */
 public class AddProfilePage {
 
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
-	/**
+	/*
 	 * Panel anlegen für die Ausgabe des Profilformulares
 	 */
 	final HorizontalPanel profilePanel = new HorizontalPanel();
 
-	/**
+	/*
 	 * Button zum speichern des Profiles
 	 */
 	final Button saveProfileButton = new Button("<img src='images/save.png'/>");
 
-	/**
+	/*
 	 * Tabellen für das Profilformular
 	 */
 	final FlexTable addnewProfileTable = new FlexTable();
 	final FlexTable addnewProfileTable2 = new FlexTable();
 
-	/**
+	/*
 	 * Textbox Widgets anlegen für die Eingaben des Users
 	 */
 	final TextBox tFirstname = new TextBox();
@@ -49,45 +55,55 @@ public class AddProfilePage {
 	final TextBox tEmail = new TextBox();
 	final TextBox tHeight = new TextBox();
 
-	/**
-	 * // * Listbox Widgets anlegen für Haarfarbe und Religion //
+	/*
+	 * Listbox Widgets anlegen für Haarfarbe und Religion 
 	 */
 	final ListBox lbHaircolor = new ListBox();
 	final ListBox lbConfession = new ListBox();
 
-	/**
+	/*
 	 * RadioButtons für Status: Raucher/Nicht Raucher
 	 */
 	final RadioButton Rbsmokeyes = new RadioButton("smokeGroup", "ja");
 	final RadioButton Rbsmokeno = new RadioButton("smokeGroup", "nein");
 
-	/**
+	/*
 	 * DatePicker zum Eintragen des Geburtstages
 	 */
 	final DatePicker datePicker = new DatePicker();
 
+	/*
+	 * Array anlegen
+	 */
 	final Gender[] genderValues = Profile.Gender.values();
 	final Orientation[] orientationValues = Profile.Orientation.values();
 	final RadioButton[] genderRadioButtons = new RadioButton[genderValues.length];
 	final RadioButton[] orientationRadioButtons = new RadioButton[orientationValues.length];
 
+	/**
+	 * Panel erzeugen diesem Inhalt zuweisen
+	 * zum Füllen von Profil
+	 * @param profile
+	 * @return HorizontalPanel
+	 */
 	public Widget addnewProfile(final Profile profile) {
 
-		/**
-		 * Style Tabel
+		/*
+		 * Style Tabel & Button
 		 */
+		saveProfileButton.setStyleName("button");
 		addnewProfileTable.setWidth("200");
 		addnewProfileTable2.setWidth("200");
 		addnewProfileTable2.setStyleName("hcontent2");
 		addnewProfileTable.setStyleName("hcontent");
 
-		/**
+		/*
 		 * FlexTable formatieren
 		 */
 		addnewProfileTable.setCellSpacing(10);
 		addnewProfileTable2.setCellSpacing(10);
 
-		/**
+		/*
 		 * Wenn Profil bereits vorhanden, dann ausfüllen
 		 */
 		tFirstname.setValue(profile.getFirstName());
@@ -136,7 +152,7 @@ public class AddProfilePage {
 		datePicker.setVisibleYearCount(150);
 		datePicker.setValue(profile.getDateOfBirth());
 
-		/**
+		/*
 		 * FlexTable mit Inhalt füllen = Userprofil Formular
 		 */
 		addnewProfileTable.setHTML(0, 0, "<h2>Profil anlegen</h2>");
@@ -161,16 +177,36 @@ public class AddProfilePage {
 		addnewProfileTable2.setWidget(5, 1, Rbsmokeyes);
 		addnewProfileTable2.setWidget(6, 1, Rbsmokeno);
 
+		/*
+		 * Formulare und Button dem Panel zuweisen
+		 */
 		profilePanel.add(addnewProfileTable);
 		profilePanel.add(addnewProfileTable2);
 		profilePanel.add(saveProfileButton);
 
+		/*
+		 * Style Panel
+		 */
+		profilePanel.setStyleName("profil");
+		
+		/*
+		 * Methodenaufruf zum Speichern des Profiles
+		 */
 		saveProfile(profile);
 
 		return profilePanel;
 	}
 
+	/**
+	 * Methode zum Speichern des Profiles
+	 * @param profile
+	 */
 	public void saveProfile(final Profile profile) {
+		
+		/*
+		 * Dem Speichern Button ClickHandler zuweisen
+		 * Eingabe wird überprüft und abgespeichert
+		 */
 		saveProfileButton.addClickHandler(new ClickHandler() {
 
 			@Override

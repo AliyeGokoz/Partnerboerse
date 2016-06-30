@@ -9,6 +9,7 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -20,29 +21,44 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
+/**
+ * Klasse für die Ausgabe der Informationen des Profiles
+ * @author aliyegokoz
+ *
+ */
 public class ShowInfoOfProfile {
 
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
-	/**
+	/*
 	 * CellList für die Ausgabe der Informationen
 	 */
 	final CellTable<Info> infoTable = new CellTable<>();
 	ListDataProvider<Info> dataProvider = new ListDataProvider<>();
 
-	/**
+	/*
 	 * Panel für die Ausgabe der Informationen
 	 */
 	final VerticalPanel infosPanel = new VerticalPanel();
 
-	/**
+	/*
 	 * Button zum Löschen von Informationen
 	 */
 	final Button deleteButton = new Button("<img src='images/delete.png'/>");
 
+	/**
+	 * Methode, welche die Tabele für die Infos von Profilen ausgibt
+	 * @param currentProfile
+	 * @return
+	 */
 	public Widget showInfo(Profile currentProfile) {
+		
+		deleteButton.setStyleName("button");
 
+		/*
+		 * Zugriff auf Infos
+		 */
 		partnerboerseVerwaltung.getInfoOf(currentProfile, new AsyncCallback<ArrayList<Info>>() {
 
 			@Override
@@ -64,6 +80,9 @@ public class ShowInfoOfProfile {
 
 		dataProvider.addDataDisplay(infoTable);
 
+		/*
+		 * Tabellen Columns 
+		 */
 		TextColumn<Info> nameInfo = new TextColumn<Info>() {
 
 			@Override
@@ -84,19 +103,30 @@ public class ShowInfoOfProfile {
 			}
 		};
 
-		/**
+		/*
 		 * Columns der Tabelle zuweisen, für die Ausgabe der Informationen
 		 */
-		infoTable.addColumn(nameInfo, "Eigenschaft");
-		infoTable.addColumn(valueColumn, "Information");
+		infoTable.addColumn(nameInfo);
+		infoTable.addColumn(valueColumn);
 
+		/*
+		 * Tabelle und Buttons dem Panel zuweisen
+		 */
+		infosPanel.add(new HTML("<h3> Informationen </h3>"));
 		infosPanel.add(infoTable);
 		infosPanel.add(deleteButton);
 
+		/*
+		 * Aufruf der Methode zum löschen von Profilen
+		 */
 		deleteInfo();
 		return infosPanel;
 	}
 	
+	/**
+	 * Nach Auswahl von Info und dann onCLick auf den
+	 * löschen Button wird der ausgewählte Eintrag entfernt
+	 */
 	public void deleteInfo(){
 		final SingleSelectionModel<Info> selectionInfo = new SingleSelectionModel<Info>();
 		infoTable.setSelectionModel(selectionInfo);

@@ -29,7 +29,7 @@ public class AddInfoToProfilePage {
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
-	/**
+	/*
 	 * Panel anlegen für die Ausgabe
 	 */
 	final VerticalPanel addinfo = new VerticalPanel();
@@ -38,13 +38,13 @@ public class AddInfoToProfilePage {
 	final VerticalPanel selectionpropertyDBPanel = new VerticalPanel();
 	final VerticalPanel descriptionpropertyDBPanel = new VerticalPanel();
 
-	/**
+	/*
 	 * Buttons anlegen zum Hinzufügen der Infos und Eigenschaften
 	 */
 	final Button addselectionInfo = new Button("<img src='images/add.png'/>");
 	final Button adddescriptionInfo = new Button("<img src='images/add.png'/>");
 
-	/**
+	/*
 	 * Listbox erstellen für die Ausgabe der Eigenschaften
 	 */
 	final ListBox selectionpropertyListbox = new ListBox(false);
@@ -52,9 +52,13 @@ public class AddInfoToProfilePage {
 	final ListBox optionsListBox = new ListBox();
 	final TextArea textdesc = new TextArea();
 
+	/*
+	 * Array selections, decrioptions und optiona
+	 */
 	private final ArrayList<Selection> selections = new ArrayList<>();
 	private final ArrayList<Option> options = new ArrayList<>();
 	private final ArrayList<Description> descriptions = new ArrayList<>();
+	
 	
 	private ShowInfoOfProfile showinfoofprofile;
 
@@ -62,10 +66,18 @@ public class AddInfoToProfilePage {
 		this.showinfoofprofile = showinfoofprofile;
 	}
 
+	/**
+	 * Methode die, die zwei Methoden create selection/decription aufruft
+	 * und zurück gibt
+	 * @param profile
+	 * @return VerticalPanel
+	 */
 	public Widget addinfotoprofile(Profile profile) {
 
-		addinfo.add(new HTML("<h3> Eigenschaften </h3>"));
-		// final VerticalPanel newInfoforProfilPanel = new VerticalPanel();
+		addselectionInfo.setStyleName("button");
+		adddescriptionInfo.setStyleName("button");
+		
+		
 		addinfo.add(new HTML("<div> Suche dir Eigenschaften aus: </div>"));
 		addinfo.add(selectionInfoPanel);
 		addinfo.add(descriptionInfoPanel);
@@ -96,10 +108,6 @@ public class AddInfoToProfilePage {
 				for (final Selection s : selections) {
 					selectionpropertyListbox.addItem(s.getPropertyName().toString());
 				}
-
-				// selectionpropertyDBPanel.setSpacing(4);
-				// selectionpropertyDBPanel.add(selectionpropertyListbox);
-
 				selectionInfoPanel.add(selectionpropertyListbox);
 
 				selectionpropertyListbox.addChangeHandler(new ChangeHandler() {
@@ -151,7 +159,7 @@ public class AddInfoToProfilePage {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+			
 
 			}
 
@@ -163,9 +171,6 @@ public class AddInfoToProfilePage {
 				for (final Description d : resultDescription) {
 					descriptionpropertyListbox.addItem(d.getTextualDescriptionForProfile());
 				}
-
-				// descriptionpropertyDBPanel.setSpacing(4);
-				// descriptionpropertyDBPanel.add(descriptionpropertyListbox);
 
 				descriptionInfoPanel.add(descriptionpropertyListbox);
 
