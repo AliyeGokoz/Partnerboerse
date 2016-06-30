@@ -10,13 +10,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Description;
 import de.hdm.partnerboerse.shared.bo.Info;
@@ -26,7 +24,6 @@ import de.hdm.partnerboerse.shared.bo.Selection;
 
 public class AddInfoToProfilePage {
 
-	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
 	/**
@@ -47,15 +44,15 @@ public class AddInfoToProfilePage {
 	/**
 	 * Listbox erstellen für die Ausgabe der Eigenschaften
 	 */
-	final ListBox selectionpropertyListbox = new ListBox(false);
-	final ListBox descriptionpropertyListbox = new ListBox(false);
+	final ListBox selectionpropertyListbox = new ListBox();
+	final ListBox descriptionpropertyListbox = new ListBox();
 	final ListBox optionsListBox = new ListBox();
 	final TextArea textdesc = new TextArea();
 
 	private final ArrayList<Selection> selections = new ArrayList<>();
 	private final ArrayList<Option> options = new ArrayList<>();
 	private final ArrayList<Description> descriptions = new ArrayList<>();
-	
+
 	private ShowInfoOfProfile showinfoofprofile;
 
 	public AddInfoToProfilePage(final ShowInfoOfProfile showinfoofprofile) {
@@ -70,9 +67,6 @@ public class AddInfoToProfilePage {
 		addinfo.add(selectionInfoPanel);
 		addinfo.add(descriptionInfoPanel);
 
-		/**
-		 * 
-		 */
 		createselectioninfo();
 
 		createdecriptionInfo();
@@ -106,39 +100,47 @@ public class AddInfoToProfilePage {
 
 					@Override
 					public void onChange(ChangeEvent event) {
-						Selection selection = selections.get(selectionpropertyListbox.getSelectedIndex());
-
-						partnerboerseVerwaltung.getOptionsOf(selection, new AsyncCallback<ArrayList<Option>>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void onSuccess(ArrayList<Option> result) {
-								optionsListBox.clear();
-								AddInfoToProfilePage.this.options.clear();
-								AddInfoToProfilePage.this.options.addAll(result);
-
-								for (Option o : result) {
-									optionsListBox.addItem(o.getOption());
-								}
-
-								selectionInfoPanel.add(optionsListBox);
-								selectionInfoPanel.add(addselectionInfo);
-							}
-						});
+						selectionPropertyChanged();
 					}
 				});
 
+				selectionPropertyChanged();
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+				Window.alert("Es ist ein Fehler aufgetreten");
 
+			}
+		});
+	}
+
+	/**
+	 * Methode wird aufgerufen wenn sich die Auswahl der Information ändert. Die
+	 * passenden Auswahlelemente zur Information werden geladen und angezeigt.
+	 */
+	private void selectionPropertyChanged() {
+		Selection selection = selections.get(selectionpropertyListbox.getSelectedIndex());
+
+		partnerboerseVerwaltung.getOptionsOf(selection, new AsyncCallback<ArrayList<Option>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Es ist ein Fehler aufgetreten.");
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Option> result) {
+				optionsListBox.clear();
+				AddInfoToProfilePage.this.options.clear();
+				AddInfoToProfilePage.this.options.addAll(result);
+
+				for (Option o : result) {
+					optionsListBox.addItem(o.getOption());
+				}
+
+				selectionInfoPanel.add(optionsListBox);
+				selectionInfoPanel.add(addselectionInfo);
 			}
 		});
 	}
@@ -151,7 +153,7 @@ public class AddInfoToProfilePage {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+				Window.alert("Es ist ein Fehler aufgetreten.");
 
 			}
 
@@ -173,13 +175,23 @@ public class AddInfoToProfilePage {
 
 					@Override
 					public void onChange(ChangeEvent event) {
-						textdesc.setValue("");
-						descriptionInfoPanel.add(textdesc);
-						descriptionInfoPanel.add(adddescriptionInfo);
+						descriptionPropertyChanged();
 					}
 				});
+
+				descriptionPropertyChanged();
 			}
 		});
+	}
+
+	/**
+	 * Methode wird aufgerufen wenn sich die Auswahlliste für Beschreibungen
+	 * ändert. Entfernt bestehende Inhalte aus dem Textfeld.
+	 */
+	private void descriptionPropertyChanged() {
+		textdesc.setValue("");
+		descriptionInfoPanel.add(textdesc);
+		descriptionInfoPanel.add(adddescriptionInfo);
 	}
 
 	/**
@@ -229,18 +241,18 @@ public class AddInfoToProfilePage {
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("Konnte nicht gespeichert!");
-
 			}
 
 			@Override
 			public void onSuccess(Info result) {
-				showinfoofprofile.dataProvider.getList().add(info);
-				showinfoofprofile.dataProvider.flush();
-				showinfoofprofile.dataProvider.refresh();
-				showinfoofprofile.infoTable.redraw();
-				textdesc.setValue("");
+				if (result != null) {
+					showinfoofprofile.dataProvider.getList().add(result);
+					showinfoofprofile.dataProvider.flush();
+					showinfoofprofile.dataProvider.refresh();
+					showinfoofprofile.infoTable.redraw();
+					textdesc.setValue("");
+				}
 				Window.alert("Info abgespeichert!");
-
 			}
 		});
 	}

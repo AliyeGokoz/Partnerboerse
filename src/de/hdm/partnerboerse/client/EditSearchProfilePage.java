@@ -209,7 +209,6 @@ private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSet
 				searchprofilepage.dataProvider.refresh();
 				searchprofilepage.table.redraw();
 				Window.alert("Profil gespeichert");
-				searchprofilepage.showoneSPPanel.setVisible(false);
 			}
 
 			@Override
