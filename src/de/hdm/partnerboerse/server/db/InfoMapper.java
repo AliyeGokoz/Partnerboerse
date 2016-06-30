@@ -497,6 +497,45 @@ public class InfoMapper {
 	}
 
 	/**
+	 * Prüft ob bereits eine Information in der Datenbank existiert.
+	 * 
+	 * @param info
+	 *            Das Informations-Objekt welches inhaltlich auf die Existenz in
+	 *            der Datenbank geprüft werden soll.
+	 * @return true wenn bereits eine Information mit den gegebenen Daten in der
+	 *         Datenbank existiert.
+	 */
+	public boolean doInformationExist(Info info) {
+
+		Connection con = DBConnection.connection();
+		try {
+			Statement stmt = con.createStatement();
+			String sql = "SELECT id FROM infos WHERE informationValue = '" + info.getInformationValue() + "' ";
+			if (info.getSelection() != null) {
+				sql += " AND selectionId = " + info.getSelection().getId();
+			}
+			if (info.getDescription() != null) {
+				sql += " AND descriptionId = " + info.getDescription().getId();
+			}
+			if (info.getProfile() != null) {
+				sql += " AND profileId = " + info.getProfile().getId();
+			}
+			if (info.getSearchProfile() != null) {
+				sql += " AND searchprofileId = " + info.getSearchProfile().getId();
+			}
+			sql += " LIMIT 1";
+
+			ResultSet rs = stmt.executeQuery(sql);
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Diese Methode bildet das ResultSet auf ein Java-Objekt ab.
 	 *
 	 * @param rs
@@ -504,7 +543,6 @@ public class InfoMapper {
 	 *            soll
 	 * @return Info-Objekt
 	 */
-
 
 	private Info map(ResultSet rs) throws SQLException {
 		Info info = new Info();

@@ -50,8 +50,8 @@ public class AddInfoToSearchProfile {
 	/**
 	 * Listbox erstellen für die Ausgabe der Eigenschaften
 	 */
-	final ListBox selectionpropertyListbox = new ListBox(false);
-	final ListBox descriptionpropertyListbox = new ListBox(false);
+	final ListBox selectionpropertyListbox = new ListBox();
+	final ListBox descriptionpropertyListbox = new ListBox();
 	final ListBox optionsListBox = new ListBox();
 	final TextArea textdesc = new TextArea();
 
@@ -59,9 +59,9 @@ public class AddInfoToSearchProfile {
 	private final ArrayList<Option> options = new ArrayList<>();
 	private final ArrayList<Description> descriptions = new ArrayList<>();
 	private ShowInfoOfSearchProfile showinfoOfsearchprofile = new ShowInfoOfSearchProfile();
-	
-	public Widget addInfo(SearchProfile selectedsp){
-		
+
+	public Widget addInfo(SearchProfile selectedsp) {
+
 		addinfo.add(new HTML("<h3> Eigenschaften </h3>"));
 		// final VerticalPanel newInfoforProfilPanel = new VerticalPanel();
 		addinfo.add(new HTML("<div> Suche dir Eigenschaften aus: </div>"));
@@ -71,17 +71,17 @@ public class AddInfoToSearchProfile {
 		createselectioninfo();
 
 		createdecriptionInfo();
-		
+
 		showInfoOfSP(selectedsp);
 
 		saveButtonClickHandler(selectedsp);
-		
+
 		infosofSP.add(addinfo);
 		infosofSP.add(showInfos);
-		
+
 		return infosofSP;
 	}
-	
+
 	/**
 	 * Methode zum generieren der Dropdown-Listen für die Information(Selection)
 	 */
@@ -106,39 +106,43 @@ public class AddInfoToSearchProfile {
 
 					@Override
 					public void onChange(ChangeEvent event) {
-						Selection selection = selections.get(selectionpropertyListbox.getSelectedIndex());
-
-						partnerboerseVerwaltung.getOptionsOf(selection, new AsyncCallback<ArrayList<Option>>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void onSuccess(ArrayList<Option> result) {
-								optionsListBox.clear();
-								AddInfoToSearchProfile.this.options.clear();
-								AddInfoToSearchProfile.this.options.addAll(result);
-
-								for (Option o : result) {
-									optionsListBox.addItem(o.getOption());
-								}
-
-								selectionInfoPanel.add(optionsListBox);
-								selectionInfoPanel.add(addselectionInfo);
-							}
-						});
+						selectionPropertyChanged();
 					}
 				});
 
+				selectionPropertyChanged();
 			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Es ist ein Fehler aufgetreten");
+			}
+		});
+	}
+
+	private void selectionPropertyChanged() {
+		Selection selection = selections.get(selectionpropertyListbox.getSelectedIndex());
+
+		partnerboerseVerwaltung.getOptionsOf(selection, new AsyncCallback<ArrayList<Option>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
 
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Option> result) {
+				optionsListBox.clear();
+				AddInfoToSearchProfile.this.options.clear();
+				AddInfoToSearchProfile.this.options.addAll(result);
+
+				for (Option o : result) {
+					optionsListBox.addItem(o.getOption());
+				}
+
+				selectionInfoPanel.add(optionsListBox);
+				selectionInfoPanel.add(addselectionInfo);
 			}
 		});
 	}
@@ -173,13 +177,20 @@ public class AddInfoToSearchProfile {
 
 					@Override
 					public void onChange(ChangeEvent event) {
-						textdesc.setValue("");
-						descriptionInfoPanel.add(textdesc);
-						descriptionInfoPanel.add(adddescriptionInfo);
+						descriptionPropertyChanged();
 					}
 				});
+
+				descriptionPropertyChanged();
 			}
 		});
+
+	}
+
+	private void descriptionPropertyChanged() {
+		textdesc.setValue("");
+		descriptionInfoPanel.add(textdesc);
+		descriptionInfoPanel.add(adddescriptionInfo);
 	}
 
 	/**
@@ -234,20 +245,21 @@ public class AddInfoToSearchProfile {
 
 			@Override
 			public void onSuccess(Info result) {
-				showinfoOfsearchprofile.dataProvider.getList().add(info);
-				showinfoOfsearchprofile.dataProvider.flush();
-				showinfoOfsearchprofile.dataProvider.refresh();
-				showinfoOfsearchprofile.infoTable.redraw();
-				textdesc.setValue("");
+				if (result != null) {
+					showinfoOfsearchprofile.dataProvider.getList().add(result);
+					showinfoOfsearchprofile.dataProvider.flush();
+					showinfoOfsearchprofile.dataProvider.refresh();
+					showinfoOfsearchprofile.infoTable.redraw();
+					textdesc.setValue("");
+				}
 				Window.alert("Info abgespeichert!");
-
 			}
 		});
 	}
-	
-	public void showInfoOfSP(final SearchProfile searchProfile){
+
+	public void showInfoOfSP(final SearchProfile searchProfile) {
 		showInfos.clear();
 		showInfos.add(showinfoOfsearchprofile.showInfoOfSearchProfile(searchProfile));
 	}
-	
+
 }
