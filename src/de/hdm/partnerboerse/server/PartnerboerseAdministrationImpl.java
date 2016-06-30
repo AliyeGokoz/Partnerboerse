@@ -397,12 +397,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public ArrayList<Profile> getAllProfilesFiltered() {
 		Profile currentProfile = LoginServiceImpl.loginService().getCurrentProfile();
 		SearchProfile searchProfile = new SearchProfile();
-		
+
 		/*
-		 *  Sorgt dafür, dass sowohl Männer als auch Frauen aus der DB gelesen werden
+		 * Sorgt dafür, dass sowohl Männer als auch Frauen aus der DB gelesen
+		 * werden
 		 */
 		currentProfile.setOrientation(Orientation.BI);
-		
+
+
 		searchProfile.setProfile(currentProfile);
 		return profileMapper.findBySearchProfile(searchProfile);
 	}
@@ -662,11 +664,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	 */
 	@Override
 	public Info save(Info info) throws IllegalArgumentException {
-		Info savedInfo;
+		Info savedInfo = null;
 		if (info.getId() != 0) {
 			savedInfo = infoMapper.update(info);
 		} else {
-			savedInfo = infoMapper.insert(info);
+			if (infoMapper.doInformationExist(info)) {
+				savedInfo = infoMapper.insert(info);
+			}
 		}
 
 		if (info.getProfile() != null) {

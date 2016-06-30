@@ -73,8 +73,7 @@ public class ShowInfoOfProfile {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
+				Window.alert("Es ist ein Fehler aufgetreten");
 			}
 		});
 
