@@ -249,8 +249,12 @@ text-decoration: underline;
 }
 
 .infoofsp{
-	margin-left: 240px;
+	margin-left: 170px;
 	margin-top: 45px;
+}
+
+.addinfoPanel{
+	padding-left: 30px;
 }
 
 /* .showSp{

@@ -143,7 +143,6 @@ public class ShowInfoOfProfile {
 							dataProvider.flush();
 							dataProvider.refresh();
 							infoTable.redraw();
-							Window.alert("Info gelöscht.");
 						}
 						
 						@Override

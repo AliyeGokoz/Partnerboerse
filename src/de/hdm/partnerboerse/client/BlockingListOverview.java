@@ -130,7 +130,6 @@ public class BlockingListOverview extends VerticalPanel {
 		seeAllUsers.setWidth("400");
 		seeAllUsers.add(buttonPanel);
 
-		RootPanel.get("Content").clear();
 		RootPanel.get("Content").add(seeAllUsers);
 
 		/*

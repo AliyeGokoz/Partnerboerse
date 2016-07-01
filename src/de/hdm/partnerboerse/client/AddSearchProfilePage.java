@@ -288,7 +288,7 @@ public class AddSearchProfilePage {
 				searchprofilepage.dataProvider.flush();
 				searchprofilepage.dataProvider.refresh();
 				searchprofilepage.table.redraw();
-				searchprofilepage.showoneSPPanel.setVisible(false);
+				searchprofilepage.showoneSPPanel.clear();
 			}
 
 			@Override

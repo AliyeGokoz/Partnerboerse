@@ -77,6 +77,7 @@ public class AddInfoToSearchProfile {
 		adddescriptionInfo.setStyleName("button");
 		addselectionInfo.setStyleName("button");
 		infosofSP.setStyleName("infoofsp");
+		addinfo.setStyleName("addinfoPanel");
 
 		addinfo.add(new HTML("<div> Suche dir Eigenschaften aus: </div>"));
 		addinfo.add(selectionInfoPanel);
@@ -138,12 +139,6 @@ public class AddInfoToSearchProfile {
 					}
 				});
 
-				/*
-				 * Methodenaufruf
-				 * beim Asuwahl von Selection
-				 * neue Selection
-				 */
-				selectionPropertyChanged();
 			}
 
 			@Override
@@ -219,7 +214,6 @@ public class AddInfoToSearchProfile {
 					}
 				});
 
-				descriptionPropertyChanged();
 			}
 		});
 
