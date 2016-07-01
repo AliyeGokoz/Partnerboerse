@@ -16,21 +16,25 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Description;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Option;
-import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.bo.Selection;
 
+/**
+ * Klasse zum hinzufügen der
+ * Informationen zum Suchprofil
+ * @author aliyegokoz
+ * @author alena gerlinskaja
+ *
+ */
 public class AddInfoToSearchProfile {
 
-	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
-	/**
+	/*
 	 * Panel anlegen für die Ausgabe
 	 */
 	final HorizontalPanel infosofSP = new HorizontalPanel();
@@ -41,13 +45,13 @@ public class AddInfoToSearchProfile {
 	final VerticalPanel selectionpropertyDBPanel = new VerticalPanel();
 	final VerticalPanel descriptionpropertyDBPanel = new VerticalPanel();
 
-	/**
+	/*
 	 * Buttons anlegen zum Hinzufügen der Infos und Eigenschaften
 	 */
 	final Button addselectionInfo = new Button("<img src='images/add.png'/>");
 	final Button adddescriptionInfo = new Button("<img src='images/add.png'/>");
 
-	/**
+	/*
 	 * Listbox erstellen für die Ausgabe der Eigenschaften
 	 */
 	final ListBox selectionpropertyListbox = new ListBox();
@@ -60,24 +64,46 @@ public class AddInfoToSearchProfile {
 	private final ArrayList<Description> descriptions = new ArrayList<>();
 	private ShowInfoOfSearchProfile showinfoOfsearchprofile = new ShowInfoOfSearchProfile();
 
+	/**
+	 * Methode für das hinzufügen von Informationen
+	 * @param selectedsp
+	 * @return HorizontalPanel
+	 */
 	public Widget addInfo(SearchProfile selectedsp) {
+		
+		/*
+		 * Sytle 
+		 */
+		adddescriptionInfo.setStyleName("button");
+		addselectionInfo.setStyleName("button");
+		infosofSP.setStyleName("infoofsp");
 
-		addinfo.add(new HTML("<h3> Eigenschaften </h3>"));
-		// final VerticalPanel newInfoforProfilPanel = new VerticalPanel();
 		addinfo.add(new HTML("<div> Suche dir Eigenschaften aus: </div>"));
 		addinfo.add(selectionInfoPanel);
 		addinfo.add(descriptionInfoPanel);
 
+		/*
+		 * Methodenaufruf Selection
+		 */
 		createselectioninfo();
 
+		/*
+		 * Methodenaufruf Description
+		 */
 		createdecriptionInfo();
 
+		/*
+		 * Methode für die Ausgabe der Infos
+		 */
 		showInfoOfSP(selectedsp);
 
+		/*
+		 * Abspeichern der Info
+		 */
 		saveButtonClickHandler(selectedsp);
 
-		infosofSP.add(addinfo);
 		infosofSP.add(showInfos);
+		infosofSP.add(addinfo);
 
 		return infosofSP;
 	}
@@ -97,19 +123,26 @@ public class AddInfoToSearchProfile {
 					selectionpropertyListbox.addItem(s.getPropertyName().toString());
 				}
 
-				// selectionpropertyDBPanel.setSpacing(4);
-				// selectionpropertyDBPanel.add(selectionpropertyListbox);
-
 				selectionInfoPanel.add(selectionpropertyListbox);
 
 				selectionpropertyListbox.addChangeHandler(new ChangeHandler() {
 
 					@Override
 					public void onChange(ChangeEvent event) {
+						/*
+						 * Methodenaufruf
+						 * beim Asuwahl von Selection
+						 * neue Selection
+						 */
 						selectionPropertyChanged();
 					}
 				});
 
+				/*
+				 * Methodenaufruf
+				 * beim Asuwahl von Selection
+				 * neue Selection
+				 */
 				selectionPropertyChanged();
 			}
 
@@ -120,6 +153,11 @@ public class AddInfoToSearchProfile {
 		});
 	}
 
+	/**
+	 * Methode, welche bei Auswahl der Selection(Eigenschaften),
+	 * eine neue DropDown-Liste generiert
+	 * für die Informationen
+	 */
 	private void selectionPropertyChanged() {
 		Selection selection = selections.get(selectionpropertyListbox.getSelectedIndex());
 
@@ -127,7 +165,7 @@ public class AddInfoToSearchProfile {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+				Window.alert("Informationen können nicht aufgerufen werden.");
 
 			}
 
@@ -148,14 +186,14 @@ public class AddInfoToSearchProfile {
 	}
 
 	/**
-	 * Methode zum generieren der Dropdown-List für die Information(Description)
+	 * Methode zum generieren der Dropdown-List für die Eigenschaften(Description)
 	 */
 	public void createdecriptionInfo() {
 		partnerboerseVerwaltung.getAllDescriptions(new AsyncCallback<ArrayList<Description>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+				Window.alert("Eigenschaften können nicht aufgerufen werden.");
 
 			}
 
@@ -187,6 +225,10 @@ public class AddInfoToSearchProfile {
 
 	}
 
+	/**
+	 * Wenn eine Description(Eigenschaft) ausgewählt ist
+	 * wird eine Textbox generiert und ausgegeben
+	 */
 	private void descriptionPropertyChanged() {
 		textdesc.setValue("");
 		descriptionInfoPanel.add(textdesc);
@@ -257,6 +299,11 @@ public class AddInfoToSearchProfile {
 		});
 	}
 
+	/**
+	 * Methode gibt alle Infos aus, welche 
+	 * zum Suchprofil hinzugefügt wurden
+	 * @param searchProfile
+	 */
 	public void showInfoOfSP(final SearchProfile searchProfile) {
 		showInfos.clear();
 		showInfos.add(showinfoOfsearchprofile.showInfoOfSearchProfile(searchProfile));

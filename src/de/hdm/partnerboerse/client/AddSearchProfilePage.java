@@ -1,9 +1,5 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.ArrayList;
-
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -14,27 +10,29 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
-import de.hdm.partnerboerse.shared.bo.Description;
-import de.hdm.partnerboerse.shared.bo.Option;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
-import de.hdm.partnerboerse.shared.bo.Selection;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 
+/**
+ * Klasse zum hinzufügen von Suchprofilen
+ * @author aliyegokoz
+ * @author alena gerlinskaja
+ *
+ */
 public class AddSearchProfilePage {
 
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
-	/**
+	/*
 	 * Panel anlegen
 	 */
 	final HorizontalPanel searchProfileInfos = new HorizontalPanel();
@@ -44,18 +42,18 @@ public class AddSearchProfilePage {
 	final VerticalPanel selectionInfoPanel = new VerticalPanel();
 	final VerticalPanel descriptionInfoPanel = new VerticalPanel();
 
-	/**
+	/*
 	 * FlexTable zum Anlegen von neuen Suchprofilen
 	 */
 	final FlexTable newSearchProfileTable = new FlexTable();
 
-	/**
+	/*
 	 * Panels generieren für Größe und Alter
 	 */
 	final HorizontalPanel heightPanel = new HorizontalPanel();
 	final HorizontalPanel agePanel = new HorizontalPanel();
 
-	/**
+	/*
 	 * Widgets für das Suchprofilformular generieren
 	 */
 	final ListBox lbHaircolor = new ListBox();
@@ -68,7 +66,7 @@ public class AddSearchProfilePage {
 	final RadioButton Rbsmokeyes = new RadioButton("smokeGroup", "ja");
 	final RadioButton Rbsmokeno = new RadioButton("smokeGroup", "nein");
 
-	/**
+	/*
 	 * Listbox erstellen für die Ausgabe der Eigenschaften
 	 */
 	final ListBox selectionpropertyListbox = new ListBox(false);
@@ -76,17 +74,11 @@ public class AddSearchProfilePage {
 	final ListBox optionsListBox = new ListBox();
 	final TextArea textdesc = new TextArea();
 
-	private final ArrayList<Selection> selections = new ArrayList<>();
-	private final ArrayList<Option> options = new ArrayList<>();
-	private final ArrayList<Description> descriptions = new ArrayList<>();
-
-	/**
+	/*
 	 * Button zum speichern anlegen
 	 */
 	final Button saveSearchProfileButton = new Button("<img src='images/saveuser.png'/>");
-	final Button addselectionInfo = new Button("<img src='images/add.png'/>");
-	final Button adddescriptionInfo = new Button("<img src='images/add.png'/>");
-
+	
 	private final Profile profile;
 	private RadioButton[] genderRadioButtons;
 	private Gender[] genderValues;
@@ -99,17 +91,21 @@ public class AddSearchProfilePage {
 		this.searchprofilepage = searchprofilepage;
 	}
 
+	/**
+	 * Methode zum anlegen von Suchprofilen
+	 * @return
+	 */
 	public Widget addsearchProfile() {
 
 		searchProfile = new SearchProfile();
 		searchProfile.setProfile(profile);
 
-		/**
+		/*
 		 * Panel Headline zuweißen
 		 */
 		addsearchProfilePanel.add(new HTML("<h3> Suchprofil anlegen </h3>"));
 
-		/**
+		/*
 		 * Formular Style
 		 */
 		newSearchProfileTable.setStyleName("newSPstyle");
@@ -174,7 +170,7 @@ public class AddSearchProfilePage {
 
 		searchProfileFormular.add(saveSearchProfileButton);
 
-		/**
+		/*
 		 * Panels mit den Infos an den Panel heften für die Ausgabe
 		 */
 		searchProfileInfo.add(selectionInfoPanel);
@@ -194,8 +190,16 @@ public class AddSearchProfilePage {
 
 	}
 
+	/**
+	 * Überprüfen der Eingaben und dann speichern
+	 * des Suchprofiles
+	 * @param searchProfile
+	 */
 	public void savesearchProfile(final SearchProfile searchProfile) {
 
+		/*
+		 * Eingabe wird erst überprüft
+		 */
 		String nameSearchProfile = searchProfileName.getValue();
 		if (nameSearchProfile == null || nameSearchProfile.isEmpty()) {
 			Window.alert("Bitte einen Namen eingeben.");
@@ -268,6 +272,9 @@ public class AddSearchProfilePage {
 			}
 		}
 
+		/*
+		 * Speichern des Suchprofiles
+		 */
 		partnerboerseVerwaltung.save(searchProfile, new AsyncCallback<SearchProfile>() {
 
 			@Override
@@ -279,7 +286,6 @@ public class AddSearchProfilePage {
 				searchprofilepage.dataProvider.flush();
 				searchprofilepage.dataProvider.refresh();
 				searchprofilepage.table.redraw();
-				Window.alert("Profil gespeichert");
 				searchprofilepage.showoneSPPanel.setVisible(false);
 			}
 

@@ -22,6 +22,11 @@ import de.hdm.partnerboerse.shared.bo.Option;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Selection;
 
+/**
+ * Klasse dient dazu Informationen zum Profil hinzuzufügen
+ * @author aliyegokoz
+ *
+ */
 public class AddInfoToProfilePage {
 
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();

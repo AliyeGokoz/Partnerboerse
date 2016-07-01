@@ -19,31 +19,50 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 
+/**
+ * Klasse für die Ausgabe der Informationen
+ * des Suchprofiles
+ * @author aliyegokoz
+ * @author alena gerlinskaja
+ *
+ */
 public class ShowInfoOfSearchProfile {
 
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
-	/**
+	/*
 	 * CellList für die Ausgabe der Informationen
 	 */
 	final CellTable<Info> infoTable = new CellTable<>();
 	ListDataProvider<Info> dataProvider = new ListDataProvider<>();
 
-	/**
+	/*
 	 * Panel für die Ausgabe der Informationen
 	 */
 	final VerticalPanel infosPanel = new VerticalPanel();
 
-	/**
+	/*
 	 * Button zum Löschen von Informationen
 	 */
 	final Button deleteButton = new Button("<img src='images/delete.png'/>");
 	
-	
+	/**
+	 * Methode generiert die CellList und die Ausgabe der 
+	 * Informationen des Suchprofiles
+	 * @param searchProfile
+	 * @return
+	 */
 	public Widget showInfoOfSearchProfile(final SearchProfile searchProfile){
 		
+		/*
+		 * Style 
+		 */
+		deleteButton.setStyleName("button");
 		
+		/*
+		 * Zugriff auf alle Infos
+		 */
 		partnerboerseVerwaltung.getInfosOf(searchProfile, new AsyncCallback<ArrayList<Info>>() {
 
 			@Override
@@ -63,6 +82,9 @@ public class ShowInfoOfSearchProfile {
 			}
 		});
 
+		/*
+		 * Generieren der CellTable
+		 */
 		dataProvider.addDataDisplay(infoTable);
 
 		TextColumn<Info> nameInfo = new TextColumn<Info>() {
@@ -85,11 +107,11 @@ public class ShowInfoOfSearchProfile {
 			}
 		};
 
-		/**
+		/*
 		 * Columns der Tabelle zuweisen, für die Ausgabe der Informationen
 		 */
-		infoTable.addColumn(nameInfo, "Eigenschaft");
-		infoTable.addColumn(valueColumn, "Information");
+		infoTable.addColumn(nameInfo);
+		infoTable.addColumn(valueColumn);
 
 		infosPanel.add(infoTable);
 		infosPanel.add(deleteButton);
@@ -98,6 +120,9 @@ public class ShowInfoOfSearchProfile {
 		return infosPanel;
 	}
 	
+	/**
+	 * Methode zum Löschen Ausgewählten Information
+	 */
 	public void deleteInfo(){
 		final SingleSelectionModel<Info> selectionInfo = new SingleSelectionModel<Info>();
 		infoTable.setSelectionModel(selectionInfo);
@@ -116,7 +141,6 @@ public class ShowInfoOfSearchProfile {
 							dataProvider.flush();
 							dataProvider.refresh();
 							infoTable.redraw();
-							Window.alert("Info gelöscht.");
 						}
 						
 						@Override

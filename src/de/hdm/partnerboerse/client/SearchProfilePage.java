@@ -37,12 +37,17 @@ import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.bo.Selection;
 
+/**
+ * Klasse für das Suchprofilformular
+ * @author aliyegokoz
+ *
+ */
 public class SearchProfilePage extends VerticalPanel {
 
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
-	/**
+	/*
 	 * VerticalPanel für die Widgets anlegen
 	 */
 	final HorizontalPanel searchprofilesPanel = new HorizontalPanel();
@@ -52,19 +57,19 @@ public class SearchProfilePage extends VerticalPanel {
 	final VerticalPanel showallSPPanel = new VerticalPanel();
 	final VerticalPanel showoneSPPanel = new VerticalPanel();
 
-	/**
+	/*
 	 * List für die Ausgabe der Searchprofiles
 	 */
 	CellTable<SearchProfile> table = new CellTable<>();
 	ListDataProvider<SearchProfile> dataProvider = new ListDataProvider<>();
 
-	/**
+	/*
 	 * Buttons anlegen zum Anlegen, Löschen, Bearbeiten
 	 */
 	final Button showSP = new Button("Suchprofil ansehen");
-	final Button addnewSPButton = new Button("<img src='images/add-sp-icon.png'/>");
-	final Button editSpButton = new Button("<img src='images/edit-sp-icon.png'/>");
-	final Button deleteSpButton = new Button("<img src='images/delete-sp-icon.png'/>");
+	final Button addnewSPButton = new Button("Hinzufügen");
+	final Button editSpButton = new Button("Bearbeiten");
+	final Button deleteSpButton = new Button("Löschen");
 	final Button addInfotoSP = new Button("Info hinzufügen");
 
 	private final Profile profile;
@@ -78,23 +83,23 @@ public class SearchProfilePage extends VerticalPanel {
 	@Override
 	public void onLoad() {
 
-		/**
+		/*
 		 * style panels
 		 */
 		buttonsearchProfilePanel.setStyleName("searchprofileBPanel");
 		showoneSPPanel.setStyleName("addsppanel");
+		showallSPPanel.setStyleName("spall");
 
 		dataProvider.addDataDisplay(table);
 
-		/**
+		/*
 		 * Ausgabe für die Headline der Suchprofile
 		 */
 		showallSPPanel.add(new HTML("<h3> Deine Suchprofile </h3>"));
 
-		/**
+		/*
 		 * Tabelen Spalten für die Suchprofile
 		 */
-
 		TextColumn<SearchProfile> nameColumn = new TextColumn<SearchProfile>() {
 			@Override
 			public String getValue(SearchProfile searchProfile) {
@@ -102,31 +107,28 @@ public class SearchProfilePage extends VerticalPanel {
 			}
 		};
 
-		/**
+		/*
 		 * Spalten der Tabelle zuweisen
 		 */
 		table.addColumn(nameColumn);
 
-		/**
+		/*
 		 * Tabele aller Suchprofile dem ersten Panel zuweisen
 		 */
 		showallSPPanel.add(table);
 
-		/**
-		 * Button anlegen zum Anlegen von Suchprofilen
-		 */
-
 		/*
-		 * Style
+		 * Style Button
 		 */
+		showSP.setStyleName("buttonmargin");
 		addnewSPButton.setStyleName("buttonmargin");
 		editSpButton.setStyleName("buttonmargin");
 		deleteSpButton.setStyleName("buttonmargin");
+		addInfotoSP.setStyleName("buttonmargin");
 
-		/**
+		/*
 		 * Button dem VerticalPanel zuweisen
 		 */
-		// searchProfilPanel.add(new HTML("<h2>Hallo</h2>"));
 		buttonsearchProfilePanel.add(showSP);
 		buttonsearchProfilePanel.add(addnewSPButton);
 		buttonsearchProfilePanel.add(editSpButton);
@@ -140,12 +142,12 @@ public class SearchProfilePage extends VerticalPanel {
 		searchprofilesPanel.add(showallSPPanel);
 		searchprofilesPanel.add(showoneSPPanel);
 
-		/**
-		 * Der CellList SingleSelectionModel zuweisen
+		/*
+		 * Methode aufrufen: CellList SingleSelectionModel zuweisen
 		 */
 		addselectionSearchProfile();
 
-		/**
+		/*
 		 * Ausgeben aller bestehender Suchprofile
 		 */
 		partnerboerseVerwaltung.getSearchProfileOf(profile, new AsyncCallback<ArrayList<SearchProfile>>() {
@@ -166,12 +168,12 @@ public class SearchProfilePage extends VerticalPanel {
 			}
 		});
 
-		/**
+		/*
 		 * Panels dem RootPanel zuweisen
 		 */
 		RootPanel.get("Content").add(searchprofilesPanel);
 
-		/**
+		/*
 		 * ClickHandler für den Button "Neues Suchprofil anlegen" anlegen, damit
 		 * dieser beim Anklicken die Ansicht öffnet damit ein Neues Suchprofil
 		 * angelegt werden kann.
@@ -216,22 +218,6 @@ public class SearchProfilePage extends VerticalPanel {
 				
 			}
 		});
-		
-//		selectioSProfile.addSelectionChangeHandler(new Handler() {
-//			
-//			@Override
-//			public void onSelectionChange(SelectionChangeEvent event) {
-//				final SearchProfile selectedsp = selectioSProfile.getSelectedObject();
-//
-//				if (selectedsp != null) {
-//					showoneSPPanel.clear();
-//					searchProfile = selectedsp;
-//					ShowOneSearchProfile showSP = new ShowOneSearchProfile(SearchProfilePage.this);
-//					showoneSPPanel.add(showSP.showSearchProfile(selectedsp));
-//				}
-//			}
-//		});
-		
 		
 		/*
 		 * ClickHandler für den Button "Bearbeiten" anlegen, damit dieser beim

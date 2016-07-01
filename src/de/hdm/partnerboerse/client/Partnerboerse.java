@@ -161,7 +161,7 @@ public class Partnerboerse implements EntryPoint {
 		 */
 		final String userAddimage = "<img src='images/user-profile-edition.png'/>";
 		final String showUserimage = "<img src='images/user-profile-show.png'/>";
-		final String showSearchprofiles = "<img src='images/searchprofiles.png'/>";
+		final String showSearchprofiles = "<img src='images/users.png'/>";
 
 		/*
 		 * MenuItems dem Menu-Tab zuweisen. 
