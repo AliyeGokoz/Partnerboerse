@@ -346,10 +346,11 @@ public class Profile extends BusinessObject {
 	/**
 	 * Einfache textuelle Darstellung der jeweiligen Instanzen.
 	 */
-	
+
 	public String toString() {
 		return super.toString() + this.firstName + " " + this.lastName + " " + this.eMail + " " + this.dateOfBirth + " "
-				+ this.smoker + " " + this.height + " " + this.hairColor + " " + this.confession + " " + this.gender;
+				+ this.smoker + " " + this.height + " " + this.hairColor + " " + this.confession + " " + this.gender
+				+ " " + this.orientation + " " + this.similarityValue;
 	}
 
 }
