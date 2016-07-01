@@ -19,6 +19,12 @@ import de.hdm.partnerboerse.shared.bo.Selection;
 import de.hdm.partnerboerse.shared.bo.Similarity;
 import de.hdm.partnerboerse.shared.bo.VisitList;
 
+/**
+ * Asynchrones Interface zum synchronen Interface
+ * {@link PartnerboerseAdministration}. Dieses Interface wird automatisch durch
+ * das Google Plugin erstellt und nur clientseitig benötigt.
+ *
+ */
 public interface PartnerboerseAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);
@@ -42,6 +48,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue,
 			AsyncCallback<Similarity> callback);
+
 	void calculateSimilarity(Profile one, Profile two, AsyncCallback<Similarity> callback);
 
 	void createVisitList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<VisitList> callback);
@@ -130,8 +137,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void delete(FavoritesList favoritesList, AsyncCallback<Void> callback);
 
-	void getSearchProfileOf(Profile profile,
-			AsyncCallback<ArrayList<SearchProfile>> callback);
+	void getSearchProfileOf(Profile profile, AsyncCallback<ArrayList<SearchProfile>> callback);
 
 	void getInfoOf(Profile profile, AsyncCallback<ArrayList<Info>> callback);
 
@@ -147,8 +153,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getSimilaritiesOf(Profile profile, AsyncCallback<ArrayList<Similarity>> callback);
 
-	void getBySearchProfile(SearchProfile searchProfile,
-			AsyncCallback<ArrayList<Profile>> callback);
+	void getBySearchProfile(SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback);
 
 	void createOption(int id, String option, AsyncCallback<Option> callback);
 
@@ -175,9 +180,5 @@ public interface PartnerboerseAdministrationAsync {
 	void visit(Profile profile, AsyncCallback<Void> callback);
 
 	void getAllProfilesFiltered(AsyncCallback<ArrayList<Profile>> callback);
-
-
-
-	
 
 }
