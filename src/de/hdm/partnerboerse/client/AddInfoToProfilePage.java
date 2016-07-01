@@ -260,7 +260,6 @@ public class AddInfoToProfilePage {
 					showinfoofprofile.infoTable.redraw();
 					textdesc.setValue("");
 				}
-				Window.alert("Info abgespeichert!");
 			}
 		});
 	}

@@ -294,7 +294,6 @@ public class AddInfoToSearchProfile {
 					showinfoOfsearchprofile.infoTable.redraw();
 					textdesc.setValue("");
 				}
-				Window.alert("Info abgespeichert!");
 			}
 		});
 	}
