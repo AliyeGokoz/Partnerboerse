@@ -304,6 +304,7 @@ public class AddInfoToSearchProfile {
 	 * @param searchProfile
 	 */
 	public void showInfoOfSP(final SearchProfile searchProfile) {
+		showInfos.setStyleName("styleinfospanel");
 		showInfos.clear();
 		showInfos.add(showinfoOfsearchprofile.showInfoOfSearchProfile(searchProfile));
 	}

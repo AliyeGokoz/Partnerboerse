@@ -228,6 +228,11 @@ text-decoration: underline;
 
 .spall{
 	margin-top: 24px;
+	overflow:scroll;
+}
+
+.styleinfospanel{
+	overflow:scroll;
 }
 
 .buttonmargin{

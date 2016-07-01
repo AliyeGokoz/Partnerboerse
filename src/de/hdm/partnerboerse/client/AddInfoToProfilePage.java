@@ -116,7 +116,7 @@ public class AddInfoToProfilePage {
 					}
 				});
 
-				selectionPropertyChanged();
+//				selectionPropertyChanged();
 			}
 
 			@Override
@@ -186,7 +186,7 @@ public class AddInfoToProfilePage {
 					}
 				});
 
-				descriptionPropertyChanged();
+//				descriptionPropertyChanged();
 			}
 		});
 	}

@@ -93,9 +93,11 @@ public class BlockingListOverview extends VerticalPanel {
 					 * Wenn ein Profil ausgweählt ist und auf den Löschen Button
 					 * gedrückt wird wird der User wieder entfernt aus der Liste
 					 */
-					final Button delteFromFavoritesList = new Button("Kontaktsperre aufheben");
-					buttonPanel.add(delteFromFavoritesList);
-					delteFromFavoritesList.addClickHandler(new ClickHandler() {
+					final Button deleteFromBlockingList = new Button("Kontaktsperre aufheben");
+					deleteFromBlockingList.setStyleName("button");
+					
+					buttonPanel.add(deleteFromBlockingList);
+					deleteFromBlockingList.addClickHandler(new ClickHandler() {
 
 						@Override
 						public void onClick(ClickEvent event) {

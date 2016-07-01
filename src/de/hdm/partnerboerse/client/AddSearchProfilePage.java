@@ -77,7 +77,7 @@ public class AddSearchProfilePage {
 	/*
 	 * Button zum speichern anlegen
 	 */
-	final Button saveSearchProfileButton = new Button("<img src='images/saveuser.png'/>");
+	final Button saveSearchProfileButton = new Button("<img src='images/save.png'/>");
 	
 	private final Profile profile;
 	private RadioButton[] genderRadioButtons;
@@ -106,9 +106,11 @@ public class AddSearchProfilePage {
 		addsearchProfilePanel.add(new HTML("<h3> Suchprofil anlegen </h3>"));
 
 		/*
-		 * Formular Style
+		 * Style
 		 */
 		newSearchProfileTable.setStyleName("newSPstyle");
+		saveSearchProfileButton.setStyleName("button");
+		
 		/*
 		 * Tabellenbreite setzten
 		 */
