@@ -17,6 +17,7 @@ public class Column implements Serializable {
 	/**
 	 * Implementierung eines No-Argument-Konstruktors, um serialisierbare
 	 * Klassen mittels GWT-RPC zu transportieren.
+	 * @author alenagerlinskaja
 	 */
 	public Column() {
 	}
@@ -30,6 +31,7 @@ public class Column implements Serializable {
 	 *            ist der Wert, der durch das Column-Objekt dargestellt werden
 	 *            soll.
 	 * @see #Column()
+	 * @author alenagerlinskaja
 	 */
 
 	public Column(Paragraph s) {
@@ -50,6 +52,7 @@ public class Column implements Serializable {
 	 * 
 	 * @param newValue
 	 *            ist der neue Spaltenwert
+	 * @author alenagerlinskaja
 	 */
 
 	public void setValue(Paragraph newValue) {

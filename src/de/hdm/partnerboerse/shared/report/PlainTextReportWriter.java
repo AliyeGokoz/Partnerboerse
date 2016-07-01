@@ -8,6 +8,7 @@ import java.util.Vector;
  * Ergebnis abgelegt. Nach anschließendem Aufrufen der entsprechenden
  * Prozessierungsmethode kann das Ergebnis mit <code>getReportText()</code>
  * ausgelesen werden.
+ * @author alenagerlinskaja
  */
 
 public class PlainTextReportWriter extends ReportWriter {
@@ -35,6 +36,7 @@ public class PlainTextReportWriter extends ReportWriter {
 	 * Produzieren eines Trailer-Texts.
 	 * 
 	 * @return Text
+	 * @author alenagerlinskaja
 	 */
 
 	public String getTrailer() {
@@ -49,6 +51,7 @@ public class PlainTextReportWriter extends ReportWriter {
 	 * 
 	 * @param r
 	 *            ist der zu prozessierende Report.
+	 * @author alenagerlinskaja
 	 */
 
 	@Override
@@ -63,6 +66,7 @@ public class PlainTextReportWriter extends ReportWriter {
 	 * 
 	 * @param r
 	 *            ist der zu prozessierende Report.
+	 * @author alenagerlinskaja
 	 */
 
 	@Override
@@ -111,6 +115,7 @@ public class PlainTextReportWriter extends ReportWriter {
 	 * ausgelesen.
 	 * 
 	 * @return ein String der aus einem einfachen Text besteht.
+	 * @author alenagerlinskaja
 	 */
 
 	public String getReportText() {
