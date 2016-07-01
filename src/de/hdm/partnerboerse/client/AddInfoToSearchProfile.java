@@ -139,6 +139,7 @@ public class AddInfoToSearchProfile {
 					}
 				});
 
+				selectionPropertyChanged();
 			}
 
 			@Override
@@ -214,6 +215,7 @@ public class AddInfoToSearchProfile {
 					}
 				});
 
+				descriptionPropertyChanged();
 			}
 		});
 
