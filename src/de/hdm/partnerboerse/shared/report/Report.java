@@ -9,6 +9,7 @@ import java.util.Date;
  * Server an den Client gesendet werden können.
  * 
  * @see Report
+ * @author alenagerlinskaja
  */
 
 public class Report implements Serializable {
@@ -31,6 +32,7 @@ public class Report implements Serializable {
 	 * Impressum auslesen.
 	 * 
 	 * @return Text des Impressums
+	 * @author alenagerlinskaja
 	 */
 
 	public Paragraph getImprint() {
@@ -42,6 +44,7 @@ public class Report implements Serializable {
 	 * 
 	 * @param imprint
 	 *            Text des Impressums
+	 * @author alenagerlinskaja
 	 */
 
 	public void setImprint(Paragraph imprint) {
@@ -52,6 +55,8 @@ public class Report implements Serializable {
 	 * Kopfdaten auslesen.
 	 * 
 	 * @return Text der Kopfdaten.
+	 * @author alenagerlinskaja
+	 *
 	 */
 
 	public Paragraph getHeaderData() {
@@ -73,6 +78,7 @@ public class Report implements Serializable {
 	 * Berichtstitel auslesen.
 	 * 
 	 * @return Titeltext
+	 * @author alenagerlinskaja
 	 */
 
 	public String getTitle() {
@@ -84,6 +90,7 @@ public class Report implements Serializable {
 	 * 
 	 * @param title
 	 *            Titeltext
+	 * @author alenagerlinskaja
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -93,6 +100,7 @@ public class Report implements Serializable {
 	 * Erstellungsdatum auslesen.
 	 * 
 	 * @return Erstellungsdatum des Berichts
+	 * @author alenagerlinskaja
 	 */
 	public Date getCreated() {
 		return created;
@@ -103,6 +111,7 @@ public class Report implements Serializable {
 	 * 
 	 * @param created
 	 *            , ist der Zeitpunkt der Erstellung
+	 * @author alenagerlinskaja
 	 */
 	public void setCreated(Date created) {
 		this.created = created;

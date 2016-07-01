@@ -9,6 +9,7 @@ import java.util.Vector;
  * 
  * @see SimpleReport
  * @see Column
+ * @author Alena
  */
 public class Row implements Serializable {
 
@@ -16,6 +17,7 @@ public class Row implements Serializable {
 	
 	 /**
 	   * Speicherplatz für die Spalten der Zeile.
+	   * @author Alena
 	   */
 	
 	private Vector<Column> columns = new Vector<Column>();
@@ -24,6 +26,7 @@ public class Row implements Serializable {
 	   * Spalte hinzufügen
 	   * 
 	   * @param c das Spaltenobjekt
+	   * @author Alena
 	   */
 	
 	public void addColumn(Column c) {
@@ -34,6 +37,7 @@ public class Row implements Serializable {
 	   * Eine benannten Spalte entfernen
 	   * 
 	   * @param c das zu entfernende Spaltenobjekt
+	   * @author Alena
 	   */
 	
 	public void removeColumn(Column c) {
@@ -44,6 +48,7 @@ public class Row implements Serializable {
 	   * Sämtliche Spalten auslesen.
 	   * 
 	   * @return <code>Vector</code>-Objekt mit sämtlichen Spalten
+	   * @author Alena
 	   */
 	
 	public Vector<Column> getColumns() {
@@ -54,6 +59,7 @@ public class Row implements Serializable {
 	   * Anzahl sämtlicher Spalten auslesen.
 	   * 
 	   * @return int , Anzahl der Spalten
+	   * @author Alena
 	   */
 	public int getNumColumns() {
 		return this.columns.size();
@@ -65,6 +71,7 @@ public class Row implements Serializable {
 	   * @param i der Index der auszulesenden Spalte 
 	   *       
 	   * @return das gewünschte Spaltenobjekt.
+	   * @author alenagerlinskaja
 	   */
 	
 	public Column getColumnAt(int i) {

@@ -177,7 +177,7 @@ public class Partnerboerse implements EntryPoint {
 
 		allProfilesMenu.addItem("Alle Profile Ansehen", allUsers);
 
-		partnerproposelMenu.addItem("Finde neue Menschen", seePartnerProposel);
+		partnerproposelMenu.addItem("Wer passt zu dir?", seePartnerProposel);
 
 		logoutButton.addItem("Loggen Sie sich aus", logoutUser);
 

@@ -63,9 +63,9 @@ public class PartnerboerseReport implements EntryPoint {
 		hcontent.add(vcontent);
 		final Panel reportPanel = new VerticalPanel();
 		hcontent.add(reportPanel);
-		final Button profileProposals = new Button("Profilvorschläge");
-		final Button profileProposalsBySearchProfile = new Button("Profilvorschläge anhand des " + "Suchprofils");
-		final Button singleSearchProfileReports = new Button("Ein Suchprofil auswählen");
+		final Button profileProposals = new Button("Noch nicht besuchte Profile");
+		final Button profileProposalsBySearchProfile = new Button("Profilvorschläge anhand aller " + "Suchprofile");
+		final Button singleSearchProfileReports = new Button("Profilvorschläge anhand eines Suchprofils");
 
 		Command showReport = new Command() {
 			public void execute() {

@@ -11,6 +11,7 @@ import java.util.Vector;
  * 
  * @see Row
  * @see Column
+ * @author alenagerlinskaja
  */
 
 public class SimpleReport extends Report {
@@ -20,6 +21,7 @@ public class SimpleReport extends Report {
 	 /**
 	   * Tabelle mit Positionsdaten. Die Tabelle wird zeilenweise in diesem
 	   * <code>Vector</code> abgelegt.
+	   * @author alenagerlinskaja
 	   */
 	private Vector<Row> table = new Vector<Row>();
 	
@@ -27,6 +29,7 @@ public class SimpleReport extends Report {
 	   * Hinzufügen einer Zeile.
 	   * 
 	   * @param r die zu hinzufügende Zeile
+	   * @author alenagerlinskaja
 	   */
 	public void addRow(Row r) {
 		this.table.addElement(r);
@@ -36,6 +39,7 @@ public class SimpleReport extends Report {
 	   * Entfernen einer Zeile.
 	   * 
 	   * @param r die zu entfernende Zeile.
+	   * @author alenagerlinskaja
 	   */
 	
 	public void removeRow(Row r) {
@@ -46,6 +50,7 @@ public class SimpleReport extends Report {
 	   * Auslesen aller Positionsdaten.
 	   * 
 	   * @return die Tabelle der Positionsdaten
+	   * @author alenagerlinskaja
 	   */
 	
 	public Vector<Row> getRows() {

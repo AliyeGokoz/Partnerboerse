@@ -13,7 +13,7 @@ import java.util.Vector;
 
 /**
  * Diese Klasse ist ein<code>ReportWriter</code>, der Reports mittels HTML formatiert. 
- * 
+ * @author alenagerlinskaja
  */
 
 public class HTMLReportWriter extends ReportWriter {
@@ -40,6 +40,7 @@ public class HTMLReportWriter extends ReportWriter {
 	   * 
 	   * @param p der Paragraph
 	   * @return HTML-Text
+	   * @author alenagerlinskaja
 	   */
 	
 	public String paragraph2HTML(Paragraph p) {
@@ -55,6 +56,7 @@ public class HTMLReportWriter extends ReportWriter {
 	   * 
 	   * @param p der CompositeParagraph
 	   * @return HTML-Text
+	   * @author alenagerlinskaja
 	   */
 	
 	public String paragraph2HTML(CompositeParagraph p) {
@@ -72,6 +74,7 @@ public class HTMLReportWriter extends ReportWriter {
 	   * 
 	   * @param p der SimpleParagraph
 	   * @return HTML-Text
+	   * @author alenagerlinskaja
 	   */
 	
 	public String paragraph2HTML(SimpleParagraph p) {
@@ -96,6 +99,7 @@ public class HTMLReportWriter extends ReportWriter {
 	   * Produzieren des HTML-Trailer-Texts.
 	   * 
 	   * @return HTML-Text
+	   * @author alenagerlinskaja
 	   */
 	
 	public String getTrailer() {
@@ -106,6 +110,7 @@ public class HTMLReportWriter extends ReportWriter {
 	   * Übergebenen Report prozessieren und im Zielformat ablegen. 
 	   * 
 	   * @param r der zu prozessierende Report
+	   * @author alenagerlinskaja
 	   */
 	
 	@Override
@@ -151,6 +156,7 @@ public class HTMLReportWriter extends ReportWriter {
 	   * Übergebenen Report prozessieren und im Zielformat ablegen. 
 	   * 
 	   * @param r der zu prozessierende Report
+	   * @author alenagerlinskaja
 	   */
 	
 	@Override
@@ -216,6 +222,7 @@ public class HTMLReportWriter extends ReportWriter {
 	   * Ergebnisses der zuletzt aufgerufenen Prozessierungsmethode auslesen.
 	   * 
 	   * @return ein String im HTML-Format
+	   * @author alenagerlinskaja
 	   */
 	
 	public String getReportText() {
