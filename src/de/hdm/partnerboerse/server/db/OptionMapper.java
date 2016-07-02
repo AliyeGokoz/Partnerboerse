@@ -5,6 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.google.appengine.api.log.LogService.LogLevel;
 
 import de.hdm.partnerboerse.shared.bo.Option;
 import de.hdm.partnerboerse.shared.bo.Selection;
@@ -195,7 +199,7 @@ public class OptionMapper {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Logger.getLogger("Error").log(Level.SEVERE, "Error while get options", e);
 			return null;
 		}
 
