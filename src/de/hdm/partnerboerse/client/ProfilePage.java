@@ -1,8 +1,12 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -14,10 +18,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.ListDataProvider;
 
 import de.hdm.partnerboerse.shared.LoginInfo;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
 /**
@@ -34,7 +40,9 @@ public class ProfilePage {
 	/*
 	 * Panel für die Ausgabe
 	 */
-	final HorizontalPanel showProfile = new HorizontalPanel();
+	final VerticalPanel showProfile = new VerticalPanel();
+	final HorizontalPanel showprof = new HorizontalPanel();
+	final VerticalPanel showinfo = new VerticalPanel();
 
 	/*
 	 * Widgets anlegen für die Ausgabe
@@ -59,7 +67,15 @@ public class ProfilePage {
 	final HTML email = new HTML("Email");
 	final HTML height = new HTML("Größe");
 	final HTML haircolor = new HTML("Haarfarbe");
+	final HTML ubermich = new HTML("Über Mich");
 
+	
+	/*
+	 * CellTable für die Ausgabe der Informationen
+	 */
+	final CellTable<Info> infoTable = new CellTable<>();
+	final ListDataProvider<Info> infoDataProvider = new ListDataProvider<>();
+	
 	/**
 	 * 
 	 * Widget als Rückgabe für den Aufruf. Diese Methode gibt beim Klick auf den
@@ -112,7 +128,7 @@ public class ProfilePage {
 	 * @param loginInfo
 	 * @return HorizontalPanel
 	 */
-	private HorizontalPanel showProfil(final LoginInfo loginInfo) {
+	private VerticalPanel showProfil(final LoginInfo loginInfo) {
 		Profile profile = loginInfo.getProfile();
 
 		/*
@@ -133,6 +149,7 @@ public class ProfilePage {
 		/*
 		 * Style Button, Label
 		 */
+		showinfo.setStyleName("infospanel");
 		deleteProfileButton.setStyleName("button");
 		name.setStyleName("labelstyle");
 		lastname.setStyleName("labelstyle");
@@ -144,6 +161,7 @@ public class ProfilePage {
 		smoke.setStyleName("labelstyle");
 		haircolor.setStyleName("labelstyle");
 		birth.setStyleName("labelstyle");
+		ubermich.setStyleName("labelstyle");
 
 		/*
 		 * Tabelle für das Formular
@@ -208,8 +226,8 @@ public class ProfilePage {
 		addnewProfileTable2.setWidget(3, 0, haircolor);
 		addnewProfileTable2.setWidget(3, 1, lhaircolor);
 
-		showProfile.add(profilPanel);
-		showProfile.add(buttonsPanel);
+		showprof.add(profilPanel);
+		showprof.add(buttonsPanel);
 		
 
 		/*
@@ -229,9 +247,73 @@ public class ProfilePage {
 		 * Datumformat in Deutsches Format
 		 */
 		getDate(profile);
+		
+		/*
+		 * Headline für die Infos
+		 */
+		showinfo.add(ubermich);
+		
+		/*
+		 * Infos ausgeben
+		 */
+		getInfos(profile);
+		
+		showProfile.add(showprof);
+		showProfile.add(showinfo);
 
 		return showProfile;
 	}
+	
+	public void getInfos(final Profile profile){
+		
+		/*
+		 * Columns für die Informationen
+		 */
+		infoTable.addColumn(new TextColumn<Info>() {
+			@Override
+			public String getValue(Info object) {
+				if (object.getSelection() != null) {
+					return object.getSelection().getTextualDescriptionForProfile();
+				} else if (object.getDescription() != null) {
+					return object.getDescription().getTextualDescriptionForProfile();
+				}
+				return "";
+			}
+		});
+
+		infoTable.addColumn(new TextColumn<Info>() {
+			@Override
+			public String getValue(Info object) {
+				return object.getInformationValue();
+			}
+		});
+		
+		infoDataProvider.addDataDisplay(infoTable);
+		
+		showinfo.add(infoTable);
+		
+		loadInfos(profile);
+		
+	}
+	
+	public void loadInfos(Profile profile) {
+		partnerboerseVerwaltung.getInfoOf(profile, new AsyncCallback<ArrayList<Info>>() {
+
+			@Override
+			public void onSuccess(ArrayList<Info> result) {
+				infoDataProvider.getList().clear();
+				infoDataProvider.getList().addAll(result);
+				infoDataProvider.flush();
+				infoDataProvider.refresh();
+				infoTable.redraw();
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+		});
+	}
+	
 
 	/**
 	 * DialogBox erzeugen die Erscheint, wenn auf den Löschen-Button geklickt

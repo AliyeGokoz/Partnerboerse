@@ -36,6 +36,7 @@ public class SearchProfilePage extends VerticalPanel {
 	final VerticalPanel buttonsearchProfilePanel = new VerticalPanel();
 	final VerticalPanel searchProfilesPanel = new VerticalPanel();
 	final VerticalPanel buttonSPpanel = new VerticalPanel();
+	final VerticalPanel allsp = new VerticalPanel();
 	final VerticalPanel showallSPPanel = new VerticalPanel();
 	final VerticalPanel showoneSPPanel = new VerticalPanel();
 
@@ -70,14 +71,14 @@ public class SearchProfilePage extends VerticalPanel {
 		 */
 		buttonsearchProfilePanel.setStyleName("searchprofileBPanel");
 		showoneSPPanel.setStyleName("addsppanel");
-		showallSPPanel.setStyleName("spall");
+		allsp.setStyleName("spall");
 
 		dataProvider.addDataDisplay(table);
 
 		/*
 		 * Ausgabe für die Headline der Suchprofile
 		 */
-		showallSPPanel.add(new HTML("<h3> Deine Suchprofile </h3>"));
+		allsp.add(new HTML("<h3> Deine Suchprofile </h3>"));
 
 		/*
 		 * Tabelen Spalten für die Suchprofile
@@ -98,10 +99,12 @@ public class SearchProfilePage extends VerticalPanel {
 		 * Tabele aller Suchprofile dem ersten Panel zuweisen
 		 */
 		showallSPPanel.add(table);
+		allsp.add(showallSPPanel);
 
 		/*
 		 * Style Button
 		 */
+		showallSPPanel.setStyleName("infospanelprof");
 		showSP.setStyleName("buttonmargin");
 		addnewSPButton.setStyleName("buttonmargin");
 		editSpButton.setStyleName("buttonmargin");
@@ -121,7 +124,7 @@ public class SearchProfilePage extends VerticalPanel {
 		 * Panels werden dem 'searchprofilesPanel' angehengt
 		 */
 		searchprofilesPanel.add(buttonsearchProfilePanel);
-		searchprofilesPanel.add(showallSPPanel);
+		searchprofilesPanel.add(allsp);
 		searchprofilesPanel.add(showoneSPPanel);
 
 		/*

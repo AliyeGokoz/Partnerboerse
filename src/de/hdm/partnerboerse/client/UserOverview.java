@@ -48,7 +48,11 @@ public class UserOverview extends HorizontalPanel {
 		 * VerticalPanel anlegen
 		 */
 		final VerticalPanel seeAllUsers = new VerticalPanel();
-		final VerticalPanel buttonPanel = new VerticalPanel();
+		
+		/*
+		 * Style
+		 */
+		seeAllUsers.setStyleName("allusersstyle");
 		
 		/*
 		 * Celltable für die Ausgabe
@@ -120,7 +124,6 @@ public class UserOverview extends HorizontalPanel {
 
 				seeAllUsers.add(table);
 				seeAllUsers.setWidth("400");
-				seeAllUsers.add(buttonPanel);
 
 				RootPanel.get("Content").add(seeAllUsers);
 			}

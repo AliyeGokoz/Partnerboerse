@@ -27,6 +27,7 @@ import de.hdm.partnerboerse.shared.bo.Profile.Orientation;
 
 public class ProfileMapper {
 
+	//Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender, orientation FROM profiles ";
 
 	/**
@@ -305,17 +306,6 @@ public class ProfileMapper {
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Profile> result = new ArrayList<Profile>();
 
-		// SELECT p1.id, p1.firstName, p1.lastName, p1.dateOfBirth, p1.email,
-		// p1.height, p1.confession, p1.smoker, p1.hairColor, p1.gender FROM
-		// profiles p1 LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE (SELECT
-		// COUNT(*) FROM infos WHERE searchprofileId = 6) = 0 OR EXISTS (SELECT
-		// * FROM infos i2 LEFT JOIN searchprofiles sp2 ON i2.searchprofileId =
-		// sp2.id WHERE i1.informationValue = i2.informationValue AND
-		// (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND
-		// i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR
-		// (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND
-		// i2.searchprofileId = 6) GROUP BY p1.id HAVING COUNT(i1.id) = (SELECT
-		// COUNT(*) FROM infos WHERE searchprofileId = 6) AND p1.id > 0
 
 		try {
 			// Leeres SQL-Statement (JDBC) anlegen
@@ -382,8 +372,10 @@ public class ProfileMapper {
 						+ searchProfile.getProfile().getId() + " AND visits.toProfile = p1.id)";
 			}
 
-			sql += " AND NOT EXISTS (SELECT * FROM blockings WHERE blockings.fromProfile = "
-					+ searchProfile.getProfile().getId() + " AND blockings.toProfile = p1.id)";
+			sql += " AND NOT EXISTS (SELECT * FROM blockings WHERE (blockings.fromProfile = "
+					+ searchProfile.getProfile().getId()
+					+ " AND blockings.toProfile = p1.id) OR (blockings.fromProfile = p1.id AND blockings.toProfile = "
+					+ searchProfile.getProfile().getId() + "))";
 
 			sql += " AND p1.id != " + searchProfile.getProfile().getId();
 			sql += " GROUP BY p1.id ORDER BY s1.similarityValue DESC";
@@ -477,6 +469,14 @@ public class ProfileMapper {
 		return result;
 	}
 
+	/**
+	 * Diese Methode bildet das Resultset auf ein Java - Objekt ab.
+	 * 
+	 * @param rs,
+	 *            das Resultset das auf ein Java-Objekt abgebildet werden soll
+	 * @return Profile-Objekt
+	 */
+	
 	private Profile map(ResultSet rs) throws SQLException {
 		Profile profile = new Profile();
 		profile.setId(rs.getInt("id"));

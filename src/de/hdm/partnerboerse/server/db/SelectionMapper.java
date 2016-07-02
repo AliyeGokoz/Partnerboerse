@@ -256,6 +256,14 @@ public class SelectionMapper {
 		// Ergebnis-ArrayList zurückgeben
 		return result;
 	}
+	
+	/**
+	 * Diese Methode bildet das Resultset auf ein Java - Objekt ab.
+	 * 
+	 * @param rs,
+	 *            das Resultset das auf ein Java-Objekt abgebildet werden soll
+	 * @return Selection-Objekt
+	 */
 
 	private Selection map(ResultSet rs) throws SQLException {
 		Selection selection = new Selection();

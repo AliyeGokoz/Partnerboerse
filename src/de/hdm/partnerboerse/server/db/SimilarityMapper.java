@@ -287,17 +287,30 @@ public class SimilarityMapper {
 		return findByProfile(profile.getId());
 	}
 
+	/**
+	 * Auslesen der Ähnlichkeit von zwei zu vergleichenden Profilen.
+	 * 
+	 * @param from, to, 
+	 *            die Profile dessen Ähnlichkeit ausgelesen werden soll
+	 * @return ein Similarity - Objekt, die die Ähnlichkeit ziwschen beiden Profilen beschreibt
+	 */
+	
 	public Similarity findByFromAndTo(Profile from, Profile to) {
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
 		try {
+			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
-
+			
+			// Statement ausfüllen und als Query an die DB schicken
 			ResultSet rs = stmt.executeQuery(
 					BASE_SELECT + " WHERE fromProfile=" + from.getId() + " AND toProfile=" + to.getId() + " LIMIT 1");
 
+			
 			while (rs.next()) {
-
+				// Umwandlung des Ergebnis-Tupel in ein Objekt und Ausgabe des
+				// Ergebnis-Objekts
 				return map(rs);
 			}
 		} catch (SQLException e2) {
@@ -307,9 +320,18 @@ public class SimilarityMapper {
 		return null;
 	}
 
+	/**
+	 * Auslesen von Ähnlichkeiten, in denen das gegebene Profil beteiligt ist.
+	 * @param with 
+	 *             ist das Profil, welches beteiligt sein muss.
+	 * @return
+	 *             ArrayList mit allen gefundenen Ähnlichkeiten.
+	 */
+	
 	public ArrayList<Similarity> findWith(Profile with) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
+		
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Similarity> result = new ArrayList<Similarity>();
 
