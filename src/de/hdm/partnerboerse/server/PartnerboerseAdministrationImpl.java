@@ -580,12 +580,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		}
 	}
 
-	public static void main(String[] args) {
-		PartnerboerseAdministrationImpl partnerboerseAdministrationImpl = new PartnerboerseAdministrationImpl();
-		partnerboerseAdministrationImpl.init();
-		partnerboerseAdministrationImpl.calculateAllSimilarities();
-	}
-
 	/**
 	 * Berechnung der Ähnlichkeit zwischen zwei Profilen.
 	 */
