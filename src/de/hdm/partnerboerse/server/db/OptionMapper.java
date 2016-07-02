@@ -29,7 +29,7 @@ import de.hdm.partnerboerse.shared.bo.Selection;
 public class OptionMapper {
 
 	// Grundlegendes Select-Statement
-	private static final String BASE_SELECT = "SELECT options.id AS id, option, selections.id AS sid, selections.textualDescriptionForProfile AS stdfp, selections.textualDescriptionForSearchProfile AS stdfsp, selections.propertyName AS spn FROM options LEFT JOIN selections ON selections.id = options.selectionId";
+	private static final String BASE_SELECT = "SELECT options.id AS id, `option`, selections.id AS sid, selections.textualDescriptionForProfile AS stdfp, selections.textualDescriptionForSearchProfile AS stdfsp, selections.propertyName AS spn FROM options LEFT JOIN selections ON selections.id = options.selectionId ";
 
 	/**
 	 * Die Instantiierung der Klasse OptionMapper erfolgt nur einmal. Dies wird
@@ -181,12 +181,14 @@ public class OptionMapper {
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Option> result = new ArrayList<Option>();
 
+		
+		String sql = "";
 		try {
 
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
-			String sql = BASE_SELECT + " WHERE selectionId=" + selectionId + " ORDER BY id";
+			sql += BASE_SELECT + " WHERE selectionId=" + selectionId + " ORDER BY id";
 
 			System.out.println(sql);
 
@@ -199,7 +201,7 @@ public class OptionMapper {
 			}
 
 		} catch (SQLException e) {
-			Logger.getLogger("Error").log(Level.SEVERE, "Error while get options", e);
+			Logger.getLogger("Error").log(Level.SEVERE, "Error while get options: " + sql, e);
 			return null;
 		}
 
