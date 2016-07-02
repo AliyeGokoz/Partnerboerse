@@ -331,6 +331,14 @@ public class VisitListMapper {
 
 	}
 
+	/**
+	 * Auslesen von Besuchen, in denen das gegebene Profil beteiligt ist.
+	 * @param with 
+	 *             ist das Profil, welches beteiligt sein muss.
+	 * @return
+	 *             ArrayList mit allen gefundenen Besuchen.
+	 */
+	
 	public ArrayList<VisitList> findWith(Profile with) {
 
 		// DB-Verbindung holen

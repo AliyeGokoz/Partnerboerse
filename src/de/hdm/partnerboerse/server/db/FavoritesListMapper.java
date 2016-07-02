@@ -347,6 +347,14 @@ public class FavoritesListMapper {
 
 	}
 	
+	/**
+	 * Auslesen von Merkzetteleinträgen, in denen das gegebene Profil beteiligt ist.
+	 * @param with 
+	 *             ist das Profil, welches beteiligt sein muss.
+	 * @return
+	 *             ArrayList mit allen gefundenen Merkzetteleinträgen.
+	 */
+	
 	public ArrayList<FavoritesList> findWith(Profile with) {
 		//DB-Verbindung holen
 		Connection con = DBConnection.connection();
