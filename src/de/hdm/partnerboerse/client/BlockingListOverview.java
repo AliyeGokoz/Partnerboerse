@@ -39,8 +39,16 @@ public class BlockingListOverview extends VerticalPanel {
 		/*
 		 * Panel generieren
 		 */
+		final VerticalPanel blockingPanel = new VerticalPanel();
 		final VerticalPanel seeAllUsers = new VerticalPanel();
 		final VerticalPanel buttonPanel = new VerticalPanel();
+
+		/*
+		 * Style
+		 */
+		seeAllUsers.setStyleName("infospanelprof");
+		blockingPanel.setStyleName("panelscenter");
+
 		/*
 		 * CellTable generieren damit Blockierte Kontakte ausgegeben werden
 		 * können
@@ -95,7 +103,7 @@ public class BlockingListOverview extends VerticalPanel {
 					 */
 					final Button deleteFromBlockingList = new Button("Kontaktsperre aufheben");
 					deleteFromBlockingList.setStyleName("button");
-					
+
 					buttonPanel.add(deleteFromBlockingList);
 					deleteFromBlockingList.addClickHandler(new ClickHandler() {
 
@@ -128,9 +136,11 @@ public class BlockingListOverview extends VerticalPanel {
 
 		seeAllUsers.add(table);
 		seeAllUsers.setWidth("400");
-		seeAllUsers.add(buttonPanel);
 
-		RootPanel.get("Content").add(seeAllUsers);
+		blockingPanel.add(seeAllUsers);
+		blockingPanel.add(buttonPanel);
+
+		RootPanel.get("Content").add(blockingPanel);
 
 		/*
 		 * zugriff auf User

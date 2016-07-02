@@ -177,6 +177,25 @@ text-decoration: underline;
 	margin-top: 21px;
 }
 
+.infospanel{
+	margin-left: 13px;
+	margin-top: 30px;
+}
+
+.infospanelprof{
+	max-height: 500px;
+}
+
+.panelscenter{
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.allusersstyle{
+	margin-right: auto;
+	margin-left: auto;
+}
+
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
   width: 400px;
@@ -233,6 +252,7 @@ text-decoration: underline;
 
 .styleinfospanel{
 	overflow:scroll;
+	max-height: 500px;
 }
 
 .buttonmargin{

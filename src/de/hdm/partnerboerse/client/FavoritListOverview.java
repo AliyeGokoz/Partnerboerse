@@ -35,10 +35,17 @@ public class FavoritListOverview extends VerticalPanel {
 	public void onLoad() {
 		
 		/*
-		 * 
+		 * Panel anlegen 
 		 */
+		final VerticalPanel favoritPanel = new VerticalPanel();
 		final VerticalPanel seeAllUsers = new VerticalPanel();
 		final VerticalPanel buttonPanel = new VerticalPanel();
+		
+		/*
+		 * Style 
+		 */
+		seeAllUsers.setStyleName("infospanelprof");
+		favoritPanel.setStyleName("panelscenter");
 		
 		/*
 		 * CellTable wird generiert für die Ausgabe
@@ -145,10 +152,12 @@ public class FavoritListOverview extends VerticalPanel {
 
 						seeAllUsers.add(table);
 						seeAllUsers.setWidth("400");
-						seeAllUsers.add(buttonPanel);
+						
+						favoritPanel.add(seeAllUsers);
+						favoritPanel.add(buttonPanel);
 						
 						RootPanel.get("Content").clear();
-						RootPanel.get("Content").add(seeAllUsers);
+						RootPanel.get("Content").add(favoritPanel);
 
 					}
 					

@@ -41,6 +41,7 @@ public class ShowInfoOfSearchProfile {
 	 * Panel für die Ausgabe der Informationen
 	 */
 	final VerticalPanel infosPanel = new VerticalPanel();
+	final VerticalPanel allinfossp = new VerticalPanel();
 
 	/*
 	 * Button zum Löschen von Informationen
@@ -113,7 +114,11 @@ public class ShowInfoOfSearchProfile {
 		infoTable.addColumn(nameInfo);
 		infoTable.addColumn(valueColumn);
 
-		infosPanel.add(infoTable);
+		/*
+		 * Panels zuweisen
+		 */
+		allinfossp.add(infoTable);
+		infosPanel.add(allinfossp);
 		infosPanel.add(deleteButton);
 
 		deleteInfo();

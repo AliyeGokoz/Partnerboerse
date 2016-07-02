@@ -40,6 +40,7 @@ public class ShowInfoOfProfile {
 	 * Panel für die Ausgabe der Informationen
 	 */
 	final VerticalPanel infosPanel = new VerticalPanel();
+	final VerticalPanel infotablepanel = new VerticalPanel();
 
 	/*
 	 * Button zum Löschen von Informationen
@@ -53,6 +54,10 @@ public class ShowInfoOfProfile {
 	 */
 	public Widget showInfo(Profile currentProfile) {
 		
+		/*
+		 * Style
+		 */
+		infotablepanel.setStyleName("infospanelprof");
 		deleteButton.setStyleName("button");
 
 		/*
@@ -108,10 +113,15 @@ public class ShowInfoOfProfile {
 		infoTable.addColumn(valueColumn);
 
 		/*
+		 * Tabele dem 'infotablepanel' zuweisen
+		 */
+		infotablepanel.add(infoTable);
+		
+		/*
 		 * Tabelle und Buttons dem Panel zuweisen
 		 */
 		infosPanel.add(new HTML("<h3> Informationen </h3>"));
-		infosPanel.add(infoTable);
+		infosPanel.add(infotablepanel);
 		infosPanel.add(deleteButton);
 
 		/*
