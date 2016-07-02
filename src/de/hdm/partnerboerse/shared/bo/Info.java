@@ -2,8 +2,9 @@ package de.hdm.partnerboerse.shared.bo;
 
 /**
  * 
- * Die Klasse Info realisiert eine beispielhafte Profilinformation.
- *
+ * Die Klasse <code>Info</code> realisiert eine beispielhafte Profilinformation.
+ * 
+ * @author Jana Kuch
  */
 
 public class Info extends BusinessObject {
@@ -143,6 +144,7 @@ public class Info extends BusinessObject {
 	 */
 
 	public String toString() {
-		return super.toString() + " " + this.informationValue;
+		return super.toString() + " " + this.informationValue + " " + this.selection + " " + this.description + " "
+				+ this.profile + " " + this.searchProfile;
 	}
 }
