@@ -283,7 +283,9 @@ public class AddProfilePage {
 					@Override
 					public void onSuccess(Void result) {
 						Window.alert("Profil gespeichert");
-
+						if(profile.getId() == 0){
+							Window.Location.reload();
+						}
 					}
 
 					@Override
