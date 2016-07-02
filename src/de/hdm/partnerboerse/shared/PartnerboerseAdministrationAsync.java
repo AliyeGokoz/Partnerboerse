@@ -14,6 +14,7 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
 import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
+import de.hdm.partnerboerse.shared.bo.Profile.Orientation;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.bo.Selection;
 import de.hdm.partnerboerse.shared.bo.Similarity;
@@ -22,38 +23,50 @@ import de.hdm.partnerboerse.shared.bo.VisitList;
 /**
  * Asynchrones Interface zum synchronen Interface
  * {@link PartnerboerseAdministration}. Dieses Interface wird automatisch durch
- * das Google Plugin erstellt und nur clientseitig benötigt.
+ * das Google Plugin erstellt und nur clientseitig benï¿½tigt.
  *
  */
 public interface PartnerboerseAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);
 
-	void createProfile(int id, String firstName, String lastName, Date dateOfBirth, String email, int height,
-			boolean smoker, HairColor hairColor, Confession confession, Gender gender, AsyncCallback<Profile> callback);
+	void createProfile(int id, String firstName, String lastName,
+			Date dateOfBirth, String email, int height, boolean smoker,
+			HairColor hairColor, Confession confession, Gender gender,
+			Orientation orientation, AsyncCallback<Profile> callback);
 
-	void createSearchProfile(int id, String name, int fromAge, int toAge, int fromHeight, int toHeight,
-			HairColor hairColor, Gender gender, Confession confession, boolean smoker,
+	void createSearchProfile(int id, String name, int fromAge, int toAge,
+			int fromHeight, int toHeight, HairColor hairColor, Gender gender,
+			Confession confession, boolean smoker,
 			AsyncCallback<SearchProfile> callback);
 
-	void createBlocking(Profile fromProfile, Profile toProfile, AsyncCallback<Blocking> callback);
+	void createBlocking(Profile fromProfile, Profile toProfile,
+			AsyncCallback<Blocking> callback);
 
-	void createDescription(int id, String propertyName, String textualDescriptionForProfile,
-			String textualDescriptionForSearchProfile, AsyncCallback<Description> callback);
+	void createDescription(int id, String propertyName,
+			String textualDescriptionForProfile,
+			String textualDescriptionForSearchProfile,
+			AsyncCallback<Description> callback);
 
-	void createInfo(int id, String informationValue, AsyncCallback<Info> callback);
+	void createInfo(int id, String informationValue,
+			AsyncCallback<Info> callback);
 
-	void createSelection(int id, String propertyName, String textualDescriptionForProfile,
-			String textualDescriptionForSearchProfile, AsyncCallback<Selection> callback);
+	void createSelection(int id, String propertyName,
+			String textualDescriptionForProfile,
+			String textualDescriptionForSearchProfile,
+			AsyncCallback<Selection> callback);
 
-	void createSimilarity(int id, Profile fromProfile, Profile toProfile, double similarityValue,
+	void createSimilarity(int id, Profile fromProfile, Profile toProfile,
+			double similarityValue, AsyncCallback<Similarity> callback);
+
+	void calculateSimilarity(Profile one, Profile two,
 			AsyncCallback<Similarity> callback);
 
-	void calculateSimilarity(Profile one, Profile two, AsyncCallback<Similarity> callback);
+	void createVisitList(int id, Profile fromProfile, Profile toProfile,
+			AsyncCallback<VisitList> callback);
 
-	void createVisitList(int id, Profile fromProfile, Profile toProfile, AsyncCallback<VisitList> callback);
-
-	void createFavoritesList(Profile fromProfile, Profile toProfile, AsyncCallback<FavoritesList> callback);
+	void createFavoritesList(Profile fromProfile, Profile toProfile,
+			AsyncCallback<FavoritesList> callback);
 
 	/*
 	 * save
@@ -137,23 +150,30 @@ public interface PartnerboerseAdministrationAsync {
 
 	void delete(FavoritesList favoritesList, AsyncCallback<Void> callback);
 
-	void getSearchProfileOf(Profile profile, AsyncCallback<ArrayList<SearchProfile>> callback);
+	void getSearchProfileOf(Profile profile,
+			AsyncCallback<ArrayList<SearchProfile>> callback);
 
 	void getInfoOf(Profile profile, AsyncCallback<ArrayList<Info>> callback);
 
 	void getInfoOf(Selection selection, AsyncCallback<ArrayList<Info>> callback);
 
-	void getProfilesOf(SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback);
+	void getProfilesOf(SearchProfile searchProfile,
+			AsyncCallback<ArrayList<Profile>> callback);
 
-	void getBlockingsOf(Profile profile, AsyncCallback<ArrayList<Blocking>> callback);
+	void getBlockingsOf(Profile profile,
+			AsyncCallback<ArrayList<Blocking>> callback);
 
-	void getFavoritesListsOf(Profile profile, AsyncCallback<ArrayList<FavoritesList>> callback);
+	void getFavoritesListsOf(Profile profile,
+			AsyncCallback<ArrayList<FavoritesList>> callback);
 
-	void getVisitListsOf(Profile profile, AsyncCallback<ArrayList<VisitList>> callback);
+	void getVisitListsOf(Profile profile,
+			AsyncCallback<ArrayList<VisitList>> callback);
 
-	void getSimilaritiesOf(Profile profile, AsyncCallback<ArrayList<Similarity>> callback);
+	void getSimilaritiesOf(Profile profile,
+			AsyncCallback<ArrayList<Similarity>> callback);
 
-	void getBySearchProfile(SearchProfile searchProfile, AsyncCallback<ArrayList<Profile>> callback);
+	void getBySearchProfile(SearchProfile searchProfile,
+			AsyncCallback<ArrayList<Profile>> callback);
 
 	void createOption(int id, String option, AsyncCallback<Option> callback);
 
@@ -161,21 +181,28 @@ public interface PartnerboerseAdministrationAsync {
 
 	void save(Option option, AsyncCallback<Void> callback);
 
-	void getOptionsOf(Selection selection, AsyncCallback<ArrayList<Option>> callback);
+	void getOptionsOf(Selection selection,
+			AsyncCallback<ArrayList<Option>> callback);
 
-	void getMostSimilarProfiles(Profile fromProfile, AsyncCallback<ArrayList<Profile>> callback);
+	void getMostSimilarProfiles(Profile fromProfile,
+			AsyncCallback<ArrayList<Profile>> callback);
 
-	void getWithInFavoritesList(Profile with, AsyncCallback<ArrayList<FavoritesList>> callback);
+	void getWithInFavoritesList(Profile with,
+			AsyncCallback<ArrayList<FavoritesList>> callback);
 
-	void getWithInVisitList(Profile with, AsyncCallback<ArrayList<VisitList>> callback);
+	void getWithInVisitList(Profile with,
+			AsyncCallback<ArrayList<VisitList>> callback);
 
-	void getWithInBlocking(Profile with, AsyncCallback<ArrayList<Blocking>> callback);
+	void getWithInBlocking(Profile with,
+			AsyncCallback<ArrayList<Blocking>> callback);
 
-	void getWithInSimilarity(Profile with, AsyncCallback<ArrayList<Similarity>> callback);
+	void getWithInSimilarity(Profile with,
+			AsyncCallback<ArrayList<Similarity>> callback);
 
 	void getInfosOf(int searchProfileId, AsyncCallback<ArrayList<Info>> callback);
 
-	void getInfosOf(SearchProfile searchProfile, AsyncCallback<ArrayList<Info>> callback);
+	void getInfosOf(SearchProfile searchProfile,
+			AsyncCallback<ArrayList<Info>> callback);
 
 	void visit(Profile profile, AsyncCallback<Void> callback);
 
