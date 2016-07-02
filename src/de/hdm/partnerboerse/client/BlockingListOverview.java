@@ -2,8 +2,10 @@ package de.hdm.partnerboerse.client;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ClientBundle.Source;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -16,6 +18,8 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
+import de.hdm.partnerboerse.client.FavoritListOverview.CellTableResource;
+import de.hdm.partnerboerse.client.FavoritListOverview.CellTableResource.CellTableStyle;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Blocking;
@@ -28,6 +32,21 @@ import de.hdm.partnerboerse.shared.bo.Profile;
  *
  */
 public class BlockingListOverview extends VerticalPanel {
+	
+	public interface CellTableResource extends CellTable.Resources {
+
+	    /**
+	       * The styles applied to the table.
+	       */
+	    interface CellTableStyle extends CellTable.Style {
+	    }
+
+	    @Override
+	    @Source({ CellTable.Style.DEFAULT_CSS, "CellTable.css" })
+	    CellTableStyle cellTableStyle();
+
+	}
+	
 
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
@@ -53,7 +72,8 @@ public class BlockingListOverview extends VerticalPanel {
 		 * CellTable generieren damit Blockierte Kontakte ausgegeben werden
 		 * können
 		 */
-		final CellTable<Blocking> table = new CellTable<Blocking>();
+		CellTableResource resource = GWT.create(CellTableResource.class);
+		final CellTable<Blocking> table = new CellTable<Blocking>(10,resource);
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		final ListDataProvider<Blocking> dataProvider = new ListDataProvider<>();
 		dataProvider.addDataDisplay(table);

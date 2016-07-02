@@ -2,9 +2,13 @@ package de.hdm.partnerboerse.client;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ClientBundle.Source;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
@@ -27,7 +31,21 @@ import de.hdm.partnerboerse.shared.bo.Profile;
  *
  */
 public class FavoritListOverview extends VerticalPanel {
+	
+	public interface CellTableResource extends CellTable.Resources {
 
+	    /**
+	       * The styles applied to the table.
+	       */
+	    interface CellTableStyle extends CellTable.Style {
+	    }
+
+	    @Override
+	    @Source({ CellTable.Style.DEFAULT_CSS, "CellTable.css" })
+	    CellTableStyle cellTableStyle();
+
+	}
+	
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 
@@ -50,7 +68,9 @@ public class FavoritListOverview extends VerticalPanel {
 		/*
 		 * CellTable wird generiert für die Ausgabe
 		 */
-		final CellTable<FavoritesList> table = new CellTable<FavoritesList>();
+		
+		CellTableResource resource = GWT.create(CellTableResource.class);
+		final CellTable<FavoritesList> table = new CellTable<FavoritesList>(10,resource);
 		final ListDataProvider<FavoritesList> dataProvider = new ListDataProvider<>();
 		dataProvider.addDataDisplay(table);
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);

@@ -95,7 +95,6 @@ public class PartnerboerseReport implements EntryPoint {
 		RootPanel.get("Navigator").add(menu);
 
 		final CellTable<SearchProfile> table = new CellTable<SearchProfile>();
-		table.setStyleName("test");
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		final VerticalPanel selectSearchProfile = new VerticalPanel();
 		final ListDataProvider<SearchProfile> dataProvider = new ListDataProvider<>();

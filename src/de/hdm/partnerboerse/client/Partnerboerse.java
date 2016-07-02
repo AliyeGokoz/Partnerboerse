@@ -71,7 +71,7 @@ public class Partnerboerse implements EntryPoint {
 		final VerticalPanel herzpane = new VerticalPanel();
 
 		/*
-		 * Commands die Aufgerufen werden, wenn in der Menü Leiste ein etwas
+		 * Commands die Aufgerufen werden, wenn in der Menü Leiste etwas
 		 * angelickt wird.
 		 */
 		Command addnewProfile = new Command() {
