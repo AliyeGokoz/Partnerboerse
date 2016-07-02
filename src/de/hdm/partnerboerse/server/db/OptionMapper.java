@@ -21,9 +21,15 @@ import de.hdm.partnerboerse.shared.bo.Selection;
  * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
  * DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see DescriptionMapper, FavoritesListMapper, InfoMapper, BlockingMapper,
- *      ProfileMapper, SearchProfileMapper, SelectionMapper, SimilarityMapper,
- *      VisitListMapper
+ * @see BlockingMapper
+ * @see DescriptionMapper
+ * @see InfoMapper
+ * @see FavoritesListMapper
+ * @see ProfileMapper
+ * @see SearchProfileMapper
+ * @see SelectionMapper
+ * @see SimilarityMapper
+ * @see VisitListMapper
  * @author Claudia
  */
 public class OptionMapper {
@@ -33,29 +39,27 @@ public class OptionMapper {
 
 	/**
 	 * Die Instantiierung der Klasse OptionMapper erfolgt nur einmal. Dies wird
-	 * auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
 	 * 
-	 * @see optionMapper()
+	 * @see OptionMapper#optionMapper()
 	 */
 	private static OptionMapper optionMapper = null;
 
 	/**
 	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
-	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 * dieser Klasse mit dem Aufruf <code>new</code>.
 	 */
 	protected OptionMapper() {
 	}
 
 	/**
 	 * Durch
-	 * <code>OptionMapper.optionMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>OptionMapper.optionMapper()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>OptionMapper<code> existiert.
-	 * <p>
+	 * Instanz von <code>OptionMapper</code> existiert.
 	 * Die Instantiierung des OptionMapper sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return <code>OptionMapper</code>-Objekt.

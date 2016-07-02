@@ -6,6 +6,7 @@ import java.util.Date;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
 import de.hdm.partnerboerse.shared.bo.*;
 import de.hdm.partnerboerse.shared.bo.Profile.Confession;
 import de.hdm.partnerboerse.shared.bo.Profile.Gender;
@@ -17,8 +18,8 @@ import de.hdm.partnerboerse.shared.bo.Profile.Orientation;
  * Schnittstelle fuer eine RPC-faehige Klasse zur Verwaltung der Partnerboerse.
  *
  *
- * @ author Carolin Elsner
- * @ author Jana Kuch
+ * @author Carolin Elsner
+ * @author Jana Kuch
  */
 
 @RemoteServiceRelativePath("administration")

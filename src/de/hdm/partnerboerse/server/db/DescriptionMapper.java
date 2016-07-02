@@ -13,9 +13,15 @@ import de.hdm.partnerboerse.shared.bo.*;
  * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
  * DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see BlockingMapper, FavoritesListMapper, InfoMapper, OptionMapper,
- *      ProfileMapper, SearchProfileMapper, SelectionMapper, SimilarityMapper,
- *      VisitListMapper
+ * @see BlockingMapper
+ * @see FavoritesListMapper
+ * @see InfoMapper
+ * @see OptionMapper
+ * @see ProfileMapper
+ * @see SearchProfileMapper
+ * @see SelectionMapper
+ * @see SimilarityMapper
+ * @see VisitListMapper
  * @author Roxana
  */
 
@@ -26,8 +32,7 @@ public class DescriptionMapper {
 
 	/**
 	 * Die Instantiierung der Klasse DescriptionMapper erfolgt nur einmal. Dies
-	 * wird auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * wird auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
@@ -39,7 +44,7 @@ public class DescriptionMapper {
 
 	/**
 	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
-	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 * dieser Klasse mit dem Aufruf <code>new</code>.
 	 */
 
 	protected DescriptionMapper() {
@@ -47,10 +52,9 @@ public class DescriptionMapper {
 
 	/**
 	 * Durch
-	 * <code>DescriptionMapper.descriptionMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>DescriptionMapper.descriptionMapper()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>DescriptionMapper<code> existiert.
-	 * <p>
+	 * Instanz von <code>DescriptionMapper</code> existiert.
 	 * Die Instantiierung des DescriptionMapper sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return <code>DescriptionMapper</code>-Objekt.

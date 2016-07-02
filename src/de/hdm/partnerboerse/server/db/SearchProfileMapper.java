@@ -13,9 +13,15 @@ import de.hdm.partnerboerse.shared.bo.*;
  * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
  * DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see DescriptionMapper, FavoritesListMapper, InfoMapper, OptionMapper,
- *      ProfileMapper, BlockingMapper, SelectionMapper, SimilarityMapper,
- *      VisitListMapper
+ * @see BlockingMapper
+ * @see DescriptionMapper
+ * @see InfoMapper
+ * @see FavoritesListMapper
+ * @see ProfileMapper
+ * @see OptionMapper
+ * @see SelectionMapper
+ * @see SimilarityMapper
+ * @see VisitListMapper
  * @author Roxana
  */
 
@@ -26,20 +32,19 @@ public class SearchProfileMapper {
 
 	/**
 	 * Die Instantiierung der Klasse SearchProfileMapper erfolgt nur einmal.
-	 * Dies wird auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * Dies wird auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
 	 * 
-	 * @see searchProfileMapper()
+	 * @see SearchProfileMapper#searchProfileMapper()
 	 */
 
 	private static SearchProfileMapper searchProfileMapper = null;
 
 	/**
 	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
-	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 * dieser Klasse mit dem Aufruf <code>new</code>.
 	 */
 
 	protected SearchProfileMapper() {
@@ -47,10 +52,9 @@ public class SearchProfileMapper {
 
 	/**
 	 * Durch
-	 * <code>SearchProfileMapper.searchProfileMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>SearchProfileMapper.searchProfileMapper()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>SearchProfileMapper<code> existiert.
-	 * <p>
+	 * Instanz von <code>SearchProfileMapper</code> existiert.
 	 * Die Instantiierung des SearchProfileMapper sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return <code>SearchProfileMapper</code>-Objekt.
@@ -319,7 +323,7 @@ public class SearchProfileMapper {
 	   * Da ein Profil mehrere Suchprofile haben kann, können mehrere SearchProfile-Objekte in 
 	   * einer ArrayList ausgegeben werden.
 	   * 
-	   * @param Profil-Objekt
+	   * @param profile Profil-Objekt
 	   * @return Eine ArrayList mit SearchProfile-Objekten, die sämtliche
 	   *         Suchprofile des vorgegebenen Profils repräsentieren. 
 	   */

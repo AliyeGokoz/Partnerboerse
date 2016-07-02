@@ -3,10 +3,10 @@ package de.hdm.partnerboerse.shared.bo;
 import java.io.Serializable;
 
 /**
- * Die Klasse <code>BusinessObject</code> stellt die Basisklasse für die im
+ * Die Klasse <code>BusinessObject</code> stellt die Basisklasse fÃ¼r die im
  * Projekt relevanten Business-Object Klassen {@link Blocking},
  * {@link Description}, {@link FavoritesList}, {@link Info}, {@link Option},
- * {@link Profile}, {@link Property0}, {@link SearchProfile}, {@link Selection},
+ * {@link Profile}, {@link Property}, {@link SearchProfile}, {@link Selection},
  * {@link Similarity} und {@link VisitList} dar.
  * 
  * @author Jana Kuch

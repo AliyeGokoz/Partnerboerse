@@ -8,15 +8,6 @@ package de.hdm.partnerboerse.shared.report;
  * </p>
  * 
  */
-
-/**
- * Übersetzen eines <code>PartnerProposalsProfilesReport</code> in das
- * Zielformat.
- * 
- * @param r
- *            der zu übersetzende Report
- * @author Alena
- */
 public abstract class ReportWriter {
 
     abstract String processSimpleReport(SimpleReport r);

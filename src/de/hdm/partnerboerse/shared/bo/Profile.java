@@ -38,7 +38,7 @@ public class Profile extends BusinessObject {
 	private String eMail = "";
 
 	/**
-	 * Körpergröße des Nutzers
+	 * KÃ¶rpergrÃ¶ÃŸe des Nutzers
 	 */
 
 	private int height = 0;
@@ -74,7 +74,7 @@ public class Profile extends BusinessObject {
 	private Orientation orientation = null;
 
 	/**
-	 * Ähnlichkeitswert des Nutzers mit einem anderen {@link Profile}
+	 * Ã„hnlichkeitswert des Nutzers mit einem anderen {@link Profile}
 	 */
 
 	private double similarityValue;
@@ -103,7 +103,7 @@ public class Profile extends BusinessObject {
 	/**
 	 * Enumeration der Konfession. Spezifaktion der Konfektion durch folgende
 	 * Werte: nicht gesetzt, evangelisch, katholisch, buddistisch, hinduistisch,
-	 * muslimisch, jüdisch, keine Konfession, andere.
+	 * muslimisch, jÃ¼disch, keine Konfession, andere.
 	 */
 
 	public static enum Confession {
@@ -125,7 +125,7 @@ public class Profile extends BusinessObject {
 
 	/**
 	 * Enumeration des Geschlechts. Spezifaktion des Geschlecht durch folgende
-	 * Werte: männlich, weiblich und andere.
+	 * Werte: mÃ¤nnlich, weiblich und andere.
 	 */
 
 	public static enum Gender {
@@ -234,7 +234,7 @@ public class Profile extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen der Körpergröße.
+	 * Auslesen der KÃ¶rpergrÃ¶ÃŸe.
 	 */
 
 	public int getHeight() {
@@ -242,7 +242,7 @@ public class Profile extends BusinessObject {
 	}
 
 	/**
-	 * Setzen der Körpergröße.
+	 * Setzen der KÃ¶rpergrÃ¶ÃŸe.
 	 */
 
 	public void setHeight(int height) {
@@ -250,7 +250,7 @@ public class Profile extends BusinessObject {
 	}
 
 	/**
-	 * Prüfen des Raucherstatus.
+	 * PrÃ¼fen des Raucherstatus.
 	 */
 
 	public boolean isSmoker() {
@@ -330,7 +330,7 @@ public class Profile extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen des Ähnlichkeitswertes.
+	 * Auslesen des Ã„hnlichkeitswertes.
 	 */
 
 	public double getSimilarityValue() {
@@ -338,7 +338,7 @@ public class Profile extends BusinessObject {
 	}
 
 	/**
-	 * Setzen des Ähnlichkeitswertes.
+	 * Setzen des Ã„hnlichkeitswertes.
 	 */
 
 	public void setSimilarityValue(double similarityValue) {

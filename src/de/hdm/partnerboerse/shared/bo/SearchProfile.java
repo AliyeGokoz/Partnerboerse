@@ -6,7 +6,7 @@ import de.hdm.partnerboerse.shared.bo.Profile.HairColor;
 
 /**
  * Die Klasse <code>SearchProfile</code> realisiert ein beispielhaftes Suchprofil. Jedes
- * Suchprofil muss zu einem vorhanden {@link Profile} gehören.
+ * Suchprofil muss zu einem vorhanden {@link Profile} gehÃ¶ren.
  */
 
 public class SearchProfile extends BusinessObject {
@@ -32,13 +32,13 @@ public class SearchProfile extends BusinessObject {
 	private int toAge = 0;
 
 	/**
-	 * Minimale Körpergröße
+	 * Minimale KÃ¶rpergrÃ¶ÃŸe
 	 */
 
 	private int fromHeight = 0;
 
 	/**
-	 * Maximale Körpergröße
+	 * Maximale KÃ¶rpergrÃ¶ÃŸe
 	 */
 
 	private int toHeight = 0;
@@ -62,7 +62,7 @@ public class SearchProfile extends BusinessObject {
 	private Gender gender = null;
 
 	/**
-	 * Zugehöriges Nutzerprofil
+	 * ZugehÃ¶riges Nutzerprofil
 	 */
 
 	private Profile profile;
@@ -106,7 +106,7 @@ public class SearchProfile extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen der minimalen Körpergröße
+	 * Auslesen der minimalen KÃ¶rpergrÃ¶ÃŸe
 	 */
 
 	public int getFromHeight() {
@@ -114,7 +114,7 @@ public class SearchProfile extends BusinessObject {
 	}
 
 	/**
-	 * Setzen der minimalen Körpergröße
+	 * Setzen der minimalen KÃ¶rpergrÃ¶ÃŸe
 	 */
 
 	public void setFromHeight(int fromHeight) {
@@ -122,7 +122,7 @@ public class SearchProfile extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen der maximalen Körpergröße
+	 * Auslesen der maximalen KÃ¶rpergrÃ¶ÃŸe
 	 */
 
 	public int getToHeight() {
@@ -130,7 +130,7 @@ public class SearchProfile extends BusinessObject {
 	}
 
 	/**
-	 * Setzen der maximalen Körpergröße
+	 * Setzen der maximalen KÃ¶rpergrÃ¶ÃŸe
 	 */
 
 	public void setToHeight(int toHeight) {
@@ -218,7 +218,7 @@ public class SearchProfile extends BusinessObject {
 	}
 
 	/**
-	* Prüfen, ob ein Profil noch nicht besucht wurde.
+	* PrÃ¼fen, ob ein Profil noch nicht besucht wurde.
 	*/
 
 	public boolean isNoVisited() {

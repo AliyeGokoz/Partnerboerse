@@ -13,9 +13,15 @@ import de.hdm.partnerboerse.shared.bo.*;
  * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
  * DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see DescriptionMapper, FavoritesListMapper, InfoMapper, OptionMapper,
- *      ProfileMapper, SearchProfileMapper, BlockingMapper, SimilarityMapper,
- *      VisitListMapper
+ * @see BlockingMapper
+ * @see DescriptionMapper
+ * @see InfoMapper
+ * @see FavoritesListMapper
+ * @see ProfileMapper
+ * @see SearchProfileMapper
+ * @see OptionMapper
+ * @see SimilarityMapper
+ * @see VisitListMapper
  * @author Roxana
  */
 
@@ -26,20 +32,19 @@ public class SelectionMapper {
 	
 		/**
 	 * Die Instantiierung der Klasse SelectionMapper erfolgt nur einmal. Dies
-	 * wird auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * wird auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
 	 * 
-	 * @see selectionMapper()
+	 * @see SelectionMapper#selectionMapper()
 	 */
 
 	static SelectionMapper selectionMapper = null;
 
 	/**
 	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
-	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 * dieser Klasse mit dem Aufruf <code>new</code>.
 	 */
 
 	protected SelectionMapper() {
@@ -47,15 +52,14 @@ public class SelectionMapper {
 
 	/**
 	 * Durch
-	 * <code>SelectionMapper.selectionMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>SelectionMapper.selectionMapper()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>SelectionMapper<code> existiert.
-	 * <p>
+	 * Instanz von <code>SelectionMapper</code> existiert.
 	 * Die Instantiierung des SelectionMapper sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return <code>SelectionMapper</code>-Objekt.
 	 * 
-	 * @see selectionMapper
+	 * @see SelectionMapper#selectionMapper
 	 */
 
 	public static SelectionMapper selectionMapper() {

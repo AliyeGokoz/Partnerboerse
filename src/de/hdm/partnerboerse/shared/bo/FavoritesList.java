@@ -21,7 +21,7 @@ public class FavoritesList extends BusinessObject {
 	private Profile fromProfile = null;
 
 	/**
-	 * Das Profil, dass auf einen Merkzettel hinzugefügt wird.
+	 * Das Profil, dass auf einen Merkzettel hinzugefÃ¼gt wird.
 	 */
 
 	private Profile toProfile = null;
@@ -48,19 +48,19 @@ public class FavoritesList extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen des Profils, dass zu einem Merkzettel hinzugefügt wird.
+	 * Auslesen des Profils, dass zu einem Merkzettel hinzugefï¿½gt wird.
 	 * 
-	 * @return hinzuzufügendes Profil
+	 * @return hinzuzufï¿½gendes Profil
 	 */
 	public Profile getToProfile() {
 		return toProfile;
 	}
 
 	/**
-	 * Setzen des zu einem Merkzettel hinzuzufügenden Profils
+	 * Setzen des zu einem Merkzettel hinzuzufï¿½genden Profils
 	 * 
 	 * @param toProfile
-	 *            hinzuzufügendes Profil
+	 *            hinzuzufï¿½gendes Profil
 	 */
 
 	public void setToProfile(Profile toProfile) {

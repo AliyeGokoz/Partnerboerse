@@ -34,13 +34,6 @@ import de.hdm.partnerboerse.shared.bo.VisitList;
 public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		implements PartnerboerseAdministration {
 
-	/**
-	 * Dies ist die Implementierungsklasse des Interfaces
-	 * <code>PartnerboerseAdministration</code>.
-	 * 
-	 * 
-	 * @ author Carolin Elsner @ author Jana Kuch
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -927,7 +920,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	/**
-	 * Auslesen einer {@link VisistList} eines Profils aus der Datenbank.
+	 * Auslesen einer {@link VisitList} eines Profils aus der Datenbank.
 	 * 
 	 */
 	@Override

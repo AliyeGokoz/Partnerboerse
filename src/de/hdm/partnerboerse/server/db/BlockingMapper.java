@@ -13,9 +13,15 @@ import de.hdm.partnerboerse.shared.bo.*;
  * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
  * DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see DescriptionMapper, FavoritesListMapper, InfoMapper, OptionMapper,
- *      ProfileMapper, SearchProfileMapper, SelectionMapper, SimilarityMapper,
- *      VisitListMapper
+ * @see DescriptionMapper
+ * @see FavoritesListMapper
+ * @see InfoMapper
+ * @see OptionMapper
+ * @see ProfileMapper
+ * @see SearchProfileMapper 
+ * @see SelectionMapper
+ * @see SimilarityMapper
+ * @see VisitListMapper
  * @author Claudia
  */
 
@@ -29,20 +35,17 @@ public class BlockingMapper {
 
 	/**
 	 * Die Instantiierung der Klasse BlockingMapper erfolgt nur einmal. Dies
-	 * wird auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * wird auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
-	 * 
-	 * @see blockingMapper()
+	 * @see BlockingMapper#blockingMapper()
 	 */
-
 	private static BlockingMapper blockingMapper = null;
 
 	/**
 	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
-	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 * dieser Klasse mit dem Aufruf <code>new</code>.
 	 */
 
 	protected BlockingMapper() {
@@ -51,10 +54,9 @@ public class BlockingMapper {
 
 	/**
 	 * Durch
-	 * <code>BlockingMapper.blockingMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>BlockingMapper.blockingMapper()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>BlockingMapper<code> existiert.
-	 * <p>
+	 * Instanz von <code>BlockingMapper</code> existiert.
 	 * Die Instantiierung des BlockingMapper sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return <code>BlockingMapper</code>-Objekt.

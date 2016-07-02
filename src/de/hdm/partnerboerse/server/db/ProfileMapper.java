@@ -19,9 +19,15 @@ import de.hdm.partnerboerse.shared.bo.Profile.Orientation;
  * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
  * DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see DescriptionMapper, FavoritesListMapper, InfoMapper, OptionMapper,
- *      BlockingMapper, SearchProfileMapper, SelectionMapper, SimilarityMapper,
- *      VisitListMapper
+ * @see DescriptionMapper
+ * @see FavoritesListMapper 
+ * @see InfoMapper 
+ * @see OptionMapper
+ * @see BlockingMapper
+ * @see SearchProfileMapper
+ * @see SelectionMapper 
+ * @see SimilarityMapper
+ * @see VisitListMapper
  * @author Claudia
  */
 
@@ -32,19 +38,18 @@ public class ProfileMapper {
 
 	/**
 	 * Die Instantiierung der Klasse ProfileMapper erfolgt nur einmal. Dies wird
-	 * auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
 	 * 
-	 * @see blockingMapper()
+	 * @see BlockingMapper#blockingMapper()
 	 */
 	private static ProfileMapper profileMapper = null;
 
 	/**
 	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
-	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 * dieser Klasse mit dem Aufruf <code>new</code>.
 	 */
 
 	protected ProfileMapper() {
@@ -53,15 +58,14 @@ public class ProfileMapper {
 
 	/**
 	 * Durch
-	 * <code>ProfileMapper.profileMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>ProfileMapper.profileMapper()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>ProfileMapper<code> existiert.
-	 * <p>
+	 * Instanz von <code>ProfileMapper</code> existiert.
 	 * Die Instantiierung des ProfileMapper sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return <code>ProfileMapper</code>-Objekt.
 	 * 
-	 * @see profileMapper
+	 * @see ProfileMapper#profileMapper()
 	 */
 
 	public static ProfileMapper profileMapper() {

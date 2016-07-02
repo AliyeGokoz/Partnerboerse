@@ -19,8 +19,7 @@ public class DBConnection {
 
 	/**
 	 * Die Instantiierung der Klasse DBConnection erfolgt nur einmal. Dies wird
-	 * auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
@@ -37,15 +36,14 @@ public class DBConnection {
 
 	/**
 	 * Durch
-	 * <code>DBConnection.connection()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>DBConnection.connection()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>DBConnection<code> existiert.
-	 * <p>
+	 * Instanz von <code>DBConnection</code> existiert.
 	 * Die Instantiierung der DBConnection sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return DAS <code>DBConncetion</code>-Objekt.
 	 * 
-	 * @see con
+	 * @see DBConnection#con
 	 */
 	public static Connection connection() {
 

@@ -21,13 +21,13 @@ public class Property extends BusinessObject {
 	private String propertyName = "";
 
 	/**
-	 * Textuelle Beschreibung der Eigenschaft für ein {@link Profile}
+	 * Textuelle Beschreibung der Eigenschaft fÃ¼r ein {@link Profile}
 	 */
 
 	private String textualDescriptionForProfile = "";
 
 	/**
-	 * Textuelle Beschreibung der Eigenschaft für ein {@link SearchProfiles}
+	 * Textuelle Beschreibung der Eigenschaft fÃ¼r ein {@link SearchProfile}
 	 */
 
 	private String textualDescriptionForSearchProfile = "";
@@ -53,19 +53,19 @@ public class Property extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen der textuellen Beschreibung einer Eigenschaft für ein {@link Profile}
+	 * Auslesen der textuellen Beschreibung einer Eigenschaft fÃ¼r ein {@link Profile}
 	 * 
-	 * @return Textuelle Beschreibung für ein Profil
+	 * @return Textuelle Beschreibung fÃ¼r ein Profil
 	 */
 	public String getTextualDescriptionForProfile() {
 		return textualDescriptionForProfile;
 	}
 
 	/**
-	 * Setzen der textuellen Beschreibung einer Eigenschaft für ein {@link Profile}
+	 * Setzen der textuellen Beschreibung einer Eigenschaft fÃ¼r ein {@link Profile}
 	 * 
 	 * @param textualDescriptionForProfile
-	 *            textuelle Beschreibung für ein Profil
+	 *            textuelle Beschreibung fÃ¼r ein Profil
 	 */
 
 	public void setTextualDescriptionForProfile(String textualDescriptionForProfile) {
@@ -73,9 +73,9 @@ public class Property extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen der textuellen Beschreibung einer Eigenschaft für ein {@link SearchProfile}
+	 * Auslesen der textuellen Beschreibung einer Eigenschaft fÃ¼r ein {@link SearchProfile}
 	 * 
-	 * @return Textuelle Beschreibung für ein Suchprofil
+	 * @return Textuelle Beschreibung fÃ¼r ein Suchprofil
 	 */
 
 	public String getTextualDescriptionForSearchProfile() {
@@ -83,10 +83,10 @@ public class Property extends BusinessObject {
 	}
 
 	/**
-	 * Setzen der textuellen Beschreibung einer Eigenschaft für ein {@link SearchProfile}
+	 * Setzen der textuellen Beschreibung einer Eigenschaft fÃ¼r ein {@link SearchProfile}
 	 * 
 	 * @param textualDescriptionForSearchProfile
-	 *            Textuelle Beschreibung für ein Suchprofil
+	 *            Textuelle Beschreibung fÃ¼r ein Suchprofil
 	 */
 	public void setTextualDescriptionForSearchProfile(String textualDescriptionForSearchProfile) {
 		this.textualDescriptionForSearchProfile = textualDescriptionForSearchProfile;

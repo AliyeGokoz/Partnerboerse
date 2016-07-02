@@ -3,7 +3,7 @@ package de.hdm.partnerboerse.shared.bo;
 /**
  * 
  * Die Klasse <code>Option</code> realisiert eine beispielhafte
- * Auswahlmöglichkeit.
+ * AuswahlmÃ¶glichkeit.
  *
  * @author Jana Kuch
  */
@@ -13,13 +13,13 @@ public class Option extends BusinessObject {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Auswahlmöglichkeit für eine {@link Info}.
+	 * AuswahlmÃ¶glichkeit fÃ¼r eine {@link Info}.
 	 */
 
 	private String option = "";
 
 	/**
-	 * Auswahl für eine {@link Info}
+	 * Auswahl fÃ¼r eine {@link Info}
 	 */
 
 	private Selection selection;
@@ -46,7 +46,7 @@ public class Option extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen der Auswahl für eine {@link Info}
+	 * Auslesen der Auswahl fï¿½r eine {@link Info}
 	 * 
 	 * @return Auswahl
 	 */
@@ -56,7 +56,7 @@ public class Option extends BusinessObject {
 	}
 
 	/**
-	 * Setzen der Auswahl für eine {@link Info}
+	 * Setzen der Auswahl fï¿½r eine {@link Info}
 	 * 
 	 * @param selection
 	 *            Auswahl

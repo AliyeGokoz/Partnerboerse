@@ -31,6 +31,10 @@ import de.hdm.partnerboerse.shared.bo.Blocking;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 
+/**
+ * Seite für Generierung von verschiedenen Reports
+ * @author alenagerlinskaja
+ */
 public class PartnerboerseReport implements EntryPoint {
 	
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();

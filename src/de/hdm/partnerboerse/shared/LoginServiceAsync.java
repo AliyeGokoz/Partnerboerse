@@ -7,7 +7,7 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 /**
  * Asynchrones Interface zum synchronen Interface {@link LoginService}. Dieses
  * Interface wird automatisch durch das Google Plugin erstellt und nur
- * clientseitig benötigt.
+ * clientseitig benoetigt.
  *
  */
 public interface LoginServiceAsync {

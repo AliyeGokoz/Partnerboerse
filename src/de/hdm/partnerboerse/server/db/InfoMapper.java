@@ -14,9 +14,15 @@ import de.hdm.partnerboerse.shared.bo.*;
  * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
  * DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see DescriptionMapper, FavoritesListMapper, BlockingMapper, OptionMapper,
- *      ProfileMapper, SearchProfileMapper, SelectionMapper, SimilarityMapper,
- *      VisitListMapper
+ * @see DescriptionMapper
+ * @see FavoritesListMapper
+ * @see BlockingMapper
+ * @see OptionMapper
+ * @see ProfileMapper 
+ * @see SearchProfileMapper 
+ * @see SelectionMapper 
+ * @see SimilarityMapper
+ * @see VisitListMapper
  * @author Roxana
  */
 
@@ -27,8 +33,7 @@ public class InfoMapper {
 
 	/**
 	 * Die Instantiierung der Klasse InfoMapper erfolgt nur einmal. Dies wird
-	 * auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
@@ -40,23 +45,21 @@ public class InfoMapper {
 
 	/**
 	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
-	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 * dieser Klasse mit dem Aufruf <code>new</code>.
 	 */
-
 	protected InfoMapper() {
 	}
 
 	/**
 	 * Durch
-	 * <code>InfoMapper.infoMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>InfoMapper.infoMapper()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>InfoMapper<code> existiert.
-	 * <p>
+	 * Instanz von <code>InfoMapper</code> existiert.
 	 * Die Instantiierung des InfoMapper sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return <code>InfoMapper</code>-Objekt.
 	 * 
-	 * @see infoMapper
+	 * @see InfoMapper#infoMapper()
 	 */
 
 	public static InfoMapper infoMapper() {
@@ -306,12 +309,10 @@ public class InfoMapper {
 	 * Profil-Objekts. Da ein Profil mehrere Infos hat, können mehrere
 	 * Info-Objekte in einer ArrayList ausgegeben werden.
 	 * 
-	 * @param Profil
-	 *            -Objekt
+	 * @param profile Profil Objekt
 	 * @return Eine ArrayList mit Info-Objekten, die sämtliche Infos des
 	 *         vorgegebenen Profils repräsentieren.
 	 */
-
 	public ArrayList<Info> findByProfile(Profile profile) {
 
 		return findByProfile(profile.getId());
@@ -365,12 +366,10 @@ public class InfoMapper {
 	 * Selection-Objekts. Da ein Auswahl mehrere Infos haben kann, können
 	 * mehrere Info-Objekte in einer ArrayList ausgegeben werden.
 	 * 
-	 * @param Selection
-	 *            -Objekt
+	 * @param selection Selection Objekt
 	 * @return Eine ArrayList mit Info-Objekten, die sämtliche Infos der
 	 *         vorgegebenen Selection repräsentieren.
 	 */
-
 	public ArrayList<Info> findBySelection(Selection selection) {
 
 		return findBySelection(selection.getId());
@@ -424,12 +423,10 @@ public class InfoMapper {
 	 * Description-Objekts. Da ein Beschreibung mehrere Infos haben kann, können
 	 * mehrere Info-Objekte in einer ArrayList ausgegeben werden.
 	 * 
-	 * @param Description
-	 *            -Objekt
+	 * @param description Description Objekt
 	 * @return Eine ArrayList mit Info-Objekten, die sämtliche Infos der
 	 *         vorgegebenen Description repräsentieren.
 	 */
-
 	public ArrayList<Info> findByDescription(Description description) {
 		return findByDescription(description.getId());
 	}
@@ -486,12 +483,10 @@ public class InfoMapper {
 	 * SearchProfile-Objekts. Da ein Suchprofil mehrere Infos haben kann, können
 	 * mehrere Info-Objekte in einer ArrayList ausgegeben werden.
 	 * 
-	 * @param SearchProfile
-	 *            -Objekt
+	 * @param searchProfile SearchProfile Objekt 
 	 * @return Eine ArrayList mit Info-Objekten, die sämtliche Infos des
 	 *         vorgegebenen SearchProfile repräsentieren.
 	 */
-
 	public ArrayList<Info> findBySearchProfile(SearchProfile searchProfile) {
 		return findBySearchProfile(searchProfile.getId());
 	}

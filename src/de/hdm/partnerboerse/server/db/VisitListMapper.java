@@ -13,9 +13,15 @@ import de.hdm.partnerboerse.shared.bo.*;
  * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
  * DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see DescriptionMapper, FavoritesListMapper, InfoMapper, OptionMapper,
- *      ProfileMapper, SearchProfileMapper, SelectionMapper, SimilarityMapper,
- *      BlockingMapper
+ * @see BlockingMapper
+ * @see DescriptionMapper
+ * @see InfoMapper
+ * @see FavoritesListMapper
+ * @see ProfileMapper
+ * @see SearchProfileMapper
+ * @see SelectionMapper
+ * @see SimilarityMapper
+ * @see OptionMapper
  * @author Claudia
  */
 public class VisitListMapper {
@@ -28,19 +34,18 @@ public class VisitListMapper {
 
 	/**
 	 * Die Instantiierung der Klasse VisitListMapper erfolgt nur einmal. Dies
-	 * wird auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * wird auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
 	 * 
-	 * @see visitListMapper()
+	 * @see VisitListMapper#visitListMapper()
 	 */
 	private static VisitListMapper visitListMapper = null;
 
 	/**
 	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
-	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 * dieser Klasse mit dem Aufruf <code>new</code>.
 	 */
 	protected VisitListMapper() {
 
@@ -48,15 +53,14 @@ public class VisitListMapper {
 
 	/**
 	 * Durch
-	 * <code>VisitListMapper.visitListMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>VisitListMapper.visitListMapper()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>VisitListMapper<code> existiert.
-	 * <p>
+	 * Instanz von <code>VisitListMapper</code> existiert.
 	 * Die Instantiierung des VisitListMapper sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return <code>VisitListMapper</code>-Objekt.
 	 * 
-	 * @see visitListMapper
+	 * @see VisitListMapper#visitListMapper()
 	 */
 	public static VisitListMapper visitListMapper() {
 		if (visitListMapper == null) {
@@ -287,7 +291,7 @@ public class VisitListMapper {
 	 * Profil-Objekts. Da ein Profil mehrere Besuche haben kann, können mehrere
 	 * VisitList-Objekte in einer ArrayList ausgegeben werden.
 	 * 
-	 * @param Profil-Objekt
+	 * @param profile Profil-Objekt
 	 * @return Eine ArrayList mit VisitList-Objekten, die sämtliche Besuche des
 	 *         vorgegebenen Profils repräsentieren.
 	 */

@@ -15,9 +15,15 @@ import de.hdm.partnerboerse.shared.bo.Profile.Orientation;
  * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
  * DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see DescriptionMapper, FavoritesListMapper, InfoMapper, OptionMapper,
- *      ProfileMapper, SearchProfileMapper, SelectionMapper, BlockingMapper,
- *      VisitListMapper
+ * @see BlockingMapper
+ * @see DescriptionMapper
+ * @see InfoMapper
+ * @see FavoritesListMapper
+ * @see ProfileMapper
+ * @see SearchProfileMapper
+ * @see SelectionMapper
+ * @see OptionMapper
+ * @see VisitListMapper
  * @author Claudia
  */
 public class SimilarityMapper {
@@ -30,19 +36,18 @@ public class SimilarityMapper {
 
 	/**
 	 * Die Instantiierung der Klasse SimilarityMapper erfolgt nur einmal. Dies
-	 * wird auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * wird auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
 	 * 
-	 * @see similarityMapper()
+	 * @see SimilarityMapper#similarityMapper()
 	 */
 	private static SimilarityMapper similarityMapper = null;
 
 	/**
 	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
-	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 * dieser Klasse mit dem Aufruf <code>new</code>.
 	 */
 	protected SimilarityMapper() {
 
@@ -50,15 +55,14 @@ public class SimilarityMapper {
 
 	/**
 	 * Durch
-	 * <code>SimilarityMapper.similarityMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>SimilarityMapper.similarityMapper()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>SimilarityMapper<code> existiert.
-	 * <p>
+	 * Instanz von <code>SimilarityMapper</code> existiert.
 	 * Die Instantiierung des SimilarityMapper sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return <code>SimilarityMapper</code>-Objekt.
 	 * 
-	 * @see similarityMapper
+	 * @see SimilarityMapper#similarityMapper
 	 */
 
 	public static SimilarityMapper similarityMapper() {

@@ -17,9 +17,15 @@ import de.hdm.partnerboerse.shared.bo.Profile;
  * Mapping erfolgt bidirektional, d.h. Objekte können in DB-Strukturen und
  * DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see DescriptionMapper, BlockingMapper, InfoMapper, OptionMapper,
- *      ProfileMapper, SearchProfileMapper, SelectionMapper, SimilarityMapper,
- *      VisitListMapper
+ * @see BlockingMapper
+ * @see DescriptionMapper
+ * @see InfoMapper
+ * @see OptionMapper
+ * @see ProfileMapper
+ * @see SearchProfileMapper
+ * @see SelectionMapper
+ * @see SimilarityMapper
+ * @see VisitListMapper
  * @author Claudia
  */
 
@@ -32,8 +38,7 @@ public class FavoritesListMapper {
 
 	/**
 	 * Die Instantiierung der Klasse FavoritesListMapper erfolgt nur einmal.
-	 * Dies wird auch als <b>Singleton<b> bezeichnet.
-	 * <p>
+	 * Dies wird auch als <b>Singleton</b> bezeichnet.
 	 * Durch den Bezeichner <code>static</code> ist die Variable nur einmal für
 	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert
 	 * die einzige Instanz der Klasse.
@@ -44,7 +49,7 @@ public class FavoritesListMapper {
 
 	/**
 	 * Dieser geschützte Konstruktor verhindert das Erzeugen von neuen Instanzen
-	 * dieser Klasse mit dem Aufruf <code>new<code>.
+	 * dieser Klasse mit dem Aufruf <code>new</code>.
 	 */
 	protected FavoritesListMapper() {
 
@@ -52,10 +57,9 @@ public class FavoritesListMapper {
 
 	/**
 	 * Durch
-	 * <code>FavoritesListMapper.favoritesListMapper()<code> kann folgende statische Methode aufgerufen werden. 
+	 * <code>FavoritesListMapper.favoritesListMapper()</code> kann folgende statische Methode aufgerufen werden. 
 	 * Durch sie wird die Singleton-Eigenschaft sichergestellt, in dem sie dafür sorgt, dass nur eine 
-	 * Instanz von <code>FavoritesListMapper<code> existiert.
-	 * <p>
+	 * Instanz von <code>FavoritesListMapper</code> existiert.
 	 * Die Instantiierung des FavoritesListMapper sollte immer durch den Aufruf dieser Methode erfolgen.
 	 * 
 	 * @return <code>FavoritesListMapper</code>-Objekt.
