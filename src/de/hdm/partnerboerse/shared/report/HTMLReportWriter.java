@@ -1,48 +1,40 @@
 package de.hdm.partnerboerse.shared.report;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
-
 /**
- * Diese Klasse ist ein<code>ReportWriter</code>, der Reports mittels HTML formatiert. 
+ * Diese Klasse ist ein<code>ReportWriter</code>, der Reports mittels HTML
+ * formatiert.
+ * 
  * @author alenagerlinskaja
  */
 
 public class HTMLReportWriter extends ReportWriter {
-	
-	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-	
-	 /**
-	   * Diese Variable wird mit dem Ergebnis einer Umwandlung  belegt.
-	   */
 
+	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+	/**
+	 * Diese Variable wird mit dem Ergebnis einer Umwandlung belegt.
+	 */
 	private String reportText = "";
 	// private String reportTextTwo = "";
 
-	 /**
-	   * Variable <code>reportText</code> zurücksetzen.
-	   */
-	
+	/**
+	 * Variable <code>reportText</code> zurücksetzen.
+	 */
 	public void resetReportText() {
 		this.reportText = "";
 	}
 
 	/**
-	   * Ein <code>Paragraph</code>-Objekts in HTML umwandeln
-	   * 
-	   * @param p der Paragraph
-	   * @return HTML-Text
-	   * @author alenagerlinskaja
-	   */
-	
+	 * Ein <code>Paragraph</code>-Objekts in HTML umwandeln
+	 * 
+	 * @param p
+	 *            der Paragraph
+	 * @return HTML-Text
+	 * @author alenagerlinskaja
+	 */
 	public String paragraph2HTML(Paragraph p) {
 		if (p instanceof CompositeParagraph) {
 			return this.paragraph2HTML((CompositeParagraph) p);
@@ -52,13 +44,13 @@ public class HTMLReportWriter extends ReportWriter {
 	}
 
 	/**
-	   * Ein <code>CompositeParagraph</code>-Objekts in HTML umwandeln.
-	   * 
-	   * @param p der CompositeParagraph
-	   * @return HTML-Text
-	   * @author alenagerlinskaja
-	   */
-	
+	 * Ein <code>CompositeParagraph</code>-Objekts in HTML umwandeln.
+	 * 
+	 * @param p
+	 *            der CompositeParagraph
+	 * @return HTML-Text
+	 * @author alenagerlinskaja
+	 */
 	public String paragraph2HTML(CompositeParagraph p) {
 		StringBuffer result = new StringBuffer();
 
@@ -70,24 +62,23 @@ public class HTMLReportWriter extends ReportWriter {
 	}
 
 	/**
-	   * Ein <code>SimpleParagraph</code>-Objekt in HTML umwandeln.
-	   * 
-	   * @param p der SimpleParagraph
-	   * @return HTML-Text
-	   * @author alenagerlinskaja
-	   */
-	
+	 * Ein <code>SimpleParagraph</code>-Objekt in HTML umwandeln.
+	 * 
+	 * @param p
+	 *            der SimpleParagraph
+	 * @return HTML-Text
+	 * @author alenagerlinskaja
+	 */
 	public String paragraph2HTML(SimpleParagraph p) {
 		return "<p>" + p.toString() + "</p>";
 
 	}
 
 	/**
-	   * Produzieren des HTML-Header-Texts.
-	   * 
-	   * @return HTML-Text
-	   */
-	
+	 * Produzieren des HTML-Header-Texts.
+	 * 
+	 * @return HTML-Text
+	 */
 	public String getHeader() {
 		StringBuffer result = new StringBuffer();
 
@@ -95,79 +86,25 @@ public class HTMLReportWriter extends ReportWriter {
 		return result.toString();
 	}
 
-	  /**
-	   * Produzieren des HTML-Trailer-Texts.
-	   * 
-	   * @return HTML-Text
-	   * @author alenagerlinskaja
-	   */
-	
+	/**
+	 * Produzieren des HTML-Trailer-Texts.
+	 * 
+	 * @return HTML-Text
+	 * @author alenagerlinskaja
+	 */
 	public String getTrailer() {
 		return "</body></html>";
 	}
 
 	/**
-	   * Übergebenen Report prozessieren und im Zielformat ablegen. 
-	   * 
-	   * @param r der zu prozessierende Report
-	   * @author alenagerlinskaja
-	   */
-	
+	 * Übergebenen Report prozessieren und im Zielformat ablegen.
+	 * 
+	 * @param r
+	 *            der zu prozessierende Report
+	 * @author alenagerlinskaja
+	 */
 	@Override
-	public void process(PartnerProposalsProfilesReport r) {
-		
-		// Ergebnis vorhergehender Prozessierungen löschen.
-		this.resetReportText();
-
-		reportText = processSimpleReport(r);
-	}
-
-//	public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException, IOException {
-//		PartnerProposalsProfilesReport notViewedReport = new PartnerProposalsProfilesReport();
-//		Row row = new Row();
-//		Column column = new Column();
-//		SimpleParagraph par = new SimpleParagraph("Text");
-//		column.setValue(par);
-//		row.addColumn(column);
-//		notViewedReport.addRow(row);
-//		// PartnerProposalsByNotViewedProfilesReport notViewedReportTwo = new
-//		// PartnerProposalsByNotViewedProfilesReport();
-//		// notViewedReportTwo.addRow(row);
-//
-//		HTMLReportWriter htmlReportWriter = new HTMLReportWriter();
-//		// PartnerProposalsByNotViewedProfilesReport compositeReport = new
-//		// PartnerProposalsByNotViewedProfilesReport();
-//		SimpleParagraph simpleParagraph = new SimpleParagraph();
-//		simpleParagraph.setText("Hallo");
-//		notViewedReport.setImprint(simpleParagraph);
-//		notViewedReport.setTitle("Blargel");
-//		notViewedReport.setHeaderData(simpleParagraph);
-//		//
-//		// compositeReport.addSubReport(notViewedReport);
-//		// compositeReport.addSubReport(notViewedReportTwo);
-//		htmlReportWriter.process(notViewedReport);
-//		System.out.println(htmlReportWriter.reportText);
-//		try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("report.html"), "utf-8"))) {
-//			writer.write(htmlReportWriter.reportText);
-//		}
-//	}
-
-	/**
-	   * Übergebenen Report prozessieren und im Zielformat ablegen. 
-	   * 
-	   * @param r der zu prozessierende Report
-	   * @author alenagerlinskaja
-	   */
-	
-	@Override
-	public void process(PartnerProposalsBySearchProfileReport r) {
-		// Ergebnis vorhergehender Prozessierungen löschen.
-		this.resetReportText();
-
-		reportText = processCompositeReport(r);
-	}
-
-	private String processCompositeReport(CompositeReport r) {
+	public String processCompositeReport(CompositeReport r) {
 		StringBuffer buffer = new StringBuffer();
 		Vector<Report> subReports = r.getSubReports();
 		for (Report report : subReports) {
@@ -179,10 +116,13 @@ public class HTMLReportWriter extends ReportWriter {
 				buffer.append(processCompositeReport(compositeReport));
 			}
 		}
-		return buffer.toString();
+
+		reportText = buffer.toString();
+		return reportText;
 	}
 
-	private String processSimpleReport(SimpleReport r) {
+	@Override
+	public String processSimpleReport(SimpleReport r) {
 		StringBuffer result = new StringBuffer();
 
 		result.append("<H1>" + r.getTitle() + "</H1>");
@@ -215,16 +155,17 @@ public class HTMLReportWriter extends ReportWriter {
 
 		result.append("</table>");
 
-		return result.toString();
+		reportText = result.toString();
+		return reportText;
 	}
 
-	 /**
-	   * Ergebnisses der zuletzt aufgerufenen Prozessierungsmethode auslesen.
-	   * 
-	   * @return ein String im HTML-Format
-	   * @author alenagerlinskaja
-	   */
-	
+	/**
+	 * Ergebnisses der zuletzt aufgerufenen Prozessierungsmethode auslesen.
+	 * 
+	 * @return ein String im HTML-Format
+	 * @author alenagerlinskaja
+	 */
+
 	public String getReportText() {
 		return this.getHeader() + this.reportText + this.getTrailer();
 	}
