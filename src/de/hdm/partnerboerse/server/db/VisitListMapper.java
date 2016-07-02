@@ -106,6 +106,15 @@ public class VisitListMapper {
 		return visitList;
 	}
 
+	/**
+	 * Auslesen ob ein Besuch zwischen zwei gegebenen Profilen existiert.
+	 * 
+	 *  
+	 * @param fromProfile und toProfile, die beiden Profile zwischen denen ein Besuch geprüft werden soll
+	 *            
+	 * @return true oder false, je nach dem ob ein Besuch existiert oder nicht
+	 */
+	
 	public boolean doVisitListExist(Profile fromProfile, Profile toProfile) {
 		try {
 			Statement statement = DBConnection.connection().createStatement();
