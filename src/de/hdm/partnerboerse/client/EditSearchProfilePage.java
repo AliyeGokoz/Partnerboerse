@@ -63,7 +63,7 @@ public class EditSearchProfilePage {
 	/*
 	 * Button zum speichern anlegen
 	 */
-	final Button saveSearchProfileButton = new Button("<img src='images/saveuser.png'/>");
+	final Button saveSearchProfileButton = new Button("<img src='images/save.png'/>");
 
 	private final Profile profile;
 	private RadioButton[] genderRadioButtons;
@@ -84,6 +84,11 @@ public class EditSearchProfilePage {
 	 */
 	public Widget editsearchprofile(final SearchProfile searchProfile) {
 
+		/*
+		 * Style
+		 */
+		saveSearchProfileButton.setStyleName("button");
+		
 		/*
 		 * Suchprofil headline
 		 */

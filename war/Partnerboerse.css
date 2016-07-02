@@ -58,7 +58,7 @@ div#Footer {
 	font-size: 80%;
 	text-align: center;
 	
-	background: #FFCCCC;
+	background: #BA6B76;
 }
 
 .username{
@@ -228,6 +228,11 @@ text-decoration: underline;
 
 .spall{
 	margin-top: 24px;
+	overflow:scroll;
+}
+
+.styleinfospanel{
+	overflow:scroll;
 }
 
 .buttonmargin{
@@ -244,8 +249,12 @@ text-decoration: underline;
 }
 
 .infoofsp{
-	margin-left: 240px;
+	margin-left: 170px;
 	margin-top: 45px;
+}
+
+.addinfoPanel{
+	padding-left: 30px;
 }
 
 /* .showSp{

@@ -128,8 +128,7 @@ public class AddInfoToProfilePage {
 	}
 
 	/**
-	 * Methode wird aufgerufen wenn sich die Auswahl der Information ändert. Die
-	 * passenden Auswahlelemente zur Information werden geladen und angezeigt.
+	 * Methode zum generieren der Dropdown-List für die Information(Selection)
 	 */
 	private void selectionPropertyChanged() {
 		Selection selection = selections.get(selectionpropertyListbox.getSelectedIndex());

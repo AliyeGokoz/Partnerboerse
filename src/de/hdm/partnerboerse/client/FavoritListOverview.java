@@ -109,6 +109,8 @@ public class FavoritListOverview extends VerticalPanel {
 									 * Aus der Liste löschen
 									 */
 									final Button delteFromFavoritesList = new Button("Aus dem Merkzettel entfernen");
+									delteFromFavoritesList.setStyleName("button");
+									
 									buttonPanel.add(delteFromFavoritesList);
 									delteFromFavoritesList.addClickHandler(new ClickHandler() {
 										

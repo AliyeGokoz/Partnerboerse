@@ -1,22 +1,28 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
-
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.ListDataProvider;
 
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Blocking;
 import de.hdm.partnerboerse.shared.bo.FavoritesList;
+import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
 /**
@@ -34,6 +40,7 @@ public class OtherUserProfilePage {
 	 * Panel anlegen für die Ausgabe
 	 */
 	final VerticalPanel showProfile = new VerticalPanel();
+	final HorizontalPanel infoandprofile = new HorizontalPanel();
 
 
 	/*
@@ -72,12 +79,18 @@ public class OtherUserProfilePage {
 	final HTML email = new HTML("Email");
 	final HTML height = new HTML("Größe");
 	final HTML haircolor = new HTML("Haarfarbe");
+	
+	/*
+	 * CellTable für die Ausgabe der Informationen
+	 */
+	final CellTable<Info> infoTable = new CellTable<>();
+	final ListDataProvider<Info> infoDataProvider = new ListDataProvider<>();
 
 	/**
 	 * Methode, welche das in der Alle Profile Ansicht 
 	 * ausgewählte Profil ausgibt
 	 * @param selected
-	 * @return
+	 * @return VerticalPanel
 	 */
 	public Widget showProfileofUser(final Profile selected) {
 
@@ -143,10 +156,38 @@ public class OtherUserProfilePage {
 		showProfileofUser.setWidget(9, 1, orientLabel);
 
 		/*
+		 * Columns für die Informationen
+		 */
+		infoTable.addColumn(new TextColumn<Info>() {
+			@Override
+			public String getValue(Info object) {
+				if (object.getSelection() != null) {
+					return object.getSelection().getTextualDescriptionForProfile();
+				} else if (object.getDescription() != null) {
+					return object.getDescription().getTextualDescriptionForProfile();
+				}
+				return "";
+			}
+		});
+
+		infoTable.addColumn(new TextColumn<Info>() {
+			@Override
+			public String getValue(Info object) {
+				return object.getInformationValue();
+			}
+		});
+		
+		infoDataProvider.addDataDisplay(infoTable);
+		loadInfos(selected);
+		
+		infoandprofile.add(showProfileofUser);
+		infoandprofile.add(infoTable);
+		
+		/*
 		 *  Panel anordnen
 		 */
 		showProfile.add(backButton);
-		showProfile.add(showProfileofUser);
+		showProfile.add(infoandprofile);
 		showProfile.add(saveToBlockingList);
 		showProfile.add(saveToFavoritesList);
 
@@ -164,6 +205,25 @@ public class OtherUserProfilePage {
 		return showProfile;
 	}
 
+	public void loadInfos(Profile profile) {
+		partnerboerseVerwaltung.getInfoOf(profile, new AsyncCallback<ArrayList<Info>>() {
+
+			@Override
+			public void onSuccess(ArrayList<Info> result) {
+				infoDataProvider.getList().clear();
+				infoDataProvider.getList().addAll(result);
+				infoDataProvider.flush();
+				infoDataProvider.refresh();
+				infoTable.redraw();
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+		});
+	}
+	
+	
 	/**
 	 * Methode formatiert das Datum 
 	 * ins Deutsche 

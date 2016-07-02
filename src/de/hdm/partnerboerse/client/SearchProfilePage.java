@@ -52,7 +52,7 @@ public class SearchProfilePage extends VerticalPanel {
 	final Button addnewSPButton = new Button("Hinzufügen");
 	final Button editSpButton = new Button("Bearbeiten");
 	final Button deleteSpButton = new Button("Löschen");
-	final Button addInfotoSP = new Button("Info hinzufügen");
+	final Button addInfotoSP = new Button("Zusätzliche Informationen");
 
 	private final Profile profile;
 
