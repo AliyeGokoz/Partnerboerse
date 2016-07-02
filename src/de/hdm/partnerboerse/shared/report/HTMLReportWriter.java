@@ -123,7 +123,9 @@ public class HTMLReportWriter extends ReportWriter {
 				buffer.append(processCompositeReport(compositeReport));
 			}
 		}
-		return buffer.toString();
+		
+		reportText = buffer.toString();
+		return reportText;
 	}
 
 	@Override
@@ -160,7 +162,8 @@ public class HTMLReportWriter extends ReportWriter {
 
 		result.append("</table>");
 
-		return result.toString();
+		reportText = result.toString();
+		return reportText;
 	}
 
 	/**
