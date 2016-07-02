@@ -27,7 +27,7 @@ import de.hdm.partnerboerse.shared.bo.Profile.Orientation;
 
 public class ProfileMapper {
 
-	//Grundlegendes Select-Statement
+	// Grundlegendes Select-Statement
 	private static final String BASE_SELECT = "SELECT id, firstName, lastName, dateOfBirth, email, height, confession, smoker, hairColor, gender, orientation FROM profiles ";
 
 	/**
@@ -306,17 +306,16 @@ public class ProfileMapper {
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Profile> result = new ArrayList<Profile>();
 
-
 		try {
 			// Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
 			String sql = "SELECT p1.id, p1.firstName, p1.lastName, p1.dateOfBirth, p1.email, p1.height, p1.confession, p1.smoker, p1.hairColor, p1.gender, p1.orientation, s1.similarityValue FROM profiles p1 LEFT JOIN similarities s1 ON p1.id = s1.toProfile LEFT JOIN infos i1 ON p1.id = i1.profileId WHERE p1.id > 0 ";
 			if (searchProfile.getId() != 0) {
-				sql += " AND ((SELECT COUNT(*) FROM infos WHERE searchprofileId = 6) = 0 OR EXISTS (SELECT * FROM infos i2 LEFT JOIN searchprofiles sp2 ON i2.searchprofileId = sp2.id WHERE i1.informationValue = i2.informationValue AND (i1.selectionId = i2.selectionId OR (i1.selectionId IS NULL AND i2.selectionId IS NULL)) AND (i1.descriptionId = i2.descriptionId OR (i1.descriptionId IS NULL AND i2.descriptionId IS NULL)) AND i2.searchprofileId = "
+				sql += " AND (SELECT COUNT(*) FROM infos i1 INNER JOIN infos i2 ON i2.searchprofileId = "
 						+ searchProfile.getId()
-						+ " GROUP BY p1.id HAVING COUNT(i1.id)) = (SELECT COUNT(*) FROM infos WHERE searchprofileId = "
-						+ searchProfile.getId() + ")) ";
+						+ " WHERE i1.profileId = p1.id AND i1.informationValue = i2.informationValue) = (SELECT COUNT(*) FROM infos i3 WHERE i3.searchprofileId = "
+						+ searchProfile.getId() + ")";
 			}
 
 			if (searchProfile.getFromHeight() != 0) {
@@ -378,6 +377,7 @@ public class ProfileMapper {
 					+ searchProfile.getProfile().getId() + "))";
 
 			sql += " AND p1.id != " + searchProfile.getProfile().getId();
+			sql += " AND s1.fromProfile = " + searchProfile.getProfile().getId();
 			sql += " GROUP BY p1.id ORDER BY s1.similarityValue DESC";
 
 			System.out.println(sql);
@@ -476,7 +476,7 @@ public class ProfileMapper {
 	 *            das Resultset das auf ein Java-Objekt abgebildet werden soll
 	 * @return Profile-Objekt
 	 */
-	
+
 	private Profile map(ResultSet rs) throws SQLException {
 		Profile profile = new Profile();
 		profile.setId(rs.getInt("id"));
