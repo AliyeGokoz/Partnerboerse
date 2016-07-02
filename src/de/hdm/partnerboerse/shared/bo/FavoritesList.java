@@ -2,14 +2,17 @@ package de.hdm.partnerboerse.shared.bo;
 
 /**
  * 
- * Die Klasse FavoritesList realisiert einen beispielhaften Merkzettel.
+ * Die Klasse <code>FavoritesList</code> realisiert einen beispielhaften
+ * Merkzettel.
+ * 
+ * @author Jana Kuch
  *
  */
 
 public class FavoritesList extends BusinessObject {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Profil des eingeloggten Nutzers, von diesem Profil geht die Speicherung
 	 * auf einem Merkzettel aus.

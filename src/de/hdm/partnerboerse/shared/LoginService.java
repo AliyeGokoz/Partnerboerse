@@ -6,7 +6,10 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
 /**
- * Synchrone Schnittstelle für die Klasse LoginServiceImpl
+ * Synchrone Schnittstelle für die Klasse <code>LoginServiceImpl</code>.
+ * 
+ * 
+ * @author Carolin Elsner
  */
 
 @RemoteServiceRelativePath("login")

@@ -7,6 +7,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.partnerboerse.shared.*;
 
+/**
+ * Beinhaltet alle Konfigurationen die nur auf dem Client gültig sind.
+ * 
+ * @author Carolin Elsner
+ *
+ */
 public class ClientsideSettings extends CommonSettings {
 
 	private static LoginServiceAsync loginServiceAsync = null;
@@ -33,7 +39,8 @@ public class ClientsideSettings extends CommonSettings {
 
 	public static PartnerboerseAdministrationAsync getPartnerboerseVerwaltung() {
 		if (partnerboerseVerwaltung == null) {
-			partnerboerseVerwaltung = GWT.create(PartnerboerseAdministration.class);
+			partnerboerseVerwaltung = GWT
+					.create(PartnerboerseAdministration.class);
 		}
 		return partnerboerseVerwaltung;
 	}
@@ -45,12 +52,15 @@ public class ClientsideSettings extends CommonSettings {
 
 				@Override
 				public void onFailure(Throwable caught) {
-					ClientsideSettings.getLogger().severe("Der ReportGenerator konnte nicht initialisiert werden!");
+					ClientsideSettings
+							.getLogger()
+							.severe("Der ReportGenerator konnte nicht initialisiert werden!");
 				}
 
 				@Override
 				public void onSuccess(Void result) {
-					ClientsideSettings.getLogger().severe("Der ReportGenerator wurde initialisiert werden!");
+					ClientsideSettings.getLogger().severe(
+							"Der ReportGenerator wurde initialisiert werden!");
 				}
 
 			};

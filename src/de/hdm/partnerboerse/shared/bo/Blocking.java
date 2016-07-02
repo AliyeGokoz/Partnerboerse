@@ -2,7 +2,9 @@ package de.hdm.partnerboerse.shared.bo;
 
 /**
  * 
- * Die Klasse Blocking realisiert eine beispielhafte Kontaktsperre.
+ * Die Klasse <code>Blocking</code> realisiert eine beispielhafte Kontaktsperre.
+ * 
+ * @author Jana Kuch
  *
  */
 
