@@ -23,6 +23,7 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 
 /**
  * Klasse für die Ausgabe aller gemerkten Profile
+ * 
  * @author aliyegokoz
  *
  */
@@ -33,20 +34,20 @@ public class FavoritListOverview extends VerticalPanel {
 
 	@Override
 	public void onLoad() {
-		
+
 		/*
-		 * Panel anlegen 
+		 * Panel anlegen
 		 */
 		final VerticalPanel favoritPanel = new VerticalPanel();
 		final VerticalPanel seeAllUsers = new VerticalPanel();
 		final VerticalPanel buttonPanel = new VerticalPanel();
-		
+
 		/*
-		 * Style 
+		 * Style
 		 */
 		seeAllUsers.setStyleName("infospanelprof");
 		favoritPanel.setStyleName("panelscenter");
-		
+
 		/*
 		 * CellTable wird generiert für die Ausgabe
 		 */
@@ -54,129 +55,132 @@ public class FavoritListOverview extends VerticalPanel {
 		final ListDataProvider<FavoritesList> dataProvider = new ListDataProvider<>();
 		dataProvider.addDataDisplay(table);
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-		
+
 		/*
 		 * Zugriff auf Profil
 		 */
 		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
-			
+
 			@Override
 			public void onSuccess(Profile result) {
-				
+
 				/*
 				 * Zugriff auf alle gemerkten Profile
 				 */
 				partnerboerseVerwaltung.getFavoritesListsOf(result, new AsyncCallback<ArrayList<FavoritesList>>() {
-					
+
 					@Override
 					public void onSuccess(ArrayList<FavoritesList> result) {
-						
+
 						/*
 						 * Column für die Ausgabe aller gemerkten Profile
 						 */
 						final TextColumn<FavoritesList> firstNameColumn = new TextColumn<FavoritesList>() {
-							
+
 							@Override
 							public String getValue(FavoritesList f) {
 								return f.getToProfile().getFirstName();
 							}
 						};
 						table.addColumn(firstNameColumn, "Vorname");
-						
+
 						final TextColumn<FavoritesList> lastNameColumn = new TextColumn<FavoritesList>() {
-							
+
 							@Override
 							public String getValue(FavoritesList f) {
 								return f.getToProfile().getLastName();
 							}
 						};
 						table.addColumn(lastNameColumn, "Nachname");
-						
+
 						final TextColumn<FavoritesList> emailColumn = new TextColumn<FavoritesList>() {
-							
+
 							@Override
 							public String getValue(FavoritesList f) {
 								return f.getToProfile().geteMail();
 							}
 						};
 						table.addColumn(emailColumn, "Email");
+
+						final Button delteFromFavoritesList = new Button("Aus dem Merkzettel entfernen");
 						
 						/*
-						 * SingleSelectionModel zuweisen,
-						 * damit Profil markiert und gegebenfalls aus der Liste entfernt werden kann
+						 * SingleSelectionModel zuweisen, damit Profil markiert
+						 * und gegebenfalls aus der Liste entfernt werden kann
 						 */
 						final SingleSelectionModel<FavoritesList> selectionModel = new SingleSelectionModel<FavoritesList>();
 						table.setSelectionModel(selectionModel);
 						selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 							public void onSelectionChange(SelectionChangeEvent event) {
-								final FavoritesList selected = selectionModel.getSelectedObject();
-								if (selected != null) {
-									
-									/*
-									 * Aus der Liste löschen
-									 */
-									final Button delteFromFavoritesList = new Button("Aus dem Merkzettel entfernen");
-									delteFromFavoritesList.setStyleName("button");
-									
-									buttonPanel.add(delteFromFavoritesList);
-									delteFromFavoritesList.addClickHandler(new ClickHandler() {
-										
-										@Override
-										public void onClick(ClickEvent event) {
-											partnerboerseVerwaltung.delete(selected, new AsyncCallback<Void>() {
-									
-
-												@Override
-												public void onFailure(Throwable caught) {
-													Window.alert("Profil konnte nicht gelöscht werden.");
-
-												}
-
-												@Override
-												public void onSuccess(Void result) {
-													dataProvider.getList().remove(selected);
-													dataProvider.flush();
-													dataProvider.refresh();
-													table.redraw();
-													Window.alert("Favorit wurde entfernt !");
-													buttonPanel.clear();
-												}
-											});
-										}
-									});
-								}
+								delteFromFavoritesList.setVisible(true);
 							}
 						});
 
 						dataProvider.getList().addAll(result);
 
 						seeAllUsers.add(table);
-						seeAllUsers.setWidth("400");
+
+						/*
+						 * Aus der Liste löschen
+						 */
 						
+						delteFromFavoritesList.setVisible(false);
+						delteFromFavoritesList.setStyleName("button");
+
+						buttonPanel.add(delteFromFavoritesList);
+						delteFromFavoritesList.addClickHandler(new ClickHandler() {
+
+							@Override
+							public void onClick(ClickEvent event) {
+								final FavoritesList selected = selectionModel.getSelectedObject();
+								if (selected != null) {
+
+									partnerboerseVerwaltung.delete(selected, new AsyncCallback<Void>() {
+
+										@Override
+										public void onFailure(Throwable caught) {
+											Window.alert("Profil konnte nicht gelöscht werden.");
+
+										}
+
+										@Override
+										public void onSuccess(Void result) {
+											dataProvider.getList().remove(selected);
+											dataProvider.flush();
+											dataProvider.refresh();
+											table.redraw();
+											Window.alert("Favorit wurde entfernt !");
+											delteFromFavoritesList.setVisible(false);
+										}
+									});
+								}
+							}
+						});
+
+						seeAllUsers.setWidth("400");
+
 						favoritPanel.add(seeAllUsers);
 						favoritPanel.add(buttonPanel);
-						
+
 						RootPanel.get("Content").clear();
 						RootPanel.get("Content").add(favoritPanel);
 
 					}
-					
-					
+
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert("Profile können nicht ausgegeben werden.");
-						
+
 					}
 				});
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught) {
 				Window.alert("");
-				
+
 			}
 		});
-	
-}
-}
 
+	}
+}

@@ -32,11 +32,14 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 
 public class PartnerboerseReport implements EntryPoint {
-
+	
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 	private ReportGeneratorAsync reportGeneratorAsync = ClientsideSettings.getReportGenerator();
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 
+	/*
+	 * Command wird aufgerufen wenn in der Menü Bar etwas angeklickt wird
+	 */
 	Command goBack = new Command() {
 		public void execute() {
 			Window.Location.replace("Partnerboerse.html");
@@ -154,7 +157,10 @@ public class PartnerboerseReport implements EntryPoint {
 				}
 			}
 		});
-
+		
+		/*
+		 * Eingeloggten User identifizieren
+		 */
 		loginService.login(Window.Location.getHref(), new AsyncCallback<LoginInfo>() {
 
 			@Override
@@ -168,7 +174,10 @@ public class PartnerboerseReport implements EntryPoint {
 				if (!loginInfo.isLoggedIn()) {
 					Window.Location.assign(loginInfo.getLoginUrl());
 				}
-
+				
+				/*
+				 * Suchprofile des eingeloggten Users holen
+				 */
 				partnerboerseVerwaltung.getSearchProfileOf(result, new AsyncCallback<ArrayList<SearchProfile>>() {
 
 					@Override
@@ -227,8 +236,6 @@ public class PartnerboerseReport implements EntryPoint {
 				vcontent.setVisible(false);
 				reportPanel.setVisible(true);
 				
-				// Instantiate the dialog box and show it.
-
 				reportGeneratorAsync.renderPartnerProposalsByNotViewedProfilesReport(new AsyncCallback<String>() {
 
 					@Override
@@ -246,10 +253,7 @@ public class PartnerboerseReport implements EntryPoint {
 					}
 				});
 
-				// int left = Window.getClientWidth()/ 2;
-				// int top = Window.getClientHeight()/ 2;
-				// myDialog.setPopupPosition(left, top);
-				// myDialog.show();
+
 			}
 		});
 	}

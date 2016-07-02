@@ -88,6 +88,8 @@ public class BlockingListOverview extends VerticalPanel {
 		};
 		table.addColumn(emailColumn, "Email");
 
+		final Button deleteFromBlockingList = new Button("Kontaktsperre aufheben");
+		
 		/*
 		 * Ein Single Selection Model damit User ausgewählt werden können
 		 */
@@ -95,39 +97,40 @@ public class BlockingListOverview extends VerticalPanel {
 		table.setSelectionModel(selectionModel);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			public void onSelectionChange(SelectionChangeEvent event) {
+				deleteFromBlockingList.setVisible(true);
+			}
+		});
+		
+		/*
+		 * Wenn ein Profil ausgweählt ist und auf den Löschen Button
+		 * gedrückt wird wird der User wieder entfernt aus der Liste
+		 */
+		deleteFromBlockingList.setVisible(false);
+		deleteFromBlockingList.setStyleName("button");
+
+		buttonPanel.add(deleteFromBlockingList);
+		deleteFromBlockingList.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
 				final Blocking selected = selectionModel.getSelectedObject();
 				if (selected != null) {
-					/*
-					 * Wenn ein Profil ausgweählt ist und auf den Löschen Button
-					 * gedrückt wird wird der User wieder entfernt aus der Liste
-					 */
-					final Button deleteFromBlockingList = new Button("Kontaktsperre aufheben");
-					deleteFromBlockingList.setStyleName("button");
-
-					buttonPanel.add(deleteFromBlockingList);
-					deleteFromBlockingList.addClickHandler(new ClickHandler() {
+					partnerboerseVerwaltung.delete(selected, new AsyncCallback<Void>() {
 
 						@Override
-						public void onClick(ClickEvent event) {
-							partnerboerseVerwaltung.delete(selected, new AsyncCallback<Void>() {
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
 
-								@Override
-								public void onFailure(Throwable caught) {
-									// TODO Auto-generated method stub
+						}
 
-								}
-
-								@Override
-								public void onSuccess(Void result) {
-									dataProvider.getList().remove(selected);
-									dataProvider.flush();
-									dataProvider.refresh();
-									table.redraw();
-									Window.alert("Kontaktsperre wurde aufgehoben !");
-									buttonPanel.clear();
-
-								}
-							});
+						@Override
+						public void onSuccess(Void result) {
+							dataProvider.getList().remove(selected);
+							dataProvider.flush();
+							dataProvider.refresh();
+							table.redraw();
+							Window.alert("Kontaktsperre wurde aufgehoben !");
+							deleteFromBlockingList.setVisible(false);
 						}
 					});
 				}
