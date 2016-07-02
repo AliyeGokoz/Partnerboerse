@@ -18,6 +18,7 @@ import de.hdm.partnerboerse.shared.bo.Profile.Orientation;
  *
  *
  * @ author Carolin Elsner
+ * @ author Jana Kuch
  */
 
 @RemoteServiceRelativePath("administration")

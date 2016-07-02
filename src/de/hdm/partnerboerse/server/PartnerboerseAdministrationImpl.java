@@ -40,6 +40,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	 * 
 	 * 
 	 * @ author Carolin Elsner
+	 * @ author Jana Kuch
 	 */
 	private static final long serialVersionUID = 1L;
 
