@@ -2,8 +2,10 @@ package de.hdm.partnerboerse.shared.bo;
 
 /**
  * 
- * Die Klasse Property realisiert eine beispielhafte textuelle Beschreibung.
+ * Die Klasse <code>Description</code> realisiert eine beispielhafte textuelle Beschreibung.
  * Die Klasse erbt von der Klasse {@link Property}.
+ * 
+ * @author Jana Kuch
  *
  */
 

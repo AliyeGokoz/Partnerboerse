@@ -2,7 +2,10 @@ package de.hdm.partnerboerse.shared.bo;
 
 /**
  * 
- * Die Klasse VisitList realisiert eine beispielhafte Liste von Profilbesuchen .
+ * Die Klasse <code>VisitList</code> realisiert eine beispielhafte Liste von
+ * Profilbesuchen.
+ * 
+ * @author Jana Kuch
  *
  */
 

@@ -2,7 +2,11 @@ package de.hdm.partnerboerse.shared.bo;
 
 /**
  * 
- * Die Klasse Property realisiert eine beispielhafte Profileigenschaft.
+ * Die Klasse <code>Property</code> realisiert eine beispielhafte
+ * Profileigenschaft. Die Klasse hat die Subklassen {@link Description} und
+ * {@link Selection}.
+ * 
+ * @author Jana Kuch
  *
  */
 

@@ -2,8 +2,10 @@ package de.hdm.partnerboerse.shared.bo;
 
 /**
  * 
- * Die Klasse Similarity realisiert eine beispielhafte Liste von
+ * Die Klasse <code>Similarity</code> realisiert eine beispielhafte Liste von
  * Profilähnlichkeiten.
+ * 
+ * @author Jana Kuch
  *
  */
 
