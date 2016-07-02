@@ -1,11 +1,13 @@
 package de.hdm.partnerboerse.shared.bo;
 
-/**
- * Die Klasse Profile realisiert ein beispielhaftes Nutzerprofil.
- * Jedes Nutzerprofil kann mehrere {@link SearchProfile} anlegen.
- */
-
 import java.util.Date;
+
+/**
+ * Die Klasse <code>Profile</code> realisiert ein beispielhaftes Nutzerprofil.
+ * Jedes Nutzerprofil kann mehrere {@link SearchProfile} anlegen.
+ * 
+ * @author Jana Kuch
+ */
 
 public class Profile extends BusinessObject {
 
@@ -72,7 +74,7 @@ public class Profile extends BusinessObject {
 	private Orientation orientation = null;
 
 	/**
-	 * Ähnlichkeitswert des Nutzers mit einem anderen Profil
+	 * Ähnlichkeitswert des Nutzers mit einem anderen {@link Profile}
 	 */
 
 	private double similarityValue;
@@ -248,7 +250,7 @@ public class Profile extends BusinessObject {
 	}
 
 	/**
-	 * 
+	 * Prüfen des Raucherstatus.
 	 */
 
 	public boolean isSmoker() {

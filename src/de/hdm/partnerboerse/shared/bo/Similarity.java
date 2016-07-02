@@ -2,8 +2,10 @@ package de.hdm.partnerboerse.shared.bo;
 
 /**
  * 
- * Die Klasse Similarity realisiert eine beispielhafte Liste von
+ * Die Klasse <code>Similarity</code> realisiert eine beispielhafte Liste von
  * Profilähnlichkeiten.
+ * 
+ * @author Jana Kuch
  *
  */
 
@@ -51,7 +53,7 @@ public class Similarity extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen des Profils, das zur Ähnlichkeitsberechnung herangezogen wird.
+	 * Auslesen des Profils {@link Profile}, das zur Ähnlichkeitsberechnung herangezogen wird.
 	 * 
 	 * @return Vergleichsprofil
 	 */
@@ -60,7 +62,7 @@ public class Similarity extends BusinessObject {
 	}
 
 	/**
-	 * Setzen des Profils, das zur Ähnlichkeitsberechnung herangezogen wird.
+	 * Setzen des Profils {@link Profile}, das zur Ähnlichkeitsberechnung herangezogen wird.
 	 * 
 	 * @param toProfile
 	 *            Vergleichsprofil

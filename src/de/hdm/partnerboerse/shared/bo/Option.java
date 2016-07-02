@@ -2,8 +2,10 @@ package de.hdm.partnerboerse.shared.bo;
 
 /**
  * 
- * Die Klasse Option realisiert eine beispielhafte Auswahlmöglichkeit.
+ * Die Klasse <code>Option</code> realisiert eine beispielhafte
+ * Auswahlmöglichkeit.
  *
+ * @author Jana Kuch
  */
 
 public class Option extends BusinessObject {
@@ -69,6 +71,6 @@ public class Option extends BusinessObject {
 	 */
 
 	public String toString() {
-		return super.toString() + " " + this.option;
+		return super.toString() + " " + this.option + " " + this.selection;
 	}
 }

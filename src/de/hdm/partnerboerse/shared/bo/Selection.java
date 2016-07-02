@@ -2,8 +2,10 @@ package de.hdm.partnerboerse.shared.bo;
 
 /**
  * 
- * Die Klasse Property realisiert eine beispielhafte Auswahl einer Info. Die
- * Klasse erbt von der Klasse {@link Property}.
+ * Die Klasse <code>Selection</code> realisiert eine beispielhafte Auswahl einer
+ * Info. Die Klasse erbt von der Klasse {@link Property}.
+ * 
+ * @author Jana Kuch
  *
  */
 
