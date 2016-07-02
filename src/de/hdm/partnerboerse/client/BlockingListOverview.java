@@ -123,7 +123,6 @@ public class BlockingListOverview extends VerticalPanel {
 									dataProvider.flush();
 									dataProvider.refresh();
 									table.redraw();
-									Window.alert("Kontaktsperre wurde aufgehoben !");
 									buttonPanel.clear();
 
 								}

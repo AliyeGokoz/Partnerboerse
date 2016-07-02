@@ -78,9 +78,10 @@ public class PartnerboerseReport implements EntryPoint {
 		hbuttons.setStyleName("hbuttons");
 		hcontent.setStyleName("hcontent");
 
-		profileProposals.setStyleName("buttonwidth");
-		profileProposalsBySearchProfile.setStyleName("buttonwidth");
-		singleSearchProfileReports.setStyleName("buttonwidth");
+		profileProposals.setWidth("185px");
+		profileProposals.setStyleName("button");
+		profileProposalsBySearchProfile.setStyleName("button");
+		singleSearchProfileReports.setStyleName("button");
 
 		hbuttons.add(profileProposals);
 		hbuttons.add(profileProposalsBySearchProfile);
@@ -94,6 +95,7 @@ public class PartnerboerseReport implements EntryPoint {
 		RootPanel.get("Navigator").add(menu);
 
 		final CellTable<SearchProfile> table = new CellTable<SearchProfile>();
+		table.setStyleName("test");
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 		final VerticalPanel selectSearchProfile = new VerticalPanel();
 		final ListDataProvider<SearchProfile> dataProvider = new ListDataProvider<>();

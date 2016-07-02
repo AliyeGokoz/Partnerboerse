@@ -138,7 +138,6 @@ public class FavoritListOverview extends VerticalPanel {
 													dataProvider.flush();
 													dataProvider.refresh();
 													table.redraw();
-													Window.alert("Favorit wurde entfernt !");
 													buttonPanel.clear();
 												}
 											});
