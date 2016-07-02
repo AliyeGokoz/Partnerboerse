@@ -38,7 +38,7 @@ public class CompositeReport extends Report {
 	}
 	
 	/**
-	 * 
+	 * @see CompositeReport#subReports
 	 * @return subReports
 	 */
 	public Vector<Report> getSubReports() {
