@@ -1,15 +1,10 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.Date;
-
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -17,7 +12,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.LoginInfo;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
-import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
 /**
@@ -25,7 +19,6 @@ import de.hdm.partnerboerse.shared.bo.Profile;
  */
 public class Partnerboerse implements EntryPoint {
 
-	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 
 	/**
@@ -161,7 +154,7 @@ public class Partnerboerse implements EntryPoint {
 		 */
 		final String userAddimage = "<img src='images/user-profile-edition.png'/>";
 		final String showUserimage = "<img src='images/user-profile-show.png'/>";
-		final String showSearchprofiles = "<img src='images/searchprofiles.png'/>";
+		final String showSearchprofiles = "<img src='images/users.png'/>";
 
 		/*
 		 * MenuItems dem Menu-Tab zuweisen. 
@@ -177,7 +170,7 @@ public class Partnerboerse implements EntryPoint {
 
 		allProfilesMenu.addItem("Alle Profile Ansehen", allUsers);
 
-		partnerproposelMenu.addItem("Finde neue Menschen", seePartnerProposel);
+		partnerproposelMenu.addItem("Wer passt zu dir?", seePartnerProposel);
 
 		logoutButton.addItem("Loggen Sie sich aus", logoutUser);
 

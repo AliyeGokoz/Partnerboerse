@@ -7,6 +7,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 
+/**
+ * Asynchrones Interface zum Aufruf im 
+ * clientseitigen Code 
+ * @author alenagerlinskaja
+ *
+ */
 public interface ReportGeneratorAsync {
 
 	void init(AsyncCallback<Void> callback);

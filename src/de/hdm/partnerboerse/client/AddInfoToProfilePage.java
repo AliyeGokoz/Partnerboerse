@@ -22,6 +22,11 @@ import de.hdm.partnerboerse.shared.bo.Option;
 import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.Selection;
 
+/**
+ * Klasse dient dazu Informationen zum Profil hinzuzufügen
+ * @author aliyegokoz
+ *
+ */
 public class AddInfoToProfilePage {
 
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
@@ -123,8 +128,7 @@ public class AddInfoToProfilePage {
 	}
 
 	/**
-	 * Methode wird aufgerufen wenn sich die Auswahl der Information ändert. Die
-	 * passenden Auswahlelemente zur Information werden geladen und angezeigt.
+	 * Methode zum generieren der Dropdown-List für die Information(Selection)
 	 */
 	private void selectionPropertyChanged() {
 		Selection selection = selections.get(selectionpropertyListbox.getSelectedIndex());
@@ -255,7 +259,6 @@ public class AddInfoToProfilePage {
 					showinfoofprofile.infoTable.redraw();
 					textdesc.setValue("");
 				}
-				Window.alert("Info abgespeichert!");
 			}
 		});
 	}

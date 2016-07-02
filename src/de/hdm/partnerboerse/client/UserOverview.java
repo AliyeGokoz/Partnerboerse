@@ -31,6 +31,11 @@ import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 import de.hdm.partnerboerse.shared.bo.VisitList;
 
+/**
+ * Klasse die alle Profile ausgibt
+ * @author aliyegokoz
+ *
+ */
 public class UserOverview extends HorizontalPanel {
 
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
@@ -39,22 +44,35 @@ public class UserOverview extends HorizontalPanel {
 	@Override
 	public void onLoad() {
 
-		final CellTable<Profile> table = new CellTable<Profile>();
-		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
+		/*
+		 * VerticalPanel anlegen
+		 */
 		final VerticalPanel seeAllUsers = new VerticalPanel();
 		final VerticalPanel buttonPanel = new VerticalPanel();
+		
+		/*
+		 * Celltable für die Ausgabe
+		 */
+		final CellTable<Profile> table = new CellTable<Profile>();
+		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
+		/*
+		 * Zugriff auf alle Profile
+		 */
 		partnerboerseVerwaltung.getAllProfilesFiltered(new AsyncCallback<ArrayList<Profile>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+				
 
 			}
 
 			@Override
 			public void onSuccess(ArrayList<Profile> result) {
 
+				/*
+				 * Columns für die Ausgabe
+				 */
 				final TextColumn<Profile> firstNameColumn = new TextColumn<Profile>() {
 
 					@Override
@@ -80,13 +98,16 @@ public class UserOverview extends HorizontalPanel {
 					}
 				};
 				table.addColumn(emailColumn, "Email");
+				
+				/*
+				 * SingleSelectionModel zuweisen damit, Profile ausgewählt werden können
+				 */
 				final SingleSelectionModel<Profile> selectionModel = new SingleSelectionModel<Profile>();
 				table.setSelectionModel(selectionModel);
 				selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 					public void onSelectionChange(SelectionChangeEvent event) {
 						final Profile selected = selectionModel.getSelectedObject();
 						if (selected != null) {
-							GWT.log("bdbddjd");
 							seeAllUsers.clear();
 							setVisited(selected);							
 							OtherUserProfilePage showProfile = new OtherUserProfilePage();
@@ -108,6 +129,10 @@ public class UserOverview extends HorizontalPanel {
 	}
 
 	
+	/**
+	 * Methode, welche besuchte Profile speichert
+	 * @param profile
+	 */
 	public void setVisited(final Profile profile){
 		partnerboerseVerwaltung.visit(profile, new AsyncCallback<Void>() {
 			@Override

@@ -1,41 +1,49 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
-import java.util.Date;
-
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.ListDataProvider;
 
-import de.hdm.partnerboerse.shared.LoginService;
 import de.hdm.partnerboerse.shared.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Blocking;
 import de.hdm.partnerboerse.shared.bo.FavoritesList;
+import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
+/**
+ * Klasse welche die Ansicht 
+ * für Einzelne User Profile zeigt
+ * @author aliyegokoz
+ *
+ */
 public class OtherUserProfilePage {
 
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	private LoginServiceAsync loginService = ClientsideSettings.getLoginService();
 
-	/**
+	/*
 	 * Panel anlegen für die Ausgabe
 	 */
 	final VerticalPanel showProfile = new VerticalPanel();
+	final HorizontalPanel infoandprofile = new HorizontalPanel();
 
-	// /**
-	// * Anlegen von VerticalPanel für die Buttons
-	// */
-	// final VerticalPanel buttonsPanel = new VerticalPanel();
 
-	/**
+	/*
 	 * Buttons anlegen für das hinzufügen von Profil in Merkzettel oder
 	 * Konktaksperre
 	 */
@@ -43,13 +51,13 @@ public class OtherUserProfilePage {
 	final Button saveToBlockingList = new Button("Profil sperren");
 	final Button saveToFavoritesList = new Button("Profil merken");
 
-	/**
+	/*
 	 * Flextabel für die Profil ausgabe
 	 */
 	final FlexTable showProfileofUser = new FlexTable();
 
-	/**
-	 * Labels für die Ausgabe der Inhalte
+	/*
+	 * Widgets anlegen für die Ausgabe
 	 */
 	final Label firstnameLabel = new Label();
 	final Label lastnameLabel = new Label();
@@ -60,16 +68,59 @@ public class OtherUserProfilePage {
 	final Label confessionLabel = new Label();
 	final Label haircolorLabel = new Label();
 	final Label smokeLaben = new Label();
+	final Label orientLabel = new Label();
+	final HTML name = new HTML("Vorname");
+	final HTML lastname = new HTML("Nachname");
+	final HTML birth = new HTML("Geburtsdatum");
+	final HTML gender = new HTML("Geschlecht");
+	final HTML orient = new HTML("Orientierung");
+	final HTML conff = new HTML("Religion");
+	final HTML smoke = new HTML("Raucher");
+	final HTML email = new HTML("Email");
+	final HTML height = new HTML("Größe");
+	final HTML haircolor = new HTML("Haarfarbe");
+	
+	/*
+	 * CellTable für die Ausgabe der Informationen
+	 */
+	final CellTable<Info> infoTable = new CellTable<>();
+	final ListDataProvider<Info> infoDataProvider = new ListDataProvider<>();
 
+	/**
+	 * Methode, welche das in der Alle Profile Ansicht 
+	 * ausgewählte Profil ausgibt
+	 * @param selected
+	 * @return VerticalPanel
+	 */
 	public Widget showProfileofUser(final Profile selected) {
 
-		// style FlexTable
+		/*
+		 * Style
+		 */
 		showProfileofUser.setWidth("200");
 		showProfileofUser.setCellSpacing(10);
+		backButton.setStyleName("button");
+		saveToBlockingList.setStyleName("button");
+		saveToFavoritesList.setStyleName("button");
+		name.setStyleName("labelstyle");
+		lastname.setStyleName("labelstyle");
+		email.setStyleName("labelstyle");
+		gender.setStyleName("labelstyle");
+		height.setStyleName("labelstyle");
+		conff.setStyleName("labelstyle");
+		orient.setStyleName("labelstyle");
+		smoke.setStyleName("labelstyle");
+		haircolor.setStyleName("labelstyle");
+		birth.setStyleName("labelstyle");
 
+		/*
+		 * Datum umformatieren
+		 */
 		getDate(selected);
 
-		// Label mit Inhalt füllen
+		/*
+		 * Label mit Inhalt füllen
+		 */
 		firstnameLabel.setText(selected.getFirstName());
 		lastnameLabel.setText(selected.getLastName());
 		emailLabel.setText(selected.geteMail());
@@ -78,39 +129,105 @@ public class OtherUserProfilePage {
 		confessionLabel.setText(selected.getConfession().getName());
 		haircolorLabel.setText(selected.getHairColor().getName());
 		smokeLaben.setText(selected.isSmoker() ? "Ja" : "Nein");
-
-		// FlexTable mi Inhalt füllen
-		showProfileofUser.setHTML(0, 0, "<div>Vorname</div>");
+		orientLabel.setText(selected.getOrientation().getName());
+		
+		/*
+		 *  FlexTable mi Inhalt füllen
+		 */
+		showProfileofUser.setWidget(0, 0, name);
 		showProfileofUser.setWidget(0, 1, firstnameLabel);
-		showProfileofUser.setHTML(1, 0, "Nachname");
+		showProfileofUser.setWidget(1, 0, lastname);
 		showProfileofUser.setWidget(1, 1, lastnameLabel);
-		showProfileofUser.setHTML(2, 0, "Geburtsdatum");
+		showProfileofUser.setWidget(2, 0, birth);
 		showProfileofUser.setWidget(2, 1, dateofBirthLabel);
-		showProfileofUser.setHTML(3, 0, "Email");
+		showProfileofUser.setWidget(3, 0, email);
 		showProfileofUser.setWidget(3, 1, emailLabel);
-		showProfileofUser.setHTML(4, 0, "Geschlecht");
+		showProfileofUser.setWidget(4, 0, gender);
 		showProfileofUser.setWidget(4, 1, genderLabel);
-		showProfileofUser.setHTML(5, 0, "Größe");
+		showProfileofUser.setWidget(5, 0, height);
 		showProfileofUser.setWidget(5, 1, heightLabel);
-		showProfileofUser.setHTML(6, 0, "Religion");
+		showProfileofUser.setWidget(6, 0, conff);
 		showProfileofUser.setWidget(6, 1, confessionLabel);
-		showProfileofUser.setHTML(7, 0, "Haarfarbe");
+		showProfileofUser.setWidget(7, 0, haircolor);
 		showProfileofUser.setWidget(7, 1, haircolorLabel);
-		showProfileofUser.setHTML(8, 0, "Raucher");
+		showProfileofUser.setWidget(8, 0, smoke);
 		showProfileofUser.setWidget(8, 1, smokeLaben);
+		showProfileofUser.setWidget(9, 0, orient);
+		showProfileofUser.setWidget(9, 1, orientLabel);
 
-		// Panel anordnen
+		/*
+		 * Columns für die Informationen
+		 */
+		infoTable.addColumn(new TextColumn<Info>() {
+			@Override
+			public String getValue(Info object) {
+				if (object.getSelection() != null) {
+					return object.getSelection().getTextualDescriptionForProfile();
+				} else if (object.getDescription() != null) {
+					return object.getDescription().getTextualDescriptionForProfile();
+				}
+				return "";
+			}
+		});
+
+		infoTable.addColumn(new TextColumn<Info>() {
+			@Override
+			public String getValue(Info object) {
+				return object.getInformationValue();
+			}
+		});
+		
+		infoDataProvider.addDataDisplay(infoTable);
+		loadInfos(selected);
+		
+		infoandprofile.add(showProfileofUser);
+		infoandprofile.add(infoTable);
+		
+		/*
+		 *  Panel anordnen
+		 */
 		showProfile.add(backButton);
-		showProfile.add(showProfileofUser);
+		showProfile.add(infoandprofile);
 		showProfile.add(saveToBlockingList);
 		showProfile.add(saveToFavoritesList);
 
+		/*
+		 * Methode zurück zur Allen Usern
+		 */
 		goBacktoUserOverview();
+		
+		/*
+		 * Methode zum Hinzufügen zur Kontaktsperre 
+		 * und Favorits
+		 */
 		onClickforBlockingandFavorit(selected);
 
 		return showProfile;
 	}
 
+	public void loadInfos(Profile profile) {
+		partnerboerseVerwaltung.getInfoOf(profile, new AsyncCallback<ArrayList<Info>>() {
+
+			@Override
+			public void onSuccess(ArrayList<Info> result) {
+				infoDataProvider.getList().clear();
+				infoDataProvider.getList().addAll(result);
+				infoDataProvider.flush();
+				infoDataProvider.refresh();
+				infoTable.redraw();
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+		});
+	}
+	
+	
+	/**
+	 * Methode formatiert das Datum 
+	 * ins Deutsche 
+	 */
 	public void getDate(final Profile selected) {
 		try {
 			DateTimeFormat format = DateTimeFormat.getFormat("dd.MM.yyyy");
@@ -121,6 +238,9 @@ public class OtherUserProfilePage {
 		}
 	}
 
+	/**
+	 * Methode zurück zu Allen Userprofilen
+	 */
 	public void goBacktoUserOverview() {
 		backButton.addClickHandler(new ClickHandler() {
 
@@ -133,8 +253,16 @@ public class OtherUserProfilePage {
 		});
 	}
 
+	/**
+	 * Methode zum Hinzufügen des Ausgewählten Profiles in
+	 * in die Kontaktsperre oder Merkzettel
+	 * @param selected
+	 */
 	public void onClickforBlockingandFavorit(final Profile selected) {
 
+		/*
+		 * Speichern in die Kontaktsperre
+		 */
 		saveToBlockingList.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -148,7 +276,7 @@ public class OtherUserProfilePage {
 
 							@Override
 							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
+								Window.alert("Profil konnte nicht Blockiert werden.");
 								
 							}
 
@@ -168,6 +296,9 @@ public class OtherUserProfilePage {
 			}
 		});
 		
+		/*
+		 * Speichern in den Merkzettel
+		 */
 		saveToFavoritesList.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -186,7 +317,7 @@ public class OtherUserProfilePage {
 
 							@Override
 							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
+								
 								
 							}
 

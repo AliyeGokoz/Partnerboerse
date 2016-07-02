@@ -12,6 +12,7 @@ public class SimpleParagraph extends Paragraph {
 
 	 /**
 	   * Inhalt des Absatzes.
+	   * @author alenagerlinskaja
 	   */
 	String text="Hello";
 	
@@ -20,6 +21,7 @@ public class SimpleParagraph extends Paragraph {
 	 * No-Argument-Konstruktor
 	 *
 	 *@see #SimpleParagraph(String)
+	 *@author alenagerlinskaja
 	 */
 	
 	public SimpleParagraph(){
@@ -32,6 +34,7 @@ public class SimpleParagraph extends Paragraph {
 	   * 
 	   * @param value der Inhalt des Absatzes
 	   * @see #SimpleParagraph()
+	   * @author alenagerlinskaja
 	   */
 	
 	public SimpleParagraph(String value){
@@ -42,6 +45,7 @@ public class SimpleParagraph extends Paragraph {
 	   * Auslesen des Inhalts.
 	   * 
 	   * @return Inhalt als String
+	   * @author alenagerlinskaja
 	   */
 	
 	public String getText() {
@@ -52,6 +56,7 @@ public class SimpleParagraph extends Paragraph {
 	   * Überschreiben des Inhalts.
 	   * 
 	   * @param text der neue Inhalt des Absatzes.
+	   * @author alenagerlinskaja
 	   */
 	
 	public void setText(String text) {
@@ -60,6 +65,7 @@ public class SimpleParagraph extends Paragraph {
 
 	/**
 	   * Umwandeln des <code>SimpleParagraph</code>-Objekts in einen String.
+	   * @author alenagerlinskaja
 	   */
 	
 	@Override

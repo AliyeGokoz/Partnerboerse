@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -13,19 +14,25 @@ import com.google.gwt.view.client.ListDataProvider;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Info;
-import de.hdm.partnerboerse.shared.bo.Profile;
 import de.hdm.partnerboerse.shared.bo.SearchProfile;
 
+/**
+ * Klasse die das Suchprofil ausgibt,
+ * für die Ansicht
+ * @author aliyegokoz
+ * @author alena gerlinskaja
+ *
+ */
 public class ShowOneSearchProfile {
 
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
 	
-	/**
+	/*
 	 * Panel anlegen
 	 */
 	final VerticalPanel searchprofilepanel = new VerticalPanel();
 
-	/**
+	/*
 	 * Label anlegen für die Ausgabe des Suchprofiles
 	 */
 	final Label nameofSp = new Label();
@@ -53,8 +60,20 @@ public class ShowOneSearchProfile {
 		this.searchprofilepage = searchprofilepage;
 	}
 
+	/**
+	 * Methode, welche das Suchprofil ausgibt 
+	 * bei onClick auf den Button: Suchprofil ansehen
+	 * @param searchProfile
+	 * @return VerticalPanel
+	 */
 	public Widget showSearchProfile(final SearchProfile searchProfile) {
 
+		/*
+		 * Style 
+		 */
+//		searchprofilepanel.setStyleName("showSp");
+		nameofSp.setStyleName("headlinesp");
+		
 		/*
 		 * Suchprofil Werte übergeben
 		 */
@@ -73,6 +92,10 @@ public class ShowOneSearchProfile {
 			genderofSp.setText(searchProfile.getGender().getName());
 		}
 		
+		/*
+		 * Zugriff auf die Infos die User zum
+		 * Suchprofil hinzugefügt hat
+		 */
 		partnerboerseVerwaltung.getInfosOf(searchProfile, new AsyncCallback<ArrayList<Info>>() {
 			
 			@Override
@@ -87,7 +110,7 @@ public class ShowOneSearchProfile {
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+				Window.alert("Infos können nicht ausgegeben werden.");
 				
 			}
 		});
@@ -117,8 +140,8 @@ public class ShowOneSearchProfile {
 				return info.getInformationValue();
 			}
 		};
-
-		/**
+		
+		/*
 		 * Columns der Tabelle zuweisen, für die Ausgabe der Informationen
 		 */
 		infoTable.addColumn(nameInfo);
@@ -145,7 +168,9 @@ public class ShowOneSearchProfile {
 		table.setHTML(5, 0, "<div>Geschlecht</div>");
 		table.setWidget(5, 1, genderofSp);
 
-		// FlexTable dem Panel zuweißen
+		/*
+		 *  FlexTable dem Panel zuweißen
+		 */
 		searchprofilepanel.add(table);
 		searchprofilepanel.add(infoTable);
 

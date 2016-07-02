@@ -668,7 +668,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		if (info.getId() != 0) {
 			savedInfo = infoMapper.update(info);
 		} else {
-			if (infoMapper.doInformationExist(info)) {
+			if (!infoMapper.doInformationExist(info)) {
 				savedInfo = infoMapper.insert(info);
 			}
 		}

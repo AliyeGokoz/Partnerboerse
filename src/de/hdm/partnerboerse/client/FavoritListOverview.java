@@ -21,6 +21,11 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.FavoritesList;
 import de.hdm.partnerboerse.shared.bo.Profile;
 
+/**
+ * Klasse für die Ausgabe aller gemerkten Profile
+ * @author aliyegokoz
+ *
+ */
 public class FavoritListOverview extends VerticalPanel {
 
 	private PartnerboerseAdministrationAsync partnerboerseVerwaltung = ClientsideSettings.getPartnerboerseVerwaltung();
@@ -28,23 +33,40 @@ public class FavoritListOverview extends VerticalPanel {
 
 	@Override
 	public void onLoad() {
+		
+		/*
+		 * 
+		 */
+		final VerticalPanel seeAllUsers = new VerticalPanel();
+		final VerticalPanel buttonPanel = new VerticalPanel();
+		
+		/*
+		 * CellTable wird generiert für die Ausgabe
+		 */
 		final CellTable<FavoritesList> table = new CellTable<FavoritesList>();
 		final ListDataProvider<FavoritesList> dataProvider = new ListDataProvider<>();
 		dataProvider.addDataDisplay(table);
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-		final VerticalPanel seeAllUsers = new VerticalPanel();
-		final VerticalPanel buttonPanel = new VerticalPanel();
 		
-		
-		
+		/*
+		 * Zugriff auf Profil
+		 */
 		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
 			
 			@Override
 			public void onSuccess(Profile result) {
+				
+				/*
+				 * Zugriff auf alle gemerkten Profile
+				 */
 				partnerboerseVerwaltung.getFavoritesListsOf(result, new AsyncCallback<ArrayList<FavoritesList>>() {
 					
 					@Override
 					public void onSuccess(ArrayList<FavoritesList> result) {
+						
+						/*
+						 * Column für die Ausgabe aller gemerkten Profile
+						 */
 						final TextColumn<FavoritesList> firstNameColumn = new TextColumn<FavoritesList>() {
 							
 							@Override
@@ -72,13 +94,23 @@ public class FavoritListOverview extends VerticalPanel {
 						};
 						table.addColumn(emailColumn, "Email");
 						
+						/*
+						 * SingleSelectionModel zuweisen,
+						 * damit Profil markiert und gegebenfalls aus der Liste entfernt werden kann
+						 */
 						final SingleSelectionModel<FavoritesList> selectionModel = new SingleSelectionModel<FavoritesList>();
 						table.setSelectionModel(selectionModel);
 						selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 							public void onSelectionChange(SelectionChangeEvent event) {
 								final FavoritesList selected = selectionModel.getSelectedObject();
 								if (selected != null) {
+									
+									/*
+									 * Aus der Liste löschen
+									 */
 									final Button delteFromFavoritesList = new Button("Aus dem Merkzettel entfernen");
+									delteFromFavoritesList.setStyleName("button");
+									
 									buttonPanel.add(delteFromFavoritesList);
 									delteFromFavoritesList.addClickHandler(new ClickHandler() {
 										
@@ -89,7 +121,7 @@ public class FavoritListOverview extends VerticalPanel {
 
 												@Override
 												public void onFailure(Throwable caught) {
-													// TODO Auto-generated method stub
+													Window.alert("Profil konnte nicht gelöscht werden.");
 
 												}
 
@@ -111,7 +143,6 @@ public class FavoritListOverview extends VerticalPanel {
 
 						dataProvider.getList().addAll(result);
 
-//						final VerticalPanel seeAllUsers = new VerticalPanel();
 						seeAllUsers.add(table);
 						seeAllUsers.setWidth("400");
 						seeAllUsers.add(buttonPanel);
@@ -124,7 +155,7 @@ public class FavoritListOverview extends VerticalPanel {
 					
 					@Override
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
+						Window.alert("Profile können nicht ausgegeben werden.");
 						
 					}
 				});
@@ -132,47 +163,10 @@ public class FavoritListOverview extends VerticalPanel {
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+				Window.alert("");
 				
 			}
 		});
-	
-
-//	
-//
-//
-//		loginService.getCurrentProfile(new AsyncCallback<Profile>() {
-//
-//			@Override
-//			public void onSuccess(Profile currentProfile) {
-//				partnerboerseVerwaltung.getFavoritesListsOf(currentProfile,
-//						new AsyncCallback<ArrayList<FavoritesList>>() {
-//
-//							@Override
-//							public void onFailure(Throwable caught) {
-//								// TODO Auto-generated method stub
-//
-//							}
-//
-//							@Override
-//							public void onSuccess(ArrayList<FavoritesList> favoritsResult) {
-//								int i = 1;
-//								for (final FavoritesList f : favoritsResult) {
-//									favoritesFlexTable.setText(i, 0, f.getToProfile().getFirstName());
-//									favoritesFlexTable.setText(i, 1, f.getToProfile().getLastName());
-//									i++;
-//								}
-//							}
-//						});
-//			}
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
-//	}
 	
 }
 }

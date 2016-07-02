@@ -10,7 +10,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
@@ -144,7 +143,6 @@ public class ShowInfoOfProfile {
 							dataProvider.flush();
 							dataProvider.refresh();
 							infoTable.redraw();
-							Window.alert("Info gelöscht.");
 						}
 						
 						@Override

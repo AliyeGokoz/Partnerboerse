@@ -15,6 +15,7 @@ package de.hdm.partnerboerse.shared.report;
  * 
  * @param r
  *            der zu übersetzende Report
+ * @author Alena
  */
 public class ReportWriter {
 
@@ -28,6 +29,7 @@ public class ReportWriter {
 	 * 
 	 * @param r
 	 *            der zu übersetzende Report
+	 * @author alenagerlinskaja
 	 */
 
 	public void process(PartnerProposalsBySearchProfileReport r) {

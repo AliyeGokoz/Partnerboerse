@@ -58,7 +58,7 @@ div#Footer {
 	font-size: 80%;
 	text-align: center;
 	
-	background: #FFCCCC;
+	background: #BA6B76;
 }
 
 .username{
@@ -130,6 +130,7 @@ text-decoration: underline;
 }
 
 .button{
+	color: #fff;
 	margin: 15px 0 0px 15px;
     padding: 5px 7px;
     text-decoration: none;
@@ -156,8 +157,8 @@ text-decoration: underline;
 }
 
 .searchprofileBPanel{
-	background-color: #FFCCCC;
-	margin-top: 73px;
+	background-color: #7D1A2F;
+	margin-top: 40px;
 	margin-left: 20px;
 	margin-right: 20px;
 	padding-top: 100px;
@@ -166,6 +167,7 @@ text-decoration: underline;
 
 .addsppanel{
 	margin-left: 20px;
+	margin-top: 24px;
 }
 
 .newSPstyle{
@@ -224,16 +226,44 @@ text-decoration: underline;
 	padding-top: 8px;
 }
 
+.spall{
+	margin-top: 24px;
+	overflow:scroll;
+}
+
+.styleinfospanel{
+	overflow:scroll;
+}
+
 .buttonmargin{
 	margin: 10px 10px 10px 10px;
-	background: #FFCCCC;
+	background: #7D1A2F;
 	border: none;
+	color: #fff;
 }
 
 .profil{
 	margin-right: auto;
 	margin-left: auto;
 	margin-top: 30px;
+}
+
+.infoofsp{
+	margin-left: 170px;
+	margin-top: 45px;
+}
+
+.addinfoPanel{
+	padding-left: 30px;
+}
+
+/* .showSp{
+	margin-top: 20px;
+}*/
+
+.headlinesp{
+	color: #7D1A2F;
+	font-size: 20px;
 }
 
 .gwt-MenuBar .gwt-MenuItem-selected {
@@ -273,4 +303,8 @@ text-decoration: underline;
 .datePickerDayIsHighlighted{
 	background: #BA6B76 !important;
 	color: #fff !important;
+}
+
+.cellStyle{
+	background: #BA6B76 !important;
 }

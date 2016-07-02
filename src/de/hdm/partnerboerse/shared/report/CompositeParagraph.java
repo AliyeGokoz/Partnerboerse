@@ -6,7 +6,7 @@ import java.util.Vector;
  * Diese Klasse stellt eine Menge einzelner Absätze (
  * <code>SimpleParagraph</code>-Objekte) dar. Als Unterabschnitte werden sie in
  * einem <code>Vector</code> abgelegt und verwaltet.
- *
+ * @author Alena
  */
 
 public class CompositeParagraph extends Paragraph {
@@ -23,6 +23,7 @@ public class CompositeParagraph extends Paragraph {
 	 * 
 	 * @param p
 	 *            ist der hinzuzufügende Unterabschnitt.
+	 * @author alenagerlinskaja
 	 */
 
 	public void addParagraph(SimpleParagraph p) {
@@ -34,6 +35,7 @@ public class CompositeParagraph extends Paragraph {
 	 * 
 	 * @param p
 	 *            ist der zu entfernende Unterabschnitt.
+	 * @author alenagerlinskaja
 	 */
 	public void removeParagraph(SimpleParagraph p) {
 		this.subParagraphs.remove(p);
@@ -43,6 +45,7 @@ public class CompositeParagraph extends Paragraph {
 	 * Auslesen sämtlicher Unterabschnitte.
 	 * 
 	 * @return <code>Vector</code>, der sämtliche Unterabschnitte enthält.
+	 * @author alenagerlinskaja
 	 */
 
 	public Vector<SimpleParagraph> getParagraph() {
@@ -53,6 +56,7 @@ public class CompositeParagraph extends Paragraph {
 	 * Anzahl der Unterabschnitte auslesen.
 	 * 
 	 * @return Anzahl der Unterabschnitte.
+	 * @author alenagerlinskaja
 	 */
 	public int getNumParagraphs() {
 		return this.subParagraphs.size();
@@ -66,6 +70,7 @@ public class CompositeParagraph extends Paragraph {
 	 *            ist der Index des gewünschten Unterabschnitts.
 	 * 
 	 * @return gewünschter Unterabschnitt.
+	 * @author alenagerlinskaja
 	 */
 
 	public SimpleParagraph getParagraphAt(int i) {
@@ -75,6 +80,7 @@ public class CompositeParagraph extends Paragraph {
 	/**
 	 * <code>CompositeParagraph</code> wird in in einen <code>String</code>
 	 * umgewandelt.
+	 * @author alenagerlinskaja
 	 */
 
 	@Override
