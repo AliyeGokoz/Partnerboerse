@@ -39,8 +39,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	 * <code>PartnerboerseAdministration</code>.
 	 * 
 	 * 
-	 * @ author Carolin Elsner
-	 * @ author Jana Kuch
+	 * @ author Carolin Elsner @ author Jana Kuch
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -433,7 +432,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	/**
-	 * Bewirkt das Löschen einer {@link FavoritsList} aus der Datenbank.
+	 * Bewirkt das Löschen einer {@link FavoritesList} aus der Datenbank.
 	 * 
 	 */
 	@Override
@@ -495,7 +494,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	/**
-	 * Auslesen sämtlicher Infos aus der Datenbank.
+	 * Auslesen aller Infos aus der Datenbank.
 	 */
 	@Override
 	public ArrayList<Info> getAllInfos() throws IllegalArgumentException {
@@ -511,7 +510,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	/**
-	 * Auslesen sämtlicher Beschreibungen aus der Datenbank.
+	 * Auslesen aller Beschreibungen aus der Datenbank.
 	 */
 	@Override
 	public ArrayList<Description> getAllDescriptions()
@@ -530,7 +529,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	/**
-	 * Auslesen sämtlicher Auswahlen aus der Datenbank.
+	 * Auslesen aller Auswahlen aus der Datenbank.
 	 */
 	@Override
 	public ArrayList<Selection> getAllSelections()
@@ -547,7 +546,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	/**
-	 * Auslesen sämtlicher Ähnlichkeitsmaße aus der Datenbank.
+	 * Auslesen aller Ähnlichkeitsmaße aus der Datenbank.
 	 */
 	@Override
 	public ArrayList<Similarity> getAllSimilarities()
@@ -657,6 +656,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		return similarity;
 	}
 
+	/**
+	 * Aktualisieren des Ähnlickeitswertes eines Profils.
+	 * 
+	 * @param profile
+	 *            Nutzerprofil
+	 */
 	public void updateSimilarityForProfile(Profile profile) {
 		ArrayList<Profile> allProfiles = getAllProfiles();
 		for (Profile otherProfile : allProfiles) {
