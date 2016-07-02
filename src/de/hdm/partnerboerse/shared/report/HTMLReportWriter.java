@@ -1,12 +1,5 @@
 package de.hdm.partnerboerse.shared.report;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
@@ -123,7 +116,7 @@ public class HTMLReportWriter extends ReportWriter {
 				buffer.append(processCompositeReport(compositeReport));
 			}
 		}
-		
+
 		reportText = buffer.toString();
 		return reportText;
 	}

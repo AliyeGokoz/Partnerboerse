@@ -38,6 +38,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	/**
 	 * Initialisierung notwendiger Dienste
+	 * 
 	 * @author alenagerlinskaja
 	 */
 	@Override
@@ -51,8 +52,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	protected PartnerboerseAdministration getPartnerboerseVerwaltung() {
 		return this.administration;
 	}
+
 	/**
 	 * Hinzufügen eines Impressums
+	 * 
 	 * @param r
 	 * @param text
 	 * @author alenagerlinskaja
@@ -60,10 +63,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	protected void addImprint(Report r, String text) {
 		r.setImprint(new SimpleParagraph(text));
 	}
-	
+
 	/**
-	 * Umwandlung  der von dem gegebenen Profil
-	 * nicht besuchten Profile in einen SimpleReport 
+	 * Umwandlung der von dem gegebenen Profil nicht besuchten Profile in einen
+	 * SimpleReport
+	 * 
 	 * @param p
 	 * @return Erstelltes Report Objekt
 	 * @author alenagerlinskaja
@@ -83,9 +87,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		return createReport(p, profiles, searchProfile.getName());
 	}
-	
+
 	/**
 	 * Umwandlung der Daten in CompositeReport Struktur
+	 * 
 	 * @param p
 	 * @param searchProfiles
 	 * @return Erstelltes Report Objekt
@@ -111,9 +116,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		}
 		return compositeReport;
 	}
-	
+
 	/**
 	 * Umwandlung der Daten in SimpleReport Struktur
+	 * 
 	 * @param p
 	 * @param profiles
 	 * @param name
@@ -173,9 +179,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		return result;
 	}
-	
+
 	/**
 	 * Erstellung und Generierung eines HTML Reports der nicht besuchten Profile
+	 * 
 	 * @author alenagerlinskaja 
 	 * @return HTML-Code des generierten Reports als String
 	 */
@@ -194,9 +201,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return reportText;
 
 	}
+
 	/**
 	 * Erstellung und Generierung eines HTML Reports anhand der gegebenen
 	 * Suchprofile
+	 * 
 	 * @author alenagerlinskaja 
 	 * @return HTML-Code des generierten Reports als String
 	 */
