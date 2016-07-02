@@ -152,7 +152,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 					new SimpleParagraph("Nach-/Vorname:" + " " + t.getLastName() + "," + t.getFirstName()));
 			rowInfo.addParagraph(new SimpleParagraph("Email:" + " " + t.geteMail()));
 			rowInfo.addParagraph(new SimpleParagraph("Religion:" + " " + t.getConfession().getName()));
-			rowInfo.addParagraph(new SimpleParagraph("Geburtsdatum:" + " " + t.getDateOfBirth().toString()));
+			rowInfo.addParagraph(new SimpleParagraph("Geburtsdatum:" + " " + sdf.format(t.getDateOfBirth())));
 
 			ArrayList<Info> infos = this.administration.getInfoOf(t);
 			for (Info i : infos) {
