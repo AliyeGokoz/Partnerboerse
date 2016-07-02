@@ -320,9 +320,18 @@ public class SimilarityMapper {
 		return null;
 	}
 
+	/**
+	 * Auslesen von Ähnlichkeiten, in denen das gegebene Profil beteiligt ist.
+	 * @param with 
+	 *             ist das Profil, welches beteiligt sein muss.
+	 * @return
+	 *             ArrayList mit allen gefundenen Ähnlichkeiten.
+	 */
+	
 	public ArrayList<Similarity> findWith(Profile with) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
+		
 		// Vorbereitung der Ergebnis-ArrayList
 		ArrayList<Similarity> result = new ArrayList<Similarity>();
 

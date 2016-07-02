@@ -369,6 +369,14 @@ public class BlockingMapper {
 		return false;
 	}
 
+	/**
+	 * Auslesen von Kontaktsperren, in denen das gegebene Profil beteiligt ist.
+	 * @param with 
+	 *             ist das Profil, welches beteiligt sein muss.
+	 * @return
+	 *             ArrayList mit allen gefundenen Kontaktsperren.
+	 */
+	
 	public ArrayList<Blocking> findWith(Profile with) {
 		
 		//DB-Verbindung holen
