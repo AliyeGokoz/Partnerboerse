@@ -53,7 +53,7 @@ public class Similarity extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen des Profils, das zur Ähnlichkeitsberechnung herangezogen wird.
+	 * Auslesen des Profils {@link Profile}, das zur Ähnlichkeitsberechnung herangezogen wird.
 	 * 
 	 * @return Vergleichsprofil
 	 */
@@ -62,7 +62,7 @@ public class Similarity extends BusinessObject {
 	}
 
 	/**
-	 * Setzen des Profils, das zur Ähnlichkeitsberechnung herangezogen wird.
+	 * Setzen des Profils {@link Profile}, das zur Ähnlichkeitsberechnung herangezogen wird.
 	 * 
 	 * @param toProfile
 	 *            Vergleichsprofil

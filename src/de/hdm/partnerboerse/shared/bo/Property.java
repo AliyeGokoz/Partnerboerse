@@ -15,7 +15,7 @@ public class Property extends BusinessObject {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Name einer Eigenschaft des Profils.
+	 * Name einer Eigenschaft.
 	 */
 
 	private String propertyName = "";
@@ -53,7 +53,7 @@ public class Property extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen der textuellen Beschreibung einer Eigenschaft für ein Profil
+	 * Auslesen der textuellen Beschreibung einer Eigenschaft für ein {@link Profile}
 	 * 
 	 * @return Textuelle Beschreibung für ein Profil
 	 */
@@ -62,7 +62,7 @@ public class Property extends BusinessObject {
 	}
 
 	/**
-	 * Setzen der textuellen Beschreibung einer Eigenschaft für ein Profil
+	 * Setzen der textuellen Beschreibung einer Eigenschaft für ein {@link Profile}
 	 * 
 	 * @param textualDescriptionForProfile
 	 *            textuelle Beschreibung für ein Profil
@@ -73,7 +73,7 @@ public class Property extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen der textuellen Beschreibung einer Eigenschaft für ein Suchprofil
+	 * Auslesen der textuellen Beschreibung einer Eigenschaft für ein {@link SearchProfile}
 	 * 
 	 * @return Textuelle Beschreibung für ein Suchprofil
 	 */
@@ -83,7 +83,7 @@ public class Property extends BusinessObject {
 	}
 
 	/**
-	 * Setzen der textuellen Beschreibung einer Eigenschaft für ein Suchprofil
+	 * Setzen der textuellen Beschreibung einer Eigenschaft für ein {@link SearchProfile}
 	 * 
 	 * @param textualDescriptionForSearchProfile
 	 *            Textuelle Beschreibung für ein Suchprofil

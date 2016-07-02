@@ -74,7 +74,7 @@ public class Profile extends BusinessObject {
 	private Orientation orientation = null;
 
 	/**
-	 * Ähnlichkeitswert des Nutzers mit einem anderen Profil
+	 * Ähnlichkeitswert des Nutzers mit einem anderen {@link Profile}
 	 */
 
 	private double similarityValue;
@@ -250,7 +250,7 @@ public class Profile extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen des Raucherstatus.
+	 * Prüfen des Raucherstatus.
 	 */
 
 	public boolean isSmoker() {

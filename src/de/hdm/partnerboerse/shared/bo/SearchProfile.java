@@ -218,7 +218,7 @@ public class SearchProfile extends BusinessObject {
 	}
 
 	/**
-	* Auslesen des nichtbesuchten Profils
+	* Prüfen, ob ein Profil noch nicht besucht wurde.
 	*/
 
 	public boolean isNoVisited() {
