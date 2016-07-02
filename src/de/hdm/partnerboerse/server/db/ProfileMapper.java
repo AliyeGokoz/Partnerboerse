@@ -382,8 +382,10 @@ public class ProfileMapper {
 						+ searchProfile.getProfile().getId() + " AND visits.toProfile = p1.id)";
 			}
 
-			sql += " AND NOT EXISTS (SELECT * FROM blockings WHERE blockings.fromProfile = "
-					+ searchProfile.getProfile().getId() + " AND blockings.toProfile = p1.id)";
+			sql += " AND NOT EXISTS (SELECT * FROM blockings WHERE (blockings.fromProfile = "
+					+ searchProfile.getProfile().getId()
+					+ " AND blockings.toProfile = p1.id) OR (blockings.fromProfile = p1.id AND blockings.toProfile = "
+					+ searchProfile.getProfile().getId() + "))";
 
 			sql += " AND p1.id != " + searchProfile.getProfile().getId();
 			sql += " GROUP BY p1.id ORDER BY s1.similarityValue DESC";
