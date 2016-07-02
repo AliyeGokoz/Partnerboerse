@@ -306,8 +306,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		ArrayList<SearchProfile> searchProfiles = this
 				.getSearchProfileOf(profile);
 		ArrayList<Info> infos = this.getInfoOf(profile);
-		ArrayList<Blocking> blockings = this.getBlockingsOf(profile);
-		ArrayList<VisitList> visitLists = this.getVisitListsOf(profile);
+		ArrayList<Blocking> blockings = blockingMapper.findWith(profile);
+		ArrayList<VisitList> visitLists = visitListMapper.findWith(profile);
 		ArrayList<Similarity> similarities = similarityMapper.findWith(profile);
 
 		if (favoritesLists != null) {

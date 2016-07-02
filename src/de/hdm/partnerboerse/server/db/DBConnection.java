@@ -3,6 +3,8 @@ package de.hdm.partnerboerse.server.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.appengine.api.utils.SystemProperty;
 
@@ -30,7 +32,7 @@ public class DBConnection {
 	 * Mit Hilfe folgender URL wird die Datenbank angesprochen.
 	 */
 
-	private static String googleUrl = "jdbc:google:mysql://partnerboerse-itprojekt:partnerboerse/partnerboerse_db?user=sampleuser&password=sampleuser";
+	private static String googleUrl = "jdbc:google:mysql://partnerboerse-itprojekt:partnerboerse/partnerboerse?user=sampleuser&password=sampleuser";
 	private static String localUrl = "jdbc:mysql://127.0.0.1:3306/partnerboerse?user=root&password";
 
 	/**
@@ -64,6 +66,7 @@ public class DBConnection {
 				con = DriverManager.getConnection(url);
 			} catch (Exception e) {
 				con = null;
+				Logger.getLogger("Test").log(Level.SEVERE, "DB Error", e);
 				e.printStackTrace();
 			}
 		}
